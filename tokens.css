@@ -1,0 +1,457 @@
+/* ============================================================
+   AChETIQ — Design Tokens
+   Versión: 1.0
+   Fase: 1 — Diseño Visual
+   Sistema: Paleta B — Océano & Areia
+   Última revisión: 2026-05-08
+   ============================================================
+
+   INSTRUCCIONES DE USO
+   Importar este archivo al inicio de la hoja de estilos principal:
+     @import url('tokens.css');
+
+   Todos los valores visuales del sitio deben referenciar estas
+   variables. No escribir valores hexadecimales ni tamaños
+   hardcodeados en otros archivos CSS — siempre usar var(--token).
+
+   ============================================================ */
+
+
+/* ─────────────────────────────────────────────────────────────
+   COLOR — FONDOS
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+
+  --color-bg:         #F5F2EC;
+  /* Fondo principal de página. Base térmica cálida. */
+
+  --color-bg-panel:   #F8F6F2;
+  /* Superficies elevadas: tarjetas, modales, paneles.
+     Blanco cálido — evita el contraste brusco del blanco puro
+     sobre el fondo crema. */
+
+  --color-bg-overlay: rgba(19, 17, 15, 0.40);
+  /* Overlay de modales y drawers. */
+
+
+  /* ─── COLOR — TINTA ──────────────────────────────────────── */
+
+  --color-ink:        #13110F;
+  /* Texto principal. Negro cálido, no neutro. */
+
+  --color-ink-soft:   #5C5650;
+  /* Texto secundario. Contraste ~5.8:1 sobre --color-bg.
+     Cumple WCAG AA para texto normal y pequeño. */
+
+  --color-ink-faint:  #6B6560;
+  /* Texto terciario. Contraste ~4.5:1 sobre --color-bg.
+     Cumple WCAG AA en el límite — usar solo para texto ≥ 14px. */
+
+
+  /* ─── COLOR — PRIMARIO ───────────────────────────────────── */
+
+  --color-primary:    #0D3B66;
+  /* Azul océano profundo.
+     Uso: navegación, énfasis estructural, bordes destacados,
+     texto de enlaces, botones secundarios. */
+
+  --color-primary-mid: #1E6FA0;
+  /* Azul medio.
+     Uso: eyebrows, categorías, tags de estado, íconos de soporte.
+     No usar para texto sobre fondo blanco sin verificar contraste. */
+
+
+  /* ─── COLOR — ACENTO ─────────────────────────────────────── */
+
+  --color-cta:        #C8551C;
+  /* Naranja terracota.
+     ⚠ ROL ÚNICO: exclusivamente para botones de acción primaria
+     y enlaces de apertura directa ("Abrir →").
+     NO usar para datos, métricas, decoración ni énfasis de texto. */
+
+
+  /* ─── COLOR — SEMÁNTICO ──────────────────────────────────── */
+
+  --color-neg:        #9B3622;
+  /* Rojo oscuro para datos negativos, pérdidas energéticas,
+     alertas y estados de error.
+     Contraste ~7.6:1 sobre --color-bg — supera WCAG AAA. */
+
+  --color-pos:        #1A5C34;
+  /* Verde oscuro para datos positivos, ganancias, confirmaciones.
+     Uso reservado para KPIs y estados de éxito. */
+
+
+  /* ─── COLOR — BORDES Y SEPARADORES ──────────────────────── */
+
+  --color-rule:       #D8D0C4;
+  /* Borde estándar: contornos de tarjetas, separadores de sección,
+     líneas horizontales de divisón. */
+
+  --color-rule-soft:  #E8E2D8;
+  /* Borde suave: separadores internos dentro de componentes
+     (ej: pie de tarjeta, divisor de KPI strip). */
+
+
+  /* ─────────────────────────────────────────────────────────────
+     TIPOGRAFÍA — FAMILIAS
+     ───────────────────────────────────────────────────────────── */
+
+  --font-display: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+  /* Uso: H1, H2, títulos de sección, valores KPI grandes.
+     Carga desde Google Fonts — incluir <link> en <head>. */
+
+  --font-body:    'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  /* Uso: cuerpo de texto, H3, H4, labels UI, botones, nav. */
+
+  --font-mono:    'Geist Mono', 'Courier New', Courier, monospace;
+  /* Uso: eyebrows, etiquetas técnicas, metadatos, código. */
+
+
+  /* ─── TIPOGRAFÍA — ESCALA DE TAMAÑOS ────────────────────── */
+
+  --text-display:    48px;
+  /* H1 — Hero, portada. Font: display. */
+
+  --text-h2:         32px;
+  /* H2 — Títulos de sección. Font: display. */
+
+  --text-h3:         20px;
+  /* H3 — Subtítulos, encabezados de tarjeta. Font: body, 500. */
+
+  --text-h4:         16px;
+  /* H4 — Encabezados de componente UI. Font: body, 500. */
+
+  --text-body:       15px;
+  /* Cuerpo de párrafos. Font: body, 400. */
+
+  --text-small:      13px;
+  /* Texto auxiliar, notas, descripciones cortas. Font: body, 400. */
+
+  --text-eyebrow:    10.5px;
+  /* Supratítulos y etiquetas mono. Font: mono, uppercase.
+     Siempre acompañar con letter-spacing: var(--tracking-wider). */
+
+  --text-caption:    12px;
+  /* Metadatos, timestamps, créditos. Font: mono, 400. */
+
+  --text-kpi:        30px;
+  /* Valores numéricos en KPI strip. Font: display. */
+
+
+  /* ─── TIPOGRAFÍA — PESOS ─────────────────────────────────── */
+
+  --weight-regular: 400;
+  --weight-medium:  500;
+  /* Únicos dos pesos en uso. No usar 600 ni 700. */
+
+
+  /* ─── TIPOGRAFÍA — INTERLINEADO ─────────────────────────── */
+
+  --leading-tight:   1.08;
+  /* Display / H1 — titulares grandes. */
+
+  --leading-snug:    1.3;
+  /* H2, H3 — subtítulos. */
+
+  --leading-normal:  1.5;
+  /* H4, labels, UI compacto. */
+
+  --leading-relaxed: 1.75;
+  /* Body text — máxima legibilidad en bloques de prosa. */
+
+
+  /* ─── TIPOGRAFÍA — ESPACIADO DE LETRA ───────────────────── */
+
+  --tracking-tight:  -0.01em;
+  /* Titulares display — compensa el espaciado generoso de Instrument Serif. */
+
+  --tracking-normal:  0em;
+  /* Cuerpo y UI. */
+
+  --tracking-wide:    0.04em;
+  /* Labels mono en tamaño normal (~12px). */
+
+  --tracking-wider:   0.12em;
+  /* Eyebrows uppercase — siempre text-transform: uppercase. */
+
+
+  /* ─────────────────────────────────────────────────────────────
+     ESPACIADO
+     Escala de 4px. Usar múltiplos consistentes.
+     ───────────────────────────────────────────────────────────── */
+
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-11: 44px;
+  --space-12: 48px;
+  --space-14: 56px;
+  --space-16: 64px;
+
+
+  /* ─────────────────────────────────────────────────────────────
+     BORDER RADIUS
+     ───────────────────────────────────────────────────────────── */
+
+  --radius-sm:   4px;   /* Badges, chips, tags pequeños. */
+  --radius-md:   6px;   /* Botones, inputs, elementos UI. */
+  --radius-lg:  10px;   /* Tarjetas, paneles, modales. */
+  --radius-xl:  14px;   /* Contenedores grandes. */
+  --radius-pill: 999px; /* Elementos tipo píldora. */
+
+
+  /* ─────────────────────────────────────────────────────────────
+     LAYOUT
+     ───────────────────────────────────────────────────────────── */
+
+  --max-width:      1480px;  /* Ancho máximo del contenido. */
+  --page-padding-x:   52px;  /* Padding horizontal de página (desktop). */
+  --page-padding-y:   44px;  /* Padding vertical de página (desktop). */
+  --navbar-height:    56px;  /* Altura fija del navbar. */
+  --grid-gap:         12px;  /* Gap estándar de grids de tarjetas. */
+  --section-gap:      64px;  /* Separación entre secciones de página. */
+
+
+  /* ─────────────────────────────────────────────────────────────
+     BREAKPOINTS (solo referencia — usar dentro de @media)
+
+     --bp-sm:  640px   Teléfonos grandes / landscape
+     --bp-md:  768px   Tablets portrait
+     --bp-lg: 1024px   Laptops / tablets landscape
+     --bp-xl: 1280px   Desktops
+     --bp-2xl:1480px   Pantallas anchas (= --max-width)
+     ───────────────────────────────────────────────────────────── */
+
+
+  /* ─────────────────────────────────────────────────────────────
+     Z-INDEX
+     ───────────────────────────────────────────────────────────── */
+
+  --z-base:    0;
+  --z-raised:  10;   /* Tarjetas elevadas, dropdowns. */
+  --z-navbar: 100;   /* Barra de navegación fija. */
+  --z-modal:  200;   /* Modales y overlays. */
+  --z-toast:  300;   /* Notificaciones / toasts. */
+
+
+  /* ─────────────────────────────────────────────────────────────
+     TRANSICIONES
+     ───────────────────────────────────────────────────────────── */
+
+  --transition-fast:   150ms ease;
+  /* Hover states, focus rings, cambios de color. */
+
+  --transition-normal: 250ms ease;
+  /* Apertura de paneles, expansión de acordeones. */
+
+  --transition-slow:   400ms ease;
+  /* Animaciones de entrada de secciones. */
+
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   ESTILOS BASE GLOBALES
+   Reset mínimo + aplicación de tokens al documento.
+   ───────────────────────────────────────────────────────────── */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+  min-height: 100vh;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   JERARQUÍA TIPOGRÁFICA
+   ───────────────────────────────────────────────────────────── */
+
+h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-ink);
+}
+
+h1 em {
+  font-style: italic;
+  color: var(--color-primary);
+}
+
+h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-snug);
+  color: var(--color-ink);
+}
+
+h2 em {
+  font-style: italic;
+  color: var(--color-primary);
+}
+
+h3 {
+  font-family: var(--font-body);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-snug);
+  color: var(--color-ink);
+}
+
+h4 {
+  font-family: var(--font-body);
+  font-size: var(--text-h4);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-normal);
+  color: var(--color-ink);
+}
+
+p {
+  color: var(--color-ink-soft);
+  line-height: var(--leading-relaxed);
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-primary-mid);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   CLASES UTILITARIAS DE TIPOGRAFÍA
+   ───────────────────────────────────────────────────────────── */
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+}
+
+.caption {
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-ink-faint);
+}
+
+.text-primary  { color: var(--color-primary); }
+.text-cta      { color: var(--color-cta); }
+.text-neg      { color: var(--color-neg); }
+.text-pos      { color: var(--color-pos); }
+.text-soft     { color: var(--color-ink-soft); }
+.text-faint    { color: var(--color-ink-faint); }
+
+
+/* ─────────────────────────────────────────────────────────────
+   COMPONENTE — BOTÓN
+   ───────────────────────────────────────────────────────────── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.02em;
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-5);
+  cursor: pointer;
+  transition: opacity var(--transition-fast);
+  border: none;
+  text-decoration: none;
+}
+
+.btn:hover  { opacity: 0.88; }
+.btn:active { opacity: 0.75; }
+
+.btn-primary {
+  background: var(--color-cta);
+  color: var(--color-bg);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   COMPONENTE — TARJETA
+   ───────────────────────────────────────────────────────────── */
+
+.card {
+  background: var(--color-bg-panel);
+  border: 0.5px solid var(--color-rule);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.card-featured {
+  border-width: 1.5px;
+  border-color: var(--color-primary);
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--space-3);
+  border-top: 0.5px solid var(--color-rule-soft);
+  margin-top: auto;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   COMPONENTE — KPI
+   ───────────────────────────────────────────────────────────── */
+
+.kpi-value {
+  font-family: var(--font-display);
+  font-size: var(--text-kpi);
+  font-weight: var(--weight-regular);
+  line-height: 1;
+}
+
+.kpi-unit {
+  fon

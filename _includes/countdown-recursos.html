@@ -1,0 +1,116 @@
+{%- comment -%}
+============================================================
+AChETIQ — Include: Cuenta regresiva de Recursos Académicos
+Bloque BEM: .countdown
+------------------------------------------------------------
+Habilita la sección de Recursos Académicos de forma automática
+20 días después del lanzamiento. Hasta entonces muestra una
+cuenta regresiva; al expirar revela el contenido real.
+
+PARÁMETROS
+  target_date     (obligatorio) Fecha/hora de apertura en ISO 8601.
+                  Ej.: "2026-06-09T00:00:00-03:00"
+                  Fijar el día del lanzamiento (lanzamiento + 20 días).
+  reveal_include  (opcional) Nombre de otro include que se renderiza
+                  dentro del slot revelado. Ej.: "recursos-grid.html"
+
+USO BÁSICO
+  {% include countdown-recursos.html target_date="2026-06-09T00:00:00-03:00" %}
+
+USO CON CONTENIDO A REVELAR
+  {% include countdown-recursos.html
+       target_date="2026-06-09T00:00:00-03:00"
+       reveal_include="recursos-grid.html" %}
+
+Si se prefiere colocar el contenido a revelar directamente en la
+página (en vez de un include), envolverlo en un elemento con el
+atributo data-countdown-revealed dentro de este mismo .countdown.
+============================================================
+{%- endcomment -%}
+
+<section class="countdown" data-countdown data-target-date="{{ include.target_date }}">
+
+  <div class="countdown__backdrop" aria-hidden="true">
+    <span class="countdown__glow countdown__glow--primary"></span>
+    <span class="countdown__glow countdown__glow--sand"></span>
+  </div>
+
+  {%- comment -%} ── Estado de espera (cuenta regresiva) ── {%- endcomment -%}
+  <div class="countdown__pending" data-countdown-pending>
+    <div class="countdown__panel">
+
+      <div class="countdown__head">
+        <span class="countdown__badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/>
+          </svg>
+          <span>Apertura próxima</span>
+        </span>
+
+        <h2 class="countdown__title">
+          El núcleo académico de AChETIQ está <em>por abrir</em>
+        </h2>
+
+        <p class="countdown__lead">
+          Estamos terminando de reunir el repositorio académico de la asociación:
+          apuntes y guías de ejercicios de las 41 materias del Plan 2023,
+          bibliografía de referencia, el Diseño Curricular y herramientas para
+          seguir tu avance en la carrera. Una sola sección, ordenada por materia
+          y pensada para acompañarte en cada cursada. La cuenta regresiva marca
+          lo que falta para su apertura.
+        </p>
+      </div>
+
+      <div class="countdown__clock" role="timer" aria-live="polite"
+           aria-label="Tiempo restante para la apertura de Recursos Académicos">
+        <div class="countdown__unit">
+          <div class="countdown__box">
+            <span class="countdown__digits" data-unit="days">00</span>
+          </div>
+          <span class="countdown__label">Días</span>
+        </div>
+
+        <span class="countdown__sep" aria-hidden="true">:</span>
+
+        <div class="countdown__unit">
+          <div class="countdown__box">
+            <span class="countdown__digits" data-unit="hours">00</span>
+          </div>
+          <span class="countdown__label">Horas</span>
+        </div>
+
+        <span class="countdown__sep" aria-hidden="true">:</span>
+
+        <div class="countdown__unit">
+          <div class="countdown__box">
+            <span class="countdown__digits" data-unit="minutes">00</span>
+          </div>
+          <span class="countdown__label">Minutos</span>
+        </div>
+
+        <span class="countdown__sep" aria-hidden="true">:</span>
+
+        <div class="countdown__unit">
+          <div class="countdown__box">
+            <span class="countdown__digits" data-unit="seconds">00</span>
+          </div>
+          <span class="countdown__label">Segundos</span>
+        </div>
+      </div>
+
+      <p class="countdown__note">
+        La sección se habilitará automáticamente al finalizar la cuenta.
+      </p>
+
+    </div>
+  </div>
+
+  {%- comment -%} ── Contenido a revelar al expirar ── {%- endcomment -%}
+  <div class="countdown__content" data-countdown-revealed hidden>
+    {%- if include.reveal_include -%}
+      {% include {{ include.reveal_include }} %}
+    {%- endif -%}
+  </div>
+
+</section>

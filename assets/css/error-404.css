@@ -1,0 +1,191 @@
+/* ============================================================
+   AChETIQ — Página de error 404 (Página no encontrada)
+   Bloque BEM: .error404
+   Fase: 2 — Desarrollo front-end
+   Depende de: tokens.css (paleta "Océano & Areia")
+   ------------------------------------------------------------
+   Todos los valores referencian var(--token).
+   ============================================================ */
+
+.error404 {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-12) var(--space-5);
+  background: var(--color-bg);
+}
+
+.error404__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 560px;
+  /* Entrada del conjunto */
+  animation: error404-rise var(--transition-slow) cubic-bezier(0.43, 0.13, 0.23, 0.96) both;
+}
+
+/* ── Línea 4 · fantasma · 4 ── */
+.error404__display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-5);
+  margin-bottom: var(--space-10);
+}
+
+.error404__digit {
+  font-family: var(--font-display);
+  font-size: 120px;
+  font-weight: var(--weight-regular);
+  line-height: 1;
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-primary);
+  opacity: 0.9;
+  user-select: none;
+}
+
+.error404__digit--left  { animation: error404-in-left  0.8s cubic-bezier(0.43,0.13,0.23,0.96) both; }
+.error404__digit--right { animation: error404-in-right 0.8s cubic-bezier(0.43,0.13,0.23,0.96) both; }
+
+/* ── Fantasma ── */
+.error404__ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
+  animation: error404-float 2s ease-in-out infinite alternate;
+  transition: transform var(--transition-normal);
+  cursor: default;
+}
+
+.error404__ghost:hover {
+  transform: scale(1.1) translateY(-10px);
+}
+
+.error404__ghost img,
+.error404__ghost svg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Fallback SVG (Lucide "ghost") — color de marca. Oculto salvo que falle la imagen. */
+.error404__ghost-fallback {
+  stroke: var(--color-primary);
+  fill: none;
+}
+
+/* ── Texto ── */
+.error404__title {
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-snug);
+  color: var(--color-ink);
+  margin-bottom: var(--space-4);
+  animation: error404-rise 0.6s cubic-bezier(0.43,0.13,0.23,0.96) 0.15s both;
+}
+
+.error404__title em {
+  font-style: italic;
+  color: var(--color-primary);
+}
+
+.error404__lead {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+  color: var(--color-ink-soft);
+  margin-bottom: var(--space-10);
+  animation: error404-rise 0.6s cubic-bezier(0.43,0.13,0.23,0.96) 0.25s both;
+}
+
+/* ── Acción ── */
+.error404__action {
+  animation: error404-rise 0.6s cubic-bezier(0.43,0.13,0.23,0.96) 0.35s both;
+}
+
+.error404 .btn {
+  font-size: var(--text-body);
+  padding: var(--space-3) var(--space-8);
+  border-radius: var(--radius-pill);
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+
+.error404 .btn:hover {
+  transform: scale(1.04);
+}
+
+.error404 .btn:active {
+  transform: scale(0.97);
+}
+
+/* ── Nota explicativa ── */
+.error404__note {
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-ink-faint);
+  margin-top: var(--space-12);
+  animation: error404-rise 0.6s cubic-bezier(0.43,0.13,0.23,0.96) 0.45s both;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   ANIMACIONES
+   ───────────────────────────────────────────────────────────── */
+
+@keyframes error404-rise {
+  0%   { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes error404-in-left {
+  0%   { opacity: 0; transform: translateX(-40px) translateY(15px) rotate(-5deg); }
+  100% { opacity: 0.9; transform: translateX(0) translateY(0) rotate(0); }
+}
+
+@keyframes error404-in-right {
+  0%   { opacity: 0; transform: translateX(40px) translateY(15px) rotate(5deg); }
+  100% { opacity: 0.9; transform: translateX(0) translateY(0) rotate(0); }
+}
+
+@keyframes error404-float {
+  0%   { transform: translateY(-5px); }
+  100% { transform: translateY(5px); }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   RESPONSIVE
+   ───────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .error404__display { gap: var(--space-4); margin-bottom: var(--space-8); }
+  .error404__digit { font-size: 80px; }
+  .error404__ghost { width: 80px; height: 80px; }
+  .error404__title { font-size: 24px; }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   ACCESIBILIDAD — movimiento reducido
+   ───────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .error404__inner,
+  .error404__digit--left,
+  .error404__digit--right,
+  .error404__ghost,
+  .error404__title,
+  .error404__lead,
+  .error404__action,
+  .error404__note {
+    animation: none;
+  }
+  .error404__ghost:hover { transform: none; }
+}

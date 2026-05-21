@@ -1,0 +1,294 @@
+/* ============================================================
+   AChETIQ — Componente: Cuenta regresiva de Recursos Académicos
+   Bloque BEM: .countdown
+   Fase: 2 — Desarrollo front-end
+   Depende de: tokens.css (paleta "Océano & Areia")
+   ------------------------------------------------------------
+   Todos los valores referencian var(--token). No se introducen
+   colores hexadecimales ni tamaños hardcodeados.
+   ============================================================ */
+
+/* ─────────────────────────────────────────────────────────────
+   CONTENEDOR DE SECCIÓN
+   ───────────────────────────────────────────────────────────── */
+
+.countdown {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-16) var(--space-4);
+  overflow: hidden;
+}
+
+/* Glows decorativos de fondo — tintes muy bajos de primario y arena,
+   coherentes con la paleta. No interactivos. */
+.countdown__backdrop {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.countdown__glow {
+  position: absolute;
+  border-radius: var(--radius-pill);
+  filter: blur(80px);
+}
+
+.countdown__glow--primary {
+  width: 800px;
+  height: 600px;
+  top: -50%;
+  left: -25%;
+  background: color-mix(in oklab, var(--color-primary) 8%, transparent);
+}
+
+.countdown__glow--sand {
+  width: 600px;
+  height: 600px;
+  bottom: 0;
+  right: 0;
+  background: color-mix(in oklab, var(--color-primary-mid) 6%, transparent);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   PANEL — tarjeta principal
+   ───────────────────────────────────────────────────────────── */
+
+.countdown__panel {
+  position: relative;
+  z-index: var(--z-raised);
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-12);
+  text-align: center;
+  padding: var(--space-16) var(--space-12);
+  background: var(--color-bg-panel);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg, 0 4px 10px rgba(19, 17, 15, 0.10));
+  overflow: hidden;
+}
+
+/* Brillo interior sutil hacia el borde superior. */
+.countdown__panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in oklab, var(--color-bg-panel) 60%, transparent),
+    transparent 40%
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────
+   ENCABEZADO — badge, título, copy
+   ───────────────────────────────────────────────────────────── */
+
+.countdown__head {
+  position: relative;
+  z-index: var(--z-raised);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+  max-width: 620px;
+}
+
+.countdown__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-pill);
+  background: color-mix(in oklab, var(--color-primary-mid) 10%, var(--color-bg-panel));
+  border: 1px solid var(--color-rule);
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-primary-mid);
+}
+
+.countdown__badge svg {
+  width: 14px;
+  height: 14px;
+  stroke: var(--color-primary-mid);
+}
+
+.countdown__title {
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-ink);
+  margin: 0;
+}
+
+.countdown__title em {
+  font-style: italic;
+  color: var(--color-primary);
+}
+
+.countdown__lead {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+  color: var(--color-ink-soft);
+  margin: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   RELOJ — fila de unidades
+   ───────────────────────────────────────────────────────────── */
+
+.countdown__clock {
+  position: relative;
+  z-index: var(--z-raised);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--space-3);
+}
+
+.countdown__unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.countdown__box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 92px;
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-bg);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs, 0 4px 10px rgba(19, 17, 15, 0.05));
+  overflow: hidden;
+}
+
+.countdown__digits {
+  font-family: var(--font-mono);
+  font-size: 52px;
+  font-weight: var(--weight-medium);
+  line-height: 1;
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-primary);
+  font-variant-numeric: tabular-nums;
+  display: inline-block;
+}
+
+/* Animación de cambio de valor — entrada deslizada hacia arriba. */
+.countdown__digits.is-ticking {
+  animation: countdown-digit-in var(--transition-normal);
+}
+
+@keyframes countdown-digit-in {
+  0%   { transform: translateY(35%); opacity: 0; }
+  100% { transform: translateY(0);   opacity: 1; }
+}
+
+.countdown__label {
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+}
+
+.countdown__sep {
+  align-self: center;
+  margin-top: calc(-1 * var(--space-6));
+  font-family: var(--font-mono);
+  font-size: 36px;
+  font-weight: var(--weight-regular);
+  color: color-mix(in oklab, var(--color-ink-faint) 55%, transparent);
+  animation: countdown-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes countdown-pulse {
+  0%, 100% { opacity: 0.35; }
+  50%      { opacity: 0.9; }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   NOTA AL PIE
+   ───────────────────────────────────────────────────────────── */
+
+.countdown__note {
+  position: relative;
+  z-index: var(--z-raised);
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-ink-faint);
+  margin: calc(-1 * var(--space-6)) 0 0;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   ESTADOS DE VISIBILIDAD (pending / revealed)
+   El JS alterna [hidden] entre .countdown__pending y
+   [data-countdown-revealed].
+   ───────────────────────────────────────────────────────────── */
+
+.countdown__pending[hidden],
+[data-countdown-revealed][hidden] {
+  display: none;
+}
+
+[data-countdown-revealed] {
+  width: 100%;
+  animation: countdown-reveal var(--transition-slow) ease;
+}
+
+@keyframes countdown-reveal {
+  0%   { opacity: 0; transform: translateY(12px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   RESPONSIVE
+   ───────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .countdown { padding: var(--space-12) var(--space-4); }
+  .countdown__panel { padding: var(--space-12) var(--space-6); gap: var(--space-10); }
+  .countdown__title { font-size: var(--text-h2); }
+  .countdown__box { min-width: 64px; padding: var(--space-3) var(--space-3); }
+  .countdown__digits { font-size: 34px; }
+  .countdown__clock { gap: var(--space-2); }
+  .countdown__sep { font-size: 24px; margin-top: calc(-1 * var(--space-5)); }
+}
+
+@media (max-width: 380px) {
+  .countdown__box { min-width: 54px; }
+  .countdown__digits { font-size: 28px; }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   ACCESIBILIDAD — respeto a movimiento reducido
+   ───────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .countdown__digits.is-ticking,
+  .countdown__sep,
+  [data-countdown-revealed] {
+    animation: none;
+  }
+}

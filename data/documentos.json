@@ -1,0 +1,20 @@
+[
+  {
+    "id": "estatuto",
+    "titulo": "Estatuto de AChETIQ",
+    "descripcion": "Documento fundacional de AChETIQ. Establece sus objetivos, órganos de gobierno y normas de funcionamiento.",
+    "archivo": "docs/Estatuto.pdf",
+    "tipo": "PDF",
+    "tamano_kb": 3045,
+    "orden": 1
+  },
+  {
+    "id": "reglamento-sanciones",
+    "titulo": "Reglamento de Sanciones",
+    "descripcion": "Regula las conductas que pueden dar lugar a sanciones dentro de la asociación.",
+    "archivo": "docs/Reglamento_Sanciones.pdf",
+    "tipo": "PDF",
+    "tamano_kb": 92,
+    "orden": 2
+  }
+]

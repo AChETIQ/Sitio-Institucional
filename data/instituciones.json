@@ -1,0 +1,22 @@
+[
+  {
+    "id": "utn-frre",
+    "nombre": "Universidad Tecnológica Nacional — Facultad Regional Resistencia",
+    "nombre_corto": "UTN FRRe",
+    "descripcion": "Casa de estudios donde se dicta la carrera de Ingeniería Química y sede institucional de AChETIQ.",
+    "web": "https://www.frre.utn.edu.ar/",
+    "logo": "img/institucional/utn-frre-logo.svg",
+    "tipo": "facultad",
+    "mostrar_en_footer": true
+  },
+  {
+    "id": "aneiqa",
+    "nombre": "Asociación Nacional de Estudiantes de Ingeniería Química y en Alimentos",
+    "nombre_corto": "ANEIQA",
+    "descripcion": "Federación nacional a la que pertenece AChETIQ, que reúne asociaciones de estudiantes de Ingeniería Química de todo el país.",
+    "web": "https://aneiqa.org/",
+    "logo": "img/institucional/aneiqa-logo.svg",
+    "tipo": "federacion_nacional",
+    "mostrar_en_footer": true
+  }
+]

@@ -1,0 +1,207 @@
+[
+  {
+    "id": "introduccion-a-la-ingenieria-quimica",
+    "nombre": "Introducción a la Ingeniería Química",
+    "anio": 1
+  },
+  {
+    "id": "ingenieria-y-sociedad",
+    "nombre": "Ingeniería y Sociedad",
+    "anio": 1
+  },
+  {
+    "id": "algebra-y-geometria-analitica",
+    "nombre": "Álgebra y Geometría Analítica",
+    "anio": 1
+  },
+  {
+    "id": "analisis-matematico-i",
+    "nombre": "Análisis Matemático I",
+    "anio": 1
+  },
+  {
+    "id": "fisica-i",
+    "nombre": "Física I",
+    "anio": 1
+  },
+  {
+    "id": "quimica",
+    "nombre": "Química",
+    "anio": 1
+  },
+  {
+    "id": "sistemas-de-representacion",
+    "nombre": "Sistemas de Representación",
+    "anio": 1
+  },
+  {
+    "id": "fundamentos-de-informatica",
+    "nombre": "Fundamentos de Informática",
+    "anio": 1
+  },
+  {
+    "id": "introduccion-a-equipos-y-procesos",
+    "nombre": "Introducción a Equipos y Procesos",
+    "anio": 2
+  },
+  {
+    "id": "probabilidad-y-estadistica",
+    "nombre": "Probabilidad y Estadística",
+    "anio": 2
+  },
+  {
+    "id": "quimica-inorganica",
+    "nombre": "Química Inorgánica",
+    "anio": 2
+  },
+  {
+    "id": "analisis-matematico-ii",
+    "nombre": "Análisis Matemático II",
+    "anio": 2
+  },
+  {
+    "id": "fisica-ii",
+    "nombre": "Física II",
+    "anio": 2
+  },
+  {
+    "id": "quimica-organica",
+    "nombre": "Química Orgánica",
+    "anio": 2
+  },
+  {
+    "id": "legislacion",
+    "nombre": "Legislación",
+    "anio": 2
+  },
+  {
+    "id": "ingles-i",
+    "nombre": "Inglés I",
+    "anio": 2
+  },
+  {
+    "id": "balances-de-masa-y-energia",
+    "nombre": "Balances de Masa y Energía",
+    "anio": 3
+  },
+  {
+    "id": "termodinamica",
+    "nombre": "Termodinámica",
+    "anio": 3
+  },
+  {
+    "id": "matematica-superior-aplicada",
+    "nombre": "Matemática Superior Aplicada",
+    "anio": 3
+  },
+  {
+    "id": "ciencia-de-los-materiales",
+    "nombre": "Ciencia de los Materiales",
+    "anio": 3
+  },
+  {
+    "id": "fisicoquimica",
+    "nombre": "Fisicoquímica",
+    "anio": 3
+  },
+  {
+    "id": "fenomenos-de-transporte",
+    "nombre": "Fenómenos de Transporte",
+    "anio": 3
+  },
+  {
+    "id": "quimica-analitica",
+    "nombre": "Química Analítica",
+    "anio": 3
+  },
+  {
+    "id": "microbiologia-y-quimica-biologica",
+    "nombre": "Microbiología y Química Biológica",
+    "anio": 3
+  },
+  {
+    "id": "quimica-aplicada",
+    "nombre": "Química Aplicada",
+    "anio": 3
+  },
+  {
+    "id": "ingles-ii",
+    "nombre": "Inglés II",
+    "anio": 3
+  },
+  {
+    "id": "diseno-simulacion-optimizacion-y-seguridad-de-procesos",
+    "nombre": "Diseño, Simulación, Optimización y Seguridad de Procesos",
+    "anio": 4
+  },
+  {
+    "id": "operaciones-unitarias-i",
+    "nombre": "Operaciones Unitarias I",
+    "anio": 4
+  },
+  {
+    "id": "tecnologia-de-la-energia-termica",
+    "nombre": "Tecnología de la Energía Térmica",
+    "anio": 4
+  },
+  {
+    "id": "economia",
+    "nombre": "Economía",
+    "anio": 4
+  },
+  {
+    "id": "operaciones-unitarias-ii",
+    "nombre": "Operaciones Unitarias II",
+    "anio": 4
+  },
+  {
+    "id": "ingenieria-de-las-reacciones-quimicas",
+    "nombre": "Ingeniería de las Reacciones Químicas",
+    "anio": 4
+  },
+  {
+    "id": "calidad-y-control-estadistico-de-procesos",
+    "nombre": "Calidad y Control Estadístico de Procesos",
+    "anio": 4
+  },
+  {
+    "id": "organizacion-industrial",
+    "nombre": "Organización Industrial",
+    "anio": 4
+  },
+  {
+    "id": "control-automatico-de-procesos",
+    "nombre": "Control Automático de Procesos",
+    "anio": 5
+  },
+  {
+    "id": "mecanica-industrial",
+    "nombre": "Mecánica Industrial",
+    "anio": 5
+  },
+  {
+    "id": "ingenieria-ambiental",
+    "nombre": "Ingeniería Ambiental",
+    "anio": 5
+  },
+  {
+    "id": "procesos-biotecnologicos",
+    "nombre": "Procesos Biotecnológicos",
+    "anio": 5
+  },
+  {
+    "id": "higiene-y-seguridad-en-el-trabajo",
+    "nombre": "Higiene y Seguridad en el Trabajo",
+    "anio": 5
+  },
+  {
+    "id": "maquinas-e-instalaciones-electricas",
+    "nombre": "Máquinas e Instalaciones Eléctricas",
+    "anio": 5
+  },
+  {
+    "id": "proyecto-final",
+    "nombre": "Proyecto Final",
+    "anio": 5
+  }
+]

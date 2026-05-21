@@ -1,0 +1,44 @@
+[
+  {
+    "id": "cursos-y-conferencias",
+    "nombre": "Gabinete de Cursos y Conferencias",
+    "descripcion_corta": "Lleva adelante las actividades académicas de la asociación: cursos y conferencias en el marco de jornadas.",
+    "descripcion_completa": "Este gabinete lleva adelante las actividades académicas de la asociación. La finalidad del mismo es organizar los distintos cursos y conferencias a realizarse en el marco de jornadas o de actividades propias de AChETIQ.",
+    "integrantes": [],
+    "proyectos_activos": [],
+    "icono": "cursos",
+    "orden": 1
+  },
+  {
+    "id": "eventos",
+    "nombre": "Gabinete de Eventos",
+    "descripcion_corta": "Genera vínculos entre los socios mediante la organización de eventos a lo largo del año.",
+    "descripcion_completa": "Este Gabinete tiene como finalidad generar vínculos entre los socios mediante diversos eventos. Para ello, buscamos personas proactivas que nos ayuden en la organización de los eventos propuestos a lo largo del año, ya sea en los trabajos designados como también en la creatividad de ideas.",
+    "integrantes": [],
+    "proyectos_activos": [],
+    "icono": "eventos",
+    "orden": 2
+  },
+  {
+    "id": "prensa-y-difusion",
+    "nombre": "Gabinete de Prensa y Difusión",
+    "descripcion_corta": "Difunde las actividades de AChETIQ, gestiona las redes sociales y registra fotográficamente cada evento.",
+    "descripcion_completa": "Difundir todas nuestras actividades y poder capturar cada momento que compartamos juntos es sumamente importante. Siempre la tarea estuvo repartida entre dos personas, pero creemos que con un gabinete podríamos ampliar y mejorar la difusión. Los socios que quieran pertenecer a este grupo tendrán tareas como: actualizar las redes sociales, crear imágenes para las mismas y fotografiar nuestros eventos.",
+    "integrantes": [],
+    "proyectos_activos": [],
+    "icono": "prensa",
+    "orden": 3
+  },
+  {
+    "id": "solidario",
+    "nombre": "Gabinete Solidario",
+    "descripcion_corta": "AChETIQ apadrina a la Escuelita EEP N° 1026 mediante actividades recreativas, educativas y donaciones.",
+    "descripcion_completa": "AChETIQ apadrina a la Escuelita EEP N° 1026, por lo que año a año se realizan diferentes actividades recreativas y educativas. Hasta ahora realizamos charlas informativas y fuimos a visitar a los chicos con juegos y chocolatadas. También nos encargamos de juntar donaciones de ropa y útiles para ellos, y tuvimos un proyecto en el que los ayudamos a pintar toda la escuela. ¡Con tu ayuda queremos seguir con este lindo lazo y seguir sumando proyectos!",
+    "integrantes": [],
+    "proyectos_activos": [
+      "Apadrinamiento EEP N° 1026"
+    ],
+    "icono": "solidario",
+    "orden": 4
+  }
+]

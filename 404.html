@@ -1,0 +1,73 @@
+---
+permalink: /404.html
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — Página no encontrada · AChETIQ</title>
+  <meta name="robots" content="noindex, follow">
+
+  <!-- Fuentes (paleta tipográfica del sitio) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Sistema de diseño + estilos de la página -->
+  <link rel="stylesheet" href="{{ '/tokens.css' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/error-404.css' | relative_url }}">
+
+  <link rel="icon" href="{{ '/favicon.svg' | relative_url }}" type="image/svg+xml">
+</head>
+<body>
+
+  <main class="error404">
+    <div class="error404__inner">
+
+      <div class="error404__display" aria-hidden="true">
+        <span class="error404__digit error404__digit--left">4</span>
+
+        <span class="error404__ghost">
+          <img
+            src="https://xubohuah.github.io/xubohua.top/Group.png"
+            alt=""
+            width="120" height="120"
+            draggable="false"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <!-- Fallback: ícono Lucide "ghost" en color de marca, visible solo si la imagen externa falla -->
+          <svg class="error404__ghost-fallback" style="display:none;" viewBox="0 0 24 24"
+               stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 10h.01"/>
+            <path d="M15 10h.01"/>
+            <path d="M12 2a8 8 0 0 0-8 8v12l3-3 2.5 2.5L12 19l2.5 2.5L17 19l3 3V10a8 8 0 0 0-8-8z"/>
+          </svg>
+        </span>
+
+        <span class="error404__digit error404__digit--right">4</span>
+      </div>
+
+      <h1 class="error404__title">
+        Parece que esta página es un <em>fantasma</em>
+      </h1>
+
+      <p class="error404__lead">
+        El enlace que seguiste no existe o cambió de lugar. No perdiste nada
+        importante: desde el inicio vas a llegar a todo lo de la asociación
+        —apuntes y recursos de las materias, documentación institucional y
+        novedades de los gabinetes—.
+      </p>
+
+      <div class="error404__action">
+        <a class="btn btn-primary" href="{{ '/' | relative_url }}">Volver al inicio</a>
+      </div>
+
+      <p class="error404__note">
+        Error 404: el servidor no encontró la página solicitada.
+      </p>
+
+    </div>
+  </main>
+
+</body>
+</html>

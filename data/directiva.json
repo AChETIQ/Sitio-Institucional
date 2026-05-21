@@ -1,0 +1,86 @@
+[
+  {
+    "nombre": "Dafne Ritterband",
+    "cargo": "Presidente",
+    "subgrupo": "presidencia",
+    "orden": 1,
+    "foto": null
+  },
+  {
+    "nombre": "Máximo Graciosi",
+    "cargo": "Vicepresidente",
+    "subgrupo": "presidencia",
+    "orden": 2,
+    "foto": null
+  },
+  {
+    "nombre": "Paula Verón",
+    "cargo": "Secretaria",
+    "subgrupo": "titulares",
+    "orden": 1,
+    "foto": null
+  },
+  {
+    "nombre": "Luciano Pamies",
+    "cargo": "Tesorero",
+    "subgrupo": "titulares",
+    "orden": 2,
+    "foto": null
+  },
+  {
+    "nombre": "Facundo Viota",
+    "cargo": "Titular — Comisión Revisora de Cuentas",
+    "subgrupo": "titulares",
+    "orden": 3,
+    "foto": null
+  },
+  {
+    "nombre": "Matías Romero",
+    "cargo": "1° Vocal titular",
+    "subgrupo": "titulares",
+    "orden": 4,
+    "foto": null
+  },
+  {
+    "nombre": "María Agustina Roch",
+    "cargo": "2° Vocal titular",
+    "subgrupo": "titulares",
+    "orden": 5,
+    "foto": null
+  },
+  {
+    "nombre": "Lucero Müller",
+    "cargo": "Prosecretaria",
+    "subgrupo": "suplentes",
+    "orden": 1,
+    "foto": null
+  },
+  {
+    "nombre": "Lautaro R. Zalazar",
+    "cargo": "Protesorero",
+    "subgrupo": "suplentes",
+    "orden": 2,
+    "foto": null
+  },
+  {
+    "nombre": "Juliana Balbuena",
+    "cargo": "Suplente — Comisión Revisora de Cuentas",
+    "subgrupo": "suplentes",
+    "orden": 3,
+    "foto": null
+  },
+  {
+    "nombre": "Marcos Allasia",
+    "cargo": "1° Vocal suplente",
+    "subgrupo": "suplentes",
+    "orden": 4,
+    "foto": null
+  },
+  {
+    "nombre": "Sofía Fernández",
+    "cargo": "2° Vocal suplente",
+    "subgrupo": "suplentes",
+    "orden": 5,
+    "foto": null
+  }
+]
