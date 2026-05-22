@@ -189,7 +189,7 @@ El repositorio contiene simultáneamente carpetas de estilo Jekyll (`_includes/`
 
 - **Herramienta:** Claude Code
 - **Objetivo:** Construir la barra de navegación oficial del sitio según el prompt canónico ya cerrado (header sticky, submenús declarativos para Gabinetes y Recursos, responsive con panel lateral y acordeón, accesibilidad WCAG AA). Resultado: `partials/navbar.html`, `assets/css/navbar.css`, `assets/js/navbar.js`, `data/navbar.json`.
-- **Prerrequisitos:** P3.1, P3.2. El prompt canónico completo está registrado en la memoria del proyecto (`achetiq_navbar_prompts.md`, Sección "PROMPT CANÓNICO") y el JSON definitivo de `data/navbar.json` en su Sección 7. Logo `img/logo/achetiq-logo.svg` presente.
+- **Prerrequisitos:** P3.1, P3.2. El prompt canónico completo está registrado en la memoria del proyecto (`achetiq_navbar_prompts.md`, Sección "PROMPT CANÓNICO") y el JSON definitivo de `data/navbar.json` en su Sección 7. Logo `assets/img/logo/achetiq-logo.svg` presente.
 
 > **Prompt:**
 > Ejecutá el **Prompt Canónico de la barra de navegación de AChETIQ** registrado en la memoria del proyecto (`achetiq_navbar_prompts.md`, Sección "PROMPT CANÓNICO (a copiar y ejecutar en Fase 2)"). Ese prompt es la especificación vinculante completa: leelo íntegro y seguilo al pie de la letra, incluyendo la configuración definitiva de `data/navbar.json` de su Sección 7.
@@ -305,7 +305,7 @@ El repositorio contiene simultáneamente carpetas de estilo Jekyll (`_includes/`
 > 2. Nuestra historia: timeline (`.timeline`) poblada desde `data/historia.json` vía `data-loader`. La timeline debe soportar la entrada ghost final; si el patrón de ghost aún no está definido, dejá el hook estructural y avisámelo, no lo inventes.
 > 3. Misión y Visión: `.mission-vision`, dos columnas con borde lateral `--color-primary`, labels Geist Mono con ícono Lucide inline.
 > 4. Valores institucionales: grid de `.card--valor`. **Importante:** las descripciones de valores son borradores no autoritativos pendientes de aprobación de la directiva. Cargá las que existan marcándolas claramente como provisionales en un comentario HTML, y no las presentes como definitivas.
-> 5. Instituciones vinculadas: grid de `.card--institucion` poblado desde `data/instituciones.json`, con los logos `img/institucional/utn-frre-logo.svg` y `img/institucional/aneiqa-logo.svg`.
+> 5. Instituciones vinculadas: grid de `.card--institucion` poblado desde `data/instituciones.json`, con los logos `assets/img/institucional/utn-frre-logo.svg` y `assets/img/institucional/aneiqa-logo.svg`.
 > 6. Documentos institucionales: `.card-documento` poblado desde `data/documentos.json` (Estatuto y Reglamento de Sanciones), con enlace de descarga al PDF.
 > 7. CTA final: fondo `--color-primary`, con "Sumate" → contacto y "Conocé los gabinetes" → gabinetes.
 >

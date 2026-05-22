@@ -20,7 +20,7 @@ El logo está compuesto por cuatro elementos visuales superpuestos:
 
 ## Paleta de colores extraída del logo
 
-*Valores verificados contra el archivo fuente SVG (recibido 2026-05-08, `img/logo/achetiq-logo.svg`).*
+*Valores verificados contra el archivo fuente SVG (recibido 2026-05-08, `assets/img/logo/achetiq-logo.svg`).*
 
 | Elemento | Color | Hex verificado | Uso |
 |---|---|---|---|
@@ -60,13 +60,13 @@ El logo está compuesto por cuatro elementos visuales superpuestos:
 
 | Archivo | Descripción | Estado |
 |---|---|---|
-| `img/logo/achetiq-logo-circular.png` | Versión circular, fondo blanco | ✅ Recibido (a copiar manualmente) |
-| `img/logo/achetiq-logo-cuadrado.png` | Versión cuadrada, fondo negro | ✅ Recibido (a copiar manualmente) |
-| `img/logo/achetiq-logo.svg` | Versión vectorial — fuente primaria | ✅ Recibido 2026-05-08 (4000×4000, 45 KB) |
-| `img/logo/achetiq-logo.original.svg` | Backup del SVG original | ✅ Generado 2026-05-08 |
-| `img/logo/favicon.ico` | Favicon 32×32 px | 🔲 Pendiente — generar desde SVG |
-| `img/logo/favicon.svg` | Favicon vectorial moderno | 🔲 Pendiente — extraer del logo |
-| `img/logo/achetiq-logo.min.svg` | SVG optimizado vía SVGO | 🔲 Opcional — reduce tamaño ~50% |
+| `assets/img/logo/achetiq-logo-circular.png` | Versión circular, fondo blanco | ✅ Recibido (a copiar manualmente) |
+| `assets/img/logo/achetiq-logo-cuadrado.png` | Versión cuadrada, fondo negro | ✅ Recibido (a copiar manualmente) |
+| `assets/img/logo/achetiq-logo.svg` | Versión vectorial — fuente primaria | ✅ Recibido 2026-05-08 (4000×4000, 45 KB) |
+| `assets/img/logo/achetiq-logo.original.svg` | Backup del SVG original | ✅ Generado 2026-05-08 |
+| `assets/img/logo/favicon.ico` | Favicon 32×32 px | 🔲 Pendiente — generar desde SVG |
+| `assets/img/logo/favicon.svg` | Favicon vectorial moderno | 🔲 Pendiente — extraer del logo |
+| `assets/img/logo/achetiq-logo.min.svg` | SVG optimizado vía SVGO | 🔲 Opcional — reduce tamaño ~50% |
 
 ---
 
@@ -74,13 +74,13 @@ El logo está compuesto por cuatro elementos visuales superpuestos:
 
 ### UTN FRRe
 Logo oficial de la Universidad Tecnológica Nacional Facultad Regional Resistencia. Versión recibida: horizontal, sobre fondo negro/oscuro. Contiene el isotipo UTN (símbolo en negro) y el texto "UNIVERSIDAD TECNOLÓGICA NACIONAL / FACULTAD REGIONAL / RESISTENCIA".
-- Archivo a guardar: `img/institucional/utn-frre-logo.png`
+- Archivo a guardar: `assets/img/institucional/utn-frre-logo.png`
 - Uso en sitio: footer, página "Sobre AChETIQ"
 
 ### ANEIQA
 Logo de la Asociación Nacional de Estudiantes de Ingeniería Química y en Alimentos. Ícono de matraz combinado con engranaje, en degradado púrpura-cyan sobre fondo negro.
 - Colores: púrpura (~`#7B3FBF`) y cyan/azul eléctrico (~`#00BFFF`)
-- Archivo a guardar: `img/institucional/aneiqa-logo.png`
+- Archivo a guardar: `assets/img/institucional/aneiqa-logo.png`
 - Uso en sitio: footer, página "Sobre AChETIQ"
 
 > Nota: ambos logos fueron recibidos como PNG con fondo negro. Para uso sobre fondos claros puede ser necesario solicitar versiones con fondo transparente.

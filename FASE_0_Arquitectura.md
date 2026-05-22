@@ -157,54 +157,68 @@ achetiq.github.io/
 ## 5. Estructura de Repositorio
 
 ```
-achetiq/                          ← raíz del repositorio
+achetiq-lab/                      ← raíz del repositorio
 │
 ├── index.html                    ← Inicio
 ├── sobre-achetiq.html
 ├── gabinetes.html
-├── recursos.html
+├── recursos-academicos.html
 ├── actividades.html
-├── noticias.html
-├── galeria.html
 ├── contacto.html
+├── 404.html                      ← página de error (servida por GitHub Pages)
 │
-├── pages/                        ← subpáginas generadas por JS
-│   ├── gabinete.html             ← plantilla: un gabinete individual
-│   ├── recurso.html              ← plantilla: una materia individual
-│   └── noticia.html              ← plantilla: una noticia individual
+├── partials/                     ← fragmentos HTML inyectados vía fetch()
+│   ├── navbar.html               ← (Fase 2)
+│   ├── footer.html               ← (Fase 2)
+│   └── countdown-recursos.html   ← cuenta regresiva de Recursos (Fase 2 anticipada)
+│
+├── pages/                        ← plantillas de detalle (?id=<slug>)
+│   ├── gabinetes/                ← vista de gabinete individual
+│   └── recursos/                 ← vista de materia individual
 │
 ├── data/                         ← datos en JSON (actualizables sin tocar HTML)
 │   ├── directiva.json
 │   ├── gabinetes.json
 │   ├── recursos.json
-│   ├── noticias.json
-│   ├── actividades.json
-│   └── galeria.json
+│   ├── documentos.json
+│   ├── historia.json
+│   ├── instituciones.json
+│   └── redes.json
 │
-├── css/
-│   ├── main.css                  ← estilos globales y variables
-│   ├── components.css            ← tarjetas, botones, formularios
-│   └── pages/                   ← estilos específicos por página
+├── assets/                       ← recursos estáticos del sitio
+│   ├── css/                      ← hojas de estilo (componentes y páginas)
+│   ├── js/                       ← scripts vanilla (módulos ES)
+│   └── img/
+│       ├── logo/                 ← logo en variantes (SVG, PNG)
+│       ├── institucional/        ← logos de instituciones vinculadas
+│       ├── directiva/            ← fotos de integrantes de directiva
+│       ├── gabinetes/            ← imágenes por gabinete
+│       └── eventos/              ← fotos para galería y actividades
 │
-├── js/
-│   ├── main.js                   ← comportamiento global (nav, scroll)
-│   ├── loaders.js                ← funciones fetch() para cargar JSON
-│   └── pages/                   ← scripts específicos por página
+├── docs/                         ← archivos descargables (PDF)
+│   ├── Estatuto.pdf
+│   ├── Reglamento_Sanciones.pdf
+│   └── Disenio_Curricular_IQ.pdf
 │
-├── img/
-│   ├── logo/                     ← logo en variantes (SVG, PNG)
-│   ├── institucional/            ← hero, fotos generales
-│   ├── directiva/                ← fotos de integrantes de directiva
-│   ├── gabinetes/                ← imágenes por gabinete
-│   └── eventos/                 ← fotos para galería y noticias
+├── content/                      ← contenido institucional fuente (texto)
+│   ├── historia.txt
+│   ├── mision_vision.txt
+│   └── analisis_logo.md
 │
-├── docs/                         ← archivos descargables
-│   └── estatuto.pdf
-│
+├── tokens.css                    ← design tokens (paleta, escalas, z-index)
+├── favicon.ico · favicon.svg · apple-touch-icon.png · icon-192.png · icon-512.png
 ├── README.md
-├── CONTRIBUTING.md
 └── .gitignore
 ```
+
+> **Nota de reconciliación (2026-05-22).** El árbol anterior se reescribió para
+> alinearlo con el stack vanilla definitivo. Se eliminó el andamiaje residual de
+> tipo Jekyll (`_includes/`): su único contenido útil —la cuenta regresiva de
+> Recursos Académicos— se migró a `partials/countdown-recursos.html`. Los recursos
+> estáticos se consolidaron bajo `assets/` (`assets/css/`, `assets/js/`,
+> `assets/img/`); las carpetas `css/`, `js/` e `img/` de la raíz dejan de usarse.
+> Los fragmentos HTML reutilizables (navbar, footer, includes) viven en `partials/`
+> y se inyectan vía `fetch()`, no por un motor de plantillas.
 
 ---
 
