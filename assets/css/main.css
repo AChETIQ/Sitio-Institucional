@@ -50,7 +50,7 @@
    Ubicación correcta (antes de @font-face y del resto de reglas). */
 /* @import url('navbar.css'); */
 /* @import url('footer.css'); */
-/* @import url('loader.css'); */
+@import url('loader.css');
 
 
 /* ─── TIPOGRAFÍAS AUTOALOJADAS ───────────────────────────────
@@ -144,13 +144,19 @@ select {
 }
 
 /* Respeta la preferencia del sistema de movimiento reducido:
-   neutraliza animaciones, transiciones y desplazamiento suave. */
+   neutraliza animaciones, transiciones y desplazamiento suave.
+   Excepción: los elementos con la clase .safe-motion quedan
+   fuera del reset, de modo que un componente pueda sustituir su
+   animación por una alternativa accesible (p. ej. loader.css
+   reemplaza el rebote por un pulso de opacidad) sin guerras de
+   `!important`. La responsabilidad de ofrecer una animación
+   reducida recae en quien aplica .safe-motion. */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
 
-  *,
+  *:not(.safe-motion),
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
