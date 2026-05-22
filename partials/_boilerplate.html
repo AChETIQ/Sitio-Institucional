@@ -173,11 +173,33 @@ CONVENCIÓN DE NOMBRE
   <div data-loader="footer"></div>
 
   <!--
+    LOADER GLOBAL — overlay «Bouncing Dots» (assets/css/loader.css).
+    Overlay fijo a pantalla completa; arranca con el atributo
+    `hidden`. loader.js lo muestra/oculta vía AChETIQLoader.show()
+    / .hide(). Animación 100 % CSS. Cada punto lleva la clase
+    .safe-motion para conservar una animación accesible bajo
+    prefers-reduced-motion (ver main.css §2 y loader.css).
+    No reemplazar: idéntico en todas las páginas.
+  -->
+  <div class="loader loader--overlay loader--msg-bottom" id="global-loader"
+       role="status" aria-live="polite" hidden>
+    <div class="loader__dots">
+      <span class="loader__dot safe-motion"></span>
+      <span class="loader__dot safe-motion"></span>
+      <span class="loader__dot safe-motion"></span>
+    </div>
+    <p class="loader__message">Cargando…</p>
+  </div>
+
+  <!--
     SCRIPTS — al final del <body>, como módulo ES (sin transpilación,
     FASE_1 §7.2 / INSTRUCCION_PROYECTO §2.1).
+    loader.js — helper sin dependencias del overlay global; script
+    clásico para exponer window.AChETIQLoader antes de los módulos.
     main.js orquesta los loaders [data-loader] del documento.
     No reemplazar: idéntico en todas las páginas.
   -->
+  <script src="/assets/js/loader.js"></script>
   <script type="module" src="/assets/js/main.js"></script>
 
 </body>
