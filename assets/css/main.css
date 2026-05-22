@@ -1,0 +1,43 @@
+/* ============================================================
+   AChETIQ — Hoja de estilos principal
+   ------------------------------------------------------------
+   tokens.css se enlaza por separado en el <head> de cada página
+   (ver partials/_boilerplate.html). Este archivo arranca con la
+   declaración de las tipografías autoalojadas.
+   ============================================================ */
+
+
+/* ─────────────────────────────────────────────────────────────
+   TIPOGRAFÍAS AUTOALOJADAS
+   Archivos .woff2 en assets/fonts/. font-display: swap evita el
+   texto invisible mientras la fuente carga (muestra el fallback
+   de tokens.css y cambia al cargar).
+   ───────────────────────────────────────────────────────────── */
+
+/* Geist — cuerpo de texto y UI (regular). */
+@font-face {
+  font-family: 'Geist';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/geist-400.woff2') format('woff2');
+}
+
+/* Instrument Serif — títulos y display (regular). */
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/instrument-serif-400.woff2') format('woff2');
+}
+
+/* Instrument Serif — itálica. Usada por `h1 em` y `h2 em` en
+   tokens.css para el énfasis de los titulares. */
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/instrument-serif-400-italic.woff2') format('woff2');
+}
