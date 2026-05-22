@@ -1,18 +1,64 @@
 /* ============================================================
-   AChETIQ — Hoja de estilos principal
+   AChETIQ — Hoja de estilos raíz (main.css)
    ------------------------------------------------------------
-   tokens.css se enlaza por separado en el <head> de cada página
-   (ver partials/_boilerplate.html). Este archivo arranca con la
-   declaración de las tipografías autoalojadas.
+   Versión: 1.0 · Fase 2 — Desarrollo front-end
+   Fundamento: FASE_1_Catalogo_Componentes.md · tokens.css
+
+   Orden de secciones (no reordenar):
+     1. Imports y carga de tipografías
+     2. Reset CSS moderno y mínimo
+     3. Estilos base del documento
+     4. Contenedor de layout
+     5. Breakpoints (referencia)
+     6. Clases utilitarias esenciales
+     7. Arquitectura futura
+
+   RESTRICCIÓN. Todo color y tipografía se deriva exclusivamente
+   de variables (var(--token)) definidas en tokens.css. No se
+   escriben códigos hexadecimales ni nombres de familia tipográfica
+   en este archivo.
    ============================================================ */
 
 
 /* ─────────────────────────────────────────────────────────────
-   TIPOGRAFÍAS AUTOALOJADAS
-   Archivos .woff2 en assets/fonts/. font-display: swap evita el
-   texto invisible mientras la fuente carga (muestra el fallback
-   de tokens.css y cambia al cargar).
+   1. IMPORTS Y CARGA DE TIPOGRAFÍAS
+   ─────────────────────────────────────────────────────────────
+
+   tokens.css — NO se importa aquí.
+   Verificación (partials/_boilerplate.html, líneas 105-106):
+   el documento enlaza tokens.css y main.css por separado en el
+   <head>, con tokens.css PRIMERO:
+
+       <link rel="stylesheet" href="/tokens.css">
+       <link rel="stylesheet" href="/assets/css/main.css">
+
+   Las variables ya están disponibles cuando se evalúa este
+   archivo, de modo que un @import sería redundante (doble
+   declaración). Además, main.css vive en /assets/css/ y
+   tokens.css en la raíz: el @import correcto sería
+   url('../../tokens.css'), no url('tokens.css'). Se mantiene la
+   carga vía <link> del boilerplate. Si más adelante se adopta un
+   único punto de entrada CSS, mover el enlace aquí como:
+       @import url('../../tokens.css');   (debe ir antes de todo)
+
+   Imports de hojas futuras: ver §7. Los placeholders @import
+   viven más abajo en esta sección porque CSS exige que toda
+   regla @import preceda a cualquier otra regla del archivo.
    ───────────────────────────────────────────────────────────── */
+
+/* Placeholders de componentes futuros — descomentar al crearlos.
+   Ubicación correcta (antes de @font-face y del resto de reglas). */
+/* @import url('navbar.css'); */
+/* @import url('footer.css'); */
+/* @import url('loader.css'); */
+
+
+/* ─── TIPOGRAFÍAS AUTOALOJADAS ───────────────────────────────
+   Archivos .woff2 en assets/fonts/. Sin Google Fonts ni CDN
+   (privacidad, rendimiento, cero dependencias de terceros).
+   font-display: swap evita el texto invisible durante la carga:
+   muestra el fallback declarado en tokens.css y cambia al
+   resolverse la fuente. */
 
 /* Geist — cuerpo de texto y UI (regular). */
 @font-face {
@@ -41,3 +87,297 @@
   font-display: swap;
   src: url('../fonts/instrument-serif-400-italic.woff2') format('woff2');
 }
+
+
+/* ─────────────────────────────────────────────────────────────
+   2. RESET CSS MODERNO Y MÍNIMO
+   ───────────────────────────────────────────────────────────── */
+
+/* Modelo de caja predecible en todo el árbol. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Reset de márgenes por defecto del navegador. */
+* {
+  margin: 0;
+}
+
+/* Medios responsivos: nunca desbordan su contenedor. */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* La imagen conserva su relación de aspecto al escalar. */
+img {
+  height: auto;
+}
+
+/* Los controles de formulario heredan la tipografía del documento
+   en lugar de la fuente del sistema impuesta por el navegador. */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+/* Foco visible solo para navegación por teclado.
+   Contraste del anillo: --color-primary sobre --color-bg ≈ 8.6:1
+   (supera el mínimo WCAG AA de 3:1 para componentes de interfaz). */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Sin anillo de foco para interacciones de puntero (mouse/touch). */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Respeta la preferencia del sistema de movimiento reducido:
+   neutraliza animaciones, transiciones y desplazamiento suave. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   3. ESTILOS BASE DEL DOCUMENTO
+   ───────────────────────────────────────────────────────────── */
+
+/* Documento: tipografía de cuerpo (Geist), tinta y fondo cálidos.
+   Contraste --color-ink sobre --color-bg ≈ 16:1 — supera WCAG AAA.
+   line-height relajado (1.75) para máxima legibilidad en prosa. */
+body {
+  font-family: var(--font-body);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+  color: var(--color-ink);
+  background-color: var(--color-bg);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Jerarquía tipográfica — escala definida en tokens.css.
+   H1 y H2 usan la familia display (Instrument Serif); H3 y H4 usan
+   la familia de cuerpo en peso medio, según indican los comentarios
+   de la escala en tokens.css (--text-h3 / --text-h4: «Font: body, 500»).
+   H5 y H6 no figuran en la escala formal del catálogo: se resuelven
+   con los escalones definidos más pequeños (--text-body / --text-small)
+   para no introducir valores hardcodeados. */
+h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-ink);
+}
+
+h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-ink);
+}
+
+h3 {
+  font-family: var(--font-body);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-snug);
+  color: var(--color-ink);
+}
+
+h4 {
+  font-family: var(--font-body);
+  font-size: var(--text-h4);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-normal);
+  color: var(--color-ink);
+}
+
+h5 {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-normal);
+  color: var(--color-ink);
+}
+
+h6 {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-normal);
+  color: var(--color-ink);
+}
+
+/* Elementos monoespaciados (Geist Mono): código y datos técnicos.
+   Las etiquetas mono de interfaz (.eyebrow, .caption) ya están
+   definidas en tokens.css con esta misma familia. */
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--font-mono);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   4. CONTENEDOR DE LAYOUT
+   ─────────────────────────────────────────────────────────────
+   .container — bloque centrado de ancho máximo con padding
+   lateral responsivo. Ancho máximo = var(--max-width) (1480 px),
+   verificado en tokens.css §LAYOUT y en FASE_1 §1.1 «Page
+   container».
+
+   Padding lateral (mobile-first, FASE_1 §1.1):
+     base (mobile ≤ 768 px): var(--space-5)        = 20 px
+     ≥ 768 px (desktop):     var(--page-padding-x) = 52 px
+   ───────────────────────────────────────────────────────────── */
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--space-5);
+}
+
+/* Tablet/desktop ≥ 768 px — padding lateral amplio.
+   768 px = breakpoint --bp-md de tokens.css (ver §5). */
+@media (min-width: 768px) {
+  .container {
+    padding-inline: var(--page-padding-x);
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   5. BREAKPOINTS (referencia)
+   ─────────────────────────────────────────────────────────────
+   Estrategia mobile-first: las reglas base aplican a móvil y los
+   @media (min-width: …) añaden complejidad progresivamente
+   (FASE_1 §12).
+
+   Los breakpoints están declarados en tokens.css §BREAKPOINTS
+   como valores de referencia. CSS no admite custom properties
+   dentro de una consulta @media, por lo que el valor numérico se
+   escribe literal en cada @media; ese literal SIEMPRE corresponde
+   a uno de estos tokens canónicos (no son valores arbitrarios):
+
+     --bp-sm   640 px   Teléfonos grandes / landscape
+     --bp-md   768 px   Tablet (base → desktop)        ← usado en §4
+     --bp-lg  1024 px   Laptop / desktop completo
+     --bp-xl  1280 px   Desktop ancho
+     --bp-2xl 1480 px   Pantallas anchas (= --max-width)
+
+   Breakpoints mobile-first requeridos por el proyecto:
+     base                Móvil  (reglas sin @media)
+     @media (min-width:  768px)  Tablet   → --bp-md
+     @media (min-width: 1024px)  Desktop  → --bp-lg
+
+   No se proponen tokens nuevos: los breakpoints ya existen en
+   tokens.css y la limitación de @media es propia de CSS.
+   ───────────────────────────────────────────────────────────── */
+
+
+/* ─────────────────────────────────────────────────────────────
+   6. CLASES UTILITARIAS ESENCIALES
+   ───────────────────────────────────────────────────────────── */
+
+/* .sr-only — contenido visible solo para lectores de pantalla.
+   Lo retira del flujo visual sin ocultarlo del árbol de
+   accesibilidad (no usar display:none ni visibility:hidden). */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* .skip-link — salto de accesibilidad al contenido principal
+   (FASE_1 §1.4). Oculto fuera de pantalla; al recibir foco por
+   teclado salta visible a la esquina superior izquierda.
+   Contraste --color-bg sobre --color-primary ≈ 10.7:1 — WCAG AAA. */
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: -9999px;
+  z-index: var(--z-toast);
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  color: var(--color-bg);
+  background-color: var(--color-primary);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: var(--space-2);
+  left: var(--space-2);
+}
+
+/* .divider — separador de secciones cuando el espaciado no basta
+   (FASE_1 §9.2). Línea horizontal con respiración de 48 px. */
+.divider {
+  border: 0;
+  border-top: 1px solid var(--color-rule);
+  margin-block: var(--space-12);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   7. ARQUITECTURA FUTURA
+   ─────────────────────────────────────────────────────────────
+   main.css es el punto de entrada CSS del sitio. A medida que la
+   Fase 2 avance, los estilos se dividirán en hojas por componente
+   y por página, importadas desde aquí.
+
+   Hojas de componente previstas (assets/css/):
+     navbar.css   Barra de navegación      (FASE_1 §1.2)
+     footer.css   Pie de página            (FASE_1 §1.3)
+     loader.css   Skeletons y estados de
+                  carga dinámica           (FASE_1 §10)
+
+   Hojas de página previstas (una por sección de primer nivel),
+   p. ej. home.css, gabinetes.css, recursos.css …
+
+   CÓMO ACTIVARLAS. Toda regla @import debe preceder a cualquier
+   otra regla del archivo; por eso los placeholders @import NO se
+   colocan aquí sino en §1 «Imports». Para incorporar una hoja
+   nueva, descomentar (o añadir) su línea @import en §1, respetando
+   el orden: componentes primero, páginas después.
+   ───────────────────────────────────────────────────────────── */
