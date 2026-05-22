@@ -1,0 +1,184 @@
+<!--
+================================================================
+AChETIQ — Esqueleto base HTML (boilerplate)
+Asociación Chaqueña de Estudiantes Tecnológicos de Ingeniería Química
+----------------------------------------------------------------
+Versión: 1.0 · Fase 2 — Desarrollo front-end
+Fundamento: FASE_1_Catalogo_Componentes.md §14 (próximos pasos, ítem 1)
+
+PROPÓSITO
+  Plantilla única reutilizable para TODAS las páginas del sitio:
+  las seis páginas de primer nivel en la raíz (index.html,
+  sobre-achetiq.html, gabinetes.html, actividades.html,
+  recursos-academicos.html, contacto.html) y las páginas hijas de
+  pages/gabinetes/ y pages/recursos/.
+
+CÓMO USAR
+  1. Copiar este archivo como base de una página nueva.
+  2. Reemplazar TODOS los marcadores «REEMPLAZAR: …» por el valor
+     real de la página. Cada uno está señalado con un comentario.
+  3. Borrar este bloque de comentarios de cabecera en la copia
+     final (es documentación de la plantilla, no de la página).
+  4. Escribir el contenido de la página dentro de <main>.
+
+SUPUESTO DE DESPLIEGUE — RUTAS ABSOLUTAS
+  Todas las rutas son absolutas desde la raíz del sitio («/…»).
+  Esto es necesario porque la plantilla se usa tanto en la raíz
+  como en subcarpetas (pages/gabinetes/, pages/recursos/), y una
+  ruta relativa se rompería al cambiar de profundidad.
+  Requiere que el sitio se sirva en la raíz de un dominio
+  (dominio personalizado, p. ej. achetiq.org.ar). Si en algún
+  momento se despliega bajo un subpath de GitHub Pages
+  (usuario.github.io/repo/), todas las rutas «/» necesitan el
+  prefijo del repositorio.
+
+CONVENCIÓN DE NOMBRE
+  Prefijo «_» (partials/_boilerplate.html): indica que es una
+  plantilla de referencia, no una página servible.
+================================================================
+-->
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+
+  <!-- Codificación y viewport — obligatorios, iguales en toda página. -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!--
+    TÍTULO — patrón fijo: «{Título de la página} · AChETIQ».
+    REEMPLAZAR: el título de la página antes de « · AChETIQ».
+    Ejemplos: «Inicio · AChETIQ» — «Sobre AChETIQ · AChETIQ»
+              «Gabinetes · AChETIQ» — «Contacto · AChETIQ».
+  -->
+  <title>REEMPLAZAR título de página · AChETIQ</title>
+
+  <!--
+    META DESCRIPTION — única por página (FASE_1 §7.5 SEO).
+    REEMPLAZAR: resumen de la página en ~150-160 caracteres,
+    tono formal académico, sin signos de exclamación.
+  -->
+  <meta name="description" content="REEMPLAZAR descripción única de esta página.">
+
+  <!-- ============================================================
+       FAVICON E ICONOS
+       Archivos ya existentes en la raíz del repositorio.
+       No requieren reemplazo: son los mismos en todas las páginas.
+       ============================================================ -->
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png"><!-- 180x180 -->
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#0D3B66"><!-- = var(--color-primary) -->
+
+  <!-- ============================================================
+       TIPOGRAFÍAS — AUTOALOJADAS (assets/fonts/)
+       Decisión: fuentes self-hosted (sin Google Fonts / CDN) para
+       privacidad, rendimiento y cero dependencias de terceros.
+
+       Las declaraciones @font-face viven en assets/css/main.css,
+       NO en este HTML. Cada @font-face debe incluir
+       «font-display: swap;». Archivos .woff2 esperados en
+       assets/fonts/ (pendiente: agregarlos al repositorio):
+
+         instrument-serif-400.woff2         (display, normal)
+         instrument-serif-400-italic.woff2  (display, itálica)
+         geist-400.woff2                    (cuerpo / UI, regular)
+         geist-500.woff2                    (cuerpo / UI, medium)
+         geist-mono-400.woff2               (mono, regular)
+         geist-mono-500.woff2               (mono, medium)
+
+       Familias y pesos definidos en tokens.css
+       (--font-display / --font-body / --font-mono; pesos 400 y 500).
+
+       PRECARGA: se precargan solo las dos fuentes críticas para el
+       primer render (cuerpo de texto y títulos display). Las demás
+       las resuelve el @font-face bajo demanda.
+       ============================================================ -->
+  <link rel="preload" href="/assets/fonts/geist-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/instrument-serif-400.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- ============================================================
+       HOJAS DE ESTILO
+       tokens.css primero (define las variables); main.css después.
+       ============================================================ -->
+  <link rel="stylesheet" href="/tokens.css">
+  <link rel="stylesheet" href="/assets/css/main.css">
+
+  <!-- ============================================================
+       OPEN GRAPH / TWITTER CARD — PLACEHOLDERS
+       Se completan en Fase 6 (SEO y metadatos sociales).
+       REEMPLAZAR por página: og:title, og:description, og:url.
+       og:image / twitter:image: imagen institucional a definir
+       en Fase 6 (FASE_1 §7.5). Mantener como placeholders hasta
+       entonces.
+       ============================================================ -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AChETIQ">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:title" content="REEMPLAZAR título para redes · AChETIQ">
+  <meta property="og:description" content="REEMPLAZAR descripción para redes.">
+  <meta property="og:url" content="REEMPLAZAR URL canónica absoluta de esta página">
+  <meta property="og:image" content="REEMPLAZAR URL de imagen institucional (Fase 6)">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="REEMPLAZAR título para redes · AChETIQ">
+  <meta name="twitter:description" content="REEMPLAZAR descripción para redes.">
+  <meta name="twitter:image" content="REEMPLAZAR URL de imagen institucional (Fase 6)">
+
+</head>
+<body>
+
+  <!--
+    SKIP-LINK — accesibilidad (FASE_1_Catalogo_Componentes.md §1.4).
+    Primer elemento del <body>, antes del navbar. Apunta al <main>.
+    No reemplazar: idéntico en todas las páginas.
+  -->
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+
+  <!--
+    NAVBAR — placeholder de carga dinámica (FASE_1 §1.2).
+    js/navbar.js reemplaza este nodo: carga partials/navbar.html y
+    configura los enlaces desde data/navbar.json.
+    No reemplazar: idéntico en todas las páginas.
+  -->
+  <div data-loader="navbar"></div>
+
+  <!--
+    MAIN — contenido principal de la página.
+    id="main-content" y tabindex="-1": destino del skip-link
+    (FASE_1 §1.4). class="page": contenedor de ancho máximo y
+    padding (FASE_1 §1.1, tokens.css).
+  -->
+  <main id="main-content" class="page" tabindex="-1">
+
+    <!-- ════════════════════════════════════════════════════════
+         REEMPLAZAR: aquí va el contenido propio de cada página.
+         Usar las secciones y componentes del catálogo
+         (FASE_1_Catalogo_Componentes.md). Respetar el tono formal
+         académico y la prohibición de signos de exclamación
+         (INSTRUCCION_PROYECTO.md §6).
+         ════════════════════════════════════════════════════════ -->
+
+  </main>
+
+  <!--
+    FOOTER — placeholder de carga dinámica.
+    El loader correspondiente inyecta partials/footer.html, cuyas
+    subsecciones data-loader="redes" e data-loader="instituciones"
+    se pueblan desde data/redes.json y data/instituciones.json
+    (FASE_1 §1.3).
+    No reemplazar: idéntico en todas las páginas.
+  -->
+  <div data-loader="footer"></div>
+
+  <!--
+    SCRIPTS — al final del <body>, como módulo ES (sin transpilación,
+    FASE_1 §7.2 / INSTRUCCION_PROYECTO §2.1).
+    main.js orquesta los loaders [data-loader] del documento.
+    No reemplazar: idéntico en todas las páginas.
+  -->
+  <script type="module" src="/assets/js/main.js"></script>
+
+</body>
+</html>
