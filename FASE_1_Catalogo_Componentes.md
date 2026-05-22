@@ -27,7 +27,7 @@ Este documento traduce los design tokens definidos en `tokens.css` a un conjunto
 
 **Aparición.** Envuelve el `<main>` de cada página HTML.
 
-**Especificación.** Definido en `tokens.css`. Ancho máximo 1480 px, padding horizontal 52 px (desktop), 20 px (mobile ≤ 768 px); padding vertical 44 px (desktop), 24 px (mobile).
+**Especificación.** Definido en `assets/css/main.css` (clase estructural; `tokens.css` queda reservado para variables). Ancho máximo 1480 px, padding horizontal 52 px (desktop), 20 px (mobile ≤ 768 px); padding vertical 44 px (desktop), 24 px (mobile).
 
 **HTML.**
 
@@ -51,7 +51,7 @@ Este documento traduce los design tokens definidos en `tokens.css` a un conjunto
 
 - Altura: 56–64 px.
 - Fondo: `var(--color-bg)` con alfa 0.92 y `backdrop-filter: blur(12px)`; fallback opaco mediante `@supports not (backdrop-filter: blur(...))`.
-- Borde inferior: 1 px `var(--color-border)`.
+- Borde inferior: 1 px `var(--color-rule)`.
 - Posición: `position: sticky; top: 0; z-index: var(--z-navbar)`.
 - Layout interno: flexbox con `justify-content: space-between`. Logo + wordmark a la izquierda, lista de enlaces + CTA a la derecha.
 
@@ -65,9 +65,9 @@ El placeholder es reemplazado por `js/navbar.js`, que carga `partials/navbar.htm
 
 **Variantes de enlace (modificadores de `.nav-link`).**
 
-- `.nav-link--ghost`: sin borde ni fondo. Hover: fondo `var(--color-panel)`, texto `var(--color-primary)`.
-- `.nav-link--outline`: borde 1 px `var(--color-border)`, fondo transparente.
-- `.nav-link--primary`: fondo `var(--color-primary)`, texto claro. Hover: fondo `var(--color-primary-light)`.
+- `.nav-link--ghost`: sin borde ni fondo. Hover: fondo `var(--color-bg-panel)`, texto `var(--color-primary)`.
+- `.nav-link--outline`: borde 1 px `var(--color-rule)`, fondo transparente.
+- `.nav-link--primary`: fondo `var(--color-primary)`, texto claro. Hover: fondo `var(--color-primary-mid)`.
 
 **Comportamiento de submenús (desktop ≥ 768 px).** El label permanece como `<a>` clickeable a la página general; el panel desplegable se abre únicamente por hover del mouse o focus del teclado (`:hover` + `:focus-within`). Chevron Lucide a la derecha del label, decorativo, rota 180° al abrir.
 
@@ -269,7 +269,7 @@ El placeholder es reemplazado por `js/navbar.js`, que carga `partials/navbar.htm
 
 - Layout: `display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-8)` en desktop; colapsa a una columna (`1fr`) en mobile.
 - Sin `<h2>` global encabezando el bloque; las etiquetas `Misión` y `Visión` actúan como rótulos internos. Decisión deliberada de simetría visual (sin jerarquía entre Misión y Visión).
-- Cada columna: borde lateral izquierdo de `3px solid var(--color-primary)`, fondo `var(--color-panel)`, padding `var(--space-6) var(--space-6) var(--space-6) var(--space-8)`, radio `var(--radius-md)`.
+- Cada columna: borde lateral izquierdo de `3px solid var(--color-primary)`, fondo `var(--color-bg-panel)`, padding `var(--space-6) var(--space-6) var(--space-6) var(--space-8)`, radio `var(--radius-md)`.
 - Etiqueta (`.mission-vision__label`): tipografía `Geist Mono`, uppercase, tracking-wider, 12 px, color `var(--color-primary)`, con ícono Lucide inline a la izquierda (16×16 px, `currentColor`).
 - Prose (`.mission-vision__prose`): tipografía body, 16 px, color `var(--color-ink-soft)`, ancho máximo 56ch.
 
@@ -322,9 +322,9 @@ El cuarto slot demuestra que el componente debe admitir valores no numéricos: e
 **Especificación visual.**
 
 - Layout: `display: grid; grid-template-columns: repeat(4, 1fr)` en desktop; colapsa a 2 columnas en tablet (`≤ 768 px`) y 2 columnas en mobile pequeño (`≤ 480 px`).
-- Fondo: `var(--color-panel)`; borde superior e inferior `1px solid var(--color-border)`; sin radios.
+- Fondo: `var(--color-bg-panel)`; borde superior e inferior `1px solid var(--color-rule)`; sin radios.
 - Padding vertical: `var(--space-10)` (40 px); padding horizontal según `.page`.
-- Separadores verticales entre ítems en desktop: `border-right: 1px solid var(--color-border)` excepto el último.
+- Separadores verticales entre ítems en desktop: `border-right: 1px solid var(--color-rule)` excepto el último.
 - Item (`.kpi-strip__item`): alineación centrada, padding `0 var(--space-6)`.
 - Valor numérico (`.kpi-strip__value`): tipografía `Instrument Serif`, 48 px en desktop, 36 px en mobile, color `var(--color-primary)`, peso normal. Permite prefijos como "+" y sufijos como "k", "%".
 - Modificador `.kpi-strip__item--text` para slots de valor textual (caso 4): reducir tamaño del valor a 24 px (desktop) / 20 px (mobile) y mantener la misma tipografía y color, para preservar coherencia tipográfica sin generar disonancia visual con los slots numéricos.
@@ -566,7 +566,7 @@ Ya definida en `tokens.css` (líneas 420-442). Sirve como base de las variantes 
 
 **Especificación visual.**
 
-- Borde `1px solid var(--color-border)`; radio `var(--radius-md)`; sin fondo (`background: transparent`, hereda `var(--color-bg)`).
+- Borde `1px solid var(--color-rule)`; radio `var(--radius-md)`; sin fondo (`background: transparent`, hereda `var(--color-bg)`).
 - Padding interno: `var(--space-5)` (20 px).
 - `min-height` uniforme entre tarjetas del grid (≈ 180 px) para evitar discrepancia visual cuando las descripciones varían en longitud. Valor exacto a ajustar en Fase 2 contra el texto definitivo.
 - Ícono: 28×28 px, color `var(--color-primary)`. Margen inferior `var(--space-3)`.
@@ -606,7 +606,7 @@ Ya definida en `tokens.css` (líneas 420-442). Sirve como base de las variantes 
 
 **Especificación visual.**
 
-- Borde `1px solid var(--color-border)`; radio `var(--radius-md)`; fondo `var(--color-panel)`.
+- Borde `1px solid var(--color-rule)`; radio `var(--radius-md)`; fondo `var(--color-bg-panel)`.
 - Padding generoso: `var(--space-8)` (32 px), para dar respiración al logo.
 - Layout interno vertical centrado: logo arriba, nombre al medio, link al pie.
 - Logo: altura fija ≈ 64 px, ancho `auto`, `object-fit: contain`. Sin manipulación de colores; el logo debe entregarse con fondo transparente.
@@ -617,7 +617,7 @@ Ya definida en `tokens.css` (líneas 420-442). Sirve como base de las variantes 
 
 **Carga dinámica.** Poblada vía `data-loader="instituciones"` desde `data/instituciones.json`.
 
-**Estado de assets (2026-05-20).** Los logos transparentes de UTN FRRe (`assets/img/institucional/utn-frre-logo.svg`) y ANEIQA (`assets/img/institucional/aneiqa-logo.svg`) están provistos y disponibles en el repositorio. Ambos son SVG con fondo transparente, compatibles con el fondo `var(--color-panel)` de la tarjeta. Pendiente menor (no bloqueante): optimización de los SVG (actualmente vectorizados a partir de bitmaps; ~30 KB cada uno) en una iteración post-despliegue.
+**Estado de assets (2026-05-20).** Los logos transparentes de UTN FRRe (`assets/img/institucional/utn-frre-logo.svg`) y ANEIQA (`assets/img/institucional/aneiqa-logo.svg`) están provistos y disponibles en el repositorio. Ambos son SVG con fondo transparente, compatibles con el fondo `var(--color-bg-panel)` de la tarjeta. Pendiente menor (no bloqueante): optimización de los SVG (actualmente vectorizados a partir de bitmaps; ~30 KB cada uno) en una iteración post-despliegue.
 
 ---
 
@@ -646,7 +646,7 @@ Ya definida en `tokens.css` (líneas 420-442). Sirve como base de las variantes 
 **Especificación visual.**
 
 - Tarjeta como elemento `<a>` para hacer toda la superficie clickeable (no envolver con `<a>` exterior).
-- Borde `1px solid var(--color-border)`; radio `var(--radius-md)`; fondo `var(--color-bg)`.
+- Borde `1px solid var(--color-rule)`; radio `var(--radius-md)`; fondo `var(--color-bg)`.
 - Layout interno: cover en la parte superior (aspecto 16:9 o 4:3, a definir contra wireframe), body debajo con padding `var(--space-4)`.
 - Cover (placeholder v1.0): fondo `var(--color-materia-anio-N)` donde `N ∈ {1,2,3,4,5}`, derivado del atributo `data-anio` mediante regla CSS:
 
@@ -708,7 +708,7 @@ Ya definida en `tokens.css` (líneas 420-442). Sirve como base de las variantes 
 **Especificación visual.**
 
 - Tarjeta como `<a>` en su forma activa (toda la superficie clickeable); como `<div>` en variante "Próximamente" (no interactiva).
-- Borde `1px solid var(--color-border)`; radio `var(--radius-md)`; fondo `var(--color-bg)`.
+- Borde `1px solid var(--color-rule)`; radio `var(--radius-md)`; fondo `var(--color-bg)`.
 - Padding interno: `var(--space-6)` (24 px).
 - Layout interno vertical: ícono arriba, eyebrow, valor; opcionalmente badge en variante "Próximamente".
 - Ícono: 28×28 px, color `var(--color-primary)`, margen inferior `var(--space-3)`.
@@ -718,7 +718,7 @@ Ya definida en `tokens.css` (líneas 420-442). Sirve como base de las variantes 
 
 **Estados.**
 
-- Hover (variante activa): borde se intensifica a `var(--color-primary)`; ícono cambia a `var(--color-primary-light)`. Transición `var(--transition-fast)`.
+- Hover (variante activa): borde se intensifica a `var(--color-primary)`; ícono cambia a `var(--color-primary-mid)`. Transición `var(--transition-fast)`.
 - Variante "Próximamente": opacidad global 0.7, cursor `default`, sin hover.
 
 **Carga dinámica.** Las cuatro tarjetas se generan desde `data/redes.json`. Solo se renderizan canales con campo `valor` no nulo, excepto LinkedIn que se renderiza siempre en variante "Próximamente" hasta que el campo deje de ser `null`.
@@ -828,7 +828,7 @@ Ya definida en `tokens.css` (líneas 420-442). Sirve como base de las variantes 
 
 **Especificación visual.**
 
-- Borde `1px solid var(--color-border)`; radio `var(--radius-md)`; fondo `var(--color-panel)`.
+- Borde `1px solid var(--color-rule)`; radio `var(--radius-md)`; fondo `var(--color-bg-panel)`.
 - Padding interno: `var(--space-6)` (24 px).
 - Layout interno: en desktop, ícono a la izquierda (48×48 px), body al centro (`flex: 1`), acción al pie del body o a la derecha; en mobile, vertical apilado.
 - Ícono: 32×32 px, color `var(--color-primary)`.
@@ -876,7 +876,7 @@ Ya definida en `tokens.css` (líneas 420-442). Sirve como base de las variantes 
 
 **Especificación visual.**
 
-- Línea vertical continua `1px solid var(--color-border)` recorre el eje izquierdo del bloque (en desktop). Decisión de eje centrado vs lateral en mobile a confirmar en Fase 2.
+- Línea vertical continua `1px solid var(--color-rule)` recorre el eje izquierdo del bloque (en desktop). Decisión de eje centrado vs lateral en mobile a confirmar en Fase 2.
 - Cada entrada: `display: grid; grid-template-columns: 48px 1fr; gap: var(--space-5)`.
 - Marker: círculo de 32×32 px, fondo `var(--color-bg)`, borde `2px solid var(--color-primary)`, posicionado sobre la línea vertical para taparla. Ícono Lucide centrado, 16×16 px, color `var(--color-primary)`.
 - Entrada ghost (`--ghost`): marker con `border-style: dashed` y `opacity: 0.6`; contenido con color `var(--color-ink-faint)` y `font-style: italic` en `__desc`.

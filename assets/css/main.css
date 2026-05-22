@@ -253,13 +253,9 @@ pre {
    ─────────────────────────────────────────────────────────────
    .page — contenedor global centrado de ancho máximo. Envuelve
    el <main> de cada página (ver partials/_boilerplate.html y
-   FASE_1 §1.1 «Page container»).
-
-   El catálogo designa tokens.css como hogar canónico de .page;
-   esta regla lo refleja de forma IDÉNTICA para que main.css siga
-   siendo una hoja raíz autocontenida. Ambas definiciones deben
-   mantenerse en sincronía (o consolidarse en una sola más
-   adelante).
+   FASE_1 §1.1 «Page container»). Definido aquí: tokens.css queda
+   reservado para variables; las clases estructurales viven en
+   main.css.
 
    Mobile-first (FASE_1 §1.1):
      Ancho máximo:     var(--max-width)        = 1480 px
