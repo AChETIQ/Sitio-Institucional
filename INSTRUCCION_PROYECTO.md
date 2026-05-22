@@ -68,7 +68,7 @@ Migrar el sitio web institucional desde **Wix** hacia una plataforma propia desp
 - **Geist Mono** — etiquetas técnicas, fechas, datos tabulares.
 
 ### 3.3. Colores del isotipo (logo)
-Verificados contra el SVG real (`img/logo/achetiq-logo.svg`, 2026-05-08):
+Verificados contra el SVG real (`assets/img/logo/achetiq-logo.svg`, 2026-05-08):
 - Grilla: `#A3A6AA` / `#B6B9BD`
 - Tipografía/bordes del logo: `#000000`
 - Cuadrado azul: `#77A8C9`

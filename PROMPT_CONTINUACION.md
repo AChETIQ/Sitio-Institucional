@@ -81,7 +81,7 @@ Soy Lautaro R. Zalazar, estudiante de Ingeniería Química en UTN FRRe y Proteso
 ## PENDIENTES RECURRENTES DEL SITIO
 
 - ~~Comprimir `docs/Estatuto.pdf` (6.7 MB)~~ — **RESUELTO 2026-05-20** (nuevo peso 3.12 MB; reducción del 55.1%; 19 páginas conservadas; `data/documentos.json` actualizado con `tamano_kb: 3045`).
-- ~~Logos UTN FRRe y ANEIQA con fondo transparente~~ — **RESUELTO 2026-05-20** (`img/institucional/utn-frre-logo.svg` y `img/institucional/aneiqa-logo.svg`). Bloqueo del Bloque 5 de Sobre AChETIQ levantado. Pendiente menor (no bloqueante): optimización post-despliegue de los SVG vectorizados.
+- ~~Logos UTN FRRe y ANEIQA con fondo transparente~~ — **RESUELTO 2026-05-20** (`assets/img/institucional/utn-frre-logo.svg` y `assets/img/institucional/aneiqa-logo.svg`). Bloqueo del Bloque 5 de Sobre AChETIQ levantado. Pendiente menor (no bloqueante): optimización post-despliegue de los SVG vectorizados.
 - ⚠ Valores institucionales pendientes de aprobación por comisión directiva.
 - ⚠ Selección de íconos Lucide para cada hito de la timeline (data ya completa 2003–2026 en `data/historia.json`) y verificar disponibilidad de `telescope` / `heart-handshake`.
 - ⚠ Fotos y descripciones de los 4 eventos de la galería (2 congresos IQ 2024/2025 + 2 actividades a definir).
@@ -115,7 +115,7 @@ Soy Lautaro R. Zalazar, estudiante de Ingeniería Química en UTN FRRe y Proteso
 
 ### 1. Cuenta regresiva — Recursos Académicos
 - **Propósito:** habilitar la sección de Recursos 20 días después del lanzamiento; hasta entonces muestra un contador.
-- **Archivos:** `_includes/countdown-recursos.html`, `assets/css/countdown-recursos.css`, `assets/js/countdown-recursos.js`.
+- **Archivos:** `partials/countdown-recursos.html`, `assets/css/countdown-recursos.css`, `assets/js/countdown-recursos.js`.
 - **Decisiones:** fecha objetivo por atributo `data-target-date` (ISO 8601, se fija el día del lanzamiento); al expirar oculta el contador y **revela automáticamente** el contenido de `[data-countdown-revealed]` (evento `countdown:revealed`); **sin botones**; unidades Días/Horas/Minutos/Segundos; dígitos en `--color-primary`.
 - **Pendiente:** fijar fecha real de apertura (placeholder `2026-06-09`) y nombre del include de contenido a revelar (placeholder `recursos-grid.html`).
 
@@ -132,3 +132,26 @@ Soy Lautaro R. Zalazar, estudiante de Ingeniería Química en UTN FRRe y Proteso
 - 404 con navbar + footer: pospuesto a Fase 2 (cuando existan esos includes).
 - Definir fecha de apertura de Recursos y el include de contenido a revelar.
 - Implementar el spinner en código cuando arranque Fase 2.
+
+---
+
+## SESIÓN 2026-05-22 — Reconciliación de la estructura de directorios
+
+> El repositorio conservaba andamiaje residual de tipo Jekyll que contradecía el
+> stack vanilla definitivo (`INSTRUCCION_PROYECTO.md §2`). Se reconcilió la
+> estructura a un árbol vanilla puro, preservando los componentes de Fase 2 ya
+> anticipados.
+
+### Inventario de carpetas Jekyll
+- De las cinco carpetas Jekyll posibles (`_includes/`, `_layouts/`, `_collections/`, `_data/`, `_posts/`), **solo existía `_includes/`**; las otras cuatro nunca se crearon.
+- `_includes/` contenía un único archivo útil: `countdown-recursos.html` (cuenta regresiva de Recursos), escrito con sintaxis Liquid.
+
+### Cambios aplicados
+- **Migración del countdown:** `_includes/countdown-recursos.html` → `partials/countdown-recursos.html`. Se convirtió la sintaxis Liquid a HTML vanilla: `{%- comment -%}` → comentarios HTML; `data-target-date` fijado al placeholder `2026-06-09T00:00:00-03:00`; se eliminó el bloque `{% include %}` (el slot `[data-countdown-revealed]` queda vacío, a poblar en Fase 2); encabezado de uso reescrito para inyección vía `fetch()`. El CSS y el JS ya eran vanilla y no se movieron.
+- **Consolidación de imágenes:** `img/logo/` e `img/institucional/` → `assets/img/`. La carpeta `img/` de la raíz se eliminó. Se actualizó la ruta funcional en `data/instituciones.json` y se barrieron las referencias `img/` en la documentación (FASE_0, FASE_1_Wireframes, FASE_1_Catalogo_Componentes, README, INVENTARIO, INSTRUCCION_PROYECTO, `content/analisis_logo.md`, PROMPT_CONTINUACION, PLAN_MAESTRO L192/L308). No se tocó el prompt citado en PLAN_MAESTRO L105 (registro literal de esta consigna).
+- **Carpetas de detalle:** se crearon `pages/gabinetes/` y `pages/recursos/` (con `.gitkeep`); las plantillas se desarrollarán en sesión separada.
+- **Eliminación de Jekyll:** se borró `_includes/` (vacío tras la migración).
+- **Documentación:** `FASE_0_Arquitectura.md §5` reescrito con el árbol vanilla reconciliado, con nota de reconciliación fechada.
+
+### Pendiente abierto / a confirmar por la directiva
+- ⚠ Contradicción a resolver: `INSTRUCCION_PROYECTO.md §4.2` define las plantillas de detalle como archivos únicos con query param (`pages/gabinete.html?id=<slug>`), mientras que la estructura adoptada usa carpetas `pages/gabinetes/` y `pages/recursos/`. Conviene alinear ambos documentos al cerrar las plantillas de detalle.

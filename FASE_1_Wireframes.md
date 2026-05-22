@@ -144,7 +144,7 @@ Este documento especifica la **composición vertical** de las cinco páginas pri
 │          "tipo": "congreso",                                │
 │          "titulo": "...",                                   │
 │          "descripcion": "...",                              │
-│          "fotos": ["img/galeria/...", ...] }]               │
+│          "fotos": ["assets/img/galeria/...", ...] }]        │
 │                                                             │
 │     Layout desktop: evento como fila — descripción izq,    │
 │     grid de fotos der. Mobile: descripción arriba,          │
@@ -744,7 +744,7 @@ Con este documento, los tres bloqueantes de la Fase 1 están resueltos:
 | Bloqueante | Estado |
 |---|---|
 | #1 Wireframes de páginas clave | ✅ Resuelto en este documento (5 páginas + 2 plantillas) |
-| #2 Logo SVG vectorial | ✅ Resuelto (`img/logo/achetiq-logo.svg`) |
+| #2 Logo SVG vectorial | ✅ Resuelto (`assets/img/logo/achetiq-logo.svg`) |
 | #3 Catálogo de componentes | ✅ Resuelto (`FASE_1_Catalogo_Componentes.md`) |
 
 **Pendientes menores de Fase 1, no bloqueantes para iniciar Fase 2:**

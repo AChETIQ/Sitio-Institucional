@@ -96,7 +96,7 @@ El placeholder es reemplazado por `js/navbar.js`, que carga `partials/navbar.htm
 <footer class="footer">
   <div class="footer__inner">
     <div class="footer__col footer__col--brand">
-      <img src="/img/logo/achetiq-logo.svg" alt="AChETIQ" class="footer__logo">
+      <img src="/assets/img/logo/achetiq-logo.svg" alt="AChETIQ" class="footer__logo">
       <p class="footer__tagline">Asociación Chaqueña de Estudiantes de Ingeniería Química</p>
     </div>
     <div class="footer__col">
@@ -435,7 +435,7 @@ Ya definida en `tokens.css` (líneas 420-442). Sirve como base de las variantes 
 ```html
 <article class="card-integrante">
   <div class="card-integrante__photo">
-    <img src="/img/directiva/dafne-ritterband.jpg" alt="" loading="lazy">
+    <img src="/assets/img/directiva/dafne-ritterband.jpg" alt="" loading="lazy">
     <!-- alt vacío porque el nombre está justo debajo (decisión de a11y: evita redundancia) -->
   </div>
   <h3 class="card-integrante__name">Dafne Ritterband</h3>
@@ -462,7 +462,7 @@ Ya definida en `tokens.css` (líneas 420-442). Sirve como base de las variantes 
 ```html
 <article class="card card-noticia">
   <a class="card-noticia__cover-link" href="/pages/noticia.html?slug=jornadas-2026">
-    <img class="card-noticia__cover" src="/img/eventos/jornadas-2026.jpg" alt="" loading="lazy">
+    <img class="card-noticia__cover" src="/assets/img/eventos/jornadas-2026.jpg" alt="" loading="lazy">
   </a>
   <div class="card-noticia__body">
     <p class="eyebrow card-noticia__category">Eventos</p>
@@ -592,7 +592,7 @@ Ya definida en `tokens.css` (líneas 420-442). Sirve como base de las variantes 
 ```html
 <article class="card card-institucion">
   <img class="card-institucion__logo"
-       src="/img/institucional/utn-frre-logo.svg"
+       src="/assets/img/institucional/utn-frre-logo.svg"
        alt="Logo UTN Facultad Regional Resistencia"
        loading="lazy">
   <h3 class="card-institucion__name">UTN — Facultad Regional Resistencia</h3>
@@ -617,7 +617,7 @@ Ya definida en `tokens.css` (líneas 420-442). Sirve como base de las variantes 
 
 **Carga dinámica.** Poblada vía `data-loader="instituciones"` desde `data/instituciones.json`.
 
-**Estado de assets (2026-05-20).** Los logos transparentes de UTN FRRe (`img/institucional/utn-frre-logo.svg`) y ANEIQA (`img/institucional/aneiqa-logo.svg`) están provistos y disponibles en el repositorio. Ambos son SVG con fondo transparente, compatibles con el fondo `var(--color-panel)` de la tarjeta. Pendiente menor (no bloqueante): optimización de los SVG (actualmente vectorizados a partir de bitmaps; ~30 KB cada uno) en una iteración post-despliegue.
+**Estado de assets (2026-05-20).** Los logos transparentes de UTN FRRe (`assets/img/institucional/utn-frre-logo.svg`) y ANEIQA (`assets/img/institucional/aneiqa-logo.svg`) están provistos y disponibles en el repositorio. Ambos son SVG con fondo transparente, compatibles con el fondo `var(--color-panel)` de la tarjeta. Pendiente menor (no bloqueante): optimización de los SVG (actualmente vectorizados a partir de bitmaps; ~30 KB cada uno) en una iteración post-despliegue.
 
 ---
 
@@ -915,7 +915,7 @@ Ya definida en `tokens.css` (líneas 420-442). Sirve como base de las variantes 
     </header>
     <div class="gallery-events__grid">
       <figure class="gallery-events__figure">
-        <img src="/img/galeria/coneiq-2024/01.jpg"
+        <img src="/assets/img/galeria/coneiq-2024/01.jpg"
              alt="Acto de apertura del XXVII CoNEIQ"
              loading="lazy">
         <figcaption class="caption">Acto de apertura.</figcaption>

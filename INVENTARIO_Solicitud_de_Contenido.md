@@ -208,11 +208,11 @@ Documento PDF del estatuto oficial de la asociación para ofrecer como descarga.
 
 | Bloque | Sección | Estado | Prioridad |
 |---|---|---|---|
-| 1 | Logo | ✅ Recibido — SVG en `img/logo/achetiq-logo.svg` (2026-05-08) + 2 variantes PNG | ⭐ Bloqueante |
+| 1 | Logo | ✅ Recibido — SVG en `assets/img/logo/achetiq-logo.svg` (2026-05-08) + 2 variantes PNG | ⭐ Bloqueante |
 | 1 | Misión y visión | ✅ Recibida — en `content/mision_vision.txt` (incluye valores y objetivos) | ⭐ Bloqueante |
 | 1 | Historia | ✅ Recibida — depurada en `content/historia.txt` | Media |
 | 1 | Redes y contacto | ✅ Completo — Instagram, email, dirección, web UTN FRRe en `data/redes.json` | ⭐ Bloqueante |
-| — | Instituciones vinculadas | ✅ UTN FRRe + ANEIQA en `data/instituciones.json` (logos PNG recibidos, a copiar a `img/institucional/`) | — |
+| — | Instituciones vinculadas | ✅ UTN FRRe + ANEIQA en `data/instituciones.json` (logos PNG recibidos, a copiar a `assets/img/institucional/`) | — |
 | 2 | Comisión directiva (datos) | ✅ Recibida — en `data/directiva.json` (fotos pendientes) | ⭐ Bloqueante |
 | 2 | Fotos directiva | 🔲 Pendiente | Media |
 | 3 | Gabinetes | ✅ Recibidos — 4 gabinetes en `data/gabinetes.json` | ⭐ Bloqueante |

@@ -1,41 +1,47 @@
-{%- comment -%}
+<!--
 ============================================================
-AChETIQ — Include: Cuenta regresiva de Recursos Académicos
+AChETIQ — Partial: Cuenta regresiva de Recursos Académicos
 Bloque BEM: .countdown
 ------------------------------------------------------------
 Habilita la sección de Recursos Académicos de forma automática
 20 días después del lanzamiento. Hasta entonces muestra una
 cuenta regresiva; al expirar revela el contenido real.
 
-PARÁMETROS
-  target_date     (obligatorio) Fecha/hora de apertura en ISO 8601.
-                  Ej.: "2026-06-09T00:00:00-03:00"
-                  Fijar el día del lanzamiento (lanzamiento + 20 días).
-  reveal_include  (opcional) Nombre de otro include que se renderiza
-                  dentro del slot revelado. Ej.: "recursos-grid.html"
+INTEGRACIÓN (stack vanilla)
+  Fragmento HTML pensado para inyectarse en una página vía
+  fetch(). Ejemplo de patrón:
 
-USO BÁSICO
-  {% include countdown-recursos.html target_date="2026-06-09T00:00:00-03:00" %}
+    fetch("partials/countdown-recursos.html")
+      .then(function (r) { return r.text(); })
+      .then(function (html) {
+        document.querySelector("[data-loader='countdown']").innerHTML = html;
+      });
 
-USO CON CONTENIDO A REVELAR
-  {% include countdown-recursos.html
-       target_date="2026-06-09T00:00:00-03:00"
-       reveal_include="recursos-grid.html" %}
+  Requiere, en la página contenedora:
+    <link rel="stylesheet" href="assets/css/countdown-recursos.css">
+    <script src="assets/js/countdown-recursos.js"></script>
 
-Si se prefiere colocar el contenido a revelar directamente en la
-página (en vez de un include), envolverlo en un elemento con el
-atributo data-countdown-revealed dentro de este mismo .countdown.
+PARÁMETRO
+  data-target-date  (obligatorio) Fecha/hora de apertura en ISO 8601
+                    sobre el contenedor [data-countdown].
+                    Placeholder actual: 2026-06-09T00:00:00-03:00
+                    Fijar el día del lanzamiento (lanzamiento + 20 días).
+
+CONTENIDO A REVELAR
+  Colocar el contenido real dentro del elemento con el atributo
+  data-countdown-revealed. Al expirar la cuenta, el JS quita su
+  atributo [hidden] y emite el evento "countdown:revealed".
 ============================================================
-{%- endcomment -%}
+-->
 
-<section class="countdown" data-countdown data-target-date="{{ include.target_date }}">
+<section class="countdown" data-countdown data-target-date="2026-06-09T00:00:00-03:00">
 
   <div class="countdown__backdrop" aria-hidden="true">
     <span class="countdown__glow countdown__glow--primary"></span>
     <span class="countdown__glow countdown__glow--sand"></span>
   </div>
 
-  {%- comment -%} ── Estado de espera (cuenta regresiva) ── {%- endcomment -%}
+  <!-- ── Estado de espera (cuenta regresiva) ── -->
   <div class="countdown__pending" data-countdown-pending>
     <div class="countdown__panel">
 
@@ -106,11 +112,7 @@ atributo data-countdown-revealed dentro de este mismo .countdown.
     </div>
   </div>
 
-  {%- comment -%} ── Contenido a revelar al expirar ── {%- endcomment -%}
-  <div class="countdown__content" data-countdown-revealed hidden>
-    {%- if include.reveal_include -%}
-      {% include {{ include.reveal_include }} %}
-    {%- endif -%}
-  </div>
+  <!-- ── Contenido a revelar al expirar ── -->
+  <div class="countdown__content" data-countdown-revealed hidden></div>
 
 </section>
