@@ -175,13 +175,22 @@ CONVENCIÓN DE NOMBRE
 
   <!--
     FOOTER — placeholder de carga dinámica.
-    El loader correspondiente inyecta partials/footer.html, cuyas
-    subsecciones data-loader="redes" e data-loader="instituciones"
-    se pueblan desde data/redes.json y data/instituciones.json
-    (FASE_1 §1.3).
+    assets/js/footer.js reemplaza este nodo: carga partials/footer.html y
+    pobla los items de contacto e iconos de redes desde data/redes.json,
+    además de inyectar el año dinámico en la línea legal (FASE_1 §1.3).
+    El <noscript> garantiza un pie mínimo (línea legal) si el navegador
+    tiene JS deshabilitado.
     No reemplazar: idéntico en todas las páginas.
   -->
-  <div data-loader="footer"></div>
+  <div data-loader="footer">
+    <noscript>
+      <footer class="footer-fallback" role="contentinfo">
+        <div class="footer-fallback__inner">
+          <p>© 2026 Asociación Chaqueña de Estudiantes Tecnológicos de Ingeniería Química · UTN FRRe</p>
+        </div>
+      </footer>
+    </noscript>
+  </div>
 
   <!--
     LOADER GLOBAL — overlay «Bouncing Dots» (assets/css/loader.css).
@@ -214,6 +223,7 @@ CONVENCIÓN DE NOMBRE
   -->
   <script src="/assets/js/loader.js"></script>
   <script src="/assets/js/navbar.js"></script>
+  <script src="/assets/js/footer.js"></script>
   <script type="module" src="/assets/js/main.js"></script>
 
 </body>

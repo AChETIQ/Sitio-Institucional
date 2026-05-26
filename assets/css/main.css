@@ -49,7 +49,7 @@
 /* Placeholders de componentes futuros — descomentar al crearlos.
    Ubicación correcta (antes de @font-face y del resto de reglas). */
 @import url('navbar.css');
-/* @import url('footer.css'); */
+@import url('footer.css');
 @import url('loader.css');
 
 

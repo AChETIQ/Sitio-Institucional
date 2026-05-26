@@ -1,0 +1,356 @@
+/* ============================================================
+   AChETIQ — Footer (componente)
+   ------------------------------------------------------------
+   Versión: 1.0 · Fase 2 — Desarrollo front-end
+   Fundamento: FASE_1_Catalogo_Componentes.md §1.3
+               (con desviación deliberada — ver nota de fondo).
+
+   Importado desde assets/css/main.css §1.
+
+   Decisión de fondo (2026-05-26): el §1.3 del catálogo prescribe
+   fondo neutro con separación por borde. Para esta v1.0 se eligió
+   `var(--color-primary)` como cierre institucional contundente.
+   Contraste --color-bg sobre --color-primary ≈ 10.7:1 (WCAG AAA).
+
+   Tokens usados (tokens.css):
+     --color-primary, --color-primary-mid, --color-bg, --color-bg-panel,
+     --color-ink-faint, --color-rule, --font-body, --font-mono,
+     --text-body, --text-small, --text-eyebrow, --text-caption,
+     --weight-medium, --tracking-wider, --tracking-wide, --tracking-tight,
+     --leading-snug, --leading-relaxed, --space-*, --radius-md,
+     --max-width, --page-padding-x, --transition-fast.
+
+   Mobile-first: 1 columna base; @media (min-width: 640px) 2 columnas;
+   @media (min-width: 1024px) 4 columnas con la columna identidad
+   ocupando proporcionalmente más espacio.
+   ============================================================ */
+
+
+/* ─────────────────────────────────────────────────────────────
+   1. ESCAPE DE PALETA LOCAL
+   Aliases para no repetir el cálculo de tintas crema con alfa.
+   Solo viven dentro del footer (scope vía custom properties).
+   ───────────────────────────────────────────────────────────── */
+
+.footer {
+  --footer-ink:        var(--color-bg);
+  --footer-ink-soft:   color-mix(in srgb, var(--color-bg) 78%, transparent);
+  --footer-ink-faint:  color-mix(in srgb, var(--color-bg) 60%, transparent);
+  --footer-rule:       color-mix(in srgb, var(--color-bg) 18%, transparent);
+  --footer-rule-soft:  color-mix(in srgb, var(--color-bg) 10%, transparent);
+  --footer-bg-hover:   color-mix(in srgb, var(--color-bg) 10%, transparent);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   2. CONTENEDOR
+   ───────────────────────────────────────────────────────────── */
+
+.footer {
+  background-color: var(--color-primary);
+  color: var(--footer-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  line-height: var(--leading-relaxed);
+  margin-top: var(--space-16);
+}
+
+.footer__inner {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--space-5);
+  padding-block: var(--space-12);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-10);
+}
+
+@media (min-width: 640px) {
+  .footer__inner {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-10) var(--space-8);
+  }
+}
+
+@media (min-width: 1024px) {
+  .footer__inner {
+    grid-template-columns: 1.6fr 1fr 1.4fr 1fr;
+    gap: var(--space-12) var(--space-10);
+    padding-inline: var(--page-padding-x);
+    padding-block: var(--space-16);
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   3. COLUMNAS
+   ───────────────────────────────────────────────────────────── */
+
+.footer__col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.footer__col--brand {
+  gap: var(--space-3);
+}
+
+
+/* ─── 3.1 Identidad ────────────────────────────────────────── */
+
+.footer__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--footer-ink);
+  text-decoration: none;
+  transition: opacity var(--transition-fast);
+}
+
+.footer__brand:hover {
+  opacity: 0.85;
+  color: var(--footer-ink);
+}
+
+.footer__logo {
+  width: 40px;
+  height: 40px;
+  display: block;
+}
+
+.footer__wordmark {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: var(--weight-regular);
+  line-height: 1;
+  letter-spacing: var(--tracking-tight);
+}
+
+.footer__legal-name {
+  color: var(--footer-ink-soft);
+  font-size: var(--text-small);
+  line-height: var(--leading-snug);
+  max-width: 32ch;
+  margin: 0;
+}
+
+
+/* ─── 3.2 Encabezados de columna ───────────────────────────── */
+
+.footer__heading {
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--footer-ink-faint);
+  margin: 0 0 var(--space-2);
+  line-height: 1.4;
+}
+
+
+/* ─── 3.3 Listas de enlaces ────────────────────────────────── */
+
+.footer__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.footer__link,
+.footer__contact-link {
+  color: var(--footer-ink-soft);
+  text-decoration: none;
+  font-size: var(--text-small);
+  transition: color var(--transition-fast);
+  border-radius: var(--radius-md);
+}
+
+.footer__link:hover,
+.footer__contact-link:hover {
+  color: var(--footer-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+
+/* ─── 3.4 Items de contacto (icono + texto/enlace) ─────────── */
+
+.footer__list--contact {
+  gap: var(--space-3);
+}
+
+.footer__contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.footer__contact-icon {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  color: var(--footer-ink-faint);
+}
+
+.footer__contact-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.footer__contact-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.footer__contact-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--tracking-wide);
+  color: var(--footer-ink-faint);
+  text-transform: none;
+}
+
+.footer__contact-value,
+.footer__contact-link {
+  font-size: var(--text-small);
+  color: var(--footer-ink-soft);
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+  line-height: var(--leading-snug);
+}
+
+.footer__contact-value {
+  margin: 0;
+}
+
+
+/* ─── 3.5 Redes sociales ───────────────────────────────────── */
+
+.footer__social {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.footer__social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--footer-rule);
+  color: var(--footer-ink-soft);
+  background: transparent;
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast),
+    border-color var(--transition-fast);
+  text-decoration: none;
+}
+
+.footer__social-link:hover {
+  background-color: var(--footer-bg-hover);
+  border-color: var(--footer-ink-soft);
+  color: var(--footer-ink);
+}
+
+.footer__social-link svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   4. LÍNEA LEGAL INFERIOR
+   ───────────────────────────────────────────────────────────── */
+
+.footer__bottom {
+  border-top: 1px solid var(--footer-rule);
+}
+
+.footer__legal {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding-inline: var(--space-5);
+  padding-block: var(--space-5);
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  letter-spacing: var(--tracking-wide);
+  color: var(--footer-ink-faint);
+  text-align: center;
+  line-height: var(--leading-snug);
+}
+
+@media (min-width: 1024px) {
+  .footer__legal {
+    padding-inline: var(--page-padding-x);
+    text-align: left;
+  }
+}
+
+.footer__legal-sep {
+  display: inline-block;
+  margin-inline: var(--space-2);
+  color: var(--footer-rule);
+}
+
+.footer__faculty {
+  white-space: nowrap;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   5. FOCUS RING — sobre fondo oscuro
+   El anillo global usa --color-primary, invisible aquí. Se
+   sustituye por el crema del propio footer.
+   ───────────────────────────────────────────────────────────── */
+
+.footer a:focus-visible,
+.footer button:focus-visible {
+  outline: 2px solid var(--footer-ink);
+  outline-offset: 2px;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   6. FALLBACK MÍNIMO
+   Render usado cuando fetch del partial o del JSON falla.
+   ───────────────────────────────────────────────────────────── */
+
+.footer-fallback {
+  background-color: var(--color-primary);
+  color: var(--color-bg);
+  margin-top: var(--space-16);
+  padding-block: var(--space-8);
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  letter-spacing: var(--tracking-wide);
+}
+
+.footer-fallback__inner {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--space-5);
+}

@@ -1,0 +1,72 @@
+<!--
+================================================================
+AChETIQ — Footer (markup base)
+Componente: FASE_1_Catalogo_Componentes.md §1.3
+Versión: 1.0 · Fase 2 — Desarrollo front-end
+
+Este partial se carga por fetch desde assets/js/footer.js y se
+inyecta en el placeholder <div data-loader="footer"></div> de
+cada página. Los datos de contacto y redes sociales se pueblan
+dinámicamente desde data/redes.json; el año del aviso legal se
+recalcula en cliente con Date.getFullYear().
+
+Estructura semántica:
+  <footer class="footer" role="contentinfo">
+    <div class="footer__inner"> 4 columnas en desktop · 1 mobile
+    <div class="footer__bottom"> línea legal
+  </footer>
+================================================================
+-->
+<footer class="footer" role="contentinfo" data-footer-root>
+  <div class="footer__inner">
+
+    <!-- Columna 1 · Identidad institucional -->
+    <div class="footer__col footer__col--brand">
+      <a class="footer__brand" href="/index.html" aria-label="AChETIQ — Inicio">
+        <img class="footer__logo"
+             src="/assets/img/logo/achetiq-logo.svg"
+             alt=""
+             width="48"
+             height="48"
+             aria-hidden="true">
+        <span class="footer__wordmark">AChETIQ</span>
+      </a>
+      <p class="footer__legal-name">
+        Asociación Chaqueña de Estudiantes Tecnológicos de Ingeniería Química
+      </p>
+    </div>
+
+    <!-- Columna 2 · Navegación secundaria -->
+    <nav class="footer__col" aria-label="Navegación de pie de página">
+      <h4 class="footer__heading">Navegación</h4>
+      <ul class="footer__list" role="list">
+        <li><a class="footer__link" href="/index.html">Inicio</a></li>
+        <li><a class="footer__link" href="/pages/sobre-achetiq.html">Sobre AChETIQ</a></li>
+        <li><a class="footer__link" href="/pages/gabinetes.html">Gabinetes</a></li>
+        <li><a class="footer__link" href="/pages/recursos.html">Recursos Académicos</a></li>
+        <li><a class="footer__link" href="/pages/contacto.html">Contacto</a></li>
+      </ul>
+    </nav>
+
+    <!-- Columna 3 · Contacto (poblada desde data/redes.json) -->
+    <div class="footer__col">
+      <h4 class="footer__heading">Contacto</h4>
+      <ul class="footer__list footer__list--contact" role="list" data-footer-contact></ul>
+    </div>
+
+    <!-- Columna 4 · Redes sociales (poblada desde data/redes.json) -->
+    <div class="footer__col">
+      <h4 class="footer__heading">Redes sociales</h4>
+      <ul class="footer__social" role="list" data-footer-social></ul>
+    </div>
+
+  </div>
+
+  <div class="footer__bottom">
+    <p class="footer__legal">
+      © <span data-footer-year>2026</span> Asociación Chaqueña de Estudiantes Tecnológicos de Ingeniería Química
+      <span class="footer__legal-sep" aria-hidden="true">·</span>
+      <span class="footer__faculty">UTN FRRe</span>
+    </p>
+  </div>
+</footer>
