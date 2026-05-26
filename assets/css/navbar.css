@@ -1,0 +1,559 @@
+/* ============================================================
+   AChETIQ — Navbar (componente)
+   ------------------------------------------------------------
+   Versión: 1.0 · Fase 2 — Desarrollo front-end
+   Fundamento normativo: prompt canónico de la navbar (memoria
+   del proyecto, cerrado 2026-05-16) + FASE_1_Catalogo §1.2.
+
+   Importado desde assets/css/main.css §1.
+
+   Tokens usados (tokens.css):
+     --color-bg, --color-ink, --color-primary, --color-primary-mid,
+     --color-cta, --color-rule, --color-bg-panel, --color-ink-soft,
+     --font-body, --max-width, --navbar-height, --page-padding-x,
+     --space-*, --radius-md, --z-navbar, --z-modal, --transition-fast.
+
+   El canónico nombra «--color-panel / --color-border / --color-accent
+   / --color-primary-light»; el proyecto los tiene declarados como
+   «--color-bg-panel / --color-rule / --color-cta / --color-primary-mid»
+   (ver tokens.css y FASE_1 §1.2). Se usan los nombres reales.
+   ============================================================ */
+
+
+/* ─────────────────────────────────────────────────────────────
+   1. SOMBRA LOCAL DEL DROPDOWN
+   tokens.css no expone --shadow-md; la definimos aquí.
+   ───────────────────────────────────────────────────────────── */
+
+.navbar {
+  --navbar-shadow-md:
+    0 4px 6px -1px rgba(19, 17, 15, 0.08),
+    0 10px 24px -6px rgba(19, 17, 15, 0.10);
+  --navbar-bg-alpha: color-mix(in srgb, var(--color-bg) 92%, transparent);
+  --navbar-easing: cubic-bezier(0.22, 1, 0.36, 1);
+  --navbar-close-delay: 150ms;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   2. HEADER STICKY
+   ───────────────────────────────────────────────────────────── */
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-navbar);
+  width: 100%;
+  background-color: var(--navbar-bg-alpha);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-rule);
+  font-family: var(--font-body);
+  color: var(--color-ink);
+}
+
+/* Fallback opaco cuando backdrop-filter no está disponible. */
+@supports not ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
+  .navbar {
+    background-color: var(--color-bg);
+  }
+}
+
+.navbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  width: 100%;
+  max-width: var(--max-width);
+  height: var(--navbar-height);
+  margin-inline: auto;
+  padding-inline: var(--space-5);
+}
+
+@media (min-width: 768px) {
+  .navbar__inner {
+    padding-inline: var(--page-padding-x);
+    gap: var(--space-6);
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   3. BRAND — logo + wordmark
+   ───────────────────────────────────────────────────────────── */
+
+.navbar__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-ink);
+  text-decoration: none;
+  font-weight: var(--weight-medium);
+  font-size: var(--text-h4);
+  line-height: 1;
+  transition: color var(--transition-fast);
+}
+
+.navbar__brand:hover {
+  color: var(--color-primary);
+}
+
+.navbar__logo {
+  width: 32px;
+  height: 32px;
+  display: block;
+  flex: 0 0 auto;
+}
+
+.navbar__wordmark {
+  letter-spacing: 0.01em;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   4. LISTA HORIZONTAL (desktop)
+   ───────────────────────────────────────────────────────────── */
+
+.navbar__list {
+  display: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+@media (min-width: 768px) {
+  .navbar__list {
+    display: flex;
+  }
+}
+
+.navbar__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   5. NAV-LINK BASE + VARIANTES
+   ───────────────────────────────────────────────────────────── */
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  line-height: 1;
+  color: var(--color-ink);
+  text-decoration: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  background-color: transparent;
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast),
+    border-color var(--transition-fast);
+  white-space: nowrap;
+}
+
+.nav-link--ghost:hover,
+.nav-link--ghost:focus-visible {
+  background-color: var(--color-bg-panel);
+  color: var(--color-primary);
+}
+
+.nav-link--outline {
+  border-color: var(--color-rule);
+}
+
+.nav-link--outline:hover,
+.nav-link--outline:focus-visible {
+  background-color: var(--color-bg-panel);
+  color: var(--color-primary);
+}
+
+.nav-link--primary {
+  background-color: var(--color-primary);
+  color: var(--color-bg);
+  border-color: var(--color-primary);
+}
+
+.nav-link--primary:hover,
+.nav-link--primary:focus-visible {
+  background-color: var(--color-primary-mid);
+  border-color: var(--color-primary-mid);
+  color: var(--color-bg);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   6. CHEVRON DEL TRIGGER
+   ───────────────────────────────────────────────────────────── */
+
+.navbar__chevron {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  transition: transform 200ms var(--navbar-easing);
+}
+
+.navbar__item--has-submenu:hover .navbar__chevron,
+.navbar__item--has-submenu:focus-within .navbar__chevron {
+  transform: rotate(180deg);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   7. SUBMENÚ DESKTOP — :hover + :focus-within
+   ───────────────────────────────────────────────────────────── */
+
+.navbar__submenu {
+  position: absolute;
+  top: calc(100% - 2px);
+  left: 0;
+  min-width: 220px;
+  list-style: none;
+  margin: 0;
+  padding: var(--space-2);
+  background-color: var(--color-bg-panel);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-md);
+  box-shadow: var(--navbar-shadow-md);
+
+  /* Estado cerrado. */
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  visibility: hidden;
+  transition:
+    opacity 220ms var(--navbar-easing),
+    transform 220ms var(--navbar-easing),
+    visibility 0s linear var(--navbar-close-delay);
+}
+
+.navbar__item--has-submenu:hover .navbar__submenu,
+.navbar__item--has-submenu:focus-within .navbar__submenu {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  visibility: visible;
+  transition:
+    opacity 220ms var(--navbar-easing),
+    transform 220ms var(--navbar-easing),
+    visibility 0s linear 0s;
+}
+
+/* Puente invisible entre label y panel para evitar cierres
+   accidentales al recorrer el espacio vertical. */
+.navbar__submenu::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: 0;
+  right: 0;
+  height: 8px;
+}
+
+.navbar__sublink {
+  display: block;
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-normal);
+  color: var(--color-ink);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast);
+  white-space: nowrap;
+}
+
+.navbar__sublink:hover,
+.navbar__sublink:focus-visible {
+  background-color: var(--color-bg);
+  color: var(--color-primary);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   8. BOTÓN HAMBURGUESA (mobile)
+   ───────────────────────────────────────────────────────────── */
+
+.navbar__toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  color: var(--color-ink);
+  cursor: pointer;
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.navbar__toggle:hover,
+.navbar__toggle:focus-visible {
+  background-color: var(--color-bg-panel);
+  border-color: var(--color-rule);
+}
+
+@media (min-width: 768px) {
+  .navbar__toggle {
+    display: none;
+  }
+}
+
+/* Icono de tres barras → cruz al abrir.
+   Replica el patrón Lucide (Menu → X) sin SVG runtime. */
+.navbar__toggle-icon {
+  position: relative;
+  display: block;
+  width: 22px;
+  height: 16px;
+}
+
+.navbar__toggle-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: currentColor;
+  border-radius: 1px;
+  transition:
+    transform 220ms var(--navbar-easing),
+    opacity 180ms var(--navbar-easing),
+    top 220ms var(--navbar-easing);
+}
+
+.navbar__toggle-bar--top { top: 0; }
+.navbar__toggle-bar--mid { top: 7px; }
+.navbar__toggle-bar--bot { top: 14px; }
+
+.navbar__toggle[aria-expanded="true"] .navbar__toggle-bar--top {
+  top: 7px;
+  transform: rotate(45deg);
+}
+
+.navbar__toggle[aria-expanded="true"] .navbar__toggle-bar--mid {
+  opacity: 0;
+}
+
+.navbar__toggle[aria-expanded="true"] .navbar__toggle-bar--bot {
+  top: 7px;
+  transform: rotate(-45deg);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   9. OVERLAY Y PANEL LATERAL (mobile)
+   ───────────────────────────────────────────────────────────── */
+
+.navbar__overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(19, 17, 15, 0.50);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  z-index: var(--z-modal);
+  opacity: 0;
+  transition: opacity 220ms var(--navbar-easing);
+}
+
+.navbar__overlay.is-open {
+  opacity: 1;
+}
+
+.navbar__panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: min(86vw, 360px);
+  max-width: 100%;
+  padding: calc(var(--navbar-height) + var(--space-4)) var(--space-5) var(--space-6);
+  background-color: color-mix(in srgb, var(--color-bg) 95%, transparent);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-right: 1px solid var(--color-rule);
+  z-index: calc(var(--z-modal) + 1);
+  overflow-y: auto;
+  transform: translateX(-100%);
+  transition: transform 240ms var(--navbar-easing);
+}
+
+@supports not ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
+  .navbar__panel {
+    background-color: var(--color-bg);
+  }
+}
+
+.navbar__panel.is-open {
+  transform: translateX(0);
+}
+
+@media (min-width: 768px) {
+  .navbar__overlay,
+  .navbar__panel {
+    display: none;
+  }
+}
+
+/* Bloqueo de scroll mientras el panel está abierto. */
+.navbar-scroll-lock {
+  overflow: hidden;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   10. LISTA DEL PANEL — acordeón
+   ───────────────────────────────────────────────────────────── */
+
+.navbar__panel-list,
+.navbar__panel-submenu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar__panel-item {
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.navbar__panel-item:last-child {
+  border-bottom: 0;
+}
+
+.navbar__panel-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.navbar__panel-link {
+  flex: 1 1 auto;
+  display: block;
+  padding: var(--space-3) var(--space-2);
+  font-family: var(--font-body);
+  font-size: var(--text-h4);
+  font-weight: var(--weight-medium);
+  color: var(--color-ink);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.navbar__panel-link:hover,
+.navbar__panel-link:focus-visible {
+  color: var(--color-primary);
+}
+
+.navbar__panel-link--primary {
+  color: var(--color-primary);
+}
+
+.navbar__panel-toggle {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: 0;
+  border-radius: var(--radius-md);
+  color: var(--color-ink-soft);
+  cursor: pointer;
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.navbar__panel-toggle:hover,
+.navbar__panel-toggle:focus-visible {
+  background-color: var(--color-bg-panel);
+  color: var(--color-primary);
+}
+
+.navbar__panel-toggle[aria-expanded="true"] .navbar__chevron {
+  transform: rotate(180deg);
+}
+
+.navbar__panel-submenu {
+  padding-left: var(--space-4);
+  padding-bottom: var(--space-2);
+  display: none;
+}
+
+.navbar__panel-submenu.is-open {
+  display: block;
+}
+
+.navbar__panel-sublink {
+  display: block;
+  padding: var(--space-2) var(--space-2);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: var(--weight-regular);
+  color: var(--color-ink-soft);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.navbar__panel-sublink:hover,
+.navbar__panel-sublink:focus-visible {
+  color: var(--color-primary);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   11. FALLBACK ESTÁTICO
+   Cuando JS falla o está deshabilitado, el placeholder muestra
+   un header mínimo (criterio de aceptación 6).
+   ───────────────────────────────────────────────────────────── */
+
+.navbar-fallback {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-navbar);
+  width: 100%;
+  background-color: var(--color-bg);
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.navbar-fallback__inner {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: var(--max-width);
+  height: var(--navbar-height);
+  margin-inline: auto;
+  padding-inline: var(--space-5);
+}
+
+.navbar-fallback__brand {
+  font-family: var(--font-body);
+  font-size: var(--text-h4);
+  font-weight: var(--weight-medium);
+  color: var(--color-ink);
+  text-decoration: none;
+}
+
+@media (min-width: 768px) {
+  .navbar-fallback__inner {
+    padding-inline: var(--page-padding-x);
+  }
+}

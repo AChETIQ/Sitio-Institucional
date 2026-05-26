@@ -140,9 +140,20 @@ CONVENCIÓN DE NOMBRE
     NAVBAR — placeholder de carga dinámica (FASE_1 §1.2).
     js/navbar.js reemplaza este nodo: carga partials/navbar.html y
     configura los enlaces desde data/navbar.json.
+    El <noscript> garantiza un header mínimo (wordmark + enlace al
+    inicio) si el navegador tiene JS deshabilitado (criterio de
+    aceptación 6 del prompt canónico).
     No reemplazar: idéntico en todas las páginas.
   -->
-  <div data-loader="navbar"></div>
+  <div data-loader="navbar">
+    <noscript>
+      <header class="navbar-fallback">
+        <div class="navbar-fallback__inner">
+          <a class="navbar-fallback__brand" href="/index.html">AChETIQ</a>
+        </div>
+      </header>
+    </noscript>
+  </div>
 
   <!--
     MAIN — contenido principal de la página.
@@ -196,10 +207,13 @@ CONVENCIÓN DE NOMBRE
     FASE_1 §7.2 / INSTRUCCION_PROYECTO §2.1).
     loader.js — helper sin dependencias del overlay global; script
     clásico para exponer window.AChETIQLoader antes de los módulos.
-    main.js orquesta los loaders [data-loader] del documento.
+    navbar.js — autoinicia y reemplaza el placeholder data-loader="navbar";
+    se carga independientemente para no depender de main.js (que orquesta
+    el resto de loaders [data-loader] del documento).
     No reemplazar: idéntico en todas las páginas.
   -->
   <script src="/assets/js/loader.js"></script>
+  <script src="/assets/js/navbar.js"></script>
   <script type="module" src="/assets/js/main.js"></script>
 
 </body>

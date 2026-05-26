@@ -1,0 +1,62 @@
+<!--
+================================================================
+AChETIQ — Navbar (markup base)
+Componente: FASE_1_Catalogo_Componentes.md §1.2
+Especificación normativa: prompt canónico de la navbar (2026-05-16)
+
+Este partial se carga por fetch desde assets/js/navbar.js y se
+inyecta en el placeholder <div data-loader="navbar"></div> de
+cada página. Los enlaces, brand y submenús se pueblan
+dinámicamente desde data/navbar.json.
+
+Estructura semántica:
+  <header class="navbar">
+    <nav aria-label="Principal"> … </nav>
+    overlay + panel lateral (mobile)
+  </header>
+================================================================
+-->
+<header class="navbar" data-navbar-root>
+  <nav class="navbar__inner" aria-label="Principal">
+
+    <a class="navbar__brand" href="/index.html" data-navbar-brand>
+      <img class="navbar__logo"
+           src=""
+           alt=""
+           width="36"
+           height="36"
+           aria-hidden="true"
+           data-navbar-logo>
+      <span class="navbar__wordmark" data-navbar-wordmark>AChETIQ</span>
+    </a>
+
+    <ul class="navbar__list" role="list" data-navbar-list></ul>
+
+    <button class="navbar__toggle"
+            type="button"
+            aria-controls="navbar-mobile-panel"
+            aria-expanded="false"
+            aria-label="Abrir menú principal"
+            data-navbar-toggle>
+      <span class="navbar__toggle-icon" aria-hidden="true">
+        <span class="navbar__toggle-bar navbar__toggle-bar--top"></span>
+        <span class="navbar__toggle-bar navbar__toggle-bar--mid"></span>
+        <span class="navbar__toggle-bar navbar__toggle-bar--bot"></span>
+      </span>
+    </button>
+
+  </nav>
+
+  <div class="navbar__overlay"
+       hidden
+       data-navbar-overlay
+       tabindex="-1"></div>
+
+  <aside class="navbar__panel"
+         id="navbar-mobile-panel"
+         hidden
+         aria-label="Menú principal"
+         data-navbar-panel>
+    <ul class="navbar__panel-list" role="list" data-navbar-panel-list></ul>
+  </aside>
+</header>

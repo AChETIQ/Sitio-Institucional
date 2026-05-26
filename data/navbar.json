@@ -1,0 +1,33 @@
+{
+  "brand": {
+    "label": "AChETIQ",
+    "href": "/index.html",
+    "logo": "/assets/img/logo/achetiq-logo.svg"
+  },
+  "links": [
+    { "label": "Inicio", "href": "/index.html", "variant": "ghost" },
+    { "label": "Sobre AChETIQ", "href": "/pages/sobre-achetiq.html", "variant": "ghost" },
+    {
+      "label": "Gabinetes",
+      "href": "/pages/gabinetes.html",
+      "variant": "ghost",
+      "submenu": [
+        { "label": "Cursos y Conferencias", "href": "/pages/gabinetes/cursos-y-conferencias.html" },
+        { "label": "Eventos", "href": "/pages/gabinetes/eventos.html" },
+        { "label": "Prensa y Difusión", "href": "/pages/gabinetes/prensa-y-difusion.html" },
+        { "label": "Solidario", "href": "/pages/gabinetes/solidario.html" }
+      ]
+    },
+    {
+      "label": "Recursos Académicos",
+      "href": "/pages/recursos.html",
+      "variant": "ghost",
+      "submenu": [
+        { "label": "Apuntes por materia", "href": "/pages/recursos/apuntes.html" },
+        { "label": "Calendario académico", "href": "/pages/recursos/calendario.html" },
+        { "label": "Seguimiento de carrera", "href": "/pages/recursos/seguimiento.html" }
+      ]
+    },
+    { "label": "Contacto", "href": "/pages/contacto.html", "variant": "primary" }
+  ]
+}
