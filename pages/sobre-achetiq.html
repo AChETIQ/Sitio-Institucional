@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Sobre AChETIQ — Quiénes somos · AChETIQ</title>
+  <meta name="description" content="La Asociación Chaqueña de Estudiantes Tecnológicos de Ingeniería Química: historia, misión, valores y documentación institucional.">
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../favicon.ico" sizes="32x32">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="manifest" href="../site.webmanifest">
+  <meta name="theme-color" content="#0D3B66">
+
+  <link rel="preload" href="../assets/fonts/geist-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../assets/fonts/instrument-serif-400.woff2" as="font" type="font/woff2" crossorigin>
+
+  <link rel="stylesheet" href="../tokens.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AChETIQ">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:title" content="Sobre AChETIQ — Quiénes somos · AChETIQ">
+  <meta property="og:description" content="La Asociación Chaqueña de Estudiantes Tecnológicos de Ingeniería Química: historia, misión, valores y documentación institucional.">
+  <meta property="og:url" content="REEMPLAZAR URL canónica absoluta de esta página">
+  <meta property="og:image" content="REEMPLAZAR URL de imagen institucional (Fase 6)">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sobre AChETIQ — Quiénes somos · AChETIQ">
+  <meta name="twitter:description" content="La Asociación Chaqueña de Estudiantes Tecnológicos de Ingeniería Química: historia, misión, valores y documentación institucional.">
+  <meta name="twitter:image" content="REEMPLAZAR URL de imagen institucional (Fase 6)">
+
+  <!--
+    Estilos scoped a la página: bloque CTA final con fondo
+    --color-primary. La pieza no está aún en el catálogo; cuando se
+    formalice, mover estas reglas a un componente compartido
+    (assets/css/cta.css o similar). Cero hex y cero familias
+    literales: todo deriva de tokens.css.
+  -->
+  <style>
+    .cta-final {
+      background: var(--color-primary);
+      color: var(--color-bg);
+      border-radius: var(--radius-lg);
+      padding: var(--space-12) var(--space-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      margin-top: var(--space-16);
+    }
+    .cta-final .eyebrow { color: var(--color-bg); opacity: 0.85; }
+    .cta-final h2 { color: var(--color-bg); max-width: 22ch; }
+    .cta-final__lead {
+      font-family: var(--font-body);
+      font-size: var(--text-h4);
+      line-height: var(--leading-relaxed);
+      color: var(--color-bg);
+      max-width: 60ch;
+    }
+    .cta-final__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      margin-top: var(--space-4);
+    }
+    .cta-final .btn-primary {
+      background: var(--color-bg);
+      color: var(--color-primary);
+    }
+    .cta-final .btn-secondary {
+      background: transparent;
+      color: var(--color-bg);
+      border: 1px solid var(--color-bg);
+    }
+    @media (min-width: 768px) {
+      .cta-final { padding: var(--space-16) var(--space-12); }
+    }
+  </style>
+
+</head>
+<body>
+
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+
+  <div data-loader="navbar">
+    <noscript>
+      <header class="navbar-fallback">
+        <div class="navbar-fallback__inner">
+          <a class="navbar-fallback__brand" href="../index.html">AChETIQ</a>
+        </div>
+      </header>
+    </noscript>
+  </div>
+
+  <main id="main-content" class="page" tabindex="-1">
+
+    <!-- ════════════════════════════════════════════════════════
+         [3] PAGE-HEADER
+         Wireframe §2 bloque [3]. Esqueleto válido; refinamiento
+         tipográfico/de respiración queda diferido (baja prioridad).
+         ════════════════════════════════════════════════════════ -->
+    <header class="page-header">
+      <p class="eyebrow">Sobre AChETIQ</p>
+      <h1 class="page-header__title">Quiénes <em>somos</em></h1>
+      <p class="page-header__lead">
+        Una asociación de estudiantes de Ingeniería Química de la UTN Facultad Regional Resistencia (FRRe), Resistencia, Chaco.
+      </p>
+    </header>
+
+    <!-- ════════════════════════════════════════════════════════
+         [4] NUESTRA HISTORIA — Timeline
+         Wireframe §2 bloque [4] · catálogo §5.5 .timeline.
+         El renderer historia (assets/js/loaders.js §4.4) ordena los
+         hitos cronológicamente y agrega la entrada ghost final
+         «Próximamente» de manera automática, según el patrón ya
+         definido (no se inventa aquí).
+         ════════════════════════════════════════════════════════ -->
+    <section aria-labelledby="historia-title">
+      <header class="section-title">
+        <p class="eyebrow">Trayectoria</p>
+        <h2 id="historia-title">Nuestra <em>historia</em></h2>
+      </header>
+      <ol class="timeline" data-loader="historia"></ol>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+         [5] MISIÓN Y VISIÓN
+         Wireframe §2 bloque [5] · catálogo §2.4 .mission-vision.
+         Dos columnas con borde lateral --color-primary, label en
+         Geist Mono con ícono Lucide inline.
+
+         ICONOS LUCIDE
+           · Misión:  target          (verificado disponible)
+           · Visión:  telescope       (verificado disponible · fallback:
+                                       compass / eye si se retira del set)
+
+         TEXTOS — PENDIENTES
+           La redacción definitiva de Misión y Visión queda a cargo
+           de la comisión directiva. Los textos visibles son
+           marcadores explícitos, no contenido institucional.
+         ════════════════════════════════════════════════════════ -->
+    <section class="mission-vision" aria-label="Misión y visión de AChETIQ">
+      <article class="mission-vision__col">
+        <p class="mission-vision__label">
+          <svg class="mission-vision__icon" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.5"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <circle cx="12" cy="12" r="6"/>
+            <circle cx="12" cy="12" r="2"/>
+          </svg>
+          Misión
+        </p>
+        <p class="mission-vision__prose">
+          <!-- ⚠ TEXTO PENDIENTE DE REDACCIÓN POR LA COMISIÓN DIRECTIVA. -->
+          (Texto pendiente de redacción institucional.)
+        </p>
+      </article>
+
+      <article class="mission-vision__col">
+        <p class="mission-vision__label">
+          <svg class="mission-vision__icon" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.5"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m10.065 12.493-6.18 1.318a.934.934 0 0 1-1.108-.702l-.537-2.15a1.07 1.07 0 0 1 .691-1.265l13.504-4.44"/>
+            <path d="m13.56 11.747 4.332-.924"/>
+            <path d="m16 21-3.105-6.21"/>
+            <path d="M16.485 5.94a2 2 0 0 1 1.455-2.425l1.09-.272a1 1 0 0 1 1.212.727l1.515 6.06a1 1 0 0 1-.727 1.213l-1.09.272a2 2 0 0 1-2.425-1.455z"/>
+            <path d="m6.158 8.633 1.114 4.456"/>
+            <path d="m8 21 3.105-6.21"/>
+            <circle cx="12" cy="13" r="2"/>
+          </svg>
+          Visión
+        </p>
+        <p class="mission-vision__prose">
+          <!-- ⚠ TEXTO PENDIENTE DE REDACCIÓN POR LA COMISIÓN DIRECTIVA. -->
+          (Texto pendiente de redacción institucional.)
+        </p>
+      </article>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+         [6] VALORES INSTITUCIONALES
+         Wireframe §2 bloque [6] · catálogo §4.7 .card--valor.
+
+         ⚠ BORRADORES NO AUTORITATIVOS ⚠
+           Las seis descripciones que siguen son redacciones
+           PROVISIONALES, sujetas a aprobación de la comisión
+           directiva. NO publicar como contenido definitivo ni
+           reutilizar fuera de este esqueleto sin revisión.
+
+         ICONOS LUCIDE
+           innovacion           · flask-conical
+           proactividad         · arrow-up-right
+           companerismo         · users-round
+           integracion          · link-2
+           conciencia-ambiental · sprout
+           solidaridad          · heart-handshake  (verificado disponible;
+                                                    fallback: hand-helping,
+                                                    heart)
+         ════════════════════════════════════════════════════════ -->
+    <section aria-labelledby="valores-title">
+      <header class="section-title">
+        <h2 id="valores-title">Valores <em>institucionales</em></h2>
+      </header>
+
+      <div class="grid-cards grid-cards--3">
+        <article class="card card--valor">
+          <div class="card--valor__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"/>
+              <path d="M6.453 15h11.094"/>
+              <path d="M8.5 2h7"/>
+            </svg>
+          </div>
+          <h3 class="card--valor__title">Innovación</h3>
+          <p class="card--valor__desc">
+            Búsqueda activa de nuevas formas de enseñar, aprender y vincular a la ingeniería química con su entorno.
+          </p>
+        </article>
+
+        <article class="card card--valor">
+          <div class="card--valor__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M7 7h10v10"/>
+              <path d="M7 17 17 7"/>
+            </svg>
+          </div>
+          <h3 class="card--valor__title">Proactividad</h3>
+          <p class="card--valor__desc">
+            Iniciativa sostenida para proponer, organizar y llevar adelante actividades que enriquezcan la formación.
+          </p>
+        </article>
+
+        <article class="card card--valor">
+          <div class="card--valor__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M18 21a8 8 0 0 0-16 0"/>
+              <circle cx="10" cy="8" r="5"/>
+              <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3"/>
+            </svg>
+          </div>
+          <h3 class="card--valor__title">Compañerismo</h3>
+          <p class="card--valor__desc">
+            Trabajo en común entre estudiantes de distintos años, con respeto por la trayectoria de cada uno.
+          </p>
+        </article>
+
+        <article class="card card--valor">
+          <div class="card--valor__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M9 17H7A5 5 0 0 1 7 7h2"/>
+              <path d="M15 7h2a5 5 0 1 1 0 10h-2"/>
+              <line x1="8" x2="16" y1="12" y2="12"/>
+            </svg>
+          </div>
+          <h3 class="card--valor__title">Integración</h3>
+          <p class="card--valor__desc">
+            Articulación con la facultad, otras asociaciones estudiantiles y el ámbito profesional de la ingeniería química.
+          </p>
+        </article>
+
+        <article class="card card--valor">
+          <div class="card--valor__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M7 20h10"/>
+              <path d="M10 20c5.5-2.5.8-6.4 3-10"/>
+              <path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/>
+              <path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/>
+            </svg>
+          </div>
+          <h3 class="card--valor__title">Conciencia ambiental</h3>
+          <p class="card--valor__desc">
+            Atención al impacto ambiental de la actividad química y promoción de prácticas responsables en la formación.
+          </p>
+        </article>
+
+        <article class="card card--valor">
+          <div class="card--valor__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/>
+              <path d="M12 5 9.04 7.96a2.17 2.17 0 0 0 0 3.08v0c.82.82 2.13.85 3 .07l2.07-1.9a2.82 2.82 0 0 1 3.79 0l2.96 2.66"/>
+              <path d="m18 15-2-2"/>
+              <path d="m15 18-2-2"/>
+            </svg>
+          </div>
+          <h3 class="card--valor__title">Solidaridad</h3>
+          <p class="card--valor__desc">
+            Compromiso con la comunidad universitaria y con el entorno social donde la asociación desarrolla su actividad.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+         [7] INSTITUCIONES VINCULADAS
+         Wireframe §2 bloque [7] · catálogo §4.8 .card-institucion.
+         Renderizado dinámico desde data/instituciones.json
+         (renderer en assets/js/loaders.js §4.6). Logos transparentes
+         disponibles en assets/img/institucional/.
+         ════════════════════════════════════════════════════════ -->
+    <section aria-labelledby="instituciones-title">
+      <header class="section-title">
+        <p class="eyebrow">Marco de pertenencia</p>
+        <h2 id="instituciones-title">Instituciones <em>vinculadas</em></h2>
+      </header>
+      <div data-loader="instituciones"></div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+         [8] DOCUMENTOS INSTITUCIONALES
+         Wireframe §2 bloque [8] · catálogo §5.4 .card-documento.
+         Renderizado dinámico desde data/documentos.json
+         (renderer en assets/js/loaders.js §4.5): cada tarjeta
+         expone título, descripción, metadato tipo/tamaño y botón
+         de descarga al PDF.
+         ════════════════════════════════════════════════════════ -->
+    <section aria-labelledby="documentos-title">
+      <header class="section-title">
+        <p class="eyebrow">Marco normativo</p>
+        <h2 id="documentos-title">Documentos <em>institucionales</em></h2>
+      </header>
+      <div data-loader="documentos"></div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+         [9] CTA FINAL — SUMATE A AChETIQ
+         Wireframe §2 bloque [9]. Fondo --color-primary, texto
+         claro. Botones: «Sumate» (primario) → contacto;
+         «Conocé los gabinetes» (secundario outline) → gabinetes.
+         ════════════════════════════════════════════════════════ -->
+    <section class="cta-final" aria-labelledby="cta-sumate-title">
+      <p class="eyebrow">Formá parte</p>
+      <h2 id="cta-sumate-title">Sumate a AChETIQ</h2>
+      <p class="cta-final__lead">
+        Participá en los gabinetes de trabajo, accedé a recursos académicos y conectá con otros estudiantes de Ingeniería Química.
+      </p>
+      <div class="cta-final__actions">
+        <a href="./contacto.html" class="btn btn-primary">Sumate</a>
+        <a href="./gabinetes.html" class="btn btn-secondary">Conocé los gabinetes</a>
+      </div>
+    </section>
+
+  </main>
+
+  <div data-loader="footer">
+    <noscript>
+      <footer class="footer-fallback" role="contentinfo">
+        <div class="footer-fallback__inner">
+          <p>© 2026 Asociación Chaqueña de Estudiantes Tecnológicos de Ingeniería Química · UTN FRRe</p>
+        </div>
+      </footer>
+    </noscript>
+  </div>
+
+  <div class="loader loader--overlay loader--msg-bottom" id="global-loader"
+       role="status" aria-live="polite" hidden>
+    <div class="loader__dots">
+      <span class="loader__dot safe-motion"></span>
+      <span class="loader__dot safe-motion"></span>
+      <span class="loader__dot safe-motion"></span>
+    </div>
+    <p class="loader__message">Cargando…</p>
+  </div>
+
+  <script src="../assets/js/loader.js"></script>
+  <script src="../assets/js/navbar.js"></script>
+  <script src="../assets/js/footer.js"></script>
+  <script type="module" src="../assets/js/main.js"></script>
+
+</body>
+</html>
