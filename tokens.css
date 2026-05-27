@@ -48,6 +48,15 @@
   /* Texto terciario. Contraste ~4.5:1 sobre --color-bg.
      Cumple WCAG AA en el límite — usar solo para texto ≥ 14px. */
 
+  --color-disabled:   #6B6560;
+  /* Token semántico de estado inactivo/deshabilitado. Comparte
+     valor con --color-ink-faint pero se expone aparte para que
+     los componentes declaren explícitamente "este elemento está
+     desactivado" (ej: .contact-card--proximamente). Contraste
+     ~5.14:1 sobre --color-bg y ~5.0:1 sobre --color-bg-panel —
+     cumple WCAG AA para texto normal y grande, sin depender de
+     opacity (que reduce contraste de forma no auditable). */
+
 
   /* ─── COLOR — PRIMARIO ───────────────────────────────────── */
 
@@ -94,6 +103,22 @@
      (ej: pie de tarjeta, divisor de KPI strip). */
 
 
+  /* ─── COLOR — PLACEHOLDER POR AÑO (card-materia) ──────────
+     Cinco tonos derivados de la paleta Océano & Areia para usar
+     como fondo del cover de .card-materia (FASE_1 §4.9).
+     Narrativa visual: arena (1.°) → mar profundo (5.°). Distintos
+     entre sí y sin solapamiento con los colores reservados al
+     isotipo (--color-primary, --color-cta). Decorativos: no
+     llevan texto encima en v1.0, por lo que no se verifica
+     contraste de texto. */
+
+  --color-materia-anio-1: #E6D7B5;   /* Arena clara */
+  --color-materia-anio-2: #C9B07A;   /* Médano dorado */
+  --color-materia-anio-3: #A4B5A8;   /* Marisma */
+  --color-materia-anio-4: #6F8FA0;   /* Niebla marina */
+  --color-materia-anio-5: #3D5B6E;   /* Marejada profunda */
+
+
   /* ─────────────────────────────────────────────────────────────
      TIPOGRAFÍA — FAMILIAS
      ───────────────────────────────────────────────────────────── */
@@ -132,6 +157,13 @@
   --text-eyebrow:    10.5px;
   /* Supratítulos y etiquetas mono. Font: mono, uppercase.
      Siempre acompañar con letter-spacing: var(--tracking-wider). */
+
+  --text-eyebrow-sm: 11px;
+  /* Eyebrow ligeramente mayor que --text-eyebrow, para
+     componentes donde 10.5 px queda demasiado pequeño contra el
+     resto del bloque (ej: año en .card-materia, eyebrow de
+     .contact-card). Mismo registro tipográfico: mono, uppercase,
+     letter-spacing: var(--tracking-wider). */
 
   --text-caption:    12px;
   /* Metadatos, timestamps, créditos. Font: mono, 400. */
@@ -194,6 +226,27 @@
   --space-12: 48px;
   --space-14: 56px;
   --space-16: 64px;
+
+
+  /* ─────────────────────────────────────────────────────────────
+     TAMAÑOS DE COMPONENTE
+     Dimensiones recurrentes que no caen ni en la escala de
+     espaciado (4 px) ni en la escala tipográfica. Existen para
+     que los componentes nunca escriban estos valores literales.
+     ───────────────────────────────────────────────────────────── */
+
+  --icon-sm:  16px;
+  /* Íconos inline pequeños (mission-vision__icon). */
+
+  --icon-md:  28px;
+  /* Íconos medios de tarjeta (card--valor, contact-card). */
+
+  --icon-lg:  32px;
+  /* Íconos grandes (card-gabinete, card-documento). */
+
+  --logo-md:  64px;
+  /* Altura media de logos institucionales en tarjeta
+     (card-institucion). */
 
 
   /* ─────────────────────────────────────────────────────────────

@@ -1,0 +1,547 @@
+/* ============================================================
+   AChETIQ — Tarjetas (cards.css)
+   ------------------------------------------------------------
+   Versión: 1.0 · Fase 2 — Desarrollo front-end
+   Fundamento: FASE_1 §4 — Tarjetas (todas variantes de .card,
+               cuya base vive en tokens.css líneas 432-454)
+   · tokens.css
+
+   Mobile-first. Cero hex y cero familias literales: todo deriva
+   de tokens.css. Las dimensiones de íconos, logos y eyebrows
+   pequeños también son tokens (--icon-md, --logo-md,
+   --text-eyebrow-sm) para preservar única fuente de verdad.
+   ============================================================ */
+
+
+/* ─────────────────────────────────────────────────────────────
+   4.2  CARD GABINETE — .card-gabinete
+   ─────────────────────────────────────────────────────────────
+   Extiende .card. Padding interno 24 px, ícono 32×32 px en
+   primario, link de footer en CTA (uso permitido — enlace de
+   apertura directa). Hover: borde intensificado a primario.
+   ───────────────────────────────────────────────────────────── */
+
+.card-gabinete {
+  padding: var(--space-6);
+  transition: border-color var(--transition-fast);
+}
+
+.card-gabinete:hover {
+  border-color: var(--color-primary);
+}
+
+.card-gabinete__icon {
+  width: var(--icon-lg);              /* 32 px */
+  height: var(--icon-lg);
+  color: var(--color-primary);
+}
+
+.card-gabinete__title {
+  /* H3 global. */
+}
+
+.card-gabinete__desc {
+  font-size: var(--text-small);
+  color: var(--color-ink-soft);
+}
+
+.card-gabinete__link {
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  color: var(--color-cta);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   4.3  CARD INTEGRANTE — .card-integrante
+   ─────────────────────────────────────────────────────────────
+   Variante "sin caja": sin borde, sin fondo, foto cuadrada 1:1
+   con radio grande, nombre H3, cargo body soft.
+   Sin foto → placeholder con iniciales sobre rule-soft.
+   ───────────────────────────────────────────────────────────── */
+
+.card-integrante {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+
+.card-integrante__photo {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--color-rule-soft);
+}
+
+.card-integrante__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Placeholder con iniciales cuando no hay foto. */
+.card-integrante__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+  color: var(--color-primary);
+  background: var(--color-rule-soft);
+}
+
+.card-integrante__name {
+  font-family: var(--font-body);
+  font-size: var(--text-h3);          /* 20 px ≈ 18 px catálogo */
+  font-weight: var(--weight-medium);
+  color: var(--color-ink);
+}
+
+.card-integrante__role {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--color-ink-soft);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   4.4  CARD NOTICIA — .card-noticia
+   ─────────────────────────────────────────────────────────────
+   Cover 16:9 en la parte superior con radio sólo en esquinas
+   altas (no tapa el borde inferior de la card). Body padding
+   20 px. Título y excerpt con line-clamp.
+   ───────────────────────────────────────────────────────────── */
+
+.card-noticia {
+  /* Reset de padding heredado de .card — el cover debe llegar
+     hasta el borde superior. */
+  padding: 0;
+  overflow: hidden;
+}
+
+.card-noticia__cover-link {
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.card-noticia__cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: filter var(--transition-fast);
+}
+
+.card-noticia__cover-link:hover .card-noticia__cover {
+  filter: brightness(1.05);
+}
+
+.card-noticia__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5);
+}
+
+.card-noticia__category {
+  /* hereda .eyebrow */
+  color: var(--color-primary-mid);
+}
+
+.card-noticia__title {
+  /* H3 global; line-clamp a 2 líneas. */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-noticia__title a {
+  color: var(--color-ink);
+}
+
+.card-noticia__title a:hover {
+  color: var(--color-primary);
+}
+
+.card-noticia__excerpt {
+  font-size: var(--text-small);
+  color: var(--color-ink-soft);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-noticia__readmore {
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  color: var(--color-cta);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   4.5  CARD ACTIVIDAD — .card-actividad
+   ─────────────────────────────────────────────────────────────
+   Layout horizontal: bloque de fecha 80 px a la izquierda,
+   contenido a la derecha. Fecha sobre fondo `--color-primary`,
+   texto claro.
+   ───────────────────────────────────────────────────────────── */
+
+.card-actividad {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: var(--space-4);
+  padding: 0;
+  overflow: hidden;
+}
+
+.card-actividad__date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-primary);
+  color: var(--color-bg);
+  padding: var(--space-3);
+}
+
+.card-actividad__day {
+  font-family: var(--font-display);
+  font-size: var(--text-h2);          /* 32 px */
+  line-height: 1;
+}
+
+.card-actividad__month {
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);     /* 12 px */
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  margin-top: var(--space-1);
+}
+
+.card-actividad__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-5) var(--space-4) 0;
+}
+
+.card-actividad__title {
+  /* H3 global. */
+}
+
+.card-actividad__meta {
+  font-size: var(--text-small);
+  color: var(--color-ink-faint);
+}
+
+.card-actividad__desc {
+  font-size: var(--text-small);
+  color: var(--color-ink-soft);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   4.6  CARD RECURSO — .card-recurso
+   ─────────────────────────────────────────────────────────────
+   Listado de archivo descargable. Layout horizontal en desktop,
+   vertical en mobile. Icono 24×24 en primary-mid, acción en CTA.
+   ───────────────────────────────────────────────────────────── */
+
+.card-recurso {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  align-items: flex-start;
+}
+
+.card-recurso__icon {
+  width: var(--space-6);              /* 24 px */
+  height: var(--space-6);
+  color: var(--color-primary-mid);
+  flex-shrink: 0;
+}
+
+.card-recurso__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  flex: 1;
+}
+
+.card-recurso__title {
+  /* H4 global. */
+}
+
+.card-recurso__meta {
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  color: var(--color-ink-faint);
+}
+
+.card-recurso__action {
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  color: var(--color-cta);
+}
+
+@media (min-width: 768px) {
+  .card-recurso {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .card-recurso__action {
+    margin-left: auto;
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   4.7  CARD VALOR — .card--valor
+   ─────────────────────────────────────────────────────────────
+   Variante de .card sin fondo (transparente sobre --color-bg),
+   borde 1 px en --color-rule, radio --radius-md, min-height
+   uniforme para evitar discrepancia con descripciones de
+   distinta longitud. No interactivo (sin hover).
+   ───────────────────────────────────────────────────────────── */
+
+.card--valor {
+  background: transparent;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  min-height: 180px;
+  gap: var(--space-3);
+}
+
+.card--valor__icon {
+  width: var(--icon-md);              /* 28 px */
+  height: var(--icon-md);
+  color: var(--color-primary);
+  margin-bottom: var(--space-1);
+}
+
+.card--valor__title {
+  /* H3 global. */
+  color: var(--color-ink);
+}
+
+.card--valor__desc {
+  font-size: var(--text-small);
+  color: var(--color-ink-soft);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   4.8  CARD INSTITUCION — .card-institucion
+   ─────────────────────────────────────────────────────────────
+   Variante de .card: borde 1 px --color-rule, fondo
+   --color-bg-panel, padding generoso (32 px), layout vertical
+   centrado. Hover: borde a primary.
+   ───────────────────────────────────────────────────────────── */
+
+.card-institucion {
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-panel);
+  padding: var(--space-8);
+  align-items: center;
+  text-align: center;
+  gap: var(--space-4);
+  transition: border-color var(--transition-fast);
+}
+
+.card-institucion:hover {
+  border-color: var(--color-primary);
+}
+
+.card-institucion__logo {
+  height: var(--logo-md);             /* 64 px */
+  width: auto;
+  object-fit: contain;
+}
+
+.card-institucion__name {
+  font-family: var(--font-body);
+  font-size: var(--text-h4);          /* 16 px */
+  font-weight: var(--weight-medium);
+  color: var(--color-ink);
+}
+
+.card-institucion__link {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--color-cta);
+  margin-top: var(--space-2);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   4.9  CARD MATERIA — .card-materia
+   ─────────────────────────────────────────────────────────────
+   Tarjeta clickeable (<a>) con cover placeholder coloreado por
+   año académico (data-anio="1..5"). Hover: borde intensificado
+   a primary y brillo sutil del cover.
+
+   Tokens de color por año declarados en tokens.css (sección
+   COLOR — PLACEHOLDER POR AÑO).
+   ───────────────────────────────────────────────────────────── */
+
+.card-materia {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-bg);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--color-ink);
+  transition: border-color var(--transition-fast);
+  padding: 0;
+}
+
+.card-materia:hover {
+  border-color: var(--color-primary);
+  color: var(--color-ink);
+}
+
+.card-materia:hover .card-materia__cover {
+  filter: brightness(1.05);
+}
+
+.card-materia__cover {
+  aspect-ratio: 16 / 9;
+  background: var(--color-rule-soft); /* fallback antes de aplicar
+                                         color por año. */
+  transition: filter var(--transition-fast);
+}
+
+.card-materia[data-anio="1"] .card-materia__cover { background: var(--color-materia-anio-1); }
+.card-materia[data-anio="2"] .card-materia__cover { background: var(--color-materia-anio-2); }
+.card-materia[data-anio="3"] .card-materia__cover { background: var(--color-materia-anio-3); }
+.card-materia[data-anio="4"] .card-materia__cover { background: var(--color-materia-anio-4); }
+.card-materia[data-anio="5"] .card-materia__cover { background: var(--color-materia-anio-5); }
+
+.card-materia__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-4);
+}
+
+.card-materia__year {
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow-sm);  /* 11 px */
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+}
+
+.card-materia__name {
+  font-family: var(--font-body);
+  font-size: var(--text-h4);          /* 16 px */
+  font-weight: var(--weight-medium);
+  color: var(--color-ink);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   4.10 CONTACT CARD — .contact-card
+   ─────────────────────────────────────────────────────────────
+   Tarjeta de canal de contacto. Variante activa (<a>): toda la
+   superficie clickeable. Variante "Próximamente" (<div>): no
+   interactiva. La atenuación NO usa `opacity` (reduce contraste
+   de forma no auditable): se aplica vía --color-disabled, token
+   semántico verificado WCAG AA (~5.14:1 sobre --color-bg).
+   ───────────────────────────────────────────────────────────── */
+
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  background: var(--color-bg);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  text-decoration: none;
+  color: var(--color-ink);
+  transition: border-color var(--transition-fast),
+              color var(--transition-fast);
+}
+
+a.contact-card:hover {
+  border-color: var(--color-primary);
+}
+
+a.contact-card:hover .contact-card__icon {
+  color: var(--color-primary-mid);
+}
+
+.contact-card__icon {
+  width: var(--icon-md);              /* 28 px */
+  height: var(--icon-md);
+  color: var(--color-primary);
+  margin-bottom: var(--space-3);
+  transition: color var(--transition-fast);
+}
+
+.contact-card__eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow-sm);  /* 11 px */
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+}
+
+.contact-card__value {
+  font-family: var(--font-body);
+  font-size: var(--text-body);        /* 15 px */
+  font-weight: var(--weight-medium);
+  color: var(--color-ink);
+  /* Trunca cuando excede el ancho disponible. */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Variante "Próximamente": estado inactivo. Sin opacity — la
+   atenuación visual proviene de --color-disabled, que está
+   verificado para WCAG AA contra --color-bg y --color-bg-panel.
+   El borde y el fondo se mantienen iguales al estado activo
+   para que la tarjeta siga siendo identificable como elemento
+   de la grilla, no como "rota" o "ausente". */
+.contact-card--proximamente {
+  cursor: default;
+}
+
+.contact-card--proximamente .contact-card__icon {
+  color: var(--color-disabled);
+}
+
+.contact-card--proximamente .contact-card__value {
+  color: var(--color-disabled);
+}
+
+.contact-card__badge {
+  align-self: flex-start;
+  margin-top: var(--space-2);
+  padding: 2px var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);     /* 10.5 px */
+  letter-spacing: var(--tracking-wide);
+  background: var(--color-rule-soft);
+  color: var(--color-ink-soft);
+  border-radius: var(--radius-pill);
+}
