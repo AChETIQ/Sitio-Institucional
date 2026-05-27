@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Recursos Académicos · AChETIQ</title>
+  <meta name="description" content="Hub de Recursos Académicos de AChETIQ: apuntes por materia, calendario académico y seguimiento de carrera para Ingeniería Química, UTN FRRe, Plan 2023.">
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../favicon.ico" sizes="32x32">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="manifest" href="../site.webmanifest">
+  <meta name="theme-color" content="#0D3B66">
+
+  <link rel="preload" href="../assets/fonts/geist-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../assets/fonts/instrument-serif-400.woff2" as="font" type="font/woff2" crossorigin>
+
+  <link rel="stylesheet" href="../tokens.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <!--
+    Componente .countdown: hoja propia (no importada por main.css)
+    porque sólo se usa en el hub de Recursos. Se enlaza aquí.
+  -->
+  <link rel="stylesheet" href="../assets/css/countdown-recursos.css">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AChETIQ">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:title" content="Recursos Académicos · AChETIQ">
+  <meta property="og:description" content="Hub de Recursos Académicos de AChETIQ: apuntes por materia, calendario académico y seguimiento de carrera para Ingeniería Química, UTN FRRe, Plan 2023.">
+  <meta property="og:url" content="REEMPLAZAR URL canónica absoluta de esta página">
+  <meta property="og:image" content="REEMPLAZAR URL de imagen institucional (Fase 6)">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Recursos Académicos · AChETIQ">
+  <meta name="twitter:description" content="Hub de Recursos Académicos de AChETIQ: apuntes por materia, calendario académico y seguimiento de carrera para Ingeniería Química, UTN FRRe, Plan 2023.">
+  <meta name="twitter:image" content="REEMPLAZAR URL de imagen institucional (Fase 6)">
+
+</head>
+<body>
+
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+
+  <div data-loader="navbar">
+    <noscript>
+      <header class="navbar-fallback">
+        <div class="navbar-fallback__inner">
+          <a class="navbar-fallback__brand" href="../index.html">AChETIQ</a>
+        </div>
+      </header>
+    </noscript>
+  </div>
+
+  <main id="main-content" class="page" tabindex="-1">
+
+    <!-- ════════════════════════════════════════════════════════
+         [1] PAGE-HEADER — Wireframe §4 bloque [3]
+         Siempre visible: ancla la sección y mantiene contexto
+         aun durante la cuenta regresiva de apertura.
+         ════════════════════════════════════════════════════════ -->
+    <header class="page-header">
+      <p class="eyebrow">Material de estudio</p>
+      <h1 class="page-header__title">Recursos <em>académicos</em></h1>
+      <p class="page-header__lead">
+        El núcleo académico de AChETIQ: apuntes por materia del Plan 2023, calendario de la cursada y una herramienta para seguir el avance en la carrera. Tres servicios pensados para acompañar al estudiante de Ingeniería Química de la UTN FRRe.
+      </p>
+    </header>
+
+    <!-- ════════════════════════════════════════════════════════
+         [2] COUNTDOWN + ACCESO A SERVICIOS
+         Wireframe §4: la sección de Recursos se habilita el día
+         del lanzamiento (cuenta regresiva preparada en P3.0,
+         partial migrado a partials/countdown-recursos.html).
+         Estrategia: el page-header queda siempre visible y la
+         cuenta regresiva envuelve sólo el bloque de acceso a los
+         tres servicios — al expirar el contador, los tres
+         servicios quedan revelados sin recargar la página.
+
+         INTEGRACIÓN
+           El markup canónico del partial se inlinea aquí: el
+           proyecto es estático sin SSI y el partial fue
+           preparado precisamente para esta página. El JS y la
+           hoja de estilos se enlazan al pie y en el <head>
+           respectivamente.
+
+         FECHA OBJETIVO
+           data-target-date="2026-06-09T00:00:00-03:00"
+           (placeholder definido en el partial original; ajustar
+            cuando se confirme el día del lanzamiento).
+
+         CONTENIDO A REVELAR
+           Tras expirar la cuenta, el JS quita el atributo
+           [hidden] del nodo [data-countdown-revealed], que
+           contiene el grid de las tres tarjetas de servicio.
+         ════════════════════════════════════════════════════════ -->
+    <section class="countdown" data-countdown data-target-date="2026-06-09T00:00:00-03:00"
+             aria-labelledby="recursos-acceso-title">
+
+      <div class="countdown__backdrop" aria-hidden="true">
+        <span class="countdown__glow countdown__glow--primary"></span>
+        <span class="countdown__glow countdown__glow--sand"></span>
+      </div>
+
+      <!-- ── Estado de espera (cuenta regresiva) ── -->
+      <div class="countdown__pending" data-countdown-pending>
+        <div class="countdown__panel">
+
+          <div class="countdown__head">
+            <span class="countdown__badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/>
+              </svg>
+              <span>Apertura próxima</span>
+            </span>
+
+            <h2 class="countdown__title">
+              El núcleo académico de AChETIQ está <em>por abrir</em>
+            </h2>
+
+            <p class="countdown__lead">
+              Estamos terminando de reunir el repositorio académico de la asociación:
+              apuntes y guías de ejercicios de las 41 materias del Plan 2023,
+              bibliografía de referencia, el Diseño Curricular y herramientas para
+              seguir tu avance en la carrera. Una sola sección, ordenada por materia
+              y pensada para acompañarte en cada cursada. La cuenta regresiva marca
+              lo que falta para su apertura.
+            </p>
+          </div>
+
+          <div class="countdown__clock" role="timer" aria-live="polite"
+               aria-label="Tiempo restante para la apertura de Recursos Académicos">
+            <div class="countdown__unit">
+              <div class="countdown__box">
+                <span class="countdown__digits" data-unit="days">00</span>
+              </div>
+              <span class="countdown__label">Días</span>
+            </div>
+
+            <span class="countdown__sep" aria-hidden="true">:</span>
+
+            <div class="countdown__unit">
+              <div class="countdown__box">
+                <span class="countdown__digits" data-unit="hours">00</span>
+              </div>
+              <span class="countdown__label">Horas</span>
+            </div>
+
+            <span class="countdown__sep" aria-hidden="true">:</span>
+
+            <div class="countdown__unit">
+              <div class="countdown__box">
+                <span class="countdown__digits" data-unit="minutes">00</span>
+              </div>
+              <span class="countdown__label">Minutos</span>
+            </div>
+
+            <span class="countdown__sep" aria-hidden="true">:</span>
+
+            <div class="countdown__unit">
+              <div class="countdown__box">
+                <span class="countdown__digits" data-unit="seconds">00</span>
+              </div>
+              <span class="countdown__label">Segundos</span>
+            </div>
+          </div>
+
+          <p class="countdown__note">
+            La sección se habilitará automáticamente al finalizar la cuenta.
+          </p>
+
+        </div>
+      </div>
+
+      <!-- ── Contenido revelado al expirar la cuenta ── -->
+      <div class="countdown__content" data-countdown-revealed hidden>
+
+        <section aria-labelledby="recursos-acceso-title">
+          <header class="section-title">
+            <p class="eyebrow">Acceso a los servicios</p>
+            <h2 id="recursos-acceso-title">Tres herramientas para tu <em>cursada</em></h2>
+          </header>
+
+          <div class="grid-cards grid-cards--3">
+
+            <!-- Servicio 1 — Apuntes por materia -->
+            <article class="card card-gabinete">
+              <h3 class="card-gabinete__title">Apuntes por materia</h3>
+              <p class="card-gabinete__desc">
+                Repositorio académico organizado por año y materia, con apuntes, guías de ejercicios y bibliografía de referencia aportados por la comunidad estudiantil.
+              </p>
+              <footer class="card-footer">
+                <a class="card-gabinete__link" href="./recursos/apuntes.html">
+                  Ver materias →
+                </a>
+              </footer>
+            </article>
+
+            <!-- Servicio 2 — Calendario académico -->
+            <article class="card card-gabinete">
+              <h3 class="card-gabinete__title">Calendario académico</h3>
+              <p class="card-gabinete__desc">
+                Fechas clave de la cursada en la UTN FRRe: inicio y fin de cuatrimestre, semanas de exámenes finales, feriados y eventos de la facultad.
+              </p>
+              <footer class="card-footer">
+                <a class="card-gabinete__link" href="./recursos/calendario.html">
+                  Abrir calendario →
+                </a>
+              </footer>
+            </article>
+
+            <!-- Servicio 3 — Seguimiento de carrera -->
+            <article class="card card-gabinete">
+              <h3 class="card-gabinete__title">Seguimiento de carrera</h3>
+              <p class="card-gabinete__desc">
+                Planilla para registrar el estado de cada materia, calcular el avance y verificar correlativas del Plan 2023. Los datos quedan en tu dispositivo.
+              </p>
+              <footer class="card-footer">
+                <a class="card-gabinete__link" href="./recursos/seguimiento.html">
+                  Abrir planilla →
+                </a>
+              </footer>
+            </article>
+
+          </div>
+        </section>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <div data-loader="footer">
+    <noscript>
+      <footer class="footer-fallback" role="contentinfo">
+        <div class="footer-fallback__inner">
+          <p>© 2026 Asociación Chaqueña de Estudiantes Tecnológicos de Ingeniería Química · UTN FRRe</p>
+        </div>
+      </footer>
+    </noscript>
+  </div>
+
+  <div class="loader loader--overlay loader--msg-bottom" id="global-loader"
+       role="status" aria-live="polite" hidden>
+    <div class="loader__dots">
+      <span class="loader__dot safe-motion"></span>
+      <span class="loader__dot safe-motion"></span>
+      <span class="loader__dot safe-motion"></span>
+    </div>
+    <p class="loader__message">Cargando…</p>
+  </div>
+
+  <script src="../assets/js/loader.js"></script>
+  <script src="../assets/js/navbar.js"></script>
+  <script src="../assets/js/footer.js"></script>
+  <script src="../assets/js/countdown-recursos.js"></script>
+  <script type="module" src="../assets/js/main.js"></script>
+
+</body>
+</html>

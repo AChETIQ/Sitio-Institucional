@@ -456,6 +456,31 @@
   color: var(--color-ink);
 }
 
+/* Estado «sin apuntes aún» (variante v1.0 mientras P4.6 no
+   define la vista individual de materia). El render por defecto
+   conmuta entre <a> (con apuntes) y <article class="…--placeholder">
+   (sin apuntes). Esta variante no es interactiva — sin hover,
+   sin foco visible más allá del global. La línea de status
+   usa el mismo color faint que .card-materia__year. */
+.card-materia--placeholder {
+  cursor: default;
+}
+
+.card-materia--placeholder:hover {
+  border-color: var(--color-rule);    /* anula el hover de .card-materia */
+}
+
+.card-materia--placeholder:hover .card-materia__cover {
+  filter: none;
+}
+
+.card-materia__status {
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);     /* 12 px */
+  color: var(--color-ink-faint);
+  margin-top: var(--space-1);
+}
+
 
 /* ─────────────────────────────────────────────────────────────
    4.10 CONTACT CARD — .contact-card
