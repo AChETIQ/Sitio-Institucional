@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Apuntes por materia · AChETIQ</title>
+  <meta name="description" content="Apuntes, guías y bibliografía de Ingeniería Química UTN FRRe, organizados por año y materia. Plan 2023. Aportados por la comunidad estudiantil de AChETIQ.">
+
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../../favicon.ico" sizes="32x32">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+  <link rel="manifest" href="../../site.webmanifest">
+  <meta name="theme-color" content="#0D3B66">
+
+  <link rel="preload" href="../../assets/fonts/geist-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../../assets/fonts/instrument-serif-400.woff2" as="font" type="font/woff2" crossorigin>
+
+  <link rel="stylesheet" href="../../tokens.css">
+  <link rel="stylesheet" href="../../assets/css/main.css">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AChETIQ">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:title" content="Apuntes por materia · AChETIQ">
+  <meta property="og:description" content="Apuntes, guías y bibliografía de Ingeniería Química UTN FRRe, organizados por año y materia. Plan 2023. Aportados por la comunidad estudiantil de AChETIQ.">
+  <meta property="og:url" content="REEMPLAZAR URL canónica absoluta de esta página">
+  <meta property="og:image" content="REEMPLAZAR URL de imagen institucional (Fase 6)">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Apuntes por materia · AChETIQ">
+  <meta name="twitter:description" content="Apuntes, guías y bibliografía de Ingeniería Química UTN FRRe, organizados por año y materia. Plan 2023. Aportados por la comunidad estudiantil de AChETIQ.">
+  <meta name="twitter:image" content="REEMPLAZAR URL de imagen institucional (Fase 6)">
+
+</head>
+<body>
+
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+
+  <div data-loader="navbar">
+    <noscript>
+      <header class="navbar-fallback">
+        <div class="navbar-fallback__inner">
+          <a class="navbar-fallback__brand" href="../../index.html">AChETIQ</a>
+        </div>
+      </header>
+    </noscript>
+  </div>
+
+  <main id="main-content" class="page" tabindex="-1">
+
+    <!-- ════════════════════════════════════════════════════════
+         BREADCRUMBS — patrón transversal §6
+         Inicio › Recursos académicos › Apuntes por materia
+         ════════════════════════════════════════════════════════ -->
+    <nav class="breadcrumbs" aria-label="Migas de pan">
+      <ol class="breadcrumbs__list">
+        <li><a href="../../index.html">Inicio</a></li>
+        <li><a href="../recursos.html">Recursos académicos</a></li>
+        <li aria-current="page">Apuntes por materia</li>
+      </ol>
+    </nav>
+
+    <!-- ════════════════════════════════════════════════════════
+         [1] PAGE-HEADER
+         ════════════════════════════════════════════════════════ -->
+    <header class="page-header">
+      <p class="eyebrow">Material de estudio</p>
+      <h1 class="page-header__title">Apuntes por <em>materia</em></h1>
+      <p class="page-header__lead">
+        Apuntes, guías de ejercicios y bibliografía de las cuarenta y una materias del Plan 2023, organizados por año académico. El material proviene de la comunidad estudiantil y se publica con acreditación del autor original.
+      </p>
+    </header>
+
+    <!-- ════════════════════════════════════════════════════════
+         [2] FILTROS POR AÑO — Wireframe §4 bloque [5]
+         componente: .pill-nav (FASE_1 §7.2)
+         comportamiento: seleccionar un año OCULTA las cards de
+         los demás años (no filtra in-place). «Todos» muestra
+         todo. Estado por defecto: «Todos» activo.
+         El wiring vive en assets/js/apuntes.js (override del
+         loader `recursos`).
+         ════════════════════════════════════════════════════════ -->
+    <nav class="pill-nav" data-anio-filter aria-label="Filtrar materias por año">
+      <button class="pill-nav__pill is-active" type="button"
+              data-anio="all" aria-pressed="true">Todos</button>
+      <button class="pill-nav__pill" type="button"
+              data-anio="1" aria-pressed="false">1.º año</button>
+      <button class="pill-nav__pill" type="button"
+              data-anio="2" aria-pressed="false">2.º año</button>
+      <button class="pill-nav__pill" type="button"
+              data-anio="3" aria-pressed="false">3.º año</button>
+      <button class="pill-nav__pill" type="button"
+              data-anio="4" aria-pressed="false">4.º año</button>
+      <button class="pill-nav__pill" type="button"
+              data-anio="5" aria-pressed="false">5.º año</button>
+    </nav>
+
+    <!-- ════════════════════════════════════════════════════════
+         [3] GRID DE MATERIAS — Wireframe §4 bloque [6]
+         data-loader="recursos" → assets/js/loaders.js §4.2
+         (override local en assets/js/apuntes.js):
+           · ordena por anio asc, orden natural dentro del año;
+           · pinta cada materia como .card-materia con cover
+             coloreado por var(--color-materia-anio-N), año en
+             caption y nombre como h3;
+           · estado actual (P4.6 pendiente): NINGUNA materia
+             tiene material cargado todavía, por lo que cada
+             tarjeta se renderiza en variante --placeholder con
+             la línea «Sin apuntes aún». Cuando P4.6 cierre la
+             vista individual de materia, el renderer conmutará
+             a <a href="…"> para las materias con material.
+         ════════════════════════════════════════════════════════ -->
+    <section aria-labelledby="materias-title">
+      <header class="section-title sr-only">
+        <h2 id="materias-title">Materias del Plan 2023</h2>
+      </header>
+      <div data-loader="recursos"></div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+         [4] CTA — APORTAR MATERIAL — Wireframe §4 bloque [7]
+         Mecanismo de aporte: el correo institucional con sufijo
+         `+apuntes` y el asunto canónico «Envío de material
+         académico». Ambos datos quedan literales en el HTML
+         para que funcionen también con JS deshabilitado.
+         ════════════════════════════════════════════════════════ -->
+    <section class="cta-final" aria-labelledby="cta-aportar-title">
+      <p class="eyebrow">Comunidad</p>
+      <h2 class="cta-final__title" id="cta-aportar-title">¿Querés <em>aportar</em> material?</h2>
+      <p class="cta-final__lead">
+        Si tenés apuntes, guías resueltas o material de estudio que pueda servirle a otros estudiantes, escribinos. Todo aporte queda disponible para la comunidad y se acredita al autor original.
+      </p>
+      <p class="cta-final__lead">
+        Escribinos a
+        <a href="mailto:achetiq.resistencia+apuntes@aneiqa.org?subject=Env%C3%ADo%20de%20material%20acad%C3%A9mico">achetiq.resistencia+apuntes@aneiqa.org</a>
+        con el asunto <em>Envío de material académico</em>.
+      </p>
+      <div class="cta-final__actions">
+        <a href="mailto:achetiq.resistencia+apuntes@aneiqa.org?subject=Env%C3%ADo%20de%20material%20acad%C3%A9mico"
+           class="btn btn-primary">Quiero aportar</a>
+      </div>
+    </section>
+
+  </main>
+
+  <div data-loader="footer">
+    <noscript>
+      <footer class="footer-fallback" role="contentinfo">
+        <div class="footer-fallback__inner">
+          <p>© 2026 Asociación Chaqueña de Estudiantes Tecnológicos de Ingeniería Química · UTN FRRe</p>
+        </div>
+      </footer>
+    </noscript>
+  </div>
+
+  <div class="loader loader--overlay loader--msg-bottom" id="global-loader"
+       role="status" aria-live="polite" hidden>
+    <div class="loader__dots">
+      <span class="loader__dot safe-motion"></span>
+      <span class="loader__dot safe-motion"></span>
+      <span class="loader__dot safe-motion"></span>
+    </div>
+    <p class="loader__message">Cargando…</p>
+  </div>
+
+  <script src="../../assets/js/loader.js"></script>
+  <script src="../../assets/js/navbar.js"></script>
+  <script src="../../assets/js/footer.js"></script>
+  <script type="module" src="../../assets/js/apuntes.js"></script>
+  <script type="module" src="../../assets/js/main.js"></script>
+
+</body>
+</html>
