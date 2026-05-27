@@ -1,0 +1,107 @@
+/* ============================================================
+   AChETIQ — Contenido textual (text.css)
+   ------------------------------------------------------------
+   Versión: 1.0 · Fase 2 — Desarrollo front-end
+   Fundamento: FASE_1 §3 — Componentes de contenido textual
+               (prose, quote) · tokens.css
+
+   Cero valores hex y cero familias tipográficas literales:
+   todo deriva de tokens.css.
+   ============================================================ */
+
+
+/* ─────────────────────────────────────────────────────────────
+   3.1  PROSE — .prose
+   ─────────────────────────────────────────────────────────────
+   Contenedor de texto largo (historia, misión, descripciones).
+   Aplica reglas tipográficas optimizadas para lectura sostenida:
+   ancho máximo 65ch, color suave, espaciado generoso entre
+   párrafos, separación previa amplia para subtítulos internos.
+   ───────────────────────────────────────────────────────────── */
+
+.prose {
+  max-width: 65ch;
+  color: var(--color-ink-soft);
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+}
+
+/* Espaciado entre párrafos sucesivos: 16 px entre el final de
+   uno y el inicio del siguiente. Usar margin-top en el segundo
+   (no margin-bottom en el primero) evita acumular margen con el
+   último hijo del contenedor. */
+.prose > p + p {
+  margin-top: var(--space-4);
+}
+
+/* Subtítulos internos: 32 px de respiración previa, color
+   `--color-ink` (más fuerte que el cuerpo) para reafirmar
+   jerarquía dentro del bloque. */
+.prose > h3 {
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-3);
+  color: var(--color-ink);
+}
+
+/* Listas dentro de .prose: respetan el espaciado entre párrafos
+   y conservan el sangrado nativo del navegador (compensado con
+   padding-inline-start para que las viñetas no se peguen al
+   borde izquierdo). */
+.prose > ul,
+.prose > ol {
+  margin-top: var(--space-4);
+  padding-inline-start: var(--space-6);
+}
+
+.prose > ul li + li,
+.prose > ol li + li {
+  margin-top: var(--space-2);
+}
+
+/* Enlaces dentro de prose: heredan el azul primario global
+   (tokens.css `a {}`). Subrayado discreto sólo en hover para no
+   interrumpir el flujo de lectura. */
+.prose a {
+  text-decoration: underline;
+  text-decoration-color: var(--color-rule);
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color var(--transition-fast);
+}
+
+.prose a:hover {
+  text-decoration-color: var(--color-primary);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   3.2  QUOTE — .quote
+   ─────────────────────────────────────────────────────────────
+   Cita destacada (testimonio, frase institucional). Borde
+   izquierdo de 3 px en `--color-primary`, texto principal en
+   tipografía display itálica, atribución debajo en body normal.
+   ───────────────────────────────────────────────────────────── */
+
+.quote {
+  border-left: 3px solid var(--color-primary);
+  padding-left: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  /* Reset del estilo nativo de <blockquote>. */
+  margin: 0;
+}
+
+.quote__text {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-h3);          /* 20 px */
+  line-height: var(--leading-snug);
+  color: var(--color-ink);
+}
+
+.quote__attribution {
+  font-family: var(--font-body);
+  font-size: var(--text-small);       /* 13 px */
+  font-weight: var(--weight-regular);
+  color: var(--color-ink-faint);
+}
