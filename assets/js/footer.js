@@ -20,8 +20,9 @@
   'use strict';
 
   var SEL_PLACEHOLDER = '[data-loader="footer"]';
-  var URL_PARTIAL = '/partials/footer.html';
-  var URL_REDES   = '/data/redes.json';
+  var BASE = window.AChETIQBase || { root: '/', resolve: function (p) { return '/' + String(p).replace(/^(\.?\/)+/, ''); }, rewriteTree: function () {} };
+  var URL_PARTIAL = BASE.resolve('partials/footer.html');
+  var URL_REDES   = BASE.resolve('data/redes.json');
 
 
   /* ─── Iconos Lucide (24×24, currentColor) ────────────────── */
@@ -238,6 +239,10 @@
     if (!root || !root.matches('[data-footer-root]')) {
       throw new Error('footer: partial inválido');
     }
+    /* Reescribe href/src del partial antes de inyectarlo: las
+       rutas relativas del markup quedarían atadas a la URL de la
+       página anfitriona, no a la raíz del sitio. */
+    BASE.rewriteTree(root);
     placeholder.replaceWith(root);
     return root;
   }

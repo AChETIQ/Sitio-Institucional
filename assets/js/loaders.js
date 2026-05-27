@@ -261,7 +261,9 @@ function buildGabineteCard(g) {
     }));
   }
 
-  const href = g.id ? safeHref('/pages/gabinetes/' + String(g.id) + '.html') : null;
+  const href = g.id
+    ? safeHref(window.AChETIQBase.resolve('pages/gabinetes/' + String(g.id) + '.html'))
+    : null;
   if (href) {
     const footer = createElement('footer', { class: 'card-footer' });
     footer.appendChild(createElement('a', {
@@ -293,7 +295,7 @@ function buildMateriaCard(m) {
   const anio = (Number.isInteger(m.anio) && m.anio >= 1 && m.anio <= 5)
     ? m.anio : null;
   const href = m.id
-    ? safeHref('/pages/recursos/apuntes.html#' + String(m.id))
+    ? safeHref(window.AChETIQBase.resolve('pages/recursos/apuntes.html#' + String(m.id)))
     : null;
 
   const attrs = {};
@@ -469,9 +471,9 @@ function buildDocumentoCard(d) {
 
   if (d.archivo) {
     /* `archivo` se guarda como ruta relativa al sitio (ej.
-       "docs/Estatuto.pdf"); le anteponemos "/" para volverla
-       absoluta y sanitizamos. */
-    const href = safeHref('/' + String(d.archivo).replace(/^\/+/, ''));
+       "docs/Estatuto.pdf"); la anclamos a la raíz real del sitio
+       (window.AChETIQBase) y sanitizamos. */
+    const href = safeHref(window.AChETIQBase.resolve(String(d.archivo)));
     if (href) {
       card.appendChild(createElement('a', {
         class: 'card-documento__action btn btn-secondary',
@@ -507,7 +509,7 @@ function buildInstitucionCard(inst) {
   const card = createElement('article', { class: 'card card-institucion' });
 
   if (inst.logo) {
-    const src = safeHref('/' + String(inst.logo).replace(/^\/+/, ''));
+    const src = safeHref(window.AChETIQBase.resolve(String(inst.logo)));
     if (src) {
       const alt = 'Logo ' + (inst.nombre_corto || inst.nombre || '');
       card.appendChild(createElement('img', {

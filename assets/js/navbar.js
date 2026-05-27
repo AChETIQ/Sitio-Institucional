@@ -19,8 +19,9 @@
   'use strict';
 
   var SEL_PLACEHOLDER = '[data-loader="navbar"]';
-  var URL_PARTIAL = '/partials/navbar.html';
-  var URL_CONFIG  = '/data/navbar.json';
+  var BASE = window.AChETIQBase || { root: '/', resolve: function (p) { return '/' + String(p).replace(/^(\.?\/)+/, ''); }, rewriteTree: function () {} };
+  var URL_PARTIAL = BASE.resolve('partials/navbar.html');
+  var URL_CONFIG  = BASE.resolve('data/navbar.json');
   var LOCK_CLASS  = 'navbar-scroll-lock';
   var BP_DESKTOP  = 768;
 
@@ -65,12 +66,12 @@
     var a = root.querySelector('[data-navbar-brand]');
     var logo = root.querySelector('[data-navbar-logo]');
     var word = root.querySelector('[data-navbar-wordmark]');
-    if (a && brand.href) a.setAttribute('href', brand.href);
+    if (a && brand.href) a.setAttribute('href', BASE.resolve(brand.href));
     if (word && brand.label) {
       word.textContent = brand.label;
       if (a) a.setAttribute('aria-label', brand.label);
     }
-    if (logo && brand.logo) logo.setAttribute('src', brand.logo);
+    if (logo && brand.logo) logo.setAttribute('src', BASE.resolve(brand.logo));
   }
 
   function renderLists(root, links) {
@@ -91,7 +92,7 @@
     var v = safeVariant(link.variant);
     var li = el('li', 'navbar__item');
     var a  = el('a', 'nav-link nav-link--' + v + ' navbar__label',
-                link.label, { href: link.href });
+                link.label, { href: BASE.resolve(link.href) });
 
     if (!hasSub(link)) { li.appendChild(a); return li; }
 
@@ -107,7 +108,7 @@
     link.submenu.forEach(function (sub) {
       var sli = el('li', null, null, { role: 'none' });
       sli.appendChild(el('a', 'navbar__sublink', sub.label,
-                         { href: sub.href, role: 'menuitem' }));
+                         { href: BASE.resolve(sub.href), role: 'menuitem' }));
       ul.appendChild(sli);
     });
 
@@ -123,7 +124,7 @@
     var row = el('div', 'navbar__panel-row');
     var a = el('a',
                'navbar__panel-link' + (v === 'primary' ? ' navbar__panel-link--primary' : ''),
-               link.label, { href: link.href });
+               link.label, { href: BASE.resolve(link.href) });
     row.appendChild(a);
 
     if (!hasSub(link)) { li.appendChild(row); return li; }
@@ -144,7 +145,7 @@
     link.submenu.forEach(function (sub) {
       var sli = el('li', null, null, { role: 'none' });
       sli.appendChild(el('a', 'navbar__panel-sublink', sub.label,
-                         { href: sub.href, role: 'menuitem' }));
+                         { href: BASE.resolve(sub.href), role: 'menuitem' }));
       ul.appendChild(sli);
     });
 
@@ -250,7 +251,7 @@
     var header = el('header', 'navbar-fallback');
     var inner  = el('div', 'navbar-fallback__inner');
     inner.appendChild(el('a', 'navbar-fallback__brand', 'AChETIQ',
-                         { href: '/index.html' }));
+                         { href: BASE.resolve('index.html') }));
     header.appendChild(inner);
     placeholder.appendChild(header);
   }
@@ -262,6 +263,11 @@
     if (!root || !root.matches('[data-navbar-root]')) {
       throw new Error('navbar: partial inválido');
     }
+    /* Las URLs relativas del partial se resolverían contra la
+       URL de la página anfitriona (que puede estar en cualquier
+       subcarpeta). Las reescribimos ANTES de inyectar para que
+       queden ancladas a la raíz del sitio. */
+    BASE.rewriteTree(root);
     placeholder.replaceWith(root);
     return root;
   }

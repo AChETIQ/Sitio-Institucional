@@ -45,7 +45,11 @@ import {
   renderError
 } from './loaders.js';
 
-const DATA_BASE = '/data/';
+const BASE = window.AChETIQBase || {
+  root: '/',
+  resolve: (p) => '/' + String(p).replace(/^(\.?\/)+/, '')
+};
+const DATA_BASE = BASE.root + 'data/';
 
 /* Acotamos los nombres a kebab-case ASCII para evitar pedir URLs
    construidas con datos no validados (defensa en profundidad,
