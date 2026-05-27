@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Contacto · AChETIQ</title>
+  <meta name="description" content="Escribinos a AChETIQ. Datos de contacto, redes sociales y ubicación de la facultad.">
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../favicon.ico" sizes="32x32">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="manifest" href="../site.webmanifest">
+  <meta name="theme-color" content="#0D3B66">
+
+  <link rel="preload" href="../assets/fonts/geist-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../assets/fonts/instrument-serif-400.woff2" as="font" type="font/woff2" crossorigin>
+
+  <link rel="stylesheet" href="../tokens.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AChETIQ">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:title" content="Contacto · AChETIQ">
+  <meta property="og:description" content="Escribinos a AChETIQ. Datos de contacto, redes sociales y ubicación de la facultad.">
+  <meta property="og:url" content="REEMPLAZAR URL canónica absoluta de esta página">
+  <meta property="og:image" content="REEMPLAZAR URL de imagen institucional (Fase 6)">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Contacto · AChETIQ">
+  <meta name="twitter:description" content="Escribinos a AChETIQ. Datos de contacto, redes sociales y ubicación de la facultad.">
+  <meta name="twitter:image" content="REEMPLAZAR URL de imagen institucional (Fase 6)">
+
+  <style>
+    /* ──────────────────────────────────────────────────────────
+       Contacto — estilos locales mínimos
+       ──────────────────────────────────────────────────────────
+       El catálogo §4.10 nombra al contenedor `.contact-grid`,
+       pero la grilla responsive coincide exactamente con la ya
+       definida `.grid-cards--4` (lists.css §5.1): 1 col mobile,
+       2 col tablet, 4 col desktop. Se aplica la utilidad
+       existente para no duplicar reglas. La clase `.contact-grid`
+       se conserva en el markup como hook semántico por si más
+       adelante se separa del sistema de tarjetas genérico.
+
+       El bloque del mapa usa <figure> para asociar caption y
+       embed accesiblemente. El iframe se carga diferido
+       (loading="lazy") y queda contenido por un aspect-ratio
+       fijo para no provocar reflow al resolverse.
+       ────────────────────────────────────────────────────────── */
+    .map-figure {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+    .map-figure__frame {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: 1px solid var(--color-rule);
+      border-radius: var(--radius-lg);
+      background: var(--color-rule-soft);
+    }
+    @media (max-width: 768px) {
+      .map-figure__frame { aspect-ratio: 4 / 3; }
+    }
+    .map-figure__caption {
+      font-family: var(--font-body);
+      font-size: var(--text-small);
+      color: var(--color-ink-soft);
+      line-height: var(--leading-relaxed);
+    }
+    .map-figure__caption a {
+      color: var(--color-primary);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .map-figure__caption a:hover {
+      color: var(--color-primary-mid);
+    }
+  </style>
+
+</head>
+<body>
+
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+
+  <div data-loader="navbar">
+    <noscript>
+      <header class="navbar-fallback">
+        <div class="navbar-fallback__inner">
+          <a class="navbar-fallback__brand" href="../index.html">AChETIQ</a>
+        </div>
+      </header>
+    </noscript>
+  </div>
+
+  <main id="main-content" class="page" tabindex="-1">
+
+    <!-- ════════════════════════════════════════════════════════
+         [3] PAGE-HEADER — Wireframe §5 bloque [3]
+         ════════════════════════════════════════════════════════ -->
+    <header class="page-header">
+      <p class="eyebrow">Comunicación</p>
+      <h1 class="page-header__title">Escribinos a <em>AChETIQ</em></h1>
+      <p class="page-header__lead">
+        Consultas sobre la asociación, propuestas de actividades, intención de sumarte a un gabinete o aportes de material académico.
+      </p>
+    </header>
+
+    <!-- ════════════════════════════════════════════════════════
+         [4] INFORMACIÓN DE CONTACTO DIRECTA
+         Wireframe §5 bloque [4] · catálogo §4.10 .contact-card.
+         Renderizado vía data-loader="redes" → renderer registrado
+         más abajo en este mismo documento (módulo inline). Sin
+         formulario de envío: la página se cerró el 2026-05-14 sin
+         <form>, ratificado en sesión 2026-05-27 sobre las tres
+         opciones (servicio externo / mailto / solo canales).
+         Se eligió "solo canales".
+
+         REGLAS DE RENDERIZADO
+           · email, instagram, facebook, whatsapp, youtube, twitter:
+             se renderiza tarjeta activa SOLO si el valor en
+             data/redes.json es no nulo.
+           · linkedin: caso especial — se renderiza siempre como
+             tarjeta "Próximamente" mientras el valor sea nulo;
+             cuando deje de serlo, pasa a activa automáticamente.
+           · dirección: tarjeta estática alimentada por los campos
+             direccion_facultad y web_facultad del mismo JSON;
+             enlaza al sitio web de la FRRe (nueva pestaña).
+         ════════════════════════════════════════════════════════ -->
+    <section aria-labelledby="canales-title">
+      <header class="section-title">
+        <p class="eyebrow">Canales directos</p>
+        <h2 id="canales-title">Cómo <em>contactarnos</em></h2>
+      </header>
+      <div data-loader="redes"></div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+         [5] MAPA — Wireframe §5 bloque [5]
+         Embed liviano de Google Maps por URL pública
+         (?q=…&output=embed): sin clave de API, sin script
+         pesado, sin tracking adicional al que ya impone Google.
+         loading="lazy" difiere la carga hasta que el iframe
+         entre en viewport. El caption ofrece un link textual a
+         Google Maps para quienes no quieran cargar el iframe o
+         lo tengan bloqueado.
+         ════════════════════════════════════════════════════════ -->
+    <section aria-labelledby="ubicacion-title">
+      <header class="section-title">
+        <p class="eyebrow">Ubicación</p>
+        <h2 id="ubicacion-title">Dónde <em>encontrarnos</em></h2>
+      </header>
+      <figure class="map-figure">
+        <iframe
+          class="map-figure__frame"
+          src="https://www.google.com/maps?q=Calle%20French%204141%2C%20Resistencia%2C%20Chaco&output=embed"
+          title="Mapa de la Facultad Regional Resistencia (UTN), Calle French 4141, Resistencia, Chaco"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allow="fullscreen"></iframe>
+        <figcaption class="map-figure__caption">
+          Facultad Regional Resistencia · UTN. Calle French 4141, H3506 Resistencia, Chaco.
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=Calle+French+4141%2C+Resistencia%2C+Chaco"
+             target="_blank" rel="noopener noreferrer">Abrir en Google Maps →</a>
+        </figcaption>
+      </figure>
+    </section>
+
+  </main>
+
+  <div data-loader="footer">
+    <noscript>
+      <footer class="footer-fallback" role="contentinfo">
+        <div class="footer-fallback__inner">
+          <p>© 2026 Asociación Chaqueña de Estudiantes Tecnológicos de Ingeniería Química · UTN FRRe</p>
+        </div>
+      </footer>
+    </noscript>
+  </div>
+
+  <div class="loader loader--overlay loader--msg-bottom" id="global-loader"
+       role="status" aria-live="polite" hidden>
+    <div class="loader__dots">
+      <span class="loader__dot safe-motion"></span>
+      <span class="loader__dot safe-motion"></span>
+      <span class="loader__dot safe-motion"></span>
+    </div>
+    <p class="loader__message">Cargando…</p>
+  </div>
+
+  <script src="../assets/js/loader.js"></script>
+  <script src="../assets/js/navbar.js"></script>
+  <script src="../assets/js/footer.js"></script>
+
+  <!-- ════════════════════════════════════════════════════════════
+       Renderer local para data-loader="redes"
+       ──────────────────────────────────────────────────────────
+       loaders.js NO registra un renderer por defecto para redes
+       (lo usa internamente footer.js para el bloque de redes del
+       pie). Aquí se registra una variante propia para la grilla
+       de tarjetas .contact-card del bloque [4]. La registración
+       sucede ANTES de la importación de main.js, garantizando
+       que el motor lo encuentre al escanear el DOM.
+       ════════════════════════════════════════════════════════════ -->
+  <script type="module">
+    import { registerLoader, createElement, safeHref }
+      from '../assets/js/loaders.js';
+
+    /* Lucide icon paths (stroke-based, viewBox 0 0 24 24).
+       Versión congelada al snapshot del proyecto; verificada
+       contra https://lucide.dev. */
+    const ICONS = {
+      mail: [
+        ['rect', { width: '20', height: '16', x: '2', y: '4', rx: '2' }],
+        ['path', { d: 'm22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7' }]
+      ],
+      instagram: [
+        ['rect', { width: '20', height: '20', x: '2', y: '2', rx: '5', ry: '5' }],
+        ['path', { d: 'M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z' }],
+        ['line', { x1: '17.5', x2: '17.51', y1: '6.5', y2: '6.5' }]
+      ],
+      linkedin: [
+        ['path', { d: 'M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z' }],
+        ['rect', { width: '4', height: '12', x: '2', y: '9' }],
+        ['circle', { cx: '4', cy: '4', r: '2' }]
+      ],
+      mapPin: [
+        ['path', { d: 'M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0' }],
+        ['circle', { cx: '12', cy: '10', r: '3' }]
+      ]
+    };
+
+    /* Construye un SVG inline con la clase .contact-card__icon.
+       aria-hidden porque el ícono es decorativo: el eyebrow y el
+       valor ya proveen el contenido textual del canal. */
+    function svgIcon(name) {
+      const NS = 'http://www.w3.org/2000/svg';
+      const svg = document.createElementNS(NS, 'svg');
+      svg.setAttribute('class', 'contact-card__icon');
+      svg.setAttribute('viewBox', '0 0 24 24');
+      svg.setAttribute('fill', 'none');
+      svg.setAttribute('stroke', 'currentColor');
+      svg.setAttribute('stroke-width', '1.5');
+      svg.setAttribute('stroke-linecap', 'round');
+      svg.setAttribute('stroke-linejoin', 'round');
+      svg.setAttribute('aria-hidden', 'true');
+      svg.setAttribute('focusable', 'false');
+      (ICONS[name] || []).forEach(([tag, attrs]) => {
+        const node = document.createElementNS(NS, tag);
+        for (const k of Object.keys(attrs)) node.setAttribute(k, attrs[k]);
+        svg.appendChild(node);
+      });
+      return svg;
+    }
+
+    function activeCard({ icon, eyebrow, value, href, external }) {
+      const safe = safeHref(href);
+      if (!safe) return placeholderCard({ icon, eyebrow });
+      const attrs = { href: safe };
+      if (external) {
+        attrs.target = '_blank';
+        attrs.rel = 'noopener noreferrer';
+      }
+      const card = createElement('a', { class: 'contact-card', attrs });
+      card.appendChild(svgIcon(icon));
+      card.appendChild(createElement('p', { class: 'contact-card__eyebrow', text: eyebrow }));
+      card.appendChild(createElement('p', { class: 'contact-card__value', text: value }));
+      return card;
+    }
+
+    function placeholderCard({ icon, eyebrow, badge }) {
+      const card = createElement('div', {
+        class: 'contact-card contact-card--proximamente',
+        attrs: { 'aria-disabled': 'true' }
+      });
+      card.appendChild(svgIcon(icon));
+      card.appendChild(createElement('p', { class: 'contact-card__eyebrow', text: eyebrow }));
+      card.appendChild(createElement('p', { class: 'contact-card__value', text: '—' }));
+      card.appendChild(createElement('span', {
+        class: 'contact-card__badge',
+        text: badge || 'Próximamente'
+      }));
+      return card;
+    }
+
+    /* Tarjeta de dirección: visualmente idéntica a una activa,
+       pero apunta al sitio institucional de la FRRe (no a Maps;
+       el mapa ya está en el bloque [5]). Si web_facultad no está
+       disponible en el JSON, se degrada a placeholder no
+       interactivo en lugar de romper la grilla. */
+    function addressCard(data) {
+      const valueText = data.direccion_facultad
+        || 'Calle French 4141, H3506 Resistencia, Chaco';
+      return activeCard({
+        icon: 'mapPin',
+        eyebrow: 'Visitanos',
+        value: valueText,
+        href: data.web_facultad,
+        external: true
+      });
+    }
+
+    registerLoader('redes', (container, data) => {
+      const grid = createElement('div', {
+        class: 'grid-cards grid-cards--4 contact-grid'
+      });
+
+      if (data.email) {
+        grid.appendChild(activeCard({
+          icon: 'mail',
+          eyebrow: 'Correo institucional',
+          value: data.email,
+          href: 'mailto:' + data.email,
+          external: false
+        }));
+      }
+
+      if (data.instagram) {
+        grid.appendChild(activeCard({
+          icon: 'instagram',
+          eyebrow: 'Instagram',
+          value: '@achetiq',
+          href: data.instagram,
+          external: true
+        }));
+      }
+
+      /* LinkedIn: caso especial del wireframe — tarjeta visible
+         con badge "Próximamente" mientras el campo sea null. Se
+         activa automáticamente cuando data.linkedin deje de
+         serlo. */
+      if (data.linkedin) {
+        grid.appendChild(activeCard({
+          icon: 'linkedin',
+          eyebrow: 'LinkedIn',
+          value: 'AChETIQ',
+          href: data.linkedin,
+          external: true
+        }));
+      } else {
+        grid.appendChild(placeholderCard({
+          icon: 'linkedin',
+          eyebrow: 'LinkedIn'
+        }));
+      }
+
+      grid.appendChild(addressCard(data));
+
+      container.appendChild(grid);
+    });
+  </script>
+
+  <script type="module" src="../assets/js/main.js"></script>
+
+</body>
+</html>
