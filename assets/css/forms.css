@@ -1,0 +1,170 @@
+/* ============================================================
+   AChETIQ — Formularios (forms.css)
+   ------------------------------------------------------------
+   Versión: 1.0 · Fase 2 — Desarrollo front-end
+   Fundamento: FASE_1 §6 — Formularios (form de contacto)
+               · tokens.css
+
+   [DIFERIDO A v1.1+] — La página Contacto v1.0 cerró sin
+   formulario (decisión 2026-05-14): sólo canales directos vía
+   .contact-card. Especificación adelantada para evitar
+   dependencia futura — CSS inactivo hasta que se renderice
+   un <form class="form">.
+
+   Mobile-first. Cero hex y cero familias literales.
+   ============================================================ */
+
+
+/* ─────────────────────────────────────────────────────────────
+   6.1  FORM — .form
+   ─────────────────────────────────────────────────────────────
+   Bloque raíz del formulario. Apila campos verticalmente con
+   gap consistente.
+   ───────────────────────────────────────────────────────────── */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+
+/* ─── Fila — .form__row ──────────────────────────────────────
+   Agrupa dos campos en línea (desktop) que colapsan a uno por
+   fila en mobile. */
+
+.form__row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .form__row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+
+/* ─── Campo — .form__field ──────────────────────────────────
+   Contenedor vertical de label + input + mensaje de error. */
+
+.form__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+
+/* ─── Label — .form__label ──────────────────────────────────
+   13 px, peso medium, color ink. Asociado al input por
+   atributo for/id (no anidado). */
+
+.form__label {
+  font-family: var(--font-body);
+  font-size: var(--text-small);       /* 13 px */
+  font-weight: var(--weight-medium);
+  color: var(--color-ink);
+}
+
+
+/* ─── Input / select / textarea — .form__input ──────────────
+   Borde 1 px en --color-rule; foco intensifica a 2 px en
+   --color-primary (sin shadow box: el anillo es el borde
+   mismo, lo que asegura consistencia con el :focus-visible
+   global). */
+
+.form__input {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: var(--weight-regular);
+  color: var(--color-ink);
+  background: var(--color-bg-panel);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-md);
+  transition: border-color var(--transition-fast);
+  /* Reset de defaults agresivos del navegador en select y
+     textarea. */
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.form__input:hover {
+  border-color: var(--color-ink-faint);
+}
+
+.form__input:focus,
+.form__input:focus-visible {
+  outline: none;                      /* el borde mismo actúa de
+                                         anillo de foco. */
+  border-color: var(--color-primary);
+  border-width: 2px;
+  /* Compensa el +1 px de borde para que el contenido no salte. */
+  padding: calc(var(--space-3) - 1px) calc(var(--space-4) - 1px);
+}
+
+/* Variante textarea: resize vertical, alto mínimo cómodo. */
+.form__input--textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: var(--leading-relaxed);
+}
+
+/* Placeholder en color faint (suficiente contraste, claramente
+   diferenciado del texto introducido por el usuario). */
+.form__input::placeholder {
+  color: var(--color-ink-faint);
+  opacity: 1;                         /* fuerza el valor (Firefox
+                                         aplica 0.54 por defecto). */
+}
+
+
+/* ─── Estados — inválido y deshabilitado ────────────────────
+   Inválido: borde en --color-neg, label de error sigue al
+   campo. Deshabilitado: --color-disabled (semántico, auditable),
+   cursor not-allowed. Sin opacity. */
+
+.form__input[aria-invalid="true"],
+.form__input:user-invalid {
+  border-color: var(--color-neg);
+}
+
+.form__input[aria-invalid="true"]:focus,
+.form__input:user-invalid:focus {
+  border-color: var(--color-neg);     /* mantiene rojo en foco
+                                         para no diluir la señal
+                                         de error. */
+}
+
+.form__input:disabled {
+  color: var(--color-disabled);
+  background: var(--color-bg);
+  border-color: var(--color-rule-soft);
+  cursor: not-allowed;
+}
+
+.form__input:disabled::placeholder {
+  color: var(--color-disabled);
+}
+
+
+/* ─── Mensaje de error — .form__error ───────────────────────
+   Referenciado desde el input vía aria-describedby. */
+
+.form__error {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--color-neg);
+}
+
+
+/* ─── Mensaje de ayuda — .form__hint ────────────────────────
+   Texto de apoyo bajo el label (ej: "máximo 500 caracteres"). */
+
+.form__hint {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--color-ink-faint);
+}
