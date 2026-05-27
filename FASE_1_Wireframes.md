@@ -653,7 +653,7 @@ Página dinámica que toma el `id` de la materia por query string y renderiza el
 │    ícono: map-pin                                           │
 │    eyebrow: "Visitanos"                                     │
 │    título: "Facultad Regional Resistencia — UTN"            │
-│    detalle: "Calle French 4141, H3506 Resistencia, Chaco"   │
+│    detalle: "Calle French 414, H3506 Resistencia, Chaco"    │
 │    link: Google Maps (nueva pestaña)                        │
 │                                                             │
 │  Notas de implementación:                                   │
