@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Organización · AChETIQ</title>
+  <meta name="description" content="Conocé la comisión directiva de AChETIQ y sus cuatro gabinetes de trabajo: Cursos y Conferencias, Eventos, Prensa y Difusión, y Solidario.">
+
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../favicon.ico" sizes="32x32">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="manifest" href="../site.webmanifest">
+  <meta name="theme-color" content="#0D3B66">
+
+  <link rel="preload" href="../assets/fonts/geist-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../assets/fonts/instrument-serif-400.woff2" as="font" type="font/woff2" crossorigin>
+
+  <link rel="stylesheet" href="../tokens.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AChETIQ">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:title" content="Organización · AChETIQ">
+  <meta property="og:description" content="Conocé la comisión directiva de AChETIQ y sus cuatro gabinetes de trabajo: Cursos y Conferencias, Eventos, Prensa y Difusión, y Solidario.">
+  <meta property="og:url" content="REEMPLAZAR URL canónica absoluta de esta página">
+  <meta property="og:image" content="REEMPLAZAR URL de imagen institucional (Fase 6)">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Organización · AChETIQ">
+  <meta name="twitter:description" content="Conocé la comisión directiva de AChETIQ y sus cuatro gabinetes de trabajo: Cursos y Conferencias, Eventos, Prensa y Difusión, y Solidario.">
+  <meta name="twitter:image" content="REEMPLAZAR URL de imagen institucional (Fase 6)">
+
+</head>
+<body>
+
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+
+  <div data-loader="navbar">
+    <noscript>
+      <header class="navbar-fallback">
+        <div class="navbar-fallback__inner">
+          <a class="navbar-fallback__brand" href="../index.html">AChETIQ</a>
+        </div>
+      </header>
+    </noscript>
+  </div>
+
+  <main id="main-content" class="page" tabindex="-1">
+
+    <!-- ════════════════════════════════════════════════════════
+         [3] PAGE-HEADER — Wireframe §3 bloque [3]
+         ════════════════════════════════════════════════════════ -->
+    <header class="page-header">
+      <p class="eyebrow">Organización</p>
+      <h1 class="page-header__title">Cómo nos <em>organizamos</em></h1>
+      <p class="page-header__lead">
+        AChETIQ se organiza a través de su comisión directiva y cuatro gabinetes de trabajo, cada uno orientado a un eje específico de la actividad asociativa.
+      </p>
+    </header>
+
+    <!-- ════════════════════════════════════════════════════════
+         [5] GABINETES DE TRABAJO — Wireframe §3 bloque [5]
+         Renderizado vía data-loader="gabinetes" → renderer en
+         assets/js/loaders.js §4.1. El orden se controla por el
+         campo «orden» de cada gabinete en data/gabinetes.json.
+         El enlace «Conocer más →» de cada tarjeta apunta a
+         pages/gabinetes/<id>.html (resuelto contra la raíz del
+         sitio por window.AChETIQBase, ver assets/js/loader.js).
+         ════════════════════════════════════════════════════════ -->
+    <section aria-labelledby="gabinetes-title">
+      <header class="section-title">
+        <p class="eyebrow">Cuatro frentes de trabajo</p>
+        <h2 id="gabinetes-title">Nuestros <em>gabinetes</em></h2>
+      </header>
+      <article class="prose">
+        <p>
+          Los gabinetes son la estructura operativa de AChETIQ: equipos abiertos a todo socio activo que sostienen la actividad académica, los eventos institucionales, la comunicación pública y los proyectos solidarios de la asociación.
+        </p>
+      </article>
+      <div data-loader="gabinetes"></div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+         [4] COMISIÓN DIRECTIVA — Wireframe §3 bloque [4]
+         Renderizado vía data-loader="directiva" → renderer en
+         assets/js/loaders.js §4.3. Sin foto (foto: null) se
+         muestra placeholder con iniciales sobre --color-rule-soft.
+
+         PENDIENTE VISUAL (no bloqueante): el wireframe pide
+         fondo --color-bg-panel para esta sección. Requiere un
+         wrapper full-bleed que rompa el padding de .page; se
+         posterga a una iteración de refinamiento.
+         ════════════════════════════════════════════════════════ -->
+    <section aria-labelledby="directiva-title">
+      <header class="section-title">
+        <p class="eyebrow">Gestión 2026</p>
+        <h2 id="directiva-title">Comisión <em>directiva</em></h2>
+        <p class="page-header__lead">
+          Quienes conducen la asociación durante el período 2026.
+        </p>
+      </header>
+      <div data-loader="directiva"></div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+         [6] CTA — CÓMO SUMARTE — Wireframe §3 bloque [6]
+         ════════════════════════════════════════════════════════ -->
+    <section class="cta-final" aria-labelledby="cta-sumate-title">
+      <p class="eyebrow">Participación</p>
+      <h2 class="cta-final__title" id="cta-sumate-title">¿Querés <em>integrar</em> un gabinete?</h2>
+      <p class="cta-final__lead">
+        La participación en los gabinetes está abierta a todo socio activo de AChETIQ. Escribinos contándonos cuál te interesa.
+      </p>
+      <div class="cta-final__actions">
+        <a href="./contacto.html?asunto=gabinete" class="btn btn-primary">Escribinos</a>
+      </div>
+    </section>
+
+  </main>
+
+  <div data-loader="footer">
+    <noscript>
+      <footer class="footer-fallback" role="contentinfo">
+        <div class="footer-fallback__inner">
+          <p>© 2026 Asociación Chaqueña de Estudiantes Tecnológicos de Ingeniería Química · UTN FRRe</p>
+        </div>
+      </footer>
+    </noscript>
+  </div>
+
+  <div class="loader loader--overlay loader--msg-bottom" id="global-loader"
+       role="status" aria-live="polite" hidden>
+    <div class="loader__dots">
+      <span class="loader__dot safe-motion"></span>
+      <span class="loader__dot safe-motion"></span>
+      <span class="loader__dot safe-motion"></span>
+    </div>
+    <p class="loader__message">Cargando…</p>
+  </div>
+
+  <script src="../assets/js/loader.js"></script>
+  <script src="../assets/js/navbar.js"></script>
+  <script src="../assets/js/footer.js"></script>
+  <script type="module" src="../assets/js/main.js"></script>
+
+</body>
+</html>
