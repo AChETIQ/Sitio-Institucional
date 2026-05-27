@@ -80,24 +80,7 @@
     </section>
 
     <!-- ════════════════════════════════════════════════════════
-         [3] INTEGRANTES
-         Campo «integrantes» del JSON = []. Sin datos: se muestra
-         empty-state. No se inventan nombres.
-         ════════════════════════════════════════════════════════ -->
-    <section aria-labelledby="integrantes-title">
-      <header class="section-title">
-        <h2 id="integrantes-title"><em>Integrantes</em></h2>
-      </header>
-      <div class="empty-state">
-        <h3 class="empty-state__title">Integrantes pendientes de publicación</h3>
-        <p class="empty-state__desc">
-          El listado de integrantes de este gabinete se publicará una vez que la comisión directiva lo confirme.
-        </p>
-      </div>
-    </section>
-
-    <!-- ════════════════════════════════════════════════════════
-         [4] ACTIVIDADES REGULARES
+         [3] ACTIVIDADES REGULARES
          Campo «proyectos_activos» del JSON = []. Sin datos:
          empty-state. No se inventan actividades.
          ════════════════════════════════════════════════════════ -->
@@ -114,7 +97,7 @@
     </section>
 
     <!-- ════════════════════════════════════════════════════════
-         [5] HISTORIA
+         [4] HISTORIA
          Renderizado vía data-loader="gabinetes" sobrescrito por
          assets/js/gabinete-detalle.js: el motor descarga
          data/gabinetes.json, el override filtra por
@@ -135,6 +118,25 @@
       <div data-loader="gabinetes"
            data-gabinete-id="cursos-y-conferencias"
            data-gabinete-field="historia"></div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+         [5] CTA — SUMARSE AL GABINETE
+         Estructura .cta-final estándar (assets/css/cta.css). El
+         email es el canal directo del gabinete; se mantiene en
+         data/gabinetes.json (campo `email`) como fuente de verdad
+         editorial, y se replica aquí literal en el mailto: para
+         enlazado estático sin dependencia de JS.
+         ════════════════════════════════════════════════════════ -->
+    <section class="cta-final" aria-labelledby="cta-sumate-title">
+      <p class="eyebrow">Participación</p>
+      <h2 class="cta-final__title" id="cta-sumate-title">¿Querés <em>sumarte</em> a este gabinete?</h2>
+      <p class="cta-final__lead">
+        La participación está abierta a todo socio activo de AChETIQ. Escribinos contándonos en qué te gustaría aportar.
+      </p>
+      <div class="cta-final__actions">
+        <a href="mailto:achetiq.resistencia+cursosyconferencias@aneiqa.org" class="btn btn-primary">Escribinos</a>
+      </div>
     </section>
 
   </main>
