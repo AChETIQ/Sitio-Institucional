@@ -1,0 +1,122 @@
+/* ============================================================
+   AChETIQ — Estados y mensajes (states.css)
+   ------------------------------------------------------------
+   Versión: 1.0 · Fase 2 — Desarrollo front-end
+   Fundamento: FASE_1 §8 — Estados y mensajes (empty-state, tag)
+               FASE_1 §10.2 — Skeleton loader
+               · tokens.css
+
+   Mobile-first. Cero hex y cero familias literales.
+   ============================================================ */
+
+
+/* ─────────────────────────────────────────────────────────────
+   8.1  EMPTY STATE — .empty-state
+   ─────────────────────────────────────────────────────────────
+   Bloque que reemplaza el contenido de una sección cuando no
+   hay datos todavía (galería sin álbumes, noticias vacías,
+   gabinete sin proyectos activos). Padding generoso para que
+   la sección se sienta "en pausa" pero no rota. Íconos y
+   títulos en --color-ink-faint para suavizar el registro.
+   ───────────────────────────────────────────────────────────── */
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: var(--space-4);
+  padding-block: var(--space-16);     /* 64 px arriba y abajo */
+}
+
+.empty-state__icon {
+  width: var(--space-12);             /* 48 px */
+  height: var(--space-12);
+  color: var(--color-ink-faint);
+}
+
+.empty-state__title {
+  /* H3 global; color sobrescrito a faint para registrar
+     "sección en pausa". Cumple WCAG AA (~4.5:1) al ser
+     >= 18 px de tipografía. */
+  color: var(--color-ink-faint);
+}
+
+.empty-state__desc {
+  font-size: var(--text-small);
+  color: var(--color-ink-faint);
+  max-width: 50ch;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   8.2  TAG / CHIP — .tag
+   ─────────────────────────────────────────────────────────────
+   Etiqueta pequeña para clasificar contenido (categoría de
+   noticia, año de carrera). Pill rectangular (radio sm), mono
+   11 px. Variante --primary con fondo primary-mid y texto bg.
+   ───────────────────────────────────────────────────────────── */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-px-2) var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow-sm);  /* 11 px */
+  color: var(--color-ink);
+  background: var(--color-rule-soft);
+  border-radius: var(--radius-sm);
+}
+
+/* Variante destacada: fondo primary-mid, texto bg.
+   Contraste --color-bg / --color-primary-mid ≈ 4.6:1 → WCAG AA
+   para texto pequeño. */
+.tag--primary {
+  background: var(--color-primary-mid);
+  color: var(--color-bg);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   10.2  SKELETON LOADER — .skeleton
+   ─────────────────────────────────────────────────────────────
+   Placeholder visual mientras un fetch() está en curso, evita
+   saltos de layout. Bloque con dimensiones equivalentes al
+   componente final (definidas por la página que lo use vía
+   width/height o modificadores --text/--avatar/--card), fondo
+   --color-rule-soft con pulso sutil de opacidad.
+
+   La opacity acá es decorativa pura (el bloque no contiene
+   texto). El @media (prefers-reduced-motion) global de
+   main.css neutraliza la animación para usuarios sensibles
+   al movimiento; el placeholder queda estático.
+   ───────────────────────────────────────────────────────────── */
+
+.skeleton {
+  background: var(--color-rule-soft);
+  border-radius: var(--radius-md);
+  animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+/* Modificadores opcionales de forma comunes. La página puede
+   componer dimensiones precisas vía estilo inline o utility. */
+.skeleton--text {
+  height: 1em;
+  border-radius: var(--radius-sm);
+}
+
+.skeleton--avatar {
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+}
+
+.skeleton--card {
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-lg);
+}
+
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 0.6; }
+  50%      { opacity: 1;   }
+}

@@ -537,7 +537,7 @@ a.contact-card:hover .contact-card__icon {
 .contact-card__badge {
   align-self: flex-start;
   margin-top: var(--space-2);
-  padding: 2px var(--space-2);
+  padding: var(--space-px-2) var(--space-2);
   font-family: var(--font-mono);
   font-size: var(--text-eyebrow);     /* 10.5 px */
   letter-spacing: var(--tracking-wide);

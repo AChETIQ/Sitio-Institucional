@@ -227,6 +227,14 @@
   --space-14: 56px;
   --space-16: 64px;
 
+  --space-px-2: 2px;
+  /* Micro-padding por debajo de la escala estándar de 4 px.
+     Excepción intencional reservada a pills y badges
+     (.tag, .contact-card__badge), donde un padding vertical de
+     var(--space-1) (4 px) resulta visualmente excesivo dada la
+     altura del texto en --text-eyebrow / --text-eyebrow-sm.
+     No usar fuera de ese contexto. */
+
 
   /* ─────────────────────────────────────────────────────────────
      TAMAÑOS DE COMPONENTE
