@@ -33,15 +33,18 @@
    CÓMO REGISTRAR UN LOADER NUEVO DESDE UNA PÁGINA
      Insertá un módulo propio ANTES del main.js del boilerplate;
      los módulos diferidos se evalúan en orden de aparición y el
-     motor recién escanea en DOMContentLoaded:
+     motor recién escanea en DOMContentLoaded. Las rutas del
+     ejemplo usan «./» (página en la raíz del sitio); desde
+     subcarpetas reemplazar por «../» o «../../» según
+     corresponda:
 
        <script type="module">
          import { registerLoader, createElement, safeHref }
-           from '/assets/js/loaders.js';
+           from './assets/js/loaders.js';
 
          registerLoader('miseccion', (container, data) => {
            // container = el nodo <… data-loader="miseccion">.
-           // data      = JSON parseado de /data/miseccion.json.
+           // data      = JSON parseado de data/miseccion.json.
            // El motor ya limpió container; sólo populá su contenido.
            const ul = createElement('ul', { class: 'mi-lista' });
            data.forEach((item) => {
@@ -50,7 +53,7 @@
            container.appendChild(ul);
          });
        </script>
-       <script type="module" src="/assets/js/main.js"></script>
+       <script type="module" src="./assets/js/main.js"></script>
 
      Para sobrescribir un renderer por defecto (p. ej. agrupar
      `recursos` por año conectado a `.pill-nav`), basta con volver
@@ -542,7 +545,7 @@ function buildInstitucionCard(inst) {
 /* ─── 4.7 Registro de defaults ─────────────────────────────── */
 
 /* Los nombres registrados aquí coinciden con los archivos de
-   /data/*.json existentes y con la tabla «Mapeo loader → JSON →
+   data/*.json existentes y con la tabla «Mapeo loader → JSON →
    componente» del catálogo (FASE_1 §10.1).
 
    No se registra `redes` porque assets/js/footer.js gestiona ya

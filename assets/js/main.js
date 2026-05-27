@@ -5,7 +5,8 @@
 
    Punto de entrada del JavaScript del sitio (módulo ES, sin
    transpilación). Se carga al final del <body> del boilerplate
-   como <script type="module" src="/assets/js/main.js">.
+   como <script type="module" src="./assets/js/main.js"> (ajustar
+   el prefijo relativo según la profundidad de la página).
 
    Responsabilidades:
      1. En DOMContentLoaded, recorrer todos los [data-loader].
@@ -97,7 +98,7 @@ export function processNode(node) {
   if (!hasLoader(name)) {
     console.error(
       '[AChETIQ loaders] No hay renderizador registrado para "' + name +
-      '". Importá registerLoader desde /assets/js/loaders.js en un módulo' +
+      '". Importá registerLoader desde assets/js/loaders.js en un módulo' +
       ' anterior a main.js y registralo.', node
     );
     renderError(node, { message: 'No se pudo cargar este bloque.' });

@@ -29,12 +29,12 @@
    el documento enlaza tokens.css y main.css por separado en el
    <head>, con tokens.css PRIMERO:
 
-       <link rel="stylesheet" href="/tokens.css">
-       <link rel="stylesheet" href="/assets/css/main.css">
+       <link rel="stylesheet" href="./tokens.css">
+       <link rel="stylesheet" href="./assets/css/main.css">
 
    Las variables ya están disponibles cuando se evalúa este
    archivo, de modo que un @import sería redundante (doble
-   declaración). Además, main.css vive en /assets/css/ y
+   declaración). Además, main.css vive en assets/css/ y
    tokens.css en la raíz: el @import correcto sería
    url('../../tokens.css'), no url('tokens.css'). Se mantiene la
    carga vía <link> del boilerplate. Si más adelante se adopta un
