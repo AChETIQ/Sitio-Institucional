@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Gabinete Solidario · AChETIQ</title>
+  <meta name="description" content="Gabinete Solidario de AChETIQ: apadrina a la Escuelita EEP N° 1026 mediante actividades recreativas, educativas y donaciones.">
+
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../../favicon.ico" sizes="32x32">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+  <link rel="manifest" href="../../site.webmanifest">
+  <meta name="theme-color" content="#0D3B66">
+
+  <link rel="preload" href="../../assets/fonts/geist-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../../assets/fonts/instrument-serif-400.woff2" as="font" type="font/woff2" crossorigin>
+
+  <link rel="stylesheet" href="../../tokens.css">
+  <link rel="stylesheet" href="../../assets/css/main.css">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AChETIQ">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:title" content="Gabinete Solidario · AChETIQ">
+  <meta property="og:description" content="Gabinete Solidario de AChETIQ: apadrina a la Escuelita EEP N° 1026 mediante actividades recreativas, educativas y donaciones.">
+  <meta property="og:url" content="REEMPLAZAR URL canónica absoluta de esta página">
+  <meta property="og:image" content="REEMPLAZAR URL de imagen institucional (Fase 6)">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Gabinete Solidario · AChETIQ">
+  <meta name="twitter:description" content="Gabinete Solidario de AChETIQ: apadrina a la Escuelita EEP N° 1026 mediante actividades recreativas, educativas y donaciones.">
+  <meta name="twitter:image" content="REEMPLAZAR URL de imagen institucional (Fase 6)">
+
+</head>
+<body>
+
+  <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+
+  <div data-loader="navbar">
+    <noscript>
+      <header class="navbar-fallback">
+        <div class="navbar-fallback__inner">
+          <a class="navbar-fallback__brand" href="../../index.html">AChETIQ</a>
+        </div>
+      </header>
+    </noscript>
+  </div>
+
+  <main id="main-content" class="page" tabindex="-1">
+
+    <!-- ════════════════════════════════════════════════════════
+         [1] PAGE-HEADER · nombre del gabinete
+         Fuente: data/gabinetes.json (id: "solidario").
+         ════════════════════════════════════════════════════════ -->
+    <header class="page-header">
+      <p class="eyebrow">Gabinete</p>
+      <h1 class="page-header__title"><em>Solidario</em></h1>
+      <p class="page-header__lead">
+        AChETIQ apadrina a la Escuelita EEP N° 1026 mediante actividades recreativas, educativas y donaciones.
+      </p>
+    </header>
+
+    <!-- ════════════════════════════════════════════════════════
+         [2] DESCRIPCIÓN COMPLETA
+         Texto literal del campo «descripcion_completa».
+         ════════════════════════════════════════════════════════ -->
+    <section aria-labelledby="descripcion-title">
+      <header class="section-title">
+        <h2 id="descripcion-title">Sobre el <em>gabinete</em></h2>
+      </header>
+      <article class="prose">
+        <p>
+          AChETIQ apadrina a la Escuelita EEP N° 1026, por lo que año a año se realizan diferentes actividades recreativas y educativas. Hasta ahora realizamos charlas informativas y fuimos a visitar a los chicos con juegos y chocolatadas. También nos encargamos de juntar donaciones de ropa y útiles para ellos, y tuvimos un proyecto en el que los ayudamos a pintar toda la escuela. Con tu ayuda queremos seguir con este lindo lazo y seguir sumando proyectos.
+        </p>
+      </article>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+         [3] ACTIVIDADES REGULARES
+         Campo «proyectos_activos» del JSON contiene un único
+         ítem: «Apadrinamiento EEP N° 1026». Se renderiza como
+         lista. El resto del detalle (frecuencia, modalidad,
+         alcance) queda pendiente y se indica explícitamente.
+         ════════════════════════════════════════════════════════ -->
+    <section aria-labelledby="actividades-title">
+      <header class="section-title">
+        <h2 id="actividades-title">Actividades <em>regulares</em></h2>
+      </header>
+      <article class="prose">
+        <ul>
+          <li>Apadrinamiento de la Escuelita EEP N° 1026.</li>
+        </ul>
+        <p class="caption">
+          El detalle de frecuencia y modalidad de cada actividad se incorporará una vez confirmado por la comisión directiva.
+        </p>
+      </article>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+         [4] HISTORIA
+         Renderizado vía data-loader="gabinetes" sobrescrito por
+         assets/js/gabinete-detalle.js: el motor descarga
+         data/gabinetes.json, el override filtra por
+         `data-gabinete-id` y vuelca el campo
+         `data-gabinete-field` como prosa.
+
+         ⚠ TEXTO BORRADOR ⚠
+         El campo `historia` en data/gabinetes.json es un
+         BORRADOR redactado a partir de los datos ya
+         documentados (descripcion_completa). La comisión
+         directiva debe validarlo o sustituirlo antes de la
+         publicación definitiva.
+         ════════════════════════════════════════════════════════ -->
+    <section aria-labelledby="historia-title">
+      <header class="section-title">
+        <h2 id="historia-title"><em>Historia</em> del gabinete</h2>
+      </header>
+      <div data-loader="gabinetes"
+           data-gabinete-id="solidario"
+           data-gabinete-field="historia"></div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
+         [5] CTA — SUMARSE AL GABINETE
+         Estructura .cta-final estándar (assets/css/cta.css). El
+         email es el canal directo del gabinete; se mantiene en
+         data/gabinetes.json (campo `email`) como fuente de verdad
+         editorial, y se replica aquí literal en el mailto: para
+         enlazado estático sin dependencia de JS.
+         ════════════════════════════════════════════════════════ -->
+    <section class="cta-final" aria-labelledby="cta-sumate-title">
+      <p class="eyebrow">Participación</p>
+      <h2 class="cta-final__title" id="cta-sumate-title">¿Querés <em>sumarte</em> a este gabinete?</h2>
+      <p class="cta-final__lead">
+        La participación está abierta a todo socio activo de AChETIQ. Escribinos contándonos en qué te gustaría aportar.
+      </p>
+      <div class="cta-final__actions">
+        <a href="mailto:achetiq.resistencia+solidario@aneiqa.org" class="btn btn-primary">Escribinos</a>
+      </div>
+    </section>
+
+  </main>
+
+  <div data-loader="footer">
+    <noscript>
+      <footer class="footer-fallback" role="contentinfo">
+        <div class="footer-fallback__inner">
+          <p>© 2026 Asociación Chaqueña de Estudiantes Tecnológicos de Ingeniería Química · UTN FRRe</p>
+        </div>
+      </footer>
+    </noscript>
+  </div>
+
+  <div class="loader loader--overlay loader--msg-bottom" id="global-loader"
+       role="status" aria-live="polite" hidden>
+    <div class="loader__dots">
+      <span class="loader__dot safe-motion"></span>
+      <span class="loader__dot safe-motion"></span>
+      <span class="loader__dot safe-motion"></span>
+    </div>
+    <p class="loader__message">Cargando…</p>
+  </div>
+
+  <script src="../../assets/js/loader.js"></script>
+  <script src="../../assets/js/navbar.js"></script>
+  <script src="../../assets/js/footer.js"></script>
+  <script type="module" src="../../assets/js/gabinete-detalle.js"></script>
+  <script type="module" src="../../assets/js/main.js"></script>
+
+</body>
+</html>
