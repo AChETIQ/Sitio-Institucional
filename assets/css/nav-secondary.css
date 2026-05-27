@@ -1,0 +1,135 @@
+/* ============================================================
+   AChETIQ — Navegación secundaria (nav-secondary.css)
+   ------------------------------------------------------------
+   Versión: 1.0 · Fase 2 — Desarrollo front-end
+   Fundamento: FASE_1 §7 — Navegación secundaria (breadcrumbs,
+               pill-nav) · tokens.css
+
+   No confundir con `navbar.css` (navegación principal, FASE_1
+   §1.2). Este archivo agrupa los componentes de navegación
+   contextual y tabular dentro de la página.
+
+   Mobile-first. Cero hex y cero familias literales.
+   ============================================================ */
+
+
+/* ─────────────────────────────────────────────────────────────
+   7.1  BREADCRUMBS — .breadcrumbs
+   ─────────────────────────────────────────────────────────────
+   Navegación contextual en páginas profundas. Tipografía body
+   13 px, color faint, separador "›" generado por CSS. El último
+   ítem es texto plano (no link) en color ink, marcado con
+   aria-current="page" en el HTML.
+   ───────────────────────────────────────────────────────────── */
+
+.breadcrumbs {
+  font-family: var(--font-body);
+  font-size: var(--text-small);       /* 13 px */
+  color: var(--color-ink-faint);
+}
+
+.breadcrumbs__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 0;                             /* el separador da la
+                                         respiración entre items. */
+}
+
+.breadcrumbs__list li {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Separador "›" entre ítems. speak:none indica al lector de
+   pantalla que no lo pronuncie (el <ol> semántico ya transmite
+   la secuencia y el ítem actual lleva aria-current="page"). */
+.breadcrumbs__list li:not(:first-child)::before {
+  content: "›";
+  padding-inline: var(--space-2);
+  color: var(--color-ink-faint);
+  speak: none;
+}
+
+.breadcrumbs a {
+  color: var(--color-ink-faint);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.breadcrumbs a:hover {
+  color: var(--color-primary);
+}
+
+/* Último ítem (la página actual): texto plano, color ink,
+   marcado con aria-current="page" en el HTML. */
+.breadcrumbs__list li[aria-current="page"] {
+  color: var(--color-ink);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   7.2  PILL NAV — .pill-nav
+   ─────────────────────────────────────────────────────────────
+   Navegación tabular para filtrar contenido (por año en
+   Recursos, por categoría en Actividades). Cada pill es un
+   <button> con aria-pressed; el estado activo lleva además la
+   clase utilitaria .is-active para que la cascada CSS no
+   dependa sólo del atributo ARIA.
+
+   Padding ajustado a var(--space-3) var(--space-5): altura
+   efectiva ≈ 41 px, cómoda para touch target (cerca del
+   estándar AAA WCAG 2.5.5 de 44 px; muy por encima del mínimo
+   AA 2.5.8 de 24 px).
+   ───────────────────────────────────────────────────────────── */
+
+.pill-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.pill-nav__pill {
+  /* Reset de defaults del <button>. */
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  /* Estilo de pill. */
+  padding: var(--space-3) var(--space-5);
+  font-family: var(--font-body);
+  font-size: var(--text-small);       /* 13 px */
+  font-weight: var(--weight-medium);
+  color: var(--color-ink);
+  background: transparent;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-pill);
+  transition: background var(--transition-fast),
+              border-color var(--transition-fast),
+              color var(--transition-fast);
+}
+
+/* Hover sobre pill no activo. El selector :not(.is-active)
+   evita que el hover compita visualmente con el estado activo. */
+.pill-nav__pill:hover:not(.is-active) {
+  background: var(--color-bg-panel);
+  border-color: var(--color-primary);
+}
+
+/* Estado activo. Fondo en primary, texto en bg (contraste
+   --color-bg / --color-primary ≈ 10.7:1, WCAG AAA). El borde
+   pasa también a primary para evitar el "halo" del borde rule
+   visible sobre el fondo coloreado. */
+.pill-nav__pill.is-active {
+  background: var(--color-primary);
+  color: var(--color-bg);
+  border-color: var(--color-primary);
+}
+
+/* Foco visible: heredado del :focus-visible global en main.css
+   (outline 2 px en --color-primary con offset 2 px). Sobre la
+   pill activa el outline queda sobre el fondo de página, por
+   lo que sigue siendo perfectamente perceptible. No requiere
+   override. */
