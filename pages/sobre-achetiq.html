@@ -33,53 +33,6 @@
   <meta name="twitter:description" content="La Asociación Chaqueña de Estudiantes Tecnológicos de Ingeniería Química: historia, misión, valores y documentación institucional.">
   <meta name="twitter:image" content="REEMPLAZAR URL de imagen institucional (Fase 6)">
 
-  <!--
-    Estilos scoped a la página: bloque CTA final con fondo
-    --color-primary. La pieza no está aún en el catálogo; cuando se
-    formalice, mover estas reglas a un componente compartido
-    (assets/css/cta.css o similar). Cero hex y cero familias
-    literales: todo deriva de tokens.css.
-  -->
-  <style>
-    .cta-final {
-      background: var(--color-primary);
-      color: var(--color-bg);
-      border-radius: var(--radius-lg);
-      padding: var(--space-12) var(--space-6);
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-4);
-      margin-top: var(--space-16);
-    }
-    .cta-final .eyebrow { color: var(--color-bg); opacity: 0.85; }
-    .cta-final h2 { color: var(--color-bg); max-width: 22ch; }
-    .cta-final__lead {
-      font-family: var(--font-body);
-      font-size: var(--text-h4);
-      line-height: var(--leading-relaxed);
-      color: var(--color-bg);
-      max-width: 60ch;
-    }
-    .cta-final__actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-3);
-      margin-top: var(--space-4);
-    }
-    .cta-final .btn-primary {
-      background: var(--color-bg);
-      color: var(--color-primary);
-    }
-    .cta-final .btn-secondary {
-      background: transparent;
-      color: var(--color-bg);
-      border: 1px solid var(--color-bg);
-    }
-    @media (min-width: 768px) {
-      .cta-final { padding: var(--space-16) var(--space-12); }
-    }
-  </style>
-
 </head>
 <body>
 
@@ -334,13 +287,14 @@
 
     <!-- ════════════════════════════════════════════════════════
          [9] CTA FINAL — SUMATE A AChETIQ
-         Wireframe §2 bloque [9]. Fondo --color-primary, texto
-         claro. Botones: «Sumate» (primario) → contacto;
-         «Conocé los gabinetes» (secundario outline) → gabinetes.
+         Wireframe §2 bloque [9] · componente .cta-final
+         (assets/css/cta.css). Botones: «Sumate» (primario) →
+         contacto; «Conocé los gabinetes» (secundario outline) →
+         gabinetes.
          ════════════════════════════════════════════════════════ -->
     <section class="cta-final" aria-labelledby="cta-sumate-title">
       <p class="eyebrow">Formá parte</p>
-      <h2 id="cta-sumate-title">Sumate a AChETIQ</h2>
+      <h2 class="cta-final__title" id="cta-sumate-title">Sumate a AChETIQ</h2>
       <p class="cta-final__lead">
         Participá en los gabinetes de trabajo, accedé a recursos académicos y conectá con otros estudiantes de Ingeniería Química.
       </p>
