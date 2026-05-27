@@ -1,0 +1,51 @@
+/* ============================================================
+   AChETIQ — Figura con pie de foto (figure.css)
+   ------------------------------------------------------------
+   Versión: 1.0 · Fase 2 — Desarrollo front-end
+   Fundamento: FASE_1 §9.1 — Image with caption (figure)
+               · tokens.css
+
+   Nota. El otro componente de §9, `.divider`, ya está definido
+   en `main.css §6` («Clases utilitarias esenciales») por su
+   naturaleza estructural-utilitaria; no se duplica aquí.
+
+   Mobile-first. Cero hex y cero familias literales.
+   ============================================================ */
+
+
+/* ─────────────────────────────────────────────────────────────
+   9.1  FIGURE — .figure
+   ─────────────────────────────────────────────────────────────
+   Imagen con pie de foto opcional. La imagen lleva radio
+   grande (--radius-lg) y ancho 100 % del contenedor; el
+   <figcaption> hereda el registro tipográfico de .caption
+   (mono 12 px, tracking-wide, color faint).
+   ───────────────────────────────────────────────────────────── */
+
+.figure {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  /* Reset del margen nativo del navegador para <figure>
+     (1em a izquierda y derecha por defecto). */
+  margin: 0;
+}
+
+.figure img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-lg);
+  display: block;
+}
+
+/* Pie de foto. Replica el estilo de la utilidad .caption
+   (tokens.css §CLASES UTILITARIAS DE TIPOGRAFÍA) en lugar de
+   exigir que el HTML lo componga vía class="caption ...". El
+   componente queda autosuficiente. */
+.figure__caption {
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);     /* 12 px */
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-ink-faint);
+}
