@@ -7,7 +7,8 @@
     "integrantes": [],
     "proyectos_activos": [],
     "icono": "cursos",
-    "orden": 1
+    "orden": 1,
+    "historia": "Cursos y Conferencias se constituye como gabinete con el objeto de dar continuidad al ciclo de actividades académicas que AChETIQ venía organizando de modo puntual desde la comisión directiva. Su consolidación permite planificar la oferta anual de cursos breves y conferencias en el marco de las jornadas y eventos propios de la asociación."
   },
   {
     "id": "eventos",
@@ -17,7 +18,8 @@
     "integrantes": [],
     "proyectos_activos": [],
     "icono": "eventos",
-    "orden": 2
+    "orden": 2,
+    "historia": "El Gabinete de Eventos surge a partir de la necesidad de profesionalizar y ampliar la organización de las actividades sociales y de integración de la asociación, que hasta entonces dependían de iniciativas puntuales de la comisión directiva. Su funcionamiento aspira a sostener una grilla regular de encuentros a lo largo del año, con participación activa de socios proactivos en el armado y la creatividad de cada propuesta."
   },
   {
     "id": "prensa-y-difusion",
@@ -27,7 +29,8 @@
     "integrantes": [],
     "proyectos_activos": [],
     "icono": "prensa",
-    "orden": 3
+    "orden": 3,
+    "historia": "Hasta la conformación de este gabinete, las tareas de comunicación pública y registro fotográfico de las actividades de AChETIQ estuvieron repartidas entre dos personas. La constitución del Gabinete de Prensa y Difusión responde a la voluntad de la asociación de ampliar y profesionalizar esa cobertura, redistribuyendo las responsabilidades de redes sociales, producción gráfica y fotografía de eventos entre un equipo dedicado."
   },
   {
     "id": "solidario",
@@ -39,6 +42,7 @@
       "Apadrinamiento EEP N° 1026"
     ],
     "icono": "solidario",
-    "orden": 4
+    "orden": 4,
+    "historia": "El Gabinete Solidario articula desde hace varios años el apadrinamiento de la Escuelita EEP N° 1026. En torno a ese vínculo se han organizado charlas informativas, visitas con juegos y chocolatadas, colectas de ropa y útiles para los chicos, y proyectos de mayor envergadura como la pintura completa de las instalaciones. La continuidad y proyección de esos lazos es el eje sobre el que el gabinete sigue sumando iniciativas."
   }
 ]

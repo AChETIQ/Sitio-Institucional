@@ -62,6 +62,33 @@
     </header>
 
     <!-- ════════════════════════════════════════════════════════
+         [4] COMISIÓN DIRECTIVA — Wireframe §3 bloque [4]
+         Renderizado vía data-loader="directiva" → renderer en
+         assets/js/loaders.js §4.3. Sin foto (foto: null) se
+         muestra placeholder con iniciales sobre --color-rule-soft.
+
+         ORDEN EDITORIAL CERRADO (2026-05-27): Introducción →
+         Directiva → Gabinetes → CTA. El wireframe original
+         tenía idéntico orden; el orden alternativo «cards
+         antes que directiva» fue descartado.
+
+         PENDIENTE VISUAL (no bloqueante): el wireframe pide
+         fondo --color-bg-panel para esta sección. Requiere un
+         wrapper full-bleed que rompa el padding de .page; se
+         posterga a una iteración de refinamiento.
+         ════════════════════════════════════════════════════════ -->
+    <section aria-labelledby="directiva-title">
+      <header class="section-title">
+        <p class="eyebrow">Gestión 2026</p>
+        <h2 id="directiva-title">Comisión <em>directiva</em></h2>
+        <p class="page-header__lead">
+          Quienes conducen la asociación durante el período 2026.
+        </p>
+      </header>
+      <div data-loader="directiva"></div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
          [5] GABINETES DE TRABAJO — Wireframe §3 bloque [5]
          Renderizado vía data-loader="gabinetes" → renderer en
          assets/js/loaders.js §4.1. El orden se controla por el
@@ -81,28 +108,6 @@
         </p>
       </article>
       <div data-loader="gabinetes"></div>
-    </section>
-
-    <!-- ════════════════════════════════════════════════════════
-         [4] COMISIÓN DIRECTIVA — Wireframe §3 bloque [4]
-         Renderizado vía data-loader="directiva" → renderer en
-         assets/js/loaders.js §4.3. Sin foto (foto: null) se
-         muestra placeholder con iniciales sobre --color-rule-soft.
-
-         PENDIENTE VISUAL (no bloqueante): el wireframe pide
-         fondo --color-bg-panel para esta sección. Requiere un
-         wrapper full-bleed que rompa el padding de .page; se
-         posterga a una iteración de refinamiento.
-         ════════════════════════════════════════════════════════ -->
-    <section aria-labelledby="directiva-title">
-      <header class="section-title">
-        <p class="eyebrow">Gestión 2026</p>
-        <h2 id="directiva-title">Comisión <em>directiva</em></h2>
-        <p class="page-header__lead">
-          Quienes conducen la asociación durante el período 2026.
-        </p>
-      </header>
-      <div data-loader="directiva"></div>
     </section>
 
     <!-- ════════════════════════════════════════════════════════
