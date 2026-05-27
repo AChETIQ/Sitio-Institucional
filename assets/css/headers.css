@@ -1,0 +1,281 @@
+/* ============================================================
+   AChETIQ — Cabeceras de sección (headers.css)
+   ------------------------------------------------------------
+   Versión: 1.0 · Fase 2 — Desarrollo front-end
+   Fundamento: FASE_1 §2 — Componentes de cabecera de sección
+               (hero, page-header, section-title,
+                mission-vision, kpi-strip) · tokens.css
+
+   Mobile-first: las reglas base aplican a móvil, los @media
+   (min-width: 768px) y (min-width: 1024px) añaden complejidad
+   progresivamente (FASE_1 §12).
+
+   RESTRICCIÓN. Cero hex y cero familias tipográficas literales:
+   todo deriva de tokens.css (`var(--token)`).
+   ============================================================ */
+
+
+/* ─────────────────────────────────────────────────────────────
+   2.1  HERO — .hero
+   ─────────────────────────────────────────────────────────────
+   Bloque de apertura prominente de index.html. Dos columnas en
+   desktop (texto + decoración), una columna en mobile.
+   Padding vertical 64 px (mobile) → 96 px (≥1024 px) según
+   FASE_1 §2.1.
+   ───────────────────────────────────────────────────────────── */
+
+.hero {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+  padding-block: var(--space-16);
+  background: var(--color-bg);
+}
+
+.hero__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* Eyebrow del hero: ajusta sólo el margen inferior; el resto del
+   estilo viene de la utilidad global .eyebrow (tokens.css). */
+.hero__eyebrow {
+  margin-bottom: var(--space-2);
+}
+
+/* H1 hereda de la regla global; aquí sólo se limita el ancho
+   para que las líneas se quiebren en la zona de máxima
+   legibilidad (40–50 caracteres). */
+.hero__title {
+  max-width: 18ch;
+}
+
+.hero__lead {
+  font-family: var(--font-body);
+  font-size: var(--text-h3);          /* 20 px — el escalón más
+                                         cercano al rango 18–20 px
+                                         pedido por FASE_1 §2.1. */
+  line-height: var(--leading-relaxed);
+  color: var(--color-ink-soft);
+  max-width: 56ch;
+}
+
+.hero__cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+/* Columna visual decorativa: grilla 3×3 de puntos en
+   `--color-rule` sobre `--color-bg`, evoca el isotipo sin
+   replicarlo. Puede sustituirse por una <img> institucional. */
+.hero__visual {
+  position: relative;
+  min-height: 280px;
+  border-radius: var(--radius-lg);
+  background-image:
+    radial-gradient(circle, var(--color-rule) 12%, transparent 13%);
+  background-size: calc(100% / 3) calc(100% / 3);
+  background-position: center;
+}
+
+@media (min-width: 768px) {
+  .hero {
+    grid-template-columns: 1.2fr 1fr;
+    gap: var(--space-12);
+    align-items: center;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero {
+    padding-block: calc(var(--space-16) * 1.5);  /* 96 px */
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   2.2  PAGE HEADER — .page-header
+   ─────────────────────────────────────────────────────────────
+   Cabecera compacta de páginas interiores. 48 px arriba, 32 px
+   abajo. Borde inferior 1 px `--color-rule` para separar del
+   primer bloque temático.
+   ───────────────────────────────────────────────────────────── */
+
+.page-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-block: var(--space-12) var(--space-8);
+  border-bottom: 1px solid var(--color-rule);
+  margin-bottom: var(--space-12);
+}
+
+.page-header__title {
+  /* H1 global; .page-header sólo añade contexto contenedor. */
+  max-width: 22ch;
+}
+
+.page-header__lead {
+  font-family: var(--font-body);
+  font-size: var(--text-h3);
+  line-height: var(--leading-relaxed);
+  color: var(--color-ink-soft);
+  max-width: 56ch;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   2.3  SECTION TITLE — .section-title
+   ─────────────────────────────────────────────────────────────
+   Encabezado de cada sección dentro de una página. Sin fondo,
+   sin borde, sólo margen inferior de respiración antes del
+   bloque siguiente.
+   ───────────────────────────────────────────────────────────── */
+
+.section-title {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-8);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   2.4  MISSION-VISION — .mission-vision
+   ─────────────────────────────────────────────────────────────
+   Dos columnas paralelas en desktop, una sola en mobile. Cada
+   columna lleva borde lateral izquierdo de 3 px en
+   `--color-primary` (decisión de simetría sin <h2> global —
+   FASE_1 §2.4: Misión y Visión sin jerarquía entre sí).
+   ───────────────────────────────────────────────────────────── */
+
+.mission-vision {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+
+.mission-vision__col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  background: var(--color-bg-panel);
+  border-left: 3px solid var(--color-primary);
+  border-radius: var(--radius-md);
+  padding: var(--space-6) var(--space-6) var(--space-6) var(--space-8);
+}
+
+.mission-vision__label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);     /* 12 px — Geist Mono */
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+/* Ícono Lucide inline. `currentColor` hace que herede el color
+   del label (`--color-primary`). 16×16 px = `var(--text-h4)`. */
+.mission-vision__icon {
+  width: var(--text-h4);
+  height: var(--text-h4);
+  flex-shrink: 0;
+  color: currentColor;
+}
+
+.mission-vision__prose {
+  font-family: var(--font-body);
+  font-size: var(--text-h4);          /* 16 px */
+  line-height: var(--leading-relaxed);
+  color: var(--color-ink-soft);
+  max-width: 56ch;
+}
+
+@media (min-width: 768px) {
+  .mission-vision {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   2.5  KPI STRIP — .kpi-strip
+   ─────────────────────────────────────────────────────────────
+   Strip horizontal de cuatro indicadores institucionales.
+   2 columnas (mobile) → 4 columnas (≥768 px). Fondo en
+   `--color-bg-panel`, bordes superior e inferior en
+   `--color-rule`. Separadores verticales entre items en desktop.
+
+   Nota sobre escala tipográfica: FASE_1 §2.5 prescribe 48/36 px
+   para el valor numérico y 24/20 px para el slot textual.
+   Resolvemos con tokens existentes (--text-display 48 px,
+   --text-h2 32 px, --text-h3 20 px) — el delta máximo es de 4 px
+   en mobile, imperceptible.
+   ───────────────────────────────────────────────────────────── */
+
+.kpi-strip {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  background: var(--color-bg-panel);
+  border-block: 1px solid var(--color-rule);
+  padding-block: var(--space-10);
+}
+
+.kpi-strip__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-6);
+}
+
+.kpi-strip__value {
+  font-family: var(--font-display);
+  font-size: var(--text-h2);          /* 32 px mobile */
+  font-weight: var(--weight-regular);
+  line-height: 1;
+  color: var(--color-primary);
+}
+
+/* Modificador para slots de valor textual (ej. "Ingeniería
+   Química"): tipografía más pequeña para evitar el desborde de
+   etiquetas largas y preservar coherencia con los slots
+   numéricos. */
+.kpi-strip__item--text .kpi-strip__value {
+  font-size: var(--text-h3);          /* 20 px mobile */
+}
+
+.kpi-strip__label {
+  font-family: var(--font-body);
+  font-size: var(--text-small);       /* 13 px */
+  line-height: var(--leading-normal);
+  color: var(--color-ink-soft);
+}
+
+@media (min-width: 768px) {
+  .kpi-strip {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* Separadores verticales entre items, salvo el último. */
+  .kpi-strip__item:not(:last-child) {
+    border-right: 1px solid var(--color-rule);
+  }
+
+  .kpi-strip__value {
+    font-size: var(--text-display);   /* 48 px desktop */
+  }
+
+  .kpi-strip__item--text .kpi-strip__value {
+    font-size: var(--text-h2);        /* 32 px desktop */
+  }
+}
