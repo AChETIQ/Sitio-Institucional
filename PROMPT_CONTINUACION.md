@@ -135,6 +135,51 @@ Soy Lautaro R. Zalazar, estudiante de Ingeniería Química en UTN FRRe y Proteso
 
 ---
 
+## SESIÓN 2026-05-27 — Implementación de `pages/contacto.html`
+
+> Construcción front-end de la página de Contacto siguiendo el wireframe §5 y el componente `.contact-card` (§4.10).
+
+### Decisión sobre el formulario de envío
+
+Antes de implementar se reabrió la discusión, dado que GitHub Pages no procesa envíos del lado del servidor. Se evaluaron tres caminos:
+
+| Opción | Experiencia del visitante | Costos / dependencias |
+|---|---|---|
+| (a) Servicio externo (Formspree, FormSubmit, Web3Forms y similares) | Formulario embebido; envía y recibe confirmación sin abandonar la página; funciona aunque no haya cliente de correo configurado. | Crear cuenta y verificar dominio; dependencia operativa de un tercero; cuotas y branding en planes gratuitos; el sitio deja de ser 100 % independiente. |
+| (b) `mailto:` con asunto prefijado | Bot­ón que abre el cliente de correo del visitante con `Para`/`Asunto` ya cargados. | Cero dependencias. Riesgo: en mobile y entornos sin cliente de correo configurado el clic puede no hacer nada visible. |
+| (c) Solo canales de contacto (sin formulario) | Tarjetas de Email, Instagram, LinkedIn (Próximamente) y Dirección; el visitante elige el canal preferido. | Cero. Coincide con la decisión ya cerrada en wireframe §5 y catálogo §6.1 ("form diferido a v1.1+"). |
+
+**Decisión ratificada (2026-05-27): opción (c) — solo canales, sin formulario.**
+
+- Mantiene la coherencia con la decisión del 2026-05-14 registrada en `FASE_1_Wireframes.md §5` y `FASE_1_Catalogo_Componentes.md §6.1`.
+- Cero dependencias de terceros y cero cuentas que mantener; consistente con el resto del stack vanilla.
+- El componente `.form` queda diferido a v1.1+; se reactivará el día que se decida sumar captura, evaluando nuevamente las opciones (a)/(b) con datos de uso reales.
+
+### Bloques implementados
+
+| # | Bloque | Estado |
+|---|---|---|
+| 3 | `page-header` (eyebrow "Comunicación", h1 "Escribinos a *AChETIQ*", lead) | ✅ |
+| 4 | Canales directos: grid `.grid-cards--4` + `.contact-grid` con `.contact-card` renderizadas desde `data/redes.json` vía `data-loader="redes"` (renderer local registrado en la página) | ✅ |
+| 5 | Mapa: `<figure>` con iframe liviano de Google Maps (`?q=…&output=embed`, `loading="lazy"`, sin API key) + figcaption con dirección textual y link "Abrir en Google Maps" en nueva pestaña | ✅ |
+
+### Reglas de renderizado de `data-loader="redes"`
+
+- `email`, `instagram`, `facebook`, `whatsapp`, `youtube`, `twitter`: tarjeta activa solo si el valor en `data/redes.json` es no nulo (en v1.0 se renderizan email e Instagram).
+- `linkedin`: caso especial — tarjeta "Próximamente" mientras sea `null`; pasa automáticamente a activa cuando deje de serlo.
+- Dirección: tarjeta estática alimentada por `direccion_facultad` y `web_facultad` (link a la web de la FRRe en nueva pestaña). Si `web_facultad` faltara, la tarjeta degrada a placeholder no interactivo en lugar de romper la grilla.
+- Todos los enlaces externos llevan `target="_blank" rel="noopener noreferrer"`. Los `href` pasan por `safeHref()` (rechaza `javascript:`, `data:`, etc.).
+
+### Nota técnica
+
+`loaders.js` no registra renderer por defecto para `redes` (lo usa `footer.js` internamente). La página define el renderer en un módulo inline propio, importando `registerLoader`, `createElement` y `safeHref` desde `assets/js/loaders.js` y registrándolo antes de la carga de `main.js`, según el patrón documentado en el encabezado de `loaders.js`. Los íconos (Lucide `mail`, `instagram`, `linkedin`, `map-pin`) se construyen como SVG inline con `aria-hidden="true"`.
+
+### Archivo actualizado
+
+- `pages/contacto.html` — creado.
+
+---
+
 ## SESIÓN 2026-05-22 — Reconciliación de la estructura de directorios
 
 > El repositorio conservaba andamiaje residual de tipo Jekyll que contradecía el
