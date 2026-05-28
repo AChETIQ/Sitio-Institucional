@@ -279,6 +279,13 @@
   --grid-gap:         12px;  /* Gap estándar de grids de tarjetas. */
   --section-gap:      64px;  /* Separación entre secciones de página. */
 
+  --breakpoint-seguimiento: 1024px;
+  /* Breakpoint funcional de la herramienta Seguimiento de Carrera
+     (spec_seguimiento.md §3.2, §9). Fijado como definitivo. CSS no
+     admite var() en la condición @media, por lo que el literal
+     1024px escrito en seguimiento.css SIEMPRE corresponde a este
+     token (= --bp-lg). */
+
 
   /* ─────────────────────────────────────────────────────────────
      BREAKPOINTS (solo referencia — usar dentro de @media)

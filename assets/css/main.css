@@ -61,6 +61,7 @@
 @import url('figure.css');
 @import url('cta.css');
 @import url('countdown-recursos.css');
+@import url('seguimiento.css');
 /* countdown-recursos.css se importa globalmente para que el componente
    .countdown quede disponible en todo el sitio sin que cada página
    tenga que enlazar su hoja por separado. Hoy se usa solo en el hub
