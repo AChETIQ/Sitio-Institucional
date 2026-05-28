@@ -33,6 +33,7 @@
   <meta name="twitter:description" content="Planilla de seguimiento de carrera para Ingeniería Química, UTN FRRe: estado de cada materia, avance y verificación de correlativas. Plan 2023.">
   <meta name="twitter:image" content="https://achetiq.org.ar/icon-512.png">
   <link rel="modulepreload" href="../../assets/js/loaders.js">
+  <link rel="modulepreload" href="../../assets/js/seguimiento.js">
   <link rel="modulepreload" href="../../assets/js/main.js">
 
 </head>
@@ -74,42 +75,154 @@
       </p>
     </header>
 
-    <!--
-      ════════════════════════════════════════════════════════
-      ANDAMIAJE — «En preparación»
-      ════════════════════════════════════════════════════════
-      La herramienta interactiva de seguimiento se incorpora en
-      P4.5 (Plan Maestro Fases 3-7). Su especificación funcional
-      — modelo de estado de cada materia, cálculo de avance,
-      verificación de correlativas, persistencia en almacenamiento
-      local del navegador, exportar/importar — se elabora en P4.4.
-      Sin código en este momento.
+    <!-- ════════════════════════════════════════════════════════
+         [2] HERRAMIENTA DE SEGUIMIENTO  (spec_seguimiento.md)
+         La estructura estática (nota de privacidad, acciones,
+         pestañas, prosa de «Nota al estudiante») vive en el HTML;
+         el dashboard de KPIs y las tablas las construye
+         assets/js/seguimiento.js a partir de data/plan_academico.json.
+         ════════════════════════════════════════════════════════ -->
+    <section class="seguimiento" data-seguimiento aria-busy="true"
+             aria-labelledby="seguimiento-title">
+      <h2 id="seguimiento-title" class="sr-only">Herramienta de seguimiento de carrera</h2>
 
-      Cuando P4.5 entre, reemplazar este bloque por:
-        · el contenedor de la planilla (tabla o grid de materias);
-        · el link a `assets/css/seguimiento.css` (o el import en
-          `main.css`);
-        · el módulo `assets/js/seguimiento.js` con la lógica de
-          persistencia local y el modelo de correlativas.
+      <!-- Nota de privacidad visible (spec §12). -->
+      <p class="seguimiento__nota-privacidad">
+        <svg class="seguimiento__nota-icon" width="20" height="20" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+        <span>
+          <strong>Tus datos se guardan únicamente en este dispositivo.</strong>
+          Todo lo que cargues queda en el almacenamiento local de este navegador;
+          AChETIQ no lo recibe ni puede acceder a él. Para conservarlo o usarlo en
+          otro equipo, exportá un respaldo. Si borrás los datos del navegador, se
+          pierde sin recuperación.
+        </span>
+      </p>
 
-      Mientras tanto, este andamiaje deja la página navegable
-      desde el hub, con header y empty-state — NO un 404.
-      ════════════════════════════════════════════════════════
-    -->
-    <section aria-labelledby="seguimiento-en-preparacion-title">
-      <div class="empty-state">
-        <h2 class="empty-state__title" id="seguimiento-en-preparacion-title">
-          En preparación
-        </h2>
-        <p class="empty-state__desc">
-          La planilla de seguimiento de carrera se incorporará a esta sección durante la siguiente fase de desarrollo. Estamos definiendo su modelo de estado de cada materia, el cálculo de avance y la verificación de correlativas del Plan 2023.
+      <!-- Aviso de divergencia de versión de plan (spec §10.2), oculto por defecto. -->
+      <p class="seguimiento__aviso-version" id="seg-aviso-version" role="status" hidden></p>
+
+      <!-- Región de anuncios para lectores de pantalla (cambios de estado, KPIs). -->
+      <div id="seg-anuncio" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+
+      <!-- Barra de acciones globales (spec §8.4). -->
+      <div class="seguimiento__actions">
+        <button type="button" class="btn btn-primary" id="seg-btn-exportar">Exportar respaldo</button>
+        <button type="button" class="btn btn-secondary" id="seg-btn-importar">Importar respaldo</button>
+        <button type="button" class="btn seg-btn-ghost" id="seg-btn-reiniciar">Reiniciar progreso</button>
+        <input type="file" id="seg-file-input" accept="application/json,.json" class="sr-only" aria-hidden="true" tabindex="-1">
+      </div>
+
+      <noscript>
+        <div class="loader-error" role="alert">
+          <p class="loader-error__message">
+            Esta herramienta necesita JavaScript para registrar y calcular tu avance.
+            Activalo para usarla, o volvé al
+            <a href="../recursos.html">hub de Recursos académicos</a>.
+          </p>
+        </div>
+      </noscript>
+
+      <!-- Pestañas — selector de hojas (spec §3.1). -->
+      <div class="seg-tabs" role="tablist" aria-label="Vistas de la herramienta">
+        <button type="button" class="seg-tabs__tab" role="tab" id="seg-tab-seguimiento"
+                data-tab="seguimiento" aria-controls="seg-panel-seguimiento" aria-selected="true">📊 SEGUIMIENTO</button>
+        <button type="button" class="seg-tabs__tab" role="tab" id="seg-tab-finales"
+                data-tab="finales" aria-controls="seg-panel-finales" aria-selected="false" tabindex="-1">📝 REGISTRO DE EXÁMENES FINALES</button>
+        <button type="button" class="seg-tabs__tab" role="tab" id="seg-tab-nota"
+                data-tab="nota" aria-controls="seg-panel-nota" aria-selected="false" tabindex="-1">📝 NOTA AL ESTUDIANTE</button>
+      </div>
+
+      <!-- Panel: SEGUIMIENTO -->
+      <div class="seg-panel" id="seg-panel-seguimiento" role="tabpanel"
+           aria-labelledby="seg-tab-seguimiento" tabindex="0">
+        <div id="seg-status" role="status">
+          <div class="loader loader--msg-right" aria-live="polite">
+            <div class="loader__dots">
+              <span class="loader__dot safe-motion"></span>
+              <span class="loader__dot safe-motion"></span>
+              <span class="loader__dot safe-motion"></span>
+            </div>
+            <p class="loader__message">Cargando el plan académico…</p>
+          </div>
+        </div>
+        <div id="seg-dashboard"></div>
+        <div id="seg-tabla-seguimiento"></div>
+      </div>
+
+      <!-- Panel: REGISTRO DE EXÁMENES FINALES -->
+      <div class="seg-panel" id="seg-panel-finales" role="tabpanel"
+           aria-labelledby="seg-tab-finales" tabindex="0" hidden>
+        <p class="seg-panel__intro">
+          Se aprueba con 6. Máximo 4 instancias en condición regular; las instancias
+          5.° y 6.° aplican a casos excepcionales (libres o por reválida). La nota final
+          calculada y los promedios se actualizan automáticamente en la pestaña Seguimiento.
         </p>
-        <p class="empty-state__desc">
-          Mientras tanto, podés volver al
-          <a href="../recursos.html">hub de Recursos académicos</a>
-          o consultar los
-          <a href="./apuntes.html">apuntes por materia</a>.
-        </p>
+        <div id="seg-tabla-finales"></div>
+      </div>
+
+      <!-- Panel: NOTA AL ESTUDIANTE  (estático, spec §8.3, §12) -->
+      <div class="seg-panel" id="seg-panel-nota" role="tabpanel"
+           aria-labelledby="seg-tab-nota" tabindex="0" hidden>
+        <div class="seg-nota__prose">
+          <p>
+            Esta herramienta es la versión web de la planilla «Seguimiento de Carrera»:
+            te permite registrar el estado de cada materia del Plan 2023 (Ingeniería Química,
+            UTN FRRe), llevar las notas y los exámenes finales, ver qué materias tenés
+            disponibles según las correlatividades y consultar tus indicadores de avance.
+          </p>
+
+          <h3>Condición no oficial</h3>
+          <p>
+            La herramienta no se conecta con SysAcad ni con ningún sistema de UTN FRRe.
+            El estado de las materias lo cargás y mantenés vos; la fuente oficial sigue
+            siendo el sistema académico de la universidad.
+          </p>
+
+          <h3>Privacidad y portabilidad</h3>
+          <ol class="seg-nota__list">
+            <li><strong>Privacidad estricta del dispositivo.</strong> El estado académico
+              cargado en esta herramienta se guarda exclusivamente en el navegador del
+              dispositivo desde el cual se ingresa. No se transmite a ningún servidor;
+              AChETIQ no recibe, almacena ni puede acceder a esta información. No es
+              necesario crear una cuenta para usar la herramienta.</li>
+            <li><strong>Aislamiento por navegador y dispositivo.</strong> Cada navegador
+              (Chrome, Firefox, Safari, etc.) y cada dispositivo (PC, notebook, teléfono,
+              tablet) mantiene su propio almacenamiento aislado. Cargar el progreso en una
+              PC no lo hace visible en el teléfono, ni viceversa.</li>
+            <li><strong>Aislamiento por modo de navegación.</strong> El modo incógnito o
+              privado no persiste datos: cualquier información cargada en una pestaña
+              incógnito se pierde al cerrarla.</li>
+            <li><strong>Riesgo de pérdida por limpieza de almacenamiento.</strong> Borrar
+              el caché del navegador, limpiar los datos del sitio, desinstalar el navegador,
+              formatear el equipo o cualquier acción que elimine el almacenamiento local del
+              dominio de AChETIQ destruye el progreso sin recuperación posible desde el sitio.</li>
+            <li><strong>Mitigación: respaldo manual.</strong> Se recomienda exportar el
+              estado a JSON periódicamente y guardar el archivo en un lugar seguro
+              (almacenamiento en la nube personal, correo a uno mismo, pendrive). El archivo
+              JSON es la única forma de migrar el progreso entre dispositivos o de recuperarlo
+              tras una pérdida.</li>
+            <li><strong>Condición no oficial.</strong> Esta herramienta es de uso personal y
+              voluntario. No reemplaza el sistema académico oficial de UTN FRRe; los datos
+              cargados no se sincronizan con el legajo oficial del estudiante y no tienen
+              validez administrativa.</li>
+          </ol>
+
+          <h3>Cómo respaldar e importar</h3>
+          <p>
+            Usá <strong>Exportar respaldo → JSON</strong> para descargar un archivo con todo
+            tu progreso; guardalo en un lugar seguro. Para restaurarlo (o moverlo a otro
+            dispositivo o navegador), entrá a esta herramienta, elegí <strong>Importar
+            respaldo</strong> y seleccioná ese archivo: reemplazará el progreso actual previa
+            confirmación. La opción <strong>CSV</strong> genera una tabla legible para
+            Excel, LibreOffice o Google Sheets, pero no es reimportable.
+          </p>
+        </div>
       </div>
     </section>
 
@@ -138,6 +251,7 @@
   <script src="../../assets/js/loader.js"></script>
   <script src="../../assets/js/navbar.js"></script>
   <script src="../../assets/js/footer.js"></script>
+  <script type="module" src="../../assets/js/seguimiento.js"></script>
   <script type="module" src="../../assets/js/main.js"></script>
 
 </body>

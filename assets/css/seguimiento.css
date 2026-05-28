@@ -1,0 +1,552 @@
+/* ============================================================
+   AChETIQ — Seguimiento de Carrera (seguimiento.css)
+   ------------------------------------------------------------
+   Componente de la herramienta interactiva de seguimiento
+   académico (pages/recursos/seguimiento.html).
+   Fundamento: content/spec_seguimiento.md (§3, §6-§9).
+   Importado desde assets/css/main.css (§1 Imports).
+
+   Mobile-first. Usa los tokens de tokens.css. La única excepción
+   permitida por la spec (§8.1) son los tokens de paleta por nivel
+   declarados abajo: réplica estricta del Excel original, que
+   convive con la paleta Océano & Areia sólo dentro de esta
+   herramienta.
+
+   DECISIÓN DE MARCA (tokens.css): los datos numéricos NUNCA usan
+   terracota (--color-cta), reservada a CTA. Los valores de KPI
+   usan --color-ink; el terracota sólo aparece en botones de
+   acción (.btn-primary).
+   ============================================================ */
+
+
+/* ─────────────────────────────────────────────────────────────
+   0. Tokens auxiliares específicos de la herramienta (spec §8.1)
+   ─────────────────────────────────────────────────────────────
+   Paleta cromática por nivel preservada del Excel. El breakpoint
+   móvil (--breakpoint-seguimiento: 1024px) se declara en
+   tokens.css (spec §3.2, §9); el literal 1024px de cada @media de
+   esta hoja corresponde a ese token (CSS no admite var() en la
+   condición @media).
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  --nivel-i-accent:    #3B82F6;  --nivel-i-fondo-alt:    #EFF6FF;  --nivel-i-texto:    #2563EB;
+  --nivel-ii-accent:   #8B5CF6;  --nivel-ii-fondo-alt:   #F5F3FF;  --nivel-ii-texto:   #7C3AED;
+  --nivel-iii-accent:  #14B8A6;  --nivel-iii-fondo-alt:  #E2F6F4;  --nivel-iii-texto:  #0D9488;
+  --nivel-iv-accent:   #F59E0B;  --nivel-iv-fondo-alt:   #FFFBEB;  --nivel-iv-texto:   #D97706;
+  --nivel-v-accent:    #EF4444;  --nivel-v-fondo-alt:    #FEF2F2;  --nivel-v-texto:    #DC2626;
+  --nivel-x-accent:    #6366F1;  --nivel-x-fondo-alt:    #EEF2FF;  --nivel-x-texto:    #4F46E5;
+
+  /* Estado de disponibilidad (badges). Ninguno es terracota. */
+  --seg-amber: #B45309;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   1. Contenedor y nota de privacidad (spec §12)
+   ───────────────────────────────────────────────────────────── */
+
+.seguimiento {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.seguimiento__nota-privacidad {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding: var(--space-4) var(--space-5);
+  background: color-mix(in oklab, var(--color-primary) 6%, var(--color-bg-panel));
+  border: 1px solid color-mix(in oklab, var(--color-primary) 25%, var(--color-rule));
+  border-radius: var(--radius-lg);
+  font-size: var(--text-small);
+  color: var(--color-ink-soft);
+  line-height: var(--leading-normal);
+}
+
+.seguimiento__nota-privacidad strong {
+  color: var(--color-ink);
+  font-weight: var(--weight-medium);
+}
+
+.seguimiento__nota-icon {
+  flex: 0 0 auto;
+  color: var(--color-primary);
+  margin-top: 2px;
+}
+
+/* Aviso de divergencia de versión de plan (spec §10.2). */
+.seguimiento__aviso-version {
+  padding: var(--space-3) var(--space-4);
+  background: color-mix(in oklab, var(--seg-amber) 8%, var(--color-bg-panel));
+  border: 1px solid color-mix(in oklab, var(--seg-amber) 30%, var(--color-rule));
+  border-radius: var(--radius-md);
+  font-size: var(--text-small);
+  color: var(--color-ink);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   2. Barra de acciones globales (spec §8.4)
+   ───────────────────────────────────────────────────────────── */
+
+.seguimiento__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+/* Botón terciario (Cancelar / acciones neutras de diálogo). */
+.seg-btn-ghost {
+  background: transparent;
+  color: var(--color-ink-soft);
+  border: 1px solid var(--color-rule);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   3. Pestañas — selector de hojas (spec §3.1)
+   ───────────────────────────────────────────────────────────── */
+
+.seg-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.seg-tabs__tab {
+  appearance: none;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: var(--space-3) var(--space-4);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  color: var(--color-ink-soft);
+  cursor: pointer;
+  margin-bottom: -1px;
+  transition: color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.seg-tabs__tab:hover {
+  color: var(--color-ink);
+}
+
+.seg-tabs__tab[aria-selected="true"] {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   4. Paneles
+   ───────────────────────────────────────────────────────────── */
+
+.seg-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.seg-panel[hidden] {
+  display: none;
+}
+
+.seg-panel__title {
+  font-family: var(--font-body);
+  font-size: var(--text-h4);
+  letter-spacing: var(--tracking-wide);
+}
+
+.seg-panel__intro {
+  font-size: var(--text-small);
+  color: var(--color-ink-soft);
+  max-width: 70ch;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   5. Dashboard de KPIs (spec §6, §8.1)
+   ───────────────────────────────────────────────────────────── */
+
+.seg-dashboard__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--grid-gap);
+}
+
+@media (min-width: 640px) {
+  .seg-dashboard__grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Grilla de tres columnas en escritorio (spec §3.2). 1024px =
+   --breakpoint-seguimiento. */
+@media (min-width: 1024px) {
+  .seg-dashboard__grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+.seg-kpi {
+  background: var(--color-bg-panel);
+  border: 0.5px solid var(--color-rule);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.seg-kpi__label {
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+}
+
+.seg-kpi__value-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-1);
+}
+
+/* Valor numérico del KPI. Tinta neutra — NUNCA terracota
+   (decisión de marca, tokens.css §COLOR-ACENTO). */
+.seg-kpi__value {
+  font-family: var(--font-display);
+  font-size: var(--text-kpi);
+  font-weight: var(--weight-regular);
+  line-height: 1;
+  color: var(--color-ink);
+}
+
+.seg-kpi__unit {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--color-ink-soft);
+}
+
+.seg-kpi__hint {
+  /* hereda .caption */
+  color: var(--color-ink-faint);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   6. Tablas (spec §8.1, §8.2)
+   ───────────────────────────────────────────────────────────── */
+
+.seg-table-scroll {
+  overflow-x: auto;
+  border: 0.5px solid var(--color-rule);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-panel);
+}
+
+.seg-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-small);
+}
+
+.seg-table th,
+.seg-table td {
+  padding: var(--space-2) var(--space-3);
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 0.5px solid var(--color-rule-soft);
+}
+
+.seg-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-raised);
+  background: var(--color-bg-panel);
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow-sm);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+  font-weight: var(--weight-regular);
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.seg-table__nombre {
+  min-width: 22ch;
+  color: var(--color-ink);
+}
+
+.seg-table__faltantes {
+  min-width: 26ch;
+  color: var(--color-ink-soft);
+  font-size: var(--text-caption);
+}
+
+/* Encabezado de grupo de nivel: borde grueso del color de acento
+   del nivel + fondo del tono del nivel (spec §8.1). */
+.seg-table__group-row th {
+  font-family: var(--font-body);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-small);
+  letter-spacing: var(--tracking-normal);
+  text-transform: none;
+  padding-top: var(--space-3);
+  padding-bottom: var(--space-3);
+}
+
+.seg-table__group[data-nivel="I"]   .seg-table__group-th { border-top: 3px solid var(--nivel-i-accent);   color: var(--nivel-i-texto);   background: var(--nivel-i-fondo-alt); }
+.seg-table__group[data-nivel="II"]  .seg-table__group-th { border-top: 3px solid var(--nivel-ii-accent);  color: var(--nivel-ii-texto);  background: var(--nivel-ii-fondo-alt); }
+.seg-table__group[data-nivel="III"] .seg-table__group-th { border-top: 3px solid var(--nivel-iii-accent); color: var(--nivel-iii-texto); background: var(--nivel-iii-fondo-alt); }
+.seg-table__group[data-nivel="IV"]  .seg-table__group-th { border-top: 3px solid var(--nivel-iv-accent);  color: var(--nivel-iv-texto);  background: var(--nivel-iv-fondo-alt); }
+.seg-table__group[data-nivel="V"]   .seg-table__group-th { border-top: 3px solid var(--nivel-v-accent);   color: var(--nivel-v-texto);   background: var(--nivel-v-fondo-alt); }
+.seg-table__group[data-nivel="X"]   .seg-table__group-th { border-top: 3px solid var(--nivel-x-accent);   color: var(--nivel-x-texto);   background: var(--nivel-x-fondo-alt); }
+
+/* Filas alternadas con el tono del nivel (spec §8.1: blanco /
+   fondo-alt). La fila base es la superficie del panel. */
+.seg-table__group[data-nivel="I"]   .seg-table__row:nth-of-type(even) { background: var(--nivel-i-fondo-alt); }
+.seg-table__group[data-nivel="II"]  .seg-table__row:nth-of-type(even) { background: var(--nivel-ii-fondo-alt); }
+.seg-table__group[data-nivel="III"] .seg-table__row:nth-of-type(even) { background: var(--nivel-iii-fondo-alt); }
+.seg-table__group[data-nivel="IV"]  .seg-table__row:nth-of-type(even) { background: var(--nivel-iv-fondo-alt); }
+.seg-table__group[data-nivel="V"]   .seg-table__row:nth-of-type(even) { background: var(--nivel-v-fondo-alt); }
+.seg-table__group[data-nivel="X"]   .seg-table__row:nth-of-type(even) { background: var(--nivel-x-fondo-alt); }
+
+
+/* ─── Controles dentro de la tabla ──────────────────────────── */
+
+.seg-table__select {
+  min-width: 12ch;
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--text-small);
+}
+
+.seg-table__nota {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.seg-table__nota-input {
+  width: 7ch;
+  padding: var(--space-1) var(--space-2);
+  text-align: center;
+}
+
+/* Advertencia ámbar de discrepancia nota manual ↔ intentos
+   (spec §8.1). */
+.seg-table__warn {
+  flex: 0 0 auto;
+  color: var(--seg-amber);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   7. Badge de disponibilidad (spec §7.1)
+   ───────────────────────────────────────────────────────────── */
+
+.seg-badge {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-px-2) var(--space-2);
+  font-family: var(--font-body);
+  font-size: var(--text-eyebrow-sm);
+  font-weight: var(--weight-medium);
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.seg-badge__icon { font-size: var(--text-small); line-height: 1; }
+
+.seg-badge--disponible,
+.seg-badge--aprobada {
+  color: var(--color-pos);
+  background: color-mix(in oklab, var(--color-pos) 10%, var(--color-bg-panel));
+  border-color: color-mix(in oklab, var(--color-pos) 35%, transparent);
+}
+
+.seg-badge--regular {
+  color: var(--color-primary);
+  background: color-mix(in oklab, var(--color-primary) 10%, var(--color-bg-panel));
+  border-color: color-mix(in oklab, var(--color-primary) 35%, transparent);
+}
+
+.seg-badge--cursando {
+  color: var(--seg-amber);
+  background: color-mix(in oklab, var(--seg-amber) 10%, var(--color-bg-panel));
+  border-color: color-mix(in oklab, var(--seg-amber) 35%, transparent);
+}
+
+.seg-badge--no-disponible {
+  color: var(--color-neg);
+  background: color-mix(in oklab, var(--color-neg) 8%, var(--color-bg-panel));
+  border-color: color-mix(in oklab, var(--color-neg) 30%, transparent);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   8. Popover de correlatividades (móvil) (spec §9)
+   ───────────────────────────────────────────────────────────── */
+
+/* La celda de disponibilidad ancla el popover. */
+.seg-table--seguimiento td[data-col="disp"] {
+  position: relative;
+}
+
+.seg-popover {
+  position: absolute;
+  z-index: var(--z-raised);
+  top: calc(100% + var(--space-1));
+  left: 0;
+  min-width: 24ch;
+  max-width: 38ch;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-bg-panel);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-md);
+  box-shadow: 0 6px 20px rgba(19, 17, 15, 0.16);
+  font-size: var(--text-caption);
+  color: var(--color-ink-soft);
+  white-space: normal;
+}
+
+.seg-popover[hidden] { display: none; }
+
+.seg-popover__close {
+  position: absolute;
+  top: var(--space-1);
+  right: var(--space-2);
+  appearance: none;
+  background: transparent;
+  border: none;
+  font-size: var(--text-h3);
+  line-height: 1;
+  color: var(--color-ink-faint);
+  cursor: pointer;
+}
+
+.seg-popover__title {
+  font-family: var(--font-body);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-small);
+  color: var(--color-ink);
+  margin-bottom: var(--space-2);
+  padding-right: var(--space-5);
+}
+
+.seg-popover__line { margin-bottom: var(--space-1); }
+.seg-popover__label { color: var(--color-ink-faint); font-weight: var(--weight-medium); }
+
+
+/* ─────────────────────────────────────────────────────────────
+   9. Inputs de la pestaña Finales (spec §8.2)
+   ───────────────────────────────────────────────────────────── */
+
+.seg-fin__fecha { min-width: 15ch; padding: var(--space-1) var(--space-2); }
+.seg-fin__nota  { width: 7ch; padding: var(--space-1) var(--space-2); text-align: center; }
+
+
+/* ─────────────────────────────────────────────────────────────
+   10. Diálogos modales (spec §8.4, §11) — <dialog> nativo
+   ───────────────────────────────────────────────────────────── */
+
+.seg-dialog {
+  border: none;
+  padding: 0;
+  background: transparent;
+  max-width: min(92vw, 460px);
+  color: var(--color-ink);
+}
+
+.seg-dialog::backdrop {
+  background: var(--color-bg-overlay);
+}
+
+.seg-dialog__panel {
+  background: var(--color-bg-panel);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.seg-dialog__title {
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+}
+
+.seg-dialog__desc {
+  font-size: var(--text-small);
+  color: var(--color-ink-soft);
+  line-height: var(--leading-normal);
+}
+
+.seg-dialog__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  justify-content: flex-end;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   11. Nota al Estudiante (spec §8.3, §12)
+   ───────────────────────────────────────────────────────────── */
+
+.seg-nota__prose {
+  max-width: 72ch;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.seg-nota__prose h3 {
+  font-size: var(--text-h4);
+  margin-top: var(--space-2);
+}
+
+.seg-nota__prose p { color: var(--color-ink-soft); }
+
+.seg-nota__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-left: var(--space-5);
+}
+
+.seg-nota__list li { color: var(--color-ink-soft); }
+.seg-nota__list strong { color: var(--color-ink); font-weight: var(--weight-medium); }
+
+
+/* ─────────────────────────────────────────────────────────────
+   12. Comportamiento responsivo (spec §3.2, §9)
+   ─────────────────────────────────────────────────────────────
+   Móvil (< 1024px = --breakpoint-seguimiento): la tabla maestra
+   colapsa a las columnas esenciales (N°, Asignatura, Estado,
+   Disponible). Las columnas de correlatividades detalladas se
+   ocultan y se acceden por el popover del badge.
+   ───────────────────────────────────────────────────────────── */
+
+@media (max-width: 1023.98px) {
+  .seg-table--seguimiento th[data-col="curs"],
+  .seg-table--seguimiento td[data-col="curs"],
+  .seg-table--seguimiento th[data-col="aprob"],
+  .seg-table--seguimiento td[data-col="aprob"],
+  .seg-table--seguimiento th[data-col="falt"],
+  .seg-table--seguimiento td[data-col="falt"],
+  .seg-table--seguimiento th[data-col="hs"],
+  .seg-table--seguimiento td[data-col="hs"] {
+    display: none;
+  }
+}
+
+/* Escritorio: el badge actúa como dato visual; el popover sigue
+   disponible pero la información ya está en columnas. */
+@media (min-width: 1024px) {
+  .seg-table__nombre { min-width: 26ch; }
+}
