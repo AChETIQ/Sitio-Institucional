@@ -21,7 +21,13 @@
 
 .grid-cards {
   display: grid;
-  grid-template-columns: 1fr;
+  /* minmax(0, 1fr) en vez de 1fr para que el ancho de la pista NO
+     herede el min-content de hijos con texto sin saltos (p. ej.
+     .contact-card__value, que usa white-space: nowrap + ellipsis).
+     Con 1fr (= minmax(auto, 1fr)), un email largo como
+     "achetiq.resistencia@aneiqa.org" fuerza la columna por encima
+     del viewport en 375 px y rompe el "sin scroll horizontal". */
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--grid-gap);
 }
 
@@ -32,13 +38,13 @@
 }
 
 @media (min-width: 768px) {
-  .grid-cards--2 { grid-template-columns: repeat(2, 1fr); }
-  .grid-cards--3 { grid-template-columns: repeat(3, 1fr); }
-  .grid-cards--4 { grid-template-columns: repeat(2, 1fr); }
+  .grid-cards--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid-cards--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .grid-cards--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (min-width: 1024px) {
-  .grid-cards--4 { grid-template-columns: repeat(4, 1fr); }
+  .grid-cards--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 
 
