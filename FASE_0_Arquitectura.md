@@ -159,22 +159,31 @@ achetiq.github.io/
 ```
 achetiq-lab/                      ← raíz del repositorio
 │
-├── index.html                    ← Inicio
-├── sobre-achetiq.html
-├── gabinetes.html
-├── recursos-academicos.html
-├── actividades.html
-├── contacto.html
+├── index.html                    ← Inicio (única página HTML en la raíz)
 ├── 404.html                      ← página de error (servida por GitHub Pages)
 │
-├── partials/                     ← fragmentos HTML inyectados vía fetch()
-│   ├── navbar.html               ← (Fase 2)
-│   ├── footer.html               ← (Fase 2)
-│   └── countdown-recursos.html   ← cuenta regresiva de Recursos (Fase 2 anticipada)
+├── pages/                        ← páginas internas del sitio
+│   ├── sobre-achetiq.html
+│   ├── gabinetes.html            ← hub de gabinetes
+│   ├── recursos.html             ← hub de Recursos Académicos
+│   ├── contacto.html
+│   │
+│   ├── gabinetes/                ← páginas hijas (una por gabinete)
+│   │   ├── cursos-y-conferencias.html
+│   │   ├── eventos.html
+│   │   ├── prensa-y-difusion.html
+│   │   └── solidario.html
+│   │
+│   └── recursos/                 ← sub-secciones de Recursos
+│       ├── apuntes.html
+│       ├── calendario.html
+│       └── seguimiento.html
 │
-├── pages/                        ← plantillas de detalle (?id=<slug>)
-│   ├── gabinetes/                ← vista de gabinete individual
-│   └── recursos/                 ← vista de materia individual
+├── partials/                     ← fragmentos HTML inyectados vía fetch()
+│   ├── _boilerplate.html         ← esqueleto de referencia (no inyectado)
+│   ├── navbar.html               ← barra de navegación global
+│   ├── footer.html               ← pie de página institucional
+│   └── countdown-recursos.html   ← cuenta regresiva de Recursos
 │
 ├── data/                         ← datos en JSON (actualizables sin tocar HTML)
 │   ├── directiva.json
@@ -183,17 +192,32 @@ achetiq-lab/                      ← raíz del repositorio
 │   ├── documentos.json
 │   ├── historia.json
 │   ├── instituciones.json
-│   └── redes.json
+│   ├── redes.json
+│   └── navbar.json               ← configuración de marca y enlaces de la navbar
 │
 ├── assets/                       ← recursos estáticos del sitio
-│   ├── css/                      ← hojas de estilo (componentes y páginas)
-│   ├── js/                       ← scripts vanilla (módulos ES)
+│   ├── css/                      ← hojas de estilo (una por componente)
+│   │   ├── main.css              ← punto de entrada (importa el resto)
+│   │   ├── navbar.css · footer.css · loader.css
+│   │   ├── headers.css · text.css · figure.css · cta.css
+│   │   ├── cards.css · lists.css · forms.css · nav-secondary.css
+│   │   ├── states.css · error-404.css
+│   │   └── countdown-recursos.css
+│   ├── js/                       ← scripts vanilla (módulos ES nativos)
+│   │   ├── loader.js             ← AChETIQBase (cálculo de raíz, rewriteTree)
+│   │   ├── main.js               ← motor del patrón data-loader
+│   │   ├── loaders.js            ← registro de renderers + defaults
+│   │   ├── navbar.js · footer.js
+│   │   ├── countdown-recursos.js
+│   │   ├── apuntes.js            ← override del loader «recursos» (pills + estado)
+│   │   └── gabinete-detalle.js   ← override de «gabinetes» para subpáginas
+│   ├── fonts/                    ← tipografías autoalojadas (.woff2)
+│   │   ├── geist-400.woff2
+│   │   ├── instrument-serif-400.woff2
+│   │   └── instrument-serif-400-italic.woff2
 │   └── img/
-│       ├── logo/                 ← logo en variantes (SVG, PNG)
-│       ├── institucional/        ← logos de instituciones vinculadas
-│       ├── directiva/            ← fotos de integrantes de directiva
-│       ├── gabinetes/            ← imágenes por gabinete
-│       └── eventos/              ← fotos para galería y actividades
+│       ├── logo/                 ← logo en variantes (SVG)
+│       └── institucional/        ← logos de instituciones vinculadas
 │
 ├── docs/                         ← archivos descargables (PDF)
 │   ├── Estatuto.pdf
@@ -206,13 +230,41 @@ achetiq-lab/                      ← raíz del repositorio
 │   └── analisis_logo.md
 │
 ├── tokens.css                    ← design tokens (paleta, escalas, z-index)
+├── site.webmanifest              ← manifiesto PWA (mínimo)
 ├── favicon.ico · favicon.svg · apple-touch-icon.png · icon-192.png · icon-512.png
+├── .nojekyll                     ← inhibe el procesamiento Jekyll en GitHub Pages
 ├── README.md
 └── .gitignore
 ```
 
-> **Nota de reconciliación (2026-05-22).** El árbol anterior se reescribió para
-> alinearlo con el stack vanilla definitivo. Se eliminó el andamiaje residual de
+> **Nota de cierre de Fase 3 (2026-05-28).** El árbol anterior refleja el estado
+> al cierre de la Fase 3 (desarrollo front-end completo). Diferencias respecto a
+> versiones previas del documento:
+>
+> - **Páginas internas en `pages/`.** Salvo `index.html` y `404.html`, todas las
+>   páginas (`sobre-achetiq`, `gabinetes`, `recursos`, `contacto`) viven en
+>   `pages/`. La página de Actividades quedó fuera del alcance v1.0.
+> - **Subpáginas en lugar de plantillas con `?id=`.** El subárbol de Gabinetes
+>   y Recursos Académicos se resolvió con una página estática por hijo
+>   (`pages/gabinetes/<slug>.html`, `pages/recursos/<sub-seccion>.html`) en
+>   lugar de la plantilla única con query param prevista originalmente en
+>   `INSTRUCCION_PROYECTO.md §4.2`. La alineación de ambos documentos queda
+>   asentada como decisión pendiente al inicio de Fase 4 (P4.6 para la vista
+>   individual de materia).
+> - **Imágenes.** Se mantienen `assets/img/logo/` y `assets/img/institucional/`;
+>   las carpetas `directiva/`, `gabinetes/` y `eventos/` se crearán recién
+>   cuando lleguen los assets correspondientes (todavía pendientes según
+>   `PROMPT_CONTINUACION.md`).
+> - **Adiciones a `data/`.** Se sumó `navbar.json` para alimentar la
+>   configuración del header sin tocar markup.
+> - **PWA y favicons.** `site.webmanifest`, `favicon.{ico,svg}`,
+>   `apple-touch-icon.png`, `icon-{192,512}.png` viven en la raíz para que
+>   las rutas del manifiesto y de la navegación se resuelvan sin prefijo.
+> - **`.nojekyll`.** Archivo vacío en la raíz para que GitHub Pages sirva el
+>   sitio tal cual, sin pasarlo por Jekyll (los nombres de carpetas que
+>   empiezan con `_` no se filtran).
+>
+> **Nota de reconciliación (2026-05-22).** Se eliminó el andamiaje residual de
 > tipo Jekyll (`_includes/`): su único contenido útil —la cuenta regresiva de
 > Recursos Académicos— se migró a `partials/countdown-recursos.html`. Los recursos
 > estáticos se consolidaron bajo `assets/` (`assets/css/`, `assets/js/`,

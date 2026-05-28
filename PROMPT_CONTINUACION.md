@@ -1,6 +1,6 @@
 # PROMPT DE CONTINUACIÓN — Nuevo chat AChETIQ Web
 
-> Generado: 2026-05-14 · Estado: Inicio ✅ · Sobre AChETIQ ✅ · Gabinetes ✅ · Recursos Académicos ✅ · Contacto ✅. Revisión de wireframes de páginas prioritarias completada. Próximos: plantillas `pages/gabinete.html` y `pages/recurso.html` (sesión separada) → luego Fase 2.
+> Generado: 2026-05-28 · **Fase 3 (desarrollo front-end) CERRADA.** Repositorio versionado y limpio. Próximo: Fase 4 (contenido académico y herramientas interactivas) según `PLAN_MAESTRO_FASES_3-7.md`.
 
 ---
 
@@ -200,3 +200,97 @@ Antes de implementar se reabrió la discusión, dado que GitHub Pages no procesa
 
 ### Pendiente abierto / a confirmar por la directiva
 - ⚠ Contradicción a resolver: `INSTRUCCION_PROYECTO.md §4.2` define las plantillas de detalle como archivos únicos con query param (`pages/gabinete.html?id=<slug>`), mientras que la estructura adoptada usa carpetas `pages/gabinetes/` y `pages/recursos/`. Conviene alinear ambos documentos al cerrar las plantillas de detalle.
+
+---
+
+## SESIÓN 2026-05-28 — Cierre formal de Fase 3 (P3.15)
+
+> Fase 3 (desarrollo front-end) cerrada. El sitio está construido íntegro en HTML/CSS/JS vanilla; lo que resta para publicación es contenido sustantivo (Fase 4) y despliegue (Fase 5). Se ejecutó la revisión de calidad del código, se reconcilió la estructura documental y se versionó el cierre.
+
+### Estado del repositorio al cierre
+
+**Páginas construidas (10 archivos HTML):**
+
+| Ruta | Estado |
+|---|---|
+| `index.html` | ✅ Inicio (hero, presentación, KPI strip, gabinetes vía loader, CTA) |
+| `404.html` | ✅ Página de error con fantasma Lucide + atajos |
+| `pages/sobre-achetiq.html` | ✅ Page-header · timeline (`data/historia.json`) · misión/visión · valores (provisional) · instituciones · documentos · CTA |
+| `pages/gabinetes.html` | ✅ Hub con grid de 4 gabinetes y bloque de comisión directiva |
+| `pages/gabinetes/cursos-y-conferencias.html` · `eventos.html` · `prensa-y-difusion.html` · `solidario.html` | ✅ Cuatro páginas hijas con CTA estándar y emails de gabinete; integrantes diferidos |
+| `pages/recursos.html` | ✅ Hub con cuenta regresiva + accesos a apuntes/calendario/seguimiento |
+| `pages/recursos/apuntes.html` | ✅ Pill-nav por año + grid de 41 materias en estado «Sin apuntes aún» |
+| `pages/recursos/calendario.html` · `seguimiento.html` | ✅ Andamiaje con estado «En preparación» (lógica diferida a Fase 4) |
+| `pages/contacto.html` | ✅ Canales directos + mapa de Google Maps embebido |
+
+**Partials inyectables (`partials/`):** `_boilerplate.html` (referencia), `navbar.html`, `footer.html`, `countdown-recursos.html`.
+
+**Hojas de estilo (`assets/css/`):** `main.css` (entry point, importa el resto), `navbar.css`, `footer.css`, `loader.css`, `headers.css`, `text.css`, `cards.css`, `lists.css`, `forms.css`, `nav-secondary.css`, `states.css`, `figure.css`, `cta.css`, `countdown-recursos.css`, `error-404.css`. 15 hojas, todas en BEM y sin hex ni nombres de fuente literales.
+
+**Módulos JS (`assets/js/`, módulos ES nativos sin transpilación):** `loader.js` (define `window.AChETIQBase` + overlay global), `main.js` (motor del patrón `data-loader`), `loaders.js` (registro de renderers + 6 renderers por defecto: `gabinetes`, `recursos`, `directiva`, `historia`, `documentos`, `instituciones`), `navbar.js`, `footer.js`, `countdown-recursos.js`, `apuntes.js` (override de `recursos` con filtro por año), `gabinete-detalle.js` (override de `gabinetes` para páginas hijas).
+
+**Datos (`data/`):** 8 JSON — `directiva.json`, `gabinetes.json`, `recursos.json` (41 materias), `documentos.json`, `historia.json` (14 hitos 2003–2026), `instituciones.json`, `redes.json`, `navbar.json`.
+
+### Decisiones técnicas y editoriales tomadas durante Fase 3
+
+1. **Formulario de contacto: NO se implementa (Decisión 2026-05-27).** La página de Contacto cierra v1.0 sin `<form>`; ofrece solo canales directos (email, Instagram, LinkedIn «Próximamente», dirección con mapa embebido). Se evaluaron servicio externo (Formspree/etc.), `mailto:` y «solo canales»; se eligió la tercera para mantener el sitio sin dependencias de terceros. El componente `.form` queda diferido a v1.1+ y se reabrirá con datos de uso reales.
+2. **Subpáginas en lugar de plantilla con `?id=` (Decisión 2026-05-16, ratificada por estructura).** Gabinetes y subsecciones de Recursos se resolvieron con un archivo HTML por hijo (`pages/gabinetes/<slug>.html`, `pages/recursos/<sub-seccion>.html`). Contradice la prescripción original de `INSTRUCCION_PROYECTO.md §4.2`; convendría alinear ambos documentos al cerrar la vista individual de materia en Fase 4 (P4.6).
+3. **CTA final como componente compartido (`assets/css/cta.css`).** El cierre con fondo `--color-primary` y botones invertidos se formalizó como `.cta-final` reutilizable; las páginas no redefinen este bloque.
+4. **`color-mix()` para tintas con alfa.** Toda mezcla de color con transparencia (sombras, overlays, badges, glows decorativos) se expresa con `color-mix(in srgb|oklab, var(--token) N%, transparent)`. Las únicas instancias `rgba()` hardcodeadas que quedaban (navbar.css overlay/sombra, countdown shadow fallback) se migraron a `color-mix` durante P3.15.
+5. **Rutas relativas + `AChETIQBase` runtime.** Toda URL interna se calcula a partir del `src` real del propio `loader.js`. Esto hace que el sitio sirva por igual desde la raíz del dominio (`https://achetiq.org.ar/`), un subpath de GitHub Pages (`https://<org>.github.io/<repo>/`) o file://.
+6. **`.nojekyll` en raíz.** GitHub Pages servirá el sitio sin pasarlo por Jekyll, de modo que los nombres con prefijo `_` (si los hubiera) no se filtren.
+
+### Revisión de calidad de código aplicada en P3.15
+
+- **BEM consistente:** todas las hojas exponen bloques `.bloque`, elementos `.bloque__elemento` y modificadores `.bloque--modificador` o `.bloque__elemento--modificador`. No hay anidamientos `.bloque__a__b` ni colisión de nombres entre componentes.
+- **Tokens exclusivos:** búsqueda exhaustiva de hex (`#…`) en `assets/css/*.css` → 0 resultados. Todas las familias tipográficas referencian `var(--font-display|body|mono)`. El único hex literal del repositorio es el `<meta name="theme-color" content="#0D3B66">` requerido por el spec HTML (no admite `var()`), documentado con un comentario en el boilerplate como espejo de `--color-primary`.
+- **`color-mix` en lugar de `rgba()` hardcodeada:** se migraron las 5 instancias residuales (`navbar.css` x3, `countdown-recursos.css` x2) que referenciaban el ink en RGB literal.
+- **Sanitización en renders:** `loaders.js` impone `textContent` + `setAttribute` para todo dato proveniente de JSON; `safeHref()` rechaza esquemas `javascript:`, `data:` y similares. Los usos de `innerHTML` que quedan están restringidos a strings constantes de SVG (icon paths) y a la inserción de partials fetcheados desde same-origin (navbar/footer), nunca a datos.
+- **Comentarios:** cada archivo CSS y JS abre con un bloque de cabecera (versión, fase, fundamento, decisiones); los bloques internos comentan invariantes no obvios (contrastes WCAG verificados, fallbacks de `backdrop-filter`, excepción `.safe-motion` al reset de reduced-motion, etc.).
+
+**Pendiente menor reportado (no bloqueante, requiere decisión):** `tokens.css` no expone tokens `--shadow-*` ni un token de overlay. Actualmente las sombras del navbar y del countdown viven como custom properties locales (`--navbar-shadow-md`) o como fallback dentro de `var(--shadow-lg, …)`. Cuando se quieran unificar, conviene introducir `--shadow-xs|sm|md|lg` y `--color-overlay` en `tokens.css` (decisión del sistema de tokens, propia de Fase 1 — se difiere hasta tener más usos del patrón).
+
+### Pendientes que bloquean la publicación (pasan a Fase 4 / Fase 5)
+
+**Pendientes de contenido (Fase 4 — `PLAN_MAESTRO_FASES_3-7.md` §P4.*)**
+
+- **P4.1 + P4.2** — Especificación funcional e implementación del calendario académico (`pages/recursos/calendario.html` hoy muestra «En preparación»). Requiere recopilar fechas oficiales de la FRRe.
+- **P4.3 + P4.4 + P4.5** — Extracción, especificación e implementación de la planilla de seguimiento de carrera (`pages/recursos/seguimiento.html`). Requiere que la directiva entregue la planilla Excel actual.
+- **P4.6** — Definir el modelo de la vista individual de materia (la decisión de query param vs subpágina debe alinearse con `INSTRUCCION_PROYECTO.md §4.2`).
+- **P4.7** — Redacción y aprobación de contenido institucional pendiente:
+  - Texto `hero_lead` y prosa de Misión institucional.
+  - Descripciones definitivas de Valores institucionales (las actuales están marcadas como provisionales).
+  - Íconos Lucide por hito de la timeline (incluida verificación de disponibilidad de `telescope` y `heart-handshake`).
+  - 4 KPI institucionales del strip de Inicio (cifras a confirmar por la directiva).
+- **P4.8** — Contenido detallado por gabinete: integrantes (con foto), actividades regulares e historia. Hoy se rinden como `empty-state` o como texto provisional.
+- **P4.9** — Revisión editorial final.
+
+**Pendientes de activos (a recopilar)**
+
+- Fotos de la comisión directiva (los registros en `data/directiva.json` traen `foto: null`; el render usa el placeholder de iniciales).
+- Fotos y descripciones de los 4 eventos para la galería (`data/galeria.json` por crear).
+- Imágenes representativas por materia (la v1.0 usa color placeholder por año).
+
+**Pendientes de Fase 5 (despliegue)**
+
+- Dominio personalizado (candidato: `achetiq.org.ar`).
+- Nombre de usuario / organización de GitHub para AChETIQ.
+- LinkedIn institucional (mientras tanto la tarjeta queda como «Próximamente»).
+
+**Pendientes de Fase 6 (SEO, accesibilidad y seguridad)**
+
+- Auditoría Lighthouse de cierre con métricas objetivo.
+- Sitemap.xml y robots.txt.
+- `og:image` y `twitter:image` definitivos (hoy usan `icon-512.png` como espejo).
+- Optimización post-despliegue de los SVG vectorizados de instituciones.
+
+### Archivos actualizados en esta sesión (2026-05-28)
+
+- `assets/css/navbar.css` — `rgba(19, 17, 15, …)` → `color-mix(in srgb, var(--color-ink) X%, transparent)` en sombra del dropdown y backdrop del overlay mobile.
+- `assets/css/countdown-recursos.css` — misma migración para los fallback de `box-shadow`.
+- `FASE_0_Arquitectura.md` — §5 reescrita reflejando el árbol real al cierre de Fase 3 (subpáginas en `pages/`, `assets/fonts/`, `data/navbar.json`, PWA icons en raíz, etc.).
+- `PROMPT_CONTINUACION.md` — este archivo.
+
+### Inconsistencia documental conocida (a decidir con el usuario)
+
+`README.md` mantiene la tabla original de fases (Fase 2 = «Desarrollo front-end», Fase 3 = «Contenido académico», …) heredada de Fase 0. `PLAN_MAESTRO_FASES_3-7.md` introdujo una numeración revisada (Fase 3 = front-end ya cerrada, Fase 4 = contenido académico, Fase 5 = despliegue, Fase 6 = SEO/A11Y, Fase 7 = mantenimiento). Convendría alinear ambos al inicio de la próxima sesión: el README no se tocó en este cierre para no incrustar la decisión sin consulta.

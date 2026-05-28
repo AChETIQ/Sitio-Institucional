@@ -27,8 +27,8 @@
 
 .navbar {
   --navbar-shadow-md:
-    0 4px 6px -1px rgba(19, 17, 15, 0.08),
-    0 10px 24px -6px rgba(19, 17, 15, 0.10);
+    0 4px 6px -1px color-mix(in srgb, var(--color-ink) 8%, transparent),
+    0 10px 24px -6px color-mix(in srgb, var(--color-ink) 10%, transparent);
   --navbar-bg-alpha: color-mix(in srgb, var(--color-bg) 92%, transparent);
   --navbar-easing: cubic-bezier(0.22, 1, 0.36, 1);
   --navbar-close-delay: 150ms;
@@ -365,7 +365,7 @@
 .navbar__overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(19, 17, 15, 0.50);
+  background-color: color-mix(in srgb, var(--color-ink) 50%, transparent);
   -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
   z-index: var(--z-modal);
