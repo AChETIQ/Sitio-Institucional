@@ -191,14 +191,21 @@ export function renderInlineLoader(container, message) {
   container.appendChild(wrap);
 }
 
-/* Empty-state (FASE_1 §8.1). Markup conforme al catálogo; el
-   estilo definitivo de .empty-state se incorpora en P3.7. */
+/* Empty-state (FASE_1 §8.1). Markup conforme al catálogo, el
+   estilo de .empty-state vive en assets/css/states.css.
+   role="status" + aria-live="polite" anuncia la transición
+   loading → empty a los lectores de pantalla; los empty-states
+   estáticos del sitio (que NO suceden a un loader) usan el mismo
+   markup sin estas ARIA, ya que no representan un cambio dinámico. */
 export function renderEmpty(container, opts) {
   const o = opts || {};
   container.replaceChildren();
   container.setAttribute('data-loader-state', 'empty');
 
-  const block = createElement('div', { class: 'empty-state' });
+  const block = createElement('div', {
+    class: 'empty-state',
+    attrs: { role: 'status', 'aria-live': 'polite' }
+  });
   block.appendChild(createElement('h3', {
     class: 'empty-state__title',
     text: o.title || 'Aún no hay contenido publicado'

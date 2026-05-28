@@ -7,15 +7,17 @@
    Todos los valores referencian var(--token).
    ============================================================ */
 
+/* La sección vive dentro de <main class="page">; el contenedor de
+   página ya aporta el fondo (--color-bg) y el padding lateral. El
+   bloque queda centrado en el ancho disponible y mantiene una caja
+   amplia para que el conjunto no se pegue al navbar ni al footer. */
 .error404 {
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: var(--space-12) var(--space-5);
-  background: var(--color-bg);
+  padding-block: var(--space-12);
 }
 
 .error404__inner {
@@ -76,7 +78,7 @@
   -webkit-user-drag: none;
 }
 
-/* Fallback SVG (Lucide "ghost") — color de marca. Oculto salvo que falle la imagen. */
+/* SVG (Lucide "ghost") — color de marca. Sin dependencia externa. */
 .error404__ghost-fallback {
   stroke: var(--color-primary);
   fill: none;
@@ -125,6 +127,51 @@
 
 .error404 .btn:active {
   transform: scale(0.97);
+}
+
+/* ── Atajos a las secciones principales ──
+   Lista horizontal de enlaces como segundo nivel de salida (el
+   botón de acción primaria sigue siendo «Volver al inicio»). Se
+   renderiza como texto-enlace, no como botones, para no competir
+   con la CTA principal y respetar la reserva de --color-cta. */
+.error404__nav {
+  margin-top: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  animation: error404-rise 0.6s cubic-bezier(0.43,0.13,0.23,0.96) 0.40s both;
+}
+
+.error404__nav-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+}
+
+.error404__nav-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3) var(--space-5);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.error404__nav-list a {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.error404__nav-list a:hover {
+  color: var(--color-primary-mid);
 }
 
 /* ── Nota explicativa ── */
@@ -184,6 +231,7 @@
   .error404__title,
   .error404__lead,
   .error404__action,
+  .error404__nav,
   .error404__note {
     animation: none;
   }
