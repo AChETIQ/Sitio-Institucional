@@ -218,9 +218,9 @@ Antes de implementar se reabrió la discusión, dado que GitHub Pages no procesa
 | `pages/sobre-achetiq.html` | ✅ Page-header · timeline (`data/historia.json`) · misión/visión · valores (provisional) · instituciones · documentos · CTA |
 | `pages/gabinetes.html` | ✅ Hub con grid de 4 gabinetes y bloque de comisión directiva |
 | `pages/gabinetes/cursos-y-conferencias.html` · `eventos.html` · `prensa-y-difusion.html` · `solidario.html` | ✅ Cuatro páginas hijas con CTA estándar y emails de gabinete; integrantes diferidos |
-| `pages/recursos.html` | ✅ Hub con cuenta regresiva + accesos a apuntes/calendario/seguimiento |
+| `pages/recursos.html` | ✅ Hub con cuenta regresiva + accesos a apuntes/seguimiento |
 | `pages/recursos/apuntes.html` | ✅ Pill-nav por año + grid de 41 materias en estado «Sin apuntes aún» |
-| `pages/recursos/calendario.html` · `seguimiento.html` | ✅ Andamiaje con estado «En preparación» (lógica diferida a Fase 4) |
+| `pages/recursos/seguimiento.html` | ✅ Andamiaje con estado «En preparación» (lógica diferida a Fase 4) |
 | `pages/contacto.html` | ✅ Canales directos + mapa de Google Maps embebido |
 
 **Partials inyectables (`partials/`):** `_boilerplate.html` (referencia), `navbar.html`, `footer.html`, `countdown-recursos.html`.
@@ -254,7 +254,6 @@ Antes de implementar se reabrió la discusión, dado que GitHub Pages no procesa
 
 **Pendientes de contenido (Fase 4 — `PLAN_MAESTRO_FASES_3-7.md` §P4.*)**
 
-- **P4.1 + P4.2** — Especificación funcional e implementación del calendario académico (`pages/recursos/calendario.html` hoy muestra «En preparación»). Requiere recopilar fechas oficiales de la FRRe.
 - **P4.3 + P4.4 + P4.5** — Extracción, especificación e implementación de la planilla de seguimiento de carrera (`pages/recursos/seguimiento.html`). Requiere que la directiva entregue la planilla Excel actual.
 - **P4.6** — Definir el modelo de la vista individual de materia (la decisión de query param vs subpágina debe alinearse con `INSTRUCCION_PROYECTO.md §4.2`).
 - **P4.7** — Redacción y aprobación de contenido institucional pendiente:
@@ -294,3 +293,34 @@ Antes de implementar se reabrió la discusión, dado que GitHub Pages no procesa
 ### Inconsistencia documental conocida (a decidir con el usuario)
 
 `README.md` mantiene la tabla original de fases (Fase 2 = «Desarrollo front-end», Fase 3 = «Contenido académico», …) heredada de Fase 0. `PLAN_MAESTRO_FASES_3-7.md` introdujo una numeración revisada (Fase 3 = front-end ya cerrada, Fase 4 = contenido académico, Fase 5 = despliegue, Fase 6 = SEO/A11Y, Fase 7 = mantenimiento). Convendría alinear ambos al inicio de la próxima sesión: el README no se tocó en este cierre para no incrustar la decisión sin consulta.
+
+---
+
+## SESIÓN 2026-05-28 — Inicialización de Fase 4: baja editorial del Calendario Académico
+
+> Decisión editorial al abrir Fase 4: el módulo de Calendario Académico queda **fuera del alcance del sitio**. El Instagram de la facultad ya cubre la comunicación de fechas clave (inicio/fin de cuatrimestre, semanas de finales, feriados académicos y eventos), por lo que duplicar ese flujo en la web no aporta valor y suma carga de mantenimiento.
+
+### Alcance del recorte
+
+- **Página eliminada:** `pages/recursos/calendario.html` (andamiaje «En preparación», sin lógica).
+- **Hub `pages/recursos.html`:** se removió la tarjeta de Calendario académico; el grid pasa de `.grid-cards--3` a `.grid-cards--2` (Apuntes + Seguimiento); se ajustaron el lead del page-header y el título de la sección de acceso («Dos herramientas para tu *cursada*»); se actualizaron las meta-descriptions (`<meta name="description">`, `og:description`, `twitter:description`) para reflejar el alcance reducido.
+- **Navbar (`data/navbar.json`):** se eliminó el ítem «Calendario académico» del submenú «Recursos Académicos».
+- **Documentación:** `FASE_0_Arquitectura.md §5` (árbol de `pages/recursos/`) y este archivo se actualizaron en consecuencia.
+
+### Impacto sobre Fase 4
+
+- Se eliminan **P4.1 (especificación funcional del calendario)** y **P4.2 (implementación)** del backlog de Fase 4.
+- El resto del backlog de Fase 4 (`P4.3`–`P4.9`) se mantiene sin cambios. La planilla de Seguimiento de carrera sigue siendo la única herramienta interactiva pendiente en Recursos Académicos.
+
+### QA aplicado
+
+- Búsqueda exhaustiva (`grep -rn`) sobre `*.html`, `*.json`, `*.js`, `*.css` para asegurar que ningún enlace interno apunte ya al archivo eliminado. La única referencia residual al texto «calendario» en el código vive en el comentario funcional del countdown (no es un link).
+- `.grid-cards--2` ya existe en `assets/css/lists.css` (línea 41), por lo que el cambio de modificador no requiere CSS nuevo.
+
+### Archivos actualizados en esta sesión
+
+- `pages/recursos/calendario.html` — **eliminado**.
+- `pages/recursos.html` — tarjeta de calendario removida; `grid-cards--3` → `grid-cards--2`; copys de lead, sección y meta-descriptions actualizados.
+- `data/navbar.json` — ítem «Calendario académico» eliminado del submenú de Recursos.
+- `FASE_0_Arquitectura.md` — árbol de `pages/recursos/` sin `calendario.html`.
+- `PROMPT_CONTINUACION.md` — este registro.

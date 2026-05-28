@@ -24,7 +24,6 @@
       "variant": "ghost",
       "submenu": [
         { "label": "Apuntes por materia", "href": "/pages/recursos/apuntes.html" },
-        { "label": "Calendario académico", "href": "/pages/recursos/calendario.html" },
         { "label": "Seguimiento de carrera", "href": "/pages/recursos/seguimiento.html" }
       ]
     },

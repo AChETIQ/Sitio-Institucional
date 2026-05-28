@@ -176,7 +176,6 @@ achetiq-lab/                      ← raíz del repositorio
 │   │
 │   └── recursos/                 ← sub-secciones de Recursos
 │       ├── apuntes.html
-│       ├── calendario.html
 │       └── seguimiento.html
 │
 ├── partials/                     ← fragmentos HTML inyectados vía fetch()
