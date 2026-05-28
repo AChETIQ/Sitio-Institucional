@@ -8,24 +8,23 @@ Habilita la sección de Recursos Académicos de forma automática
 cuenta regresiva; al expirar revela el contenido real.
 
 INTEGRACIÓN (stack vanilla)
-  Fragmento HTML pensado para inyectarse en una página vía
-  fetch(). Ejemplo de patrón:
+  Este partial es la referencia canónica del markup. En la página
+  contenedora se INLINEA (el proyecto es estático, sin SSI): el
+  bloque <section class="countdown">…</section> se copia tal cual
+  dentro del <main>. La hoja .countdown ya se importa desde
+  main.css; sólo hay que cargar el módulo del contador al pie:
 
-    fetch("partials/countdown-recursos.html")
-      .then(function (r) { return r.text(); })
-      .then(function (html) {
-        document.querySelector("[data-loader='countdown']").innerHTML = html;
-      });
+    <script type="module" src="assets/js/countdown-recursos.js"></script>
 
-  Requiere, en la página contenedora:
-    <link rel="stylesheet" href="assets/css/countdown-recursos.css">
-    <script src="assets/js/countdown-recursos.js"></script>
+  (Ajustar el prefijo relativo según la profundidad de la página.)
 
-PARÁMETRO
+PARÁMETRO  ·  FUENTE DE VERDAD: la página que inlinea el partial
   data-target-date  (obligatorio) Fecha/hora de apertura en ISO 8601
-                    sobre el contenedor [data-countdown].
-                    Placeholder actual: 2026-06-09T00:00:00-03:00
-                    Fijar el día del lanzamiento (lanzamiento + 20 días).
+                    sobre el contenedor [data-countdown]. Editar en
+                    la página contenedora (hoy: pages/recursos.html);
+                    el valor aquí abajo es sólo el placeholder de
+                    plantilla y NO se lee en tiempo de ejecución.
+                    Día actual del lanzamiento: 2026-06-09T00:00:00-03:00.
 
 CONTENIDO A REVELAR
   Colocar el contenido real dentro del elemento con el atributo

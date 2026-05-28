@@ -51,6 +51,42 @@
 
 
 /* ─────────────────────────────────────────────────────────────
+   8.1bis  LOADER ERROR — .loader-error
+   ─────────────────────────────────────────────────────────────
+   Tercer estado del patrón data-loader: cuando el fetch o el
+   renderer fallan, assets/js/loaders.js inserta este bloque con
+   role="alert". Mantiene el mismo registro visual que el
+   empty-state (centrado, padding generoso, una sola línea de
+   copy) pero con la tinta semántica de --color-neg y un sutil
+   borde de aviso para distinguirlo del estado vacío.
+   Sin botones de acción: el mensaje invita a recargar, no se
+   sobreescribe el patrón de CTA del sitio.
+   ───────────────────────────────────────────────────────────── */
+
+.loader-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: var(--space-3);
+  padding-block: var(--space-12);
+  padding-inline: var(--space-5);
+  background: color-mix(in oklab, var(--color-neg) 4%, var(--color-bg-panel));
+  border: 1px solid color-mix(in oklab, var(--color-neg) 25%, var(--color-rule));
+  border-radius: var(--radius-lg);
+}
+
+.loader-error__message {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+  color: var(--color-neg);
+  max-width: 50ch;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
    8.2  TAG / CHIP — .tag
    ─────────────────────────────────────────────────────────────
    Etiqueta pequeña para clasificar contenido (categoría de
