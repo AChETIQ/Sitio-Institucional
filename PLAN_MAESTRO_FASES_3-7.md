@@ -258,7 +258,7 @@ El repositorio contiene simultáneamente carpetas de estilo Jekyll (`_includes/`
 > - `.card--valor` — variante de `.card` base con `min-height` para uniformidad; ícono + H3 + descripción; borde 1 px `--color-border`, radio pequeño, sin fondo.
 > - `.card--institucion` — variante de `.card`; borde 1 px `--color-border`, fondo `--color-panel`, padding generoso; logo + nombre + link.
 > - `.card-documento` — variante para documentos descargables.
-> - `.card-integrante` — variante para integrantes de comisión/gabinete (foto + nombre + cargo).
+> - `.card-integrante` — variante para integrantes de la comisión directiva (foto + nombre + cargo).
 > - `.card-materia` — variante para el grid de materias; imagen/placeholder de color por año + nombre, clickeable. **Decisión a confirmar conmigo:** los colores placeholder por año (1°–5°) deben salir de la paleta Océano & Areia; nunca de los colores del isotipo. Proponémelos como tabla.
 > - `.contact-card` — canal de contacto con ícono Lucide, eyebrow, valor y estado "Próximamente".
 > - `.kpi-strip` — strip de 4 indicadores institucionales estáticos.
@@ -317,14 +317,14 @@ El repositorio contiene simultáneamente carpetas de estilo Jekyll (`_includes/`
 
 - **Herramienta:** Claude Code
 - **Objetivo:** Construir el hub `pages/gabinetes.html` y las cuatro páginas hijas dedicadas (`pages/gabinetes/cursos-y-conferencias.html`, `eventos.html`, `prensa-y-difusion.html`, `solidario.html`), cada una con URL propia, derivadas de un esqueleto común y pobladas desde `data/gabinetes.json`. Resultado: subárbol completo de Gabinetes navegable desde el submenú de la navbar, incluyendo el bloque de comisión directiva trasladado aquí.
-- **Prerrequisitos:** P3.1 a P3.7. Decisión de páginas dedicadas cerrada (2026-05-16). `data/gabinetes.json` presente con los cuatro gabinetes en orden definitivo y descripciones corta y completa. `data/directiva.json` presente (comisión directiva). Contenido detallado por gabinete (integrantes, actividades regulares, historia) pendiente de insumos de la directiva: condiciona el contenido, no la estructura. Fotos de la directiva pendientes (`foto: null` en el JSON).
+- **Prerrequisitos:** P3.1 a P3.7. Decisión de páginas dedicadas cerrada (2026-05-16). `data/gabinetes.json` presente con los cuatro gabinetes en orden definitivo y descripciones corta y completa. `data/directiva.json` presente (comisión directiva). Contenido detallado por gabinete (actividades regulares e historia) pendiente de insumos de la directiva: condiciona el contenido, no la estructura. Fotos de la directiva pendientes (`foto: null` en el JSON).
 
 > **Prompt:**
 > Sitio AChETIQ, stack vanilla. Construí el subárbol completo de Gabinetes. Leé `FASE_1_Wireframes.md` Sección 3 (wireframe de Gabinetes), `FASE_0_Arquitectura.md` Sección 5 (estructura) y `data/gabinetes.json`. Recordá la decisión cerrada: cada sub-opción del submenú es una página dedicada con URL propia y archivo HTML independiente; no se usa plantilla parametrizada por hash.
 >
 > Producí:
 > 1. **Hub `pages/gabinetes.html`:** introducción a los gabinetes como estructura de trabajo de la asociación, grid de cuatro tarjetas (una por gabinete, desde `data/gabinetes.json`) que enlazan a cada página hija, y el bloque de **comisión directiva** trasladado desde "Sobre AChETIQ", poblado desde `data/directiva.json` con `.card-integrante` (foto + nombre + cargo; cuando `foto` sea null, usar un placeholder neutro de la paleta, no una imagen externa).
-> 2. **Cuatro páginas hijas** en `pages/gabinetes/`, con los slugs cerrados `cursos-y-conferencias.html`, `eventos.html`, `prensa-y-difusion.html`, `solidario.html`. Derivá las cuatro de un mismo esqueleto (header con nombre del gabinete, descripción completa, sección de integrantes, sección de actividades regulares, sección de historia). Poblá lo disponible desde `data/gabinetes.json`; donde el contenido detallado aún no exista (integrantes, actividades, historia por gabinete), mostrá un `empty-state` o el texto provisional marcado como tal, nunca contenido inventado.
+> 2. **Cuatro páginas hijas** en `pages/gabinetes/`, con los slugs cerrados `cursos-y-conferencias.html`, `eventos.html`, `prensa-y-difusion.html`, `solidario.html`. Derivá las cuatro de un mismo esqueleto (header con nombre del gabinete, descripción completa, sección de actividades regulares, sección de historia). Poblá lo disponible desde `data/gabinetes.json`; donde el contenido detallado aún no exista (actividades, historia por gabinete), mostrá un `empty-state` o el texto provisional marcado como tal, nunca contenido inventado.
 >
 > Mantené header/footer inyectados por fetch idénticos al resto del sitio. Las rutas relativas deben funcionar correctamente desde el subdirectorio `pages/gabinetes/` (verificá los enlaces a `assets/`, `data/` y `partials/`; considerá rutas absolutas desde la raíz del sitio para evitar fragilidad). Responsivo y accesible. Al terminar, entregame la lista de contenidos por gabinete que la directiva debe proveer para que las cuatro páginas sean publicables.
 
@@ -537,15 +537,15 @@ El repositorio contiene simultáneamente carpetas de estilo Jekyll (`_includes/`
 ### P4.8 — Recopilación y carga del contenido de los cuatro gabinetes
 
 - **Herramienta:** Claude Cowork
-- **Objetivo:** Completar el contenido detallado de los cuatro gabinetes (descripción, integrantes, actividades regulares e historia) que la comisión directiva debe proveer, estructurarlo y cargarlo en `data/gabinetes.json` para que las páginas hijas construidas en P3.10 sean publicables. Resultado: las cuatro páginas de gabinete con contenido real, no placeholders.
-- **Prerrequisitos:** Páginas hijas de Gabinetes construidas (P3.10). `data/gabinetes.json` con descripciones corta y completa ya presentes; faltan integrantes, actividades e historia por gabinete. Insumos de la comisión directiva: imprescindibles. Fotos de integrantes pendientes.
+- **Objetivo:** Completar el contenido detallado de los cuatro gabinetes (descripción, actividades regulares e historia) que la comisión directiva debe proveer, estructurarlo y cargarlo en `data/gabinetes.json` para que las páginas hijas construidas en P3.10 sean publicables. Resultado: las cuatro páginas de gabinete con contenido real, no placeholders.
+- **Prerrequisitos:** Páginas hijas de Gabinetes construidas (P3.10). `data/gabinetes.json` con descripciones corta y completa ya presentes; faltan actividades e historia por gabinete. Insumos de la comisión directiva: imprescindibles. Fotos representativas de cada gabinete pendientes.
 
 > **Prompt:**
 > Sitio AChETIQ. Vamos a completar el contenido de los cuatro gabinetes (Cursos y Conferencias, Eventos, Prensa y Difusión, Solidario) para que sus páginas sean publicables. Leé `data/gabinetes.json` y el wireframe de Gabinetes.
 >
-> Primero, generame un formulario de solicitud de contenido claro y no técnico (uno por gabinete) que yo pueda pasarle a cada responsable: qué hace el gabinete, quiénes lo integran y con qué rol, qué actividades regulares realiza, y un breve relato de su historia. Estructuralo según los campos que necesita `data/gabinetes.json`.
+> Primero, generame un formulario de solicitud de contenido claro y no técnico (uno por gabinete) que yo pueda pasarle a cada responsable: qué hace el gabinete, qué actividades regulares realiza, y un breve relato de su historia. Estructuralo según los campos que necesita `data/gabinetes.json`.
 >
-> A medida que yo te traiga las respuestas, ayudame a redactarlas en registro institucional formal y cargalas en `data/gabinetes.json` con la estructura correcta, validando conmigo cada gabinete antes de fijarlo. Para las fotos de integrantes, dejá el campo preparado y un placeholder neutro hasta que estén disponibles. No inventes integrantes, actividades ni fechas: cargá únicamente lo que la comisión provea. Respetá el nombre completo de cada gabinete según los slugs cerrados.
+> A medida que yo te traiga las respuestas, ayudame a redactarlas en registro institucional formal y cargalas en `data/gabinetes.json` con la estructura correcta, validando conmigo cada gabinete antes de fijarlo. Para las fotos representativas de cada gabinete, dejá el campo preparado y un placeholder neutro hasta que estén disponibles. No inventes actividades ni fechas: cargá únicamente lo que la comisión provea. Respetá el nombre completo de cada gabinete según los slugs cerrados.
 
 ---
 
@@ -732,10 +732,10 @@ El repositorio contiene simultáneamente carpetas de estilo Jekyll (`_includes/`
 
 - **Herramienta:** Claude Cowork
 - **Objetivo:** Redactar una guía clara y sin jerga técnica que permita a cualquier miembro de la comisión directiva —presente o futuro— entender cómo está organizado el sitio y cómo realizar las actualizaciones habituales sin romper nada. Resultado: documento `GUIA_COLABORADORES.md` en el repositorio, escrito para personas sin experiencia en programación.
-- **Prerrequisitos:** Sitio en producción y estructura estable (Fases 5 y 6). Conocimiento de cuáles son las tareas de mantenimiento recurrentes (actualizar redes, agregar apuntes, sumar integrantes a un gabinete, publicar una novedad).
+- **Prerrequisitos:** Sitio en producción y estructura estable (Fases 5 y 6). Conocimiento de cuáles son las tareas de mantenimiento recurrentes (actualizar redes, agregar apuntes, sumar integrantes a la comisión directiva, publicar una novedad).
 
 > **Prompt:**
-> Sitio AChETIQ. Redactá una guía de colaboradores (`GUIA_COLABORADORES.md`) pensada para miembros de la comisión directiva que no tienen experiencia en programación, presentes y futuros. Escribila en lenguaje claro, sin jerga técnica, explicando cada concepto la primera vez que aparezca. Cubrí: (1) una explicación simple de cómo está hecho el sitio (que el contenido vive en archivos de datos y que cambiar esos archivos cambia el sitio, sin necesidad de tocar el diseño); (2) cómo hacer las actualizaciones más frecuentes, paso a paso y con ejemplos: cambiar un dato de contacto o una red social, agregar apuntes a una materia, sumar o cambiar integrantes de un gabinete o de la comisión, agregar un documento institucional; (3) qué cosas NO conviene tocar sin ayuda técnica; (4) cómo previsualizar un cambio antes de publicarlo y cómo pedir ayuda. Usá capturas conceptuales o ejemplos concretos de los archivos reales del proyecto (`data/redes.json`, `data/gabinetes.json`, etc.). Registro formal pero accesible, sin signos de exclamación.
+> Sitio AChETIQ. Redactá una guía de colaboradores (`GUIA_COLABORADORES.md`) pensada para miembros de la comisión directiva que no tienen experiencia en programación, presentes y futuros. Escribila en lenguaje claro, sin jerga técnica, explicando cada concepto la primera vez que aparezca. Cubrí: (1) una explicación simple de cómo está hecho el sitio (que el contenido vive en archivos de datos y que cambiar esos archivos cambia el sitio, sin necesidad de tocar el diseño); (2) cómo hacer las actualizaciones más frecuentes, paso a paso y con ejemplos: cambiar un dato de contacto o una red social, agregar apuntes a una materia, sumar o cambiar integrantes de la comisión, agregar un documento institucional; (3) qué cosas NO conviene tocar sin ayuda técnica; (4) cómo previsualizar un cambio antes de publicarlo y cómo pedir ayuda. Usá capturas conceptuales o ejemplos concretos de los archivos reales del proyecto (`data/redes.json`, `data/gabinetes.json`, etc.). Registro formal pero accesible, sin signos de exclamación.
 
 ---
 
@@ -793,7 +793,7 @@ Consolidación de todo lo que la comisión directiva debe reunir, definir o subi
 | Cuatro valores institucionales aprobados por la directiva | P3.9, P4.7 | Borradores no autoritativos |
 | Patrón de entrada ghost de la timeline | P3.9, P4.7 | Pendiente de definición |
 | Íconos Lucide por hito de la historia | P3.9 | Pendiente de selección |
-| Contenido por gabinete (integrantes, actividades, historia) | P3.10, P4.8 | Pendiente de la directiva |
+| Contenido por gabinete (actividades, historia) | P3.10, P4.8 | Pendiente de la directiva |
 | Fotos de la comisión directiva y de los gabinetes | P3.10, P4.8 | Pendientes |
 | Decisión del mecanismo de formulario de contacto | P3.12 | A decidir |
 | Datos del calendario académico (fechas oficiales UTN FRRe) | P4.1, P4.2 | A verificar en fuente oficial |

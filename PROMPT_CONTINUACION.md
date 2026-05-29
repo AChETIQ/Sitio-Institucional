@@ -217,7 +217,7 @@ Antes de implementar se reabrió la discusión, dado que GitHub Pages no procesa
 | `404.html` | ✅ Página de error con fantasma Lucide + atajos |
 | `pages/sobre-achetiq.html` | ✅ Page-header · timeline (`data/historia.json`) · misión/visión · valores (provisional) · instituciones · documentos · CTA |
 | `pages/gabinetes.html` | ✅ Hub con grid de 4 gabinetes y bloque de comisión directiva |
-| `pages/gabinetes/cursos-y-conferencias.html` · `eventos.html` · `prensa-y-difusion.html` · `solidario.html` | ✅ Cuatro páginas hijas con CTA estándar y emails de gabinete; integrantes diferidos |
+| `pages/gabinetes/cursos-y-conferencias.html` · `eventos.html` · `prensa-y-difusion.html` · `solidario.html` | ✅ Cuatro páginas hijas con CTA estándar y emails de gabinete |
 | `pages/recursos.html` | ✅ Hub con cuenta regresiva + accesos a apuntes/seguimiento |
 | `pages/recursos/apuntes.html` | ✅ Pill-nav por año + grid de 41 materias en estado «Sin apuntes aún» |
 | `pages/recursos/seguimiento.html` | ✅ Andamiaje con estado «En preparación» (lógica diferida a Fase 4) |
@@ -261,7 +261,6 @@ Antes de implementar se reabrió la discusión, dado que GitHub Pages no procesa
   - Descripciones definitivas de Valores institucionales (las actuales están marcadas como provisionales).
   - Íconos Lucide por hito de la timeline (incluida verificación de disponibilidad de `telescope` y `heart-handshake`).
   - 4 KPI institucionales del strip de Inicio (cifras a confirmar por la directiva).
-- **P4.8** — Contenido detallado por gabinete: integrantes (con foto), actividades regulares e historia. Hoy se rinden como `empty-state` o como texto provisional.
 - **P4.9** — Revisión editorial final.
 
 **Pendientes de activos (a recopilar)**
