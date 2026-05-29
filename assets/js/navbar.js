@@ -72,6 +72,13 @@
       if (a) a.setAttribute('aria-label', brand.label);
     }
     if (logo && brand.logo) logo.setAttribute('src', BASE.resolve(brand.logo));
+
+    /* Cabecera del panel mobile: mismo asset y wordmark que el brand,
+       desde la única fuente data/navbar.json. */
+    var panelLogo = root.querySelector('[data-navbar-panel-logo]');
+    var panelWord = root.querySelector('[data-navbar-panel-wordmark]');
+    if (panelWord && brand.label) panelWord.textContent = brand.label;
+    if (panelLogo && brand.logo) panelLogo.setAttribute('src', BASE.resolve(brand.logo));
   }
 
   function renderLists(root, links) {

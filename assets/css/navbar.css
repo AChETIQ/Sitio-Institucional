@@ -438,6 +438,20 @@
    10. LISTA DEL PANEL — acordeón
    ───────────────────────────────────────────────────────────── */
 
+/* Cabecera del panel — brand reutilizado, separado de los enlaces. */
+.navbar__panel-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding-block-end: var(--space-4);
+  margin-block-end: var(--space-2);
+  border-bottom: 1px solid var(--color-rule);
+  font-size: var(--text-h4);
+  font-weight: var(--weight-medium);
+  line-height: 1;
+  color: var(--color-ink);
+}
+
 .navbar__panel-list,
 .navbar__panel-submenu {
   list-style: none;
