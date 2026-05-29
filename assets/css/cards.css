@@ -411,6 +411,16 @@
   padding: 0;
 }
 
+/* El filtro por año (assets/js/apuntes.js) oculta las tarjetas que no
+   coinciden con el año seleccionado vía el atributo [hidden]. Como
+   `.card-materia` declara `display: flex`, esa regla de autor empata en
+   especificidad con la regla del UA `[hidden] { display: none }` y, por
+   orden de aparición, terminaba ganando: la tarjeta quedaba visible aun
+   con [hidden]. Restauramos el ocultamiento con un selector propio. */
+.card-materia[hidden] {
+  display: none;
+}
+
 .card-materia:hover {
   border-color: var(--color-primary);
   color: var(--color-ink);
