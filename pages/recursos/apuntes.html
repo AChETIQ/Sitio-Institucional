@@ -72,7 +72,7 @@
       <p class="eyebrow">Material de estudio</p>
       <h1 class="page-header__title">Apuntes por <em>materia</em></h1>
       <p class="page-header__lead">
-        Apuntes, guías de ejercicios y bibliografía de las cuarenta y una materias del Plan 2023, organizados por año académico. El material proviene de la comunidad estudiantil y se publica con acreditación del autor original.
+        Cada materia del Plan 2023 enlaza a su carpeta de Google Drive, donde la comisión reúne apuntes, guías de ejercicios y bibliografía aportados por la comunidad estudiantil. Seleccioná una materia para abrir su carpeta en una pestaña nueva.
       </p>
     </header>
 
@@ -102,18 +102,23 @@
 
     <!-- ════════════════════════════════════════════════════════
          [3] GRID DE MATERIAS — Wireframe §4 bloque [6]
-         data-loader="recursos" → assets/js/loaders.js §4.2
-         (override local en assets/js/apuntes.js):
+         data-loader="recursos" → override en assets/js/apuntes.js:
            · ordena por anio asc, orden natural dentro del año;
            · pinta cada materia como .card-materia con cover
              coloreado por var(--color-materia-anio-N), año en
              caption y nombre como h3;
-           · estado actual (P4.6 pendiente): NINGUNA materia
-             tiene material cargado todavía, por lo que cada
-             tarjeta se renderiza en variante --placeholder con
-             la línea «Sin apuntes aún». Cuando P4.6 cierre la
-             vista individual de materia, el renderer conmutará
-             a <a href="…"> para las materias con material.
+           · modelo «carpeta de Drive por materia»: cada materia
+             de data/recursos.json lleva `drive_url`.
+               – con drive_url → tarjeta <a> externa
+                 (target="_blank", rel="noopener noreferrer",
+                 aria-label de enlace externo) que abre la
+                 carpeta de Google Drive de la materia;
+               – sin drive_url ("") → tarjeta <article> no
+                 interactiva en variante --placeholder con la
+                 línea «Carpeta no disponible».
+           · para sumar una carpeta, basta con cargar su URL en
+             el campo drive_url de la materia en recursos.json;
+             no hay subpáginas ni data/apuntes.json.
          ════════════════════════════════════════════════════════ -->
     <section aria-labelledby="materias-title">
       <header class="section-title sr-only">
