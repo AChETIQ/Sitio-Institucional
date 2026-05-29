@@ -456,12 +456,12 @@
   color: var(--color-ink);
 }
 
-/* Estado «sin apuntes aún» (variante v1.0 mientras P4.6 no
-   define la vista individual de materia). El render por defecto
-   conmuta entre <a> (con apuntes) y <article class="…--placeholder">
-   (sin apuntes). Esta variante no es interactiva — sin hover,
-   sin foco visible más allá del global. La línea de status
-   usa el mismo color faint que .card-materia__year. */
+/* Variante «sin carpeta» (drive_url vacío). Tarjeta NO
+   interactiva (<article class="…--placeholder">): sin hover,
+   sin foco visible más allá del global. La línea de status usa
+   el mismo color faint que .card-materia__year. El render
+   conmuta entre <a class="…--drive"> (materia con carpeta de
+   Drive) y este placeholder según `drive_url`. */
 .card-materia--placeholder {
   cursor: default;
 }
@@ -479,6 +479,33 @@
   font-size: var(--text-caption);     /* 12 px */
   color: var(--color-ink-faint);
   margin-top: var(--space-1);
+}
+
+/* Variante «con carpeta de Drive» (drive_url válido). La tarjeta
+   es un <a> externo; hereda el hover de .card-materia (borde a
+   primary + brillo del cover). La línea de status actúa como
+   affordance del enlace: color primary, ícono externo y
+   subrayado al hover/focus de la tarjeta. */
+.card-materia__status--link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--color-primary);
+}
+
+.card-materia--drive:hover .card-materia__status--link,
+.card-materia--drive:focus-visible .card-materia__status--link {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Ícono «enlace externo» (decorativo, aria-hidden en el markup).
+   Dimensionado en em para acompañar el tamaño del texto de
+   status; `flex: none` evita que se comprima en grids estrechos. */
+.card-materia__ext-icon {
+  inline-size: 0.9em;
+  block-size: 0.9em;
+  flex: none;
 }
 
 
@@ -541,32 +568,4 @@ a.contact-card:hover .contact-card__icon {
   white-space: nowrap;
 }
 
-/* Variante "Próximamente": estado inactivo. Sin opacity — la
-   atenuación visual proviene de --color-disabled, que está
-   verificado para WCAG AA contra --color-bg y --color-bg-panel.
-   El borde y el fondo se mantienen iguales al estado activo
-   para que la tarjeta siga siendo identificable como elemento
-   de la grilla, no como "rota" o "ausente". */
-.contact-card--proximamente {
-  cursor: default;
-}
-
-.contact-card--proximamente .contact-card__icon {
-  color: var(--color-disabled);
-}
-
-.contact-card--proximamente .contact-card__value {
-  color: var(--color-disabled);
-}
-
-.contact-card__badge {
-  align-self: flex-start;
-  margin-top: var(--space-2);
-  padding: var(--space-px-2) var(--space-2);
-  font-family: var(--font-mono);
-  font-size: var(--text-eyebrow);     /* 10.5 px */
-  letter-spacing: var(--tracking-wide);
-  background: var(--color-rule-soft);
-  color: var(--color-ink-soft);
-  border-radius: var(--radius-pill);
-}
+/* Variante "Próximamente": estado inactivo. Sin opacity
