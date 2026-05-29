@@ -44,17 +44,33 @@
   top: 0;
   z-index: var(--z-navbar);
   width: 100%;
-  background-color: var(--navbar-bg-alpha);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--color-rule);
   font-family: var(--font-body);
   color: var(--color-ink);
 }
 
+/* Fondo translúcido + desenfoque de la barra, aislado en un
+   pseudo-elemento. CLAVE: backdrop-filter (igual que filter o
+   transform) convierte al elemento en bloque contenedor de sus
+   descendientes `position: fixed`. Si se aplica sobre .navbar, el
+   overlay y el panel mobile (ambos fixed e hijos del header) se
+   anclan a la caja del header —solo --navbar-height de alto— en
+   lugar de al viewport, recortando la lista a una franja diminuta.
+   Al moverlo a ::before, .navbar deja de ser bloque contenedor y
+   el panel vuelve a medir el alto completo de la pantalla. */
+.navbar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--navbar-bg-alpha);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
 /* Fallback opaco cuando backdrop-filter no está disponible. */
 @supports not ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
-  .navbar {
+  .navbar::before {
     background-color: var(--color-bg);
   }
 }
