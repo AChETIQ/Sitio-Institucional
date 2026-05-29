@@ -53,14 +53,14 @@
 
     { "numero": 42, "nombre": "Comunicación Lingüística", "nivel": "X", "tipo": "electiva", "carga_horaria": 6, "cursadas_requeridas": [], "aprobadas_requeridas": [] },
     { "numero": 43, "nombre": "Prácticas de Laboratorio", "nivel": "X", "tipo": "electiva", "carga_horaria": 5, "cursadas_requeridas": [], "aprobadas_requeridas": [] },
-    { "numero": 44, "nombre": "Formación de Emprendedores", "nivel": "X", "tipo": "electiva", "carga_horaria": 8, "cursadas_requeridas": [25, 26, 27, 28, 29, 30, 31, 32], "aprobadas_requeridas": [28, 32] },
+    { "numero": 44, "nombre": "Formación de Emprendedores", "nivel": "X", "tipo": "electiva", "carga_horaria": 8, "cursadas_requeridas": [25, 26, 27, 29, 30, 31], "aprobadas_requeridas": [28, 32] },
     { "numero": 45, "nombre": "Gestión de Recursos Humanos", "nivel": "X", "tipo": "electiva", "carga_horaria": 5, "cursadas_requeridas": [25], "aprobadas_requeridas": [28, 32] },
     { "numero": 46, "nombre": "Gestión de Residuos", "nivel": "X", "tipo": "electiva", "carga_horaria": 6, "cursadas_requeridas": [9], "aprobadas_requeridas": [16] },
     { "numero": 47, "nombre": "Química de los Alimentos", "nivel": "X", "tipo": "electiva", "carga_horaria": 6, "cursadas_requeridas": [20], "aprobadas_requeridas": [14, 22] },
     { "numero": 48, "nombre": "Administración de Negocios", "nivel": "X", "tipo": "electiva", "carga_horaria": 5, "cursadas_requeridas": [29, 30, 31], "aprobadas_requeridas": [32] },
     { "numero": 49, "nombre": "Energías Renovables", "nivel": "X", "tipo": "electiva", "carga_horaria": 6, "cursadas_requeridas": [26, 27, 29, 30], "aprobadas_requeridas": [17, 20] },
     { "numero": 50, "nombre": "Ingeniería de las Instalaciones", "nivel": "X", "tipo": "electiva", "carga_horaria": 6, "cursadas_requeridas": [25, 26], "aprobadas_requeridas": [7, 41] },
-    { "numero": 51, "nombre": "Tecnología de los Alimentos", "nivel": "X", "tipo": "electiva", "carga_horaria": 6, "cursadas_requeridas": [27], "aprobadas_requeridas": [27] },
+    { "numero": 51, "nombre": "Tecnología de los Alimentos", "nivel": "X", "tipo": "electiva", "carga_horaria": 6, "cursadas_requeridas": [], "aprobadas_requeridas": [27] },
     { "numero": 52, "nombre": "Métodos Emergentes de Preservación de Alimentos", "nivel": "X", "tipo": "electiva", "carga_horaria": 6, "cursadas_requeridas": [27], "aprobadas_requeridas": [20, 29] },
     { "numero": 53, "nombre": "Procedimientos y Normativas en Alimentos", "nivel": "X", "tipo": "electiva", "carga_horaria": 6, "cursadas_requeridas": [25], "aprobadas_requeridas": [24] },
     { "numero": 54, "nombre": "Estudios y Análisis de Procesos de Trabajo", "nivel": "X", "tipo": "electiva", "carga_horaria": 6, "cursadas_requeridas": [32], "aprobadas_requeridas": [15, 28] }

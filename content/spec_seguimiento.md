@@ -182,20 +182,20 @@ Tabla maestra del Plan 2023 — Ingeniería Química — UTN FRRe. Es la fuente 
 
 #### Nivel X (Electivas)
 
-Las electivas se enumeran con `numero` 42–54 en el orden provisto. Las correlatividades formales de las electivas **sí se modelan** (`cursadas_requeridas` y `aprobadas_requeridas` poblados según el detalle de abajo); el motor de disponibilidad (§7) las procesa igual que a las obligatorias, sin cambios en el modelo de datos. `Comunicación Lingüística` (42) y `Prácticas de Laboratorio` (43) no tienen correlativas.
+Las electivas se enumeran con `numero` 42–54 en el orden provisto. Las correlatividades formales de las electivas **sí se modelan** (`cursadas_requeridas` y `aprobadas_requeridas` poblados según el detalle de abajo); el motor de disponibilidad (§7) las procesa igual que a las obligatorias, sin cambios en el modelo de datos. `Comunicación Lingüística` (42) y `Prácticas de Laboratorio` (43) no tienen correlativas. Convención de normalización: cuando una materia se exige como **aprobada**, no se repite en la lista de **cursadas** (la condición Aprobada satisface ambas), de modo de no duplicarla en el texto de «Materias faltantes».
 
 | N° | Materia | Tipo | Hs. | Cursadas req. | Aprobadas req. |
 |---|---|---|---|---|---|
 | 42 | Comunicación Lingüística | Ⓔ | 6 | — | — |
 | 43 | Prácticas de Laboratorio | Ⓔ | 5 | — | — |
-| 44 | Formación de Emprendedores | Ⓔ | 8 | 25, 26, 27, 28, 29, 30, 31, 32 | 28, 32 |
+| 44 | Formación de Emprendedores | Ⓔ | 8 | 25, 26, 27, 29, 30, 31 | 28, 32 |
 | 45 | Gestión de Recursos Humanos | Ⓔ | 5 | 25 | 28, 32 |
 | 46 | Gestión de Residuos | Ⓔ | 6 | 9 | 16 |
 | 47 | Química de los Alimentos | Ⓔ | 6 | 20 | 14, 22 |
 | 48 | Administración de Negocios | Ⓔ | 5 | 29, 30, 31 | 32 |
 | 49 | Energías Renovables | Ⓔ | 6 | 26, 27, 29, 30 | 17, 20 |
 | 50 | Ingeniería de las Instalaciones | Ⓔ | 6 | 25, 26 | 7, 41 |
-| 51 | Tecnología de los Alimentos | Ⓔ | 6 | 27 | 27 |
+| 51 | Tecnología de los Alimentos | Ⓔ | 6 | — | 27 |
 | 52 | Métodos Emergentes de Preservación de Alimentos | Ⓔ | 6 | 27 | 20, 29 |
 | 53 | Procedimientos y Normativas en Alimentos | Ⓔ | 6 | 25 | 24 |
 | 54 | Estudios y Análisis de Procesos de Trabajo | Ⓔ | 6 | 32 | 15, 28 |
