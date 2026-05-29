@@ -17,7 +17,7 @@
 > - 🔲 Necesario, no bloqueante (la página se puede publicar con
 >   placeholder o empty-state hasta que se cargue).
 >
-> Última revisión: 2026-05-27.
+> Última revisión: 2026-05-29.
 
 ---
 
@@ -25,12 +25,35 @@
 
 ### 1.1 Por gabinete — campos en `data/gabinetes.json`
 
-| Gabinete | `proyectos_activos[]` | `historia` (borrador a validar) | Imagen OG / Twitter | Foto institucional |
-|---|---|---|---|---|
-| Cursos y Conferencias | 🔲 Pendiente — lista de cursos y conferencias regulares con título y descripción breve. | ⭐ Borrador cargado el 2026-05-27 a partir de `descripcion_completa`. La comisión directiva debe **validarlo o sustituirlo** antes de publicar. | 🔲 Pendiente — URL absoluta + archivo en `assets/img/gabinetes/`. Hoy `<meta property="og:image">` queda como placeholder de Fase 6. | 🔲 Pendiente — opcional, foto representativa para encabezado/galería del gabinete. |
-| Eventos | 🔲 Pendiente — calendario tipo de eventos del año. | ⭐ Borrador cargado el 2026-05-27. Validar o sustituir. | 🔲 Pendiente. | 🔲 Pendiente. |
-| Prensa y Difusión | 🔲 Pendiente — rutinas de cobertura, periodicidad de publicaciones, cobertura fotográfica. | ⭐ Borrador cargado el 2026-05-27. Validar o sustituir. | 🔲 Pendiente. | 🔲 Pendiente. |
-| Solidario | 🔲 Parcial — está cargado «Apadrinamiento EEP N° 1026»; falta descripción, frecuencia y modalidad del proyecto, y eventuales nuevos proyectos. | ⭐ Borrador cargado el 2026-05-27. Validar o sustituir. | 🔲 Pendiente. | 🔲 Pendiente. |
+**Cerrado (2026-05-29).** El contenido editorial de los cuatro
+gabinetes —`proposito`, `actividades` e `historia`— se cargó desde
+la copia institucional aprobada en
+[`content/gabinetes_copy.md`](./content/gabinetes_copy.md). El campo
+`descripcion_corta` se deriva de la primera oración del `proposito`.
+Se eliminaron el borrador de `historia` y el array
+`proyectos_activos` (reemplazado por el campo de prosa `actividades`).
+Las cuatro páginas de detalle renderizan `proposito`, `actividades` e
+`historia` desde el JSON vía el `data-loader` `gabinetes`. Quedan
+cerrados, por tanto, los pendientes de borrador de historia y de
+listado de actividades.
+
+**Pendiente — imágenes ⭐ (bloqueante para publicar con identidad
+visual completa).** Cada gabinete tiene en `data/gabinetes.json` las
+claves `imagen`, `imagen_alt` e `imagen_og` cargadas con placeholder
+vacío (`""`). Faltan los archivos y sus URLs:
+
+| Gabinete | Foto representativa (`imagen` + `imagen_alt`) | Imagen OG / Twitter (`imagen_og`) |
+|---|---|---|
+| Cursos y Conferencias | 🔲 Pendiente — archivo en `assets/img/gabinetes/` + texto alternativo para encabezado/galería del gabinete. | 🔲 Pendiente — imagen social 1200×630 + URL absoluta para `og:image`/`twitter:image`. Hoy ambos `<meta>` apuntan al placeholder `icon-512.png`. |
+| Eventos | 🔲 Pendiente. | 🔲 Pendiente. |
+| Prensa y Difusión | 🔲 Pendiente. | 🔲 Pendiente. |
+| Solidario | 🔲 Pendiente. | 🔲 Pendiente. |
+
+> Al cargar cada imagen: subir el archivo a `assets/img/gabinetes/`,
+> completar las claves `imagen`/`imagen_alt`/`imagen_og` del gabinete
+> en `data/gabinetes.json`, actualizar los `<meta property="og:image">`
+> y `<meta name="twitter:image">` de la página de detalle, y cerrar la
+> fila correspondiente de esta tabla en el mismo commit.
 
 **Decisión cerrada (2026-05-27).** No se publica el listado de
 integrantes por gabinete en la web. El campo `integrantes` se

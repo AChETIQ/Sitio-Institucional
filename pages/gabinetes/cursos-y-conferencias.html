@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Gabinete de Cursos y Conferencias · AChETIQ</title>
-  <meta name="description" content="Gabinete de Cursos y Conferencias de AChETIQ: organiza las actividades académicas de la asociación, cursos y conferencias en el marco de jornadas.">
+  <meta name="description" content="El Gabinete de Cursos y Conferencias tiene como finalidad acompañar la formación continua de los estudiantes de la regional, complementando el trayecto curricular con propuestas de capacitación dictadas por profesionales.">
 
   <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
   <link rel="icon" href="../../favicon.ico" sizes="32x32">
@@ -24,13 +24,13 @@
   <meta property="og:site_name" content="AChETIQ">
   <meta property="og:locale" content="es_AR">
   <meta property="og:title" content="Gabinete de Cursos y Conferencias · AChETIQ">
-  <meta property="og:description" content="Gabinete de Cursos y Conferencias de AChETIQ: organiza las actividades académicas de la asociación, cursos y conferencias en el marco de jornadas.">
+  <meta property="og:description" content="El Gabinete de Cursos y Conferencias tiene como finalidad acompañar la formación continua de los estudiantes de la regional, complementando el trayecto curricular con propuestas de capacitación dictadas por profesionales.">
   <meta property="og:url" content="https://achetiq.org.ar/pages/gabinetes/cursos-y-conferencias.html">
   <meta property="og:image" content="https://achetiq.org.ar/icon-512.png">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Gabinete de Cursos y Conferencias · AChETIQ">
-  <meta name="twitter:description" content="Gabinete de Cursos y Conferencias de AChETIQ: organiza las actividades académicas de la asociación, cursos y conferencias en el marco de jornadas.">
+  <meta name="twitter:description" content="El Gabinete de Cursos y Conferencias tiene como finalidad acompañar la formación continua de los estudiantes de la regional, complementando el trayecto curricular con propuestas de capacitación dictadas por profesionales.">
   <meta name="twitter:image" content="https://achetiq.org.ar/icon-512.png">
   <link rel="modulepreload" href="../../assets/js/loaders.js">
   <link rel="modulepreload" href="../../assets/js/main.js">
@@ -62,41 +62,41 @@
       <p class="eyebrow">Gabinete</p>
       <h1 class="page-header__title">Cursos y <em>Conferencias</em></h1>
       <p class="page-header__lead">
-        Lleva adelante las actividades académicas de la asociación: cursos y conferencias en el marco de jornadas.
+        El Gabinete de Cursos y Conferencias tiene como finalidad acompañar la formación continua de los estudiantes de la regional, complementando el trayecto curricular con propuestas de capacitación dictadas por profesionales.
       </p>
     </header>
 
     <!-- ════════════════════════════════════════════════════════
-         [2] DESCRIPCIÓN COMPLETA
-         Texto literal del campo «descripcion_completa» en
-         data/gabinetes.json (verificado 2026-05-22).
+         [2] PROPÓSITO
+         Renderizado vía data-loader="gabinetes" (override de
+         assets/js/gabinete-detalle.js): vuelca el campo
+         `proposito` de data/gabinetes.json como prosa.
+         Fuente: content/gabinetes_copy.md (copia institucional
+         aprobada).
          ════════════════════════════════════════════════════════ -->
     <section aria-labelledby="descripcion-title">
       <header class="section-title">
         <h2 id="descripcion-title">Sobre el <em>gabinete</em></h2>
       </header>
-      <article class="prose">
-        <p>
-          Este gabinete lleva adelante las actividades académicas de la asociación. La finalidad del mismo es organizar los distintos cursos y conferencias a realizarse en el marco de jornadas o de actividades propias de AChETIQ.
-        </p>
-      </article>
+      <div data-loader="gabinetes"
+           data-gabinete-id="cursos-y-conferencias"
+           data-gabinete-field="proposito"></div>
     </section>
 
     <!-- ════════════════════════════════════════════════════════
          [3] ACTIVIDADES REGULARES
-         Campo «proyectos_activos» del JSON = []. Sin datos:
-         empty-state. No se inventan actividades.
+         Renderizado vía data-loader="gabinetes": vuelca el campo
+         `actividades` de data/gabinetes.json como prosa.
+         Fuente: content/gabinetes_copy.md (copia institucional
+         aprobada).
          ════════════════════════════════════════════════════════ -->
     <section aria-labelledby="actividades-title">
       <header class="section-title">
         <h2 id="actividades-title">Actividades <em>regulares</em></h2>
       </header>
-      <div class="empty-state">
-        <h3 class="empty-state__title">Actividades pendientes de publicación</h3>
-        <p class="empty-state__desc">
-          El detalle de cursos y conferencias regulares de este gabinete se incorporará a esta sección una vez recopilado.
-        </p>
-      </div>
+      <div data-loader="gabinetes"
+           data-gabinete-id="cursos-y-conferencias"
+           data-gabinete-field="actividades"></div>
     </section>
 
     <!-- ════════════════════════════════════════════════════════
@@ -107,12 +107,8 @@
          `data-gabinete-id` y vuelca el campo
          `data-gabinete-field` como prosa.
 
-         ⚠ TEXTO BORRADOR ⚠
-         El campo `historia` en data/gabinetes.json es un
-         BORRADOR redactado a partir de los datos ya
-         documentados (descripcion_completa). La comisión
-         directiva debe validarlo o sustituirlo antes de la
-         publicación definitiva.
+         Fuente: content/gabinetes_copy.md (copia institucional
+         aprobada).
          ════════════════════════════════════════════════════════ -->
     <section aria-labelledby="historia-title">
       <header class="section-title">

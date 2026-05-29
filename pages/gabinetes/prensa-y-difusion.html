@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Gabinete de Prensa y Difusión · AChETIQ</title>
-  <meta name="description" content="Gabinete de Prensa y Difusión de AChETIQ: difunde las actividades de la asociación, gestiona las redes sociales y registra fotográficamente cada evento.">
+  <meta name="description" content="El Gabinete de Prensa y Difusión tiene como finalidad gestionar la comunicación institucional de AChETIQ, encargándose de la difusión de las actividades y eventos de la asociación.">
 
   <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
   <link rel="icon" href="../../favicon.ico" sizes="32x32">
@@ -24,13 +24,13 @@
   <meta property="og:site_name" content="AChETIQ">
   <meta property="og:locale" content="es_AR">
   <meta property="og:title" content="Gabinete de Prensa y Difusión · AChETIQ">
-  <meta property="og:description" content="Gabinete de Prensa y Difusión de AChETIQ: difunde las actividades de la asociación, gestiona las redes sociales y registra fotográficamente cada evento.">
+  <meta property="og:description" content="El Gabinete de Prensa y Difusión tiene como finalidad gestionar la comunicación institucional de AChETIQ, encargándose de la difusión de las actividades y eventos de la asociación.">
   <meta property="og:url" content="https://achetiq.org.ar/pages/gabinetes/prensa-y-difusion.html">
   <meta property="og:image" content="https://achetiq.org.ar/icon-512.png">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Gabinete de Prensa y Difusión · AChETIQ">
-  <meta name="twitter:description" content="Gabinete de Prensa y Difusión de AChETIQ: difunde las actividades de la asociación, gestiona las redes sociales y registra fotográficamente cada evento.">
+  <meta name="twitter:description" content="El Gabinete de Prensa y Difusión tiene como finalidad gestionar la comunicación institucional de AChETIQ, encargándose de la difusión de las actividades y eventos de la asociación.">
   <meta name="twitter:image" content="https://achetiq.org.ar/icon-512.png">
   <link rel="modulepreload" href="../../assets/js/loaders.js">
   <link rel="modulepreload" href="../../assets/js/main.js">
@@ -61,38 +61,41 @@
       <p class="eyebrow">Gabinete</p>
       <h1 class="page-header__title">Prensa y <em>Difusión</em></h1>
       <p class="page-header__lead">
-        Difunde las actividades de AChETIQ, gestiona las redes sociales y registra fotográficamente cada evento.
+        El Gabinete de Prensa y Difusión tiene como finalidad gestionar la comunicación institucional de AChETIQ, encargándose de la difusión de las actividades y eventos de la asociación.
       </p>
     </header>
 
     <!-- ════════════════════════════════════════════════════════
-         [2] DESCRIPCIÓN COMPLETA
-         Texto literal del campo «descripcion_completa».
+         [2] PROPÓSITO
+         Renderizado vía data-loader="gabinetes" (override de
+         assets/js/gabinete-detalle.js): vuelca el campo
+         `proposito` de data/gabinetes.json como prosa.
+         Fuente: content/gabinetes_copy.md (copia institucional
+         aprobada).
          ════════════════════════════════════════════════════════ -->
     <section aria-labelledby="descripcion-title">
       <header class="section-title">
         <h2 id="descripcion-title">Sobre el <em>gabinete</em></h2>
       </header>
-      <article class="prose">
-        <p>
-          Difundir todas nuestras actividades y poder capturar cada momento que compartamos juntos es sumamente importante. Siempre la tarea estuvo repartida entre dos personas, pero creemos que con un gabinete podríamos ampliar y mejorar la difusión. Los socios que quieran pertenecer a este grupo tendrán tareas como: actualizar las redes sociales, crear imágenes para las mismas y fotografiar nuestros eventos.
-        </p>
-      </article>
+      <div data-loader="gabinetes"
+           data-gabinete-id="prensa-y-difusion"
+           data-gabinete-field="proposito"></div>
     </section>
 
     <!-- ════════════════════════════════════════════════════════
-         [3] ACTIVIDADES REGULARES — sin datos, empty-state.
+         [3] ACTIVIDADES REGULARES
+         Renderizado vía data-loader="gabinetes": vuelca el campo
+         `actividades` de data/gabinetes.json como prosa.
+         Fuente: content/gabinetes_copy.md (copia institucional
+         aprobada).
          ════════════════════════════════════════════════════════ -->
     <section aria-labelledby="actividades-title">
       <header class="section-title">
         <h2 id="actividades-title">Actividades <em>regulares</em></h2>
       </header>
-      <div class="empty-state">
-        <h3 class="empty-state__title">Actividades pendientes de publicación</h3>
-        <p class="empty-state__desc">
-          El detalle de las rutinas de cobertura y difusión a cargo de este gabinete se incorporará a esta sección una vez confirmadas.
-        </p>
-      </div>
+      <div data-loader="gabinetes"
+           data-gabinete-id="prensa-y-difusion"
+           data-gabinete-field="actividades"></div>
     </section>
 
     <!-- ════════════════════════════════════════════════════════
@@ -103,12 +106,8 @@
          `data-gabinete-id` y vuelca el campo
          `data-gabinete-field` como prosa.
 
-         ⚠ TEXTO BORRADOR ⚠
-         El campo `historia` en data/gabinetes.json es un
-         BORRADOR redactado a partir de los datos ya
-         documentados (descripcion_completa). La comisión
-         directiva debe validarlo o sustituirlo antes de la
-         publicación definitiva.
+         Fuente: content/gabinetes_copy.md (copia institucional
+         aprobada).
          ════════════════════════════════════════════════════════ -->
     <section aria-labelledby="historia-title">
       <header class="section-title">

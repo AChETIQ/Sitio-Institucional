@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Gabinete Solidario · AChETIQ</title>
-  <meta name="description" content="Gabinete Solidario de AChETIQ: apadrina a la Escuelita EEP N° 1026 mediante actividades recreativas, educativas y donaciones.">
+  <meta name="description" content="El Gabinete Solidario tiene como finalidad canalizar el compromiso social de la asociación, promoviendo entre los estudiantes una reflexión sobre el privilegio y la responsabilidad que conlleva la formación en Ingeniería Química.">
 
   <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
   <link rel="icon" href="../../favicon.ico" sizes="32x32">
@@ -24,13 +24,13 @@
   <meta property="og:site_name" content="AChETIQ">
   <meta property="og:locale" content="es_AR">
   <meta property="og:title" content="Gabinete Solidario · AChETIQ">
-  <meta property="og:description" content="Gabinete Solidario de AChETIQ: apadrina a la Escuelita EEP N° 1026 mediante actividades recreativas, educativas y donaciones.">
+  <meta property="og:description" content="El Gabinete Solidario tiene como finalidad canalizar el compromiso social de la asociación, promoviendo entre los estudiantes una reflexión sobre el privilegio y la responsabilidad que conlleva la formación en Ingeniería Química.">
   <meta property="og:url" content="https://achetiq.org.ar/pages/gabinetes/solidario.html">
   <meta property="og:image" content="https://achetiq.org.ar/icon-512.png">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Gabinete Solidario · AChETIQ">
-  <meta name="twitter:description" content="Gabinete Solidario de AChETIQ: apadrina a la Escuelita EEP N° 1026 mediante actividades recreativas, educativas y donaciones.">
+  <meta name="twitter:description" content="El Gabinete Solidario tiene como finalidad canalizar el compromiso social de la asociación, promoviendo entre los estudiantes una reflexión sobre el privilegio y la responsabilidad que conlleva la formación en Ingeniería Química.">
   <meta name="twitter:image" content="https://achetiq.org.ar/icon-512.png">
   <link rel="modulepreload" href="../../assets/js/loaders.js">
   <link rel="modulepreload" href="../../assets/js/main.js">
@@ -61,44 +61,41 @@
       <p class="eyebrow">Gabinete</p>
       <h1 class="page-header__title"><em>Solidario</em></h1>
       <p class="page-header__lead">
-        AChETIQ apadrina a la Escuelita EEP N° 1026 mediante actividades recreativas, educativas y donaciones.
+        El Gabinete Solidario tiene como finalidad canalizar el compromiso social de la asociación, promoviendo entre los estudiantes una reflexión sobre el privilegio y la responsabilidad que conlleva la formación en Ingeniería Química.
       </p>
     </header>
 
     <!-- ════════════════════════════════════════════════════════
-         [2] DESCRIPCIÓN COMPLETA
-         Texto literal del campo «descripcion_completa».
+         [2] PROPÓSITO
+         Renderizado vía data-loader="gabinetes" (override de
+         assets/js/gabinete-detalle.js): vuelca el campo
+         `proposito` de data/gabinetes.json como prosa.
+         Fuente: content/gabinetes_copy.md (copia institucional
+         aprobada).
          ════════════════════════════════════════════════════════ -->
     <section aria-labelledby="descripcion-title">
       <header class="section-title">
         <h2 id="descripcion-title">Sobre el <em>gabinete</em></h2>
       </header>
-      <article class="prose">
-        <p>
-          AChETIQ apadrina a la Escuelita EEP N° 1026, por lo que año a año se realizan diferentes actividades recreativas y educativas. Hasta ahora realizamos charlas informativas y fuimos a visitar a los chicos con juegos y chocolatadas. También nos encargamos de juntar donaciones de ropa y útiles para ellos, y tuvimos un proyecto en el que los ayudamos a pintar toda la escuela. Con tu ayuda queremos seguir con este lindo lazo y seguir sumando proyectos.
-        </p>
-      </article>
+      <div data-loader="gabinetes"
+           data-gabinete-id="solidario"
+           data-gabinete-field="proposito"></div>
     </section>
 
     <!-- ════════════════════════════════════════════════════════
          [3] ACTIVIDADES REGULARES
-         Campo «proyectos_activos» del JSON contiene un único
-         ítem: «Apadrinamiento EEP N° 1026». Se renderiza como
-         lista. El resto del detalle (frecuencia, modalidad,
-         alcance) queda pendiente y se indica explícitamente.
+         Renderizado vía data-loader="gabinetes": vuelca el campo
+         `actividades` de data/gabinetes.json como prosa.
+         Fuente: content/gabinetes_copy.md (copia institucional
+         aprobada).
          ════════════════════════════════════════════════════════ -->
     <section aria-labelledby="actividades-title">
       <header class="section-title">
         <h2 id="actividades-title">Actividades <em>regulares</em></h2>
       </header>
-      <article class="prose">
-        <ul>
-          <li>Apadrinamiento de la Escuelita EEP N° 1026.</li>
-        </ul>
-        <p class="caption">
-          El detalle de frecuencia y modalidad de cada actividad se incorporará una vez confirmado por la comisión directiva.
-        </p>
-      </article>
+      <div data-loader="gabinetes"
+           data-gabinete-id="solidario"
+           data-gabinete-field="actividades"></div>
     </section>
 
     <!-- ════════════════════════════════════════════════════════
@@ -109,12 +106,8 @@
          `data-gabinete-id` y vuelca el campo
          `data-gabinete-field` como prosa.
 
-         ⚠ TEXTO BORRADOR ⚠
-         El campo `historia` en data/gabinetes.json es un
-         BORRADOR redactado a partir de los datos ya
-         documentados (descripcion_completa). La comisión
-         directiva debe validarlo o sustituirlo antes de la
-         publicación definitiva.
+         Fuente: content/gabinetes_copy.md (copia institucional
+         aprobada).
          ════════════════════════════════════════════════════════ -->
     <section aria-labelledby="historia-title">
       <header class="section-title">
