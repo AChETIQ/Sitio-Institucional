@@ -1,6 +1,6 @@
 # AChETIQ — Sitio Web Oficial
 
-Repositorio del sitio web de la **Asociación Chaqueña de Estudiantes de Ingeniería Química (AChETIQ)**.
+Repositorio del sitio web de la **Asociación Chaqueña de Estudiantes Tecnológicos de Ingeniería Química (AChETIQ)**.
 
 ## Estado del Proyecto
 

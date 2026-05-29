@@ -97,7 +97,7 @@ El placeholder es reemplazado por `js/navbar.js`, que carga `partials/navbar.htm
   <div class="footer__inner">
     <div class="footer__col footer__col--brand">
       <img src="/assets/img/logo/achetiq-logo.svg" alt="AChETIQ" class="footer__logo">
-      <p class="footer__tagline">Asociación Chaqueña de Estudiantes de Ingeniería Química</p>
+      <p class="footer__tagline">Asociación Chaqueña de Estudiantes Tecnológicos de Ingeniería Química</p>
     </div>
     <div class="footer__col">
       <h4 class="footer__heading">Navegación</h4>

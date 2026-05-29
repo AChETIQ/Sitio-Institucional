@@ -1,6 +1,6 @@
 # Fase 0 — Planificación y Arquitectura de Información
 ## Sitio Web Oficial de AChETIQ
-**Asociación Chaqueña de Estudiantes de Ingeniería Química**
+**Asociación Chaqueña de Estudiantes Tecnológicos de Ingeniería Química**
 
 *Documento elaborado: 2026-05-08*
 *Estado: Borrador de referencia para desarrollo*
