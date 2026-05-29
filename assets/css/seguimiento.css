@@ -339,6 +339,7 @@
   flex: 0 0 auto;
   color: var(--seg-amber);
 }
+.seg-table__warn[hidden] { display: none; }
 
 
 /* ─────────────────────────────────────────────────────────────
