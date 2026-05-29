@@ -1,55 +1,49 @@
 /* ============================================================
-   AChETIQ — Override del loader «recursos» + filtro por año
+   AChETIQ - Override del loader «recursos» + filtro por año
    (pages/recursos/apuntes.html)
    ------------------------------------------------------------
-   Versión: 1.0 · Fase 3 — P3.11
+   Version: 2.0 · Fase 4 - modelo «carpeta de Drive por materia»
 
-   PROPÓSITO
+   PROPOSITO
      El renderer por defecto de `recursos` (assets/js/loaders.js
-     §4.2) construye cada materia como un <a> clickeable hacia
-     una vista individual `pages/recurso.html?id=…`. Esa vista
-     no existe en v1.0 — su modelo se cierra en Fase 4 (P4.6).
+     §4.2) construia cada materia como un <a> hacia una vista
+     individual interna. Esa vista se descarto: el modelo de
+     apuntes se simplifico a una carpeta institucional de Google
+     Drive por materia.
 
-     Mientras tanto, esta página renderiza cada materia como un
-     <article> NO interactivo con un estado «Sin apuntes aún»
-     visible. El color placeholder por año (P3.7) se mantiene
-     vía atributo data-anio.
+     Cada materia de data/recursos.json lleva ahora un campo
+     `drive_url`:
+       · Si `drive_url` tiene valor -> la tarjeta es un <a>
+         externo que abre la carpeta de Drive en una pestaña
+         nueva (target="_blank", rel="noopener noreferrer") con
+         etiqueta accesible que advierte que es un enlace externo.
+       · Si `drive_url` esta vacio ("") o ausente -> la tarjeta
+         es un <article> NO interactivo en variante --placeholder,
+         con el estado visible «Carpeta no disponible».
 
-     Además, este módulo cablea el filtro por año:
-     `.pill-nav` arriba del grid alterna qué tarjetas quedan
-     visibles según el botón pulsado, mediante el atributo
-     [hidden] sobre cada <article>.
+     Ya no existe `data/apuntes.json` ni subpaginas por materia:
+     el destino de cada tarjeta es directamente la carpeta externa.
+
+     Ademas, este modulo cablea el filtro por año: `.pill-nav`
+     arriba del grid alterna que tarjetas quedan visibles segun el
+     boton pulsado, mediante el atributo [hidden] sobre cada tarjeta.
 
    COMPORTAMIENTO DEL FILTRO (wireframe §4 bloque [5])
-     - «Todos» (estado por defecto): muestra todas las tarjetas.
-     - «N° año»: oculta las tarjetas de los demás años (no
-       reordena el grid in-place; sólo cambia visibilidad).
-     - Selección única (un sólo pill activo a la vez); el botón
-       activo lleva la clase `.is-active` y `aria-pressed="true"`.
-
-   USO
-     Incluir ANTES de main.js en el boilerplate de la página:
-       <script type="module" src="../../assets/js/apuntes.js"></script>
-       <script type="module" src="../../assets/js/main.js"></script>
-
-     Y dejar en el HTML:
-       <nav class="pill-nav" data-anio-filter aria-label="Filtrar por año">
-         <button class="pill-nav__pill is-active"
-                 data-anio="all" aria-pressed="true">Todos</button>
-         <button class="pill-nav__pill"
-                 data-anio="1" aria-pressed="false">1.º año</button>
-         …
-       </nav>
-       <div class="grid-cards grid-cards--3" data-loader="recursos"></div>
+     - «Todos» (por defecto): muestra todas las tarjetas.
+     - «N° año»: oculta las tarjetas de los demas años.
+     - Seleccion unica; el boton activo lleva .is-active y
+       aria-pressed="true".
 
    REGLAS DE SEGURIDAD (FASE_1 §7.2)
-     Toda inserción usa textContent vía createElement. Nada
-     proveniente del JSON se interpola como HTML.
+     Toda insercion usa textContent via createElement. El
+     `drive_url` pasa por safeHref(): solo http/https, rutas
+     relativas y anclas; javascript:, data:, file:... se rechazan
+     y la tarjeta cae a la variante «no disponible».
    ============================================================ */
 
 'use strict';
 
-import { registerLoader, createElement } from './loaders.js';
+import { registerLoader, createElement, safeHref } from './loaders.js';
 
 var YEAR_LABEL = {
   1: '1.º año',
@@ -60,7 +54,7 @@ var YEAR_LABEL = {
 };
 
 
-/* ─── Override del renderer de «recursos» ──────────────────── */
+/* --- Override del renderer de «recursos» -------------------- */
 
 registerLoader('recursos', function (container, data) {
   var list = (Array.isArray(data) ? data.slice() : []).sort(function (a, b) {
@@ -78,39 +72,85 @@ registerLoader('recursos', function (container, data) {
   });
 
   container.appendChild(grid);
-
-  /* Una vez pintadas las tarjetas, activar el filtro de pills.
-     Si la página no incluye un .pill-nav[data-anio-filter] el
-     wiring es no-op. */
   wireYearFilter(container);
 });
 
 
-/* Construye una tarjeta de materia en estado «Sin apuntes aún»:
-   <article> no interactivo, con cover coloreado por año
-   (data-anio), nombre y línea de status. Cuando P4.6 defina la
-   vista individual de materia, este renderer se actualiza para
-   conmutar a <a href="…"> si la materia tiene material disponible
-   y mantener el estado actual cuando no lo tenga. */
+/* Construye la tarjeta de una materia: enlazada (<a> externo) o
+   placeholder (<article> no interactivo) segun `drive_url`. */
 function buildMateriaCard(m) {
   var anio = (Number.isInteger(m.anio) && m.anio >= 1 && m.anio <= 5)
     ? m.anio : null;
 
-  var attrs = {};
+  var rawUrl = (typeof m.drive_url === 'string') ? m.drive_url.trim() : '';
+  var href = rawUrl ? safeHref(rawUrl) : null;
+  var nombre = m.nombre || '';
+
+  if (href) {
+    return buildLinkedCard(m, anio, href, nombre);
+  }
+  return buildPlaceholderCard(m, anio, nombre);
+}
+
+
+/* Variante A - materia con carpeta de Drive (<a> externo). */
+function buildLinkedCard(m, anio, href, nombre) {
+  var attrs = {
+    href: href,
+    target: '_blank',
+    rel: 'noopener noreferrer',
+    'aria-label': 'Material de ' + nombre +
+                  ' en Google Drive (se abre en una pestaña nueva)',
+    'data-materia-id': m.id || '',
+    'data-estado': 'disponible'
+  };
   if (anio) attrs['data-anio'] = anio;
-  attrs['data-materia-id'] = m.id || '';
-  attrs['data-estado'] = 'sin-apuntes';
+
+  var card = createElement('a', {
+    class: 'card card-materia card-materia--drive',
+    attrs: attrs
+  });
+
+  card.appendChild(buildCover());
+  card.appendChild(buildBody(anio, nombre, buildLinkedStatus()));
+  return card;
+}
+
+
+/* Variante B - materia sin carpeta todavia (<article>). */
+function buildPlaceholderCard(m, anio, nombre) {
+  var attrs = {
+    'data-materia-id': m.id || '',
+    'data-estado': 'sin-material'
+  };
+  if (anio) attrs['data-anio'] = anio;
 
   var card = createElement('article', {
     class: 'card card-materia card-materia--placeholder',
     attrs: attrs
   });
 
-  card.appendChild(createElement('div', {
+  var status = createElement('p', {
+    class: 'card-materia__status',
+    text: 'Carpeta no disponible'
+  });
+
+  card.appendChild(buildCover());
+  card.appendChild(buildBody(anio, nombre, status));
+  return card;
+}
+
+
+/* --- Piezas compartidas de la tarjeta ---------------------- */
+
+function buildCover() {
+  return createElement('div', {
     class: 'card-materia__cover',
     attrs: { 'aria-hidden': 'true' }
-  }));
+  });
+}
 
+function buildBody(anio, nombre, statusNode) {
   var body = createElement('div', { class: 'card-materia__body' });
   if (anio) {
     body.appendChild(createElement('p', {
@@ -120,25 +160,54 @@ function buildMateriaCard(m) {
   }
   body.appendChild(createElement('h3', {
     class: 'card-materia__name',
-    text: m.nombre || ''
+    text: nombre
   }));
-  body.appendChild(createElement('p', {
-    class: 'card-materia__status',
-    text: 'Sin apuntes aún'
-  }));
-  card.appendChild(body);
+  body.appendChild(statusNode);
+  return body;
+}
 
-  return card;
+/* Estado de la variante enlazada: «Abrir carpeta» + icono externo
+   decorativo + refuerzo sr-only de pestaña nueva. */
+function buildLinkedStatus() {
+  var status = createElement('p', {
+    class: 'card-materia__status card-materia__status--link'
+  });
+  status.appendChild(createElement('span', { text: 'Abrir carpeta' }));
+  status.appendChild(buildExternalIcon());
+  status.appendChild(createElement('span', {
+    class: 'sr-only',
+    text: ' (se abre en una pestaña nueva)'
+  }));
+  return status;
+}
+
+/* Icono «enlace externo» (decorativo, aria-hidden), via SVG NS. */
+function buildExternalIcon() {
+  var NS = 'http://www.w3.org/2000/svg';
+  var svg = document.createElementNS(NS, 'svg');
+  svg.setAttribute('class', 'card-materia__ext-icon');
+  svg.setAttribute('viewBox', '0 0 24 24');
+  svg.setAttribute('fill', 'none');
+  svg.setAttribute('stroke', 'currentColor');
+  svg.setAttribute('stroke-width', '2');
+  svg.setAttribute('stroke-linecap', 'round');
+  svg.setAttribute('stroke-linejoin', 'round');
+  svg.setAttribute('aria-hidden', 'true');
+  svg.setAttribute('focusable', 'false');
+
+  var paths = ['M15 3h6v6', 'M10 14 21 3',
+               'M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'];
+  paths.forEach(function (spec) {
+    var path = document.createElementNS(NS, 'path');
+    path.setAttribute('d', spec);
+    svg.appendChild(path);
+  });
+  return svg;
 }
 
 
-/* ─── Filtro por año (.pill-nav) ───────────────────────────── */
+/* --- Filtro por año (.pill-nav) ---------------------------- */
 
-/* Conecta los botones del .pill-nav[data-anio-filter] al grid
-   contenedor (el `.apuntes__grid` recién creado dentro de
-   `container`). Selección única (un sólo pill activo a la vez)
-   y persistencia local en el atributo data-anio del pill activo
-   — sin storage, recarga limpia el filtro. */
 function wireYearFilter(gridContainer) {
   var grid = gridContainer.querySelector('.apuntes__grid');
   if (!grid) return;
@@ -184,8 +253,6 @@ function wireYearFilter(gridContainer) {
     applyFilter(value);
   });
 
-  /* Estado inicial: respeta el pill marcado .is-active en el HTML
-     (por defecto «Todos»). */
   var initial = nav.querySelector('.pill-nav__pill.is-active') || pills[0];
   if (initial) {
     applyFilter(initial.getAttribute('data-anio') || 'all');
