@@ -47,6 +47,16 @@
   .grid-cards--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 
+/* Fallback sin JavaScript: cuando un grid de tarjetas trae un
+   <noscript> de respaldo como hijo directo (ej. Valores en
+   sobre-achetiq.html), `display: contents` evita que ese
+   <noscript> cuente como una única celda del grid y deja que las
+   .card de su interior se distribuyan en las columnas. Con JS, el
+   módulo elimina el <noscript> antes de renderizar. */
+.grid-cards > noscript {
+  display: contents;
+}
+
 
 /* ─────────────────────────────────────────────────────────────
    5.2  LIST DOWNLOADS — .list-downloads
