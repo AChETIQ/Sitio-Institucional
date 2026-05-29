@@ -204,6 +204,17 @@
   }
 }
 
+/* Fallback sin JavaScript (sobre-achetiq.html): el <noscript> que
+   replica Misión/Visión vive dentro del grid .mission-vision. Sin
+   esta regla, el <noscript> contaría como un único ítem del grid y
+   ambas columnas quedarían apiladas en una sola pista. `display:
+   contents` elimina su caja para que sus <article> participen
+   directamente del grid. Con JS, el módulo elimina el <noscript>
+   antes de renderizar, de modo que esta regla no llega a aplicar. */
+.mission-vision > noscript {
+  display: contents;
+}
+
 
 /* ─────────────────────────────────────────────────────────────
    2.5  KPI STRIP — .kpi-strip

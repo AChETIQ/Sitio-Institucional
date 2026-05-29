@@ -34,6 +34,7 @@
   <meta name="twitter:image" content="https://achetiq.org.ar/icon-512.png">
   <link rel="modulepreload" href="../assets/js/loaders.js">
   <link rel="modulepreload" href="../assets/js/main.js">
+  <link rel="modulepreload" href="../assets/js/sobre-achetiq.js">
 
 </head>
 <body>
@@ -87,172 +88,164 @@
          Dos columnas con borde lateral --color-primary, label en
          Geist Mono con ícono Lucide inline.
 
-         ICONOS LUCIDE
-           · Misión:  target          (verificado disponible)
-           · Visión:  telescope       (verificado disponible · fallback:
-                                       compass / eye si se retira del set)
-
-         TEXTOS — PENDIENTES
-           La redacción definitiva de Misión y Visión queda a cargo
-           de la comisión directiva. Los textos visibles son
-           marcadores explícitos, no contenido institucional.
+         CONTENIDO DINÁMICO
+           El texto institucional aprobado se sirve desde
+           data/site_copy.json (clave `mision_vision`) como única
+           fuente de verdad. El render lo realiza
+           assets/js/sobre-achetiq.js sobre este contenedor
+           [data-copy="mision-vision"], que arma cada columna con su
+           ícono Lucide inline (Misión: target · Visión: telescope).
+           No se duplica el texto en el markup para no romper la
+           fuente única (mismo criterio que historia/documentos).
          ════════════════════════════════════════════════════════ -->
-    <section class="mission-vision" aria-label="Misión y visión de AChETIQ">
-      <article class="mission-vision__col">
-        <p class="mission-vision__label">
-          <svg class="mission-vision__icon" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="1.5"
-               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="12" cy="12" r="10"/>
-            <circle cx="12" cy="12" r="6"/>
-            <circle cx="12" cy="12" r="2"/>
-          </svg>
-          Misión
-        </p>
-        <p class="mission-vision__prose">
-          <!-- ⚠ TEXTO PENDIENTE DE REDACCIÓN POR LA COMISIÓN DIRECTIVA. -->
-          (Texto pendiente de redacción institucional.)
-        </p>
-      </article>
-
-      <article class="mission-vision__col">
-        <p class="mission-vision__label">
-          <svg class="mission-vision__icon" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="1.5"
-               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="m10.065 12.493-6.18 1.318a.934.934 0 0 1-1.108-.702l-.537-2.15a1.07 1.07 0 0 1 .691-1.265l13.504-4.44"/>
-            <path d="m13.56 11.747 4.332-.924"/>
-            <path d="m16 21-3.105-6.21"/>
-            <path d="M16.485 5.94a2 2 0 0 1 1.455-2.425l1.09-.272a1 1 0 0 1 1.212.727l1.515 6.06a1 1 0 0 1-.727 1.213l-1.09.272a2 2 0 0 1-2.425-1.455z"/>
-            <path d="m6.158 8.633 1.114 4.456"/>
-            <path d="m8 21 3.105-6.21"/>
-            <circle cx="12" cy="13" r="2"/>
-          </svg>
-          Visión
-        </p>
-        <p class="mission-vision__prose">
-          <!-- ⚠ TEXTO PENDIENTE DE REDACCIÓN POR LA COMISIÓN DIRECTIVA. -->
-          (Texto pendiente de redacción institucional.)
-        </p>
-      </article>
+    <section class="mission-vision" aria-label="Misión y visión de AChETIQ"
+             data-copy="mision-vision">
+      <!-- Fallback sin JavaScript · espejo fiel de data/site_copy.json
+           (clave `mision_vision`). Garantiza contenido para crawlers y
+           usuarios sin JS. Con JS, sobre-achetiq.js elimina este
+           <noscript> y renderiza el mismo texto desde el JSON.
+           ⚠ Mantener sincronizado si cambia el JSON. -->
+      <noscript>
+        <article class="mission-vision__col">
+          <p class="mission-vision__label">
+            <svg class="mission-vision__icon" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.5"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"/>
+              <circle cx="12" cy="12" r="6"/>
+              <circle cx="12" cy="12" r="2"/>
+            </svg>
+            Misión
+          </p>
+          <p class="mission-vision__prose">Mejorar de manera continua la formación académica y la integración de los estudiantes de Ingeniería Química de la Universidad Tecnológica Nacional, Facultad Regional Resistencia, y promover en ellos los valores de la Asociación, con el propósito de proyectar una influencia positiva en la comunidad en la que se inserta. Para alcanzar este fin, la Asociación desarrolla actividades de carácter académico, recreativo y solidario.</p>
+        </article>
+        <article class="mission-vision__col">
+          <p class="mission-vision__label">
+            <svg class="mission-vision__icon" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.5"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="m10.065 12.493-6.18 1.318a.934.934 0 0 1-1.108-.702l-.537-2.15a1.07 1.07 0 0 1 .691-1.265l13.504-4.44"/>
+              <path d="m13.56 11.747 4.332-.924"/>
+              <path d="m16 21-3.105-6.21"/>
+              <path d="M16.485 5.94a2 2 0 0 1 1.455-2.425l1.09-.272a1 1 0 0 1 1.212.727l1.515 6.06a1 1 0 0 1-.727 1.213l-1.09.272a2 2 0 0 1-2.425-1.455z"/>
+              <path d="m6.158 8.633 1.114 4.456"/>
+              <path d="m8 21 3.105-6.21"/>
+              <circle cx="12" cy="13" r="2"/>
+            </svg>
+            Visión
+          </p>
+          <p class="mission-vision__prose">Constituirse en una asociación cuyos valores identifiquen a los estudiantes de Ingeniería Química, que sirva de referencia para las asociaciones afines y que goce de respeto y reconocimiento en el ámbito institucional y empresarial de la disciplina.</p>
+        </article>
+      </noscript>
     </section>
 
     <!-- ════════════════════════════════════════════════════════
          [6] VALORES INSTITUCIONALES
          Wireframe §2 bloque [6] · catálogo §4.7 .card--valor.
 
-         ⚠ BORRADORES NO AUTORITATIVOS ⚠
-           Las seis descripciones que siguen son redacciones
-           PROVISIONALES, sujetas a aprobación de la comisión
-           directiva. NO publicar como contenido definitivo ni
-           reutilizar fuera de este esqueleto sin revisión.
+         CONTENIDO DINÁMICO
+           Los seis valores y sus descripciones aprobadas se sirven
+           desde data/site_copy.json (clave `valores`) y los
+           renderiza assets/js/sobre-achetiq.js sobre el grid
+           [data-copy="valores"]. Cada tarjeta toma su ícono Lucide
+           del campo `icono` mediante el catálogo de íconos del
+           módulo (las rutas SVG no viven en el JSON).
 
-         ICONOS LUCIDE
-           innovacion           · flask-conical
-           proactividad         · arrow-up-right
-           companerismo         · users-round
-           integracion          · link-2
-           conciencia-ambiental · sprout
-           solidaridad          · heart-handshake  (verificado disponible;
-                                                    fallback: hand-helping,
-                                                    heart)
+           íconos: innovacion → flask-conical · proactividad →
+           arrow-up-right · companerismo → users-round ·
+           integracion → link-2 · conciencia-ambiental → sprout ·
+           solidaridad → heart-handshake.
          ════════════════════════════════════════════════════════ -->
     <section aria-labelledby="valores-title">
       <header class="section-title">
         <h2 id="valores-title">Valores <em>institucionales</em></h2>
       </header>
 
-      <div class="grid-cards grid-cards--3">
-        <article class="card card--valor">
-          <div class="card--valor__icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"/>
-              <path d="M6.453 15h11.094"/>
-              <path d="M8.5 2h7"/>
-            </svg>
-          </div>
-          <h3 class="card--valor__title">Innovación</h3>
-          <p class="card--valor__desc">
-            Búsqueda activa de nuevas formas de enseñar, aprender y vincular a la ingeniería química con su entorno.
-          </p>
-        </article>
+      <div class="grid-cards grid-cards--3" data-copy="valores">
+        <!-- Fallback sin JavaScript · espejo fiel de data/site_copy.json
+             (clave `valores`). Con JS, sobre-achetiq.js elimina este
+             <noscript> y renderiza las mismas tarjetas desde el JSON.
+             ⚠ Mantener sincronizado si cambia el JSON. -->
+        <noscript>
+          <article class="card card--valor">
+            <div class="card--valor__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"/>
+                <path d="M6.453 15h11.094"/>
+                <path d="M8.5 2h7"/>
+              </svg>
+            </div>
+            <h3 class="card--valor__title">Innovación</h3>
+            <p class="card--valor__desc">Búsqueda activa de nuevas formas de enseñar, aprender y vincular a los estudiantes de Ingeniería Química con su entorno.</p>
+          </article>
 
-        <article class="card card--valor">
-          <div class="card--valor__icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M7 7h10v10"/>
-              <path d="M7 17 17 7"/>
-            </svg>
-          </div>
-          <h3 class="card--valor__title">Proactividad</h3>
-          <p class="card--valor__desc">
-            Iniciativa sostenida para proponer, organizar y llevar adelante actividades que enriquezcan la formación.
-          </p>
-        </article>
+          <article class="card card--valor">
+            <div class="card--valor__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M7 7h10v10"/>
+                <path d="M7 17 17 7"/>
+              </svg>
+            </div>
+            <h3 class="card--valor__title">Proactividad</h3>
+            <p class="card--valor__desc">Iniciativa sostenida para proponer, organizar y llevar adelante actividades que enriquezcan la formación.</p>
+          </article>
 
-        <article class="card card--valor">
-          <div class="card--valor__icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M18 21a8 8 0 0 0-16 0"/>
-              <circle cx="10" cy="8" r="5"/>
-              <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3"/>
-            </svg>
-          </div>
-          <h3 class="card--valor__title">Compañerismo</h3>
-          <p class="card--valor__desc">
-            Trabajo en común entre estudiantes de distintos años, con respeto por la trayectoria de cada uno.
-          </p>
-        </article>
+          <article class="card card--valor">
+            <div class="card--valor__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 21a8 8 0 0 0-16 0"/>
+                <circle cx="10" cy="8" r="5"/>
+                <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3"/>
+              </svg>
+            </div>
+            <h3 class="card--valor__title">Compañerismo</h3>
+            <p class="card--valor__desc">Trabajo en común entre estudiantes de distintos años, con respeto por la trayectoria de cada uno.</p>
+          </article>
 
-        <article class="card card--valor">
-          <div class="card--valor__icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M9 17H7A5 5 0 0 1 7 7h2"/>
-              <path d="M15 7h2a5 5 0 1 1 0 10h-2"/>
-              <line x1="8" x2="16" y1="12" y2="12"/>
-            </svg>
-          </div>
-          <h3 class="card--valor__title">Integración</h3>
-          <p class="card--valor__desc">
-            Articulación con la facultad, otras asociaciones estudiantiles y el ámbito profesional de la ingeniería química.
-          </p>
-        </article>
+          <article class="card card--valor">
+            <div class="card--valor__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M9 17H7A5 5 0 0 1 7 7h2"/>
+                <path d="M15 7h2a5 5 0 1 1 0 10h-2"/>
+                <line x1="8" x2="16" y1="12" y2="12"/>
+              </svg>
+            </div>
+            <h3 class="card--valor__title">Integración</h3>
+            <p class="card--valor__desc">Articulación con la facultad, otras asociaciones estudiantiles y el ámbito profesional de la Ingeniería Química.</p>
+          </article>
 
-        <article class="card card--valor">
-          <div class="card--valor__icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M7 20h10"/>
-              <path d="M10 20c5.5-2.5.8-6.4 3-10"/>
-              <path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/>
-              <path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/>
-            </svg>
-          </div>
-          <h3 class="card--valor__title">Conciencia ambiental</h3>
-          <p class="card--valor__desc">
-            Atención al impacto ambiental de la actividad química y promoción de prácticas responsables en la formación.
-          </p>
-        </article>
+          <article class="card card--valor">
+            <div class="card--valor__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M7 20h10"/>
+                <path d="M10 20c5.5-2.5.8-6.4 3-10"/>
+                <path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/>
+                <path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/>
+              </svg>
+            </div>
+            <h3 class="card--valor__title">Conciencia ambiental</h3>
+            <p class="card--valor__desc">Atención al impacto ambiental de la actividad química y promoción de prácticas responsables en la formación.</p>
+          </article>
 
-        <article class="card card--valor">
-          <div class="card--valor__icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                 stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/>
-              <path d="M12 5 9.04 7.96a2.17 2.17 0 0 0 0 3.08v0c.82.82 2.13.85 3 .07l2.07-1.9a2.82 2.82 0 0 1 3.79 0l2.96 2.66"/>
-              <path d="m18 15-2-2"/>
-              <path d="m15 18-2-2"/>
-            </svg>
-          </div>
-          <h3 class="card--valor__title">Solidaridad</h3>
-          <p class="card--valor__desc">
-            Compromiso con la comunidad universitaria y con el entorno social donde la asociación desarrolla su actividad.
-          </p>
-        </article>
+          <article class="card card--valor">
+            <div class="card--valor__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/>
+                <path d="M12 5 9.04 7.96a2.17 2.17 0 0 0 0 3.08v0c.82.82 2.13.85 3 .07l2.07-1.9a2.82 2.82 0 0 1 3.79 0l2.96 2.66"/>
+                <path d="m18 15-2-2"/>
+                <path d="m15 18-2-2"/>
+              </svg>
+            </div>
+            <h3 class="card--valor__title">Solidaridad</h3>
+            <p class="card--valor__desc">Compromiso con la comunidad universitaria y con el entorno social donde la Asociación desarrolla su actividad.</p>
+          </article>
+        </noscript>
       </div>
     </section>
 
@@ -331,6 +324,7 @@
   <script src="../assets/js/loader.js"></script>
   <script src="../assets/js/navbar.js"></script>
   <script src="../assets/js/footer.js"></script>
+  <script type="module" src="../assets/js/sobre-achetiq.js"></script>
   <script type="module" src="../assets/js/main.js"></script>
 
 </body>
