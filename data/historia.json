@@ -12,7 +12,7 @@
   {
     "anio": 2009,
     "titulo": "Fundación formal de AChETIQ",
-    "descripcion": "El 30 de abril de 2009 se firmó el Acta Constitutiva de AChETIQ, con aprobación del estatuto fundacional y elección de la primera Comisión Directiva, presidida por Ayalén Ferro. La nueva asociación se integró de inmediato a la FeNEIQ y asistió ese mismo año al Congreso Nacional de Estudiantes de Ingeniería Química mediante el sistema de Asignación de Prioridades."
+    "descripcion": "El 30 de abril de 2009 se firmó el Acta Constitutiva de AChETIQ, con aprobación del estatuto fundacional y elección de la primera Comisión Directiva, presidida por Ayalén Ferro. La nueva asociación se integró de inmediato a la FeNEIQ y participó ese mismo año del Congreso Nacional de Estudiantes de Ingeniería Química (CoNEIQ)."
   },
   {
     "anio": 2010,
@@ -22,7 +22,7 @@
   {
     "anio": 2013,
     "titulo": "Resistencia, próxima sede del CoNEIQ",
-    "descripcion": "AChETIQ viajó al XVIII Congreso Nacional en Bahía Blanca con una delegación de 80 estudiantes. Al regresar, en Asamblea Extraordinaria, los socios decidieron por unanimidad dar el paso más ambicioso de la historia de la asociación hasta entonces: postularse como sede del CoNEIQ 2014 y llevar el congreso nacional a Resistencia."
+    "descripcion": "AChETIQ viajó al XVIII Congreso Nacional en Bahía Blanca con una delegación de más de 80 estudiantes. Al regresar, en Asamblea Extraordinaria, los socios decidieron por unanimidad dar el paso más ambicioso de la historia de la asociación hasta entonces: postularse como sede del CoNEIQ 2014 y llevar el congreso nacional a Resistencia."
   },
   {
     "anio": 2014,
@@ -61,7 +61,12 @@
   },
   {
     "anio": 2026,
-    "titulo": "Una nueva etapa en marcha",
-    "descripcion": "AChETIQ inicia 2026 con una agenda cargada de nuevas actividades y proyectos en desarrollo. La asociación se prepara para ser sede de las próximas Jornadas Regionales de Ingeniería Química del NEA, consolidando su rol como referente estudiantil de la región y del movimiento nacional de la especialidad."
+    "titulo": "IV JoREIQ y XXIX CoNEIQ",
+    "descripcion": "AChETIQ se prepara para ser sede de las IV Jornadas Regionales de Estudiantes de Ingeniería Química (JoREIQ), instancia que reúne a la comunidad estudiantil de la especialidad en el NEA y reafirma el rol de la asociación como referente regional. En el calendario nacional, 2026 corresponde además al XXIX Congreso Nacional de Estudiantes de Ingeniería Química (CoNEIQ)."
+  },
+  {
+    "ghost": true,
+    "titulo": "Próximamente",
+    "descripcion": "La historia de AChETIQ continúa."
   }
 ]

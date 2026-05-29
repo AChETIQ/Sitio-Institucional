@@ -1,0 +1,50 @@
+{
+  "mision_vision": {
+    "vision": {
+      "label": "Visión",
+      "texto": "Constituirse en una asociación cuyos valores identifiquen a los estudiantes de Ingeniería Química, que sirva de referencia para las asociaciones afines y que goce de respeto y reconocimiento en el ámbito institucional y empresarial de la disciplina."
+    },
+    "mision": {
+      "label": "Misión",
+      "texto": "Mejorar de manera continua la formación académica y la integración de los estudiantes de Ingeniería Química de la Universidad Tecnológica Nacional, Facultad Regional Resistencia, y promover en ellos los valores de la Asociación, con el propósito de proyectar una influencia positiva en la comunidad en la que se inserta. Para alcanzar este fin, la Asociación desarrolla actividades de carácter académico, recreativo y solidario."
+    }
+  },
+  "valores": [
+    {
+      "id": "innovacion",
+      "nombre": "Innovación",
+      "icono": "flask-conical",
+      "descripcion": "Búsqueda activa de nuevas formas de enseñar, aprender y vincular a los estudiantes de Ingeniería Química con su entorno."
+    },
+    {
+      "id": "proactividad",
+      "nombre": "Proactividad",
+      "icono": "arrow-up-right",
+      "descripcion": "Iniciativa sostenida para proponer, organizar y llevar adelante actividades que enriquezcan la formación."
+    },
+    {
+      "id": "companerismo",
+      "nombre": "Compañerismo",
+      "icono": "users-round",
+      "descripcion": "Trabajo en común entre estudiantes de distintos años, con respeto por la trayectoria de cada uno."
+    },
+    {
+      "id": "integracion",
+      "nombre": "Integración",
+      "icono": "link-2",
+      "descripcion": "Articulación con la facultad, otras asociaciones estudiantiles y el ámbito profesional de la Ingeniería Química."
+    },
+    {
+      "id": "conciencia-ambiental",
+      "nombre": "Conciencia ambiental",
+      "icono": "sprout",
+      "descripcion": "Atención al impacto ambiental de la actividad química y promoción de prácticas responsables en la formación."
+    },
+    {
+      "id": "solidaridad",
+      "nombre": "Solidaridad",
+      "icono": "heart-handshake",
+      "descripcion": "Compromiso con la comunidad universitaria y con el entorno social donde la Asociación desarrolla su actividad."
+    }
+  ]
+}
