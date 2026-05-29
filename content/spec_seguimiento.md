@@ -182,23 +182,23 @@ Tabla maestra del Plan 2023 — Ingeniería Química — UTN FRRe. Es la fuente 
 
 #### Nivel X (Electivas)
 
-Las electivas se enumeran con `numero` 42–54 en el orden provisto. Para la versión inicial de la herramienta no se modelan correlatividades formales en las electivas (`cursadas_requeridas` y `aprobadas_requeridas` vacíos); si en una iteración futura se confirma que alguna electiva tiene prerrequisitos institucionales, se actualiza el JSON sin cambios en el modelo de datos.
+Las electivas se enumeran con `numero` 42–54 en el orden provisto. Las correlatividades formales de las electivas **sí se modelan** (`cursadas_requeridas` y `aprobadas_requeridas` poblados según el detalle de abajo); el motor de disponibilidad (§7) las procesa igual que a las obligatorias, sin cambios en el modelo de datos. `Comunicación Lingüística` (42) y `Prácticas de Laboratorio` (43) no tienen correlativas.
 
 | N° | Materia | Tipo | Hs. | Cursadas req. | Aprobadas req. |
 |---|---|---|---|---|---|
 | 42 | Comunicación Lingüística | Ⓔ | 6 | — | — |
 | 43 | Prácticas de Laboratorio | Ⓔ | 5 | — | — |
-| 44 | Formación de Emprendedores | Ⓔ | 8 | — | — |
-| 45 | Gestión de Recursos Humanos | Ⓔ | 5 | — | — |
-| 46 | Gestión de Residuos | Ⓔ | 6 | — | — |
-| 47 | Química de los Alimentos | Ⓔ | 6 | — | — |
-| 48 | Administración de Negocios | Ⓔ | 5 | — | — |
-| 49 | Energías Renovables | Ⓔ | 6 | — | — |
-| 50 | Ingeniería de las Instalaciones | Ⓔ | 6 | — | — |
-| 51 | Tecnología de los Alimentos | Ⓔ | 6 | — | — |
-| 52 | Métodos Emergentes de Preservación de Alimentos | Ⓔ | 6 | — | — |
-| 53 | Procedimientos y Normativas en Alimentos | Ⓔ | 6 | — | — |
-| 54 | Estudios y Análisis de Procesos de Trabajo | Ⓔ | 6 | — | — |
+| 44 | Formación de Emprendedores | Ⓔ | 8 | 25, 26, 27, 28, 29, 30, 31, 32 | 28, 32 |
+| 45 | Gestión de Recursos Humanos | Ⓔ | 5 | 25 | 28, 32 |
+| 46 | Gestión de Residuos | Ⓔ | 6 | 9 | 16 |
+| 47 | Química de los Alimentos | Ⓔ | 6 | 20 | 14, 22 |
+| 48 | Administración de Negocios | Ⓔ | 5 | 29, 30, 31 | 32 |
+| 49 | Energías Renovables | Ⓔ | 6 | 26, 27, 29, 30 | 17, 20 |
+| 50 | Ingeniería de las Instalaciones | Ⓔ | 6 | 25, 26 | 7, 41 |
+| 51 | Tecnología de los Alimentos | Ⓔ | 6 | 27 | 27 |
+| 52 | Métodos Emergentes de Preservación de Alimentos | Ⓔ | 6 | 27 | 20, 29 |
+| 53 | Procedimientos y Normativas en Alimentos | Ⓔ | 6 | 25 | 24 |
+| 54 | Estudios y Análisis de Procesos de Trabajo | Ⓔ | 6 | 32 | 15, 28 |
 
 Suma total de carga horaria semanal de electivas ofrecidas: 77 hs. Requisito de aprobación: ≥ 24 hs de electivas aprobadas (umbral del Plan 2023 que el KPI `% electivas completadas` toma como denominador).
 
@@ -333,29 +333,26 @@ Equivalente Excel: `IFERROR(AVERAGEIF(G12:G64, ">="&6), "—")` (celda G5). En e
 
 ### 6.7 Promedio con aplazos
 
-Definición: promedio aritmético sobre **todas las notas individuales de intentos de examen final** registradas en la hoja `Notas Finales`, contando los aplazos como notas reales. Cada intento cargado es un punto de dato; si una materia se rindió tres veces (4, 4, 8), las tres notas participan del promedio.
+Definición: promedio aritmético sobre **todas las notas individuales de intentos de examen final** registradas en la pestaña `📝 REGISTRO DE EXÁMENES FINALES`, contando los aplazos como notas reales, **más la nota final cargada directamente en la pestaña `Seguimiento` de cada materia que no tiene intentos registrados** (típicamente materias promovidas de forma directa, que no pasan por el registro de finales). Cada intento cargado es un punto de dato; si una materia se rindió tres veces (4, 4, 8), las tres notas participan del promedio. Cada materia sin intentos pero con nota final en `Seguimiento` aporta un único valor.
 
-Fórmula oficial confirmada (replica literal de la celda G7 del Excel):
+Origen de la fórmula (celda G7 del Excel original): `=PROMEDIO(Finales!G:G; Finales!I:I; Finales!K:K; Finales!M:M; Finales!O:O; Finales!Q:Q)`.
 
-```
-PromConAplazos = PROMEDIO(Finales!G:G; Finales!I:I; Finales!K:K; Finales!M:M; Finales!O:O; Finales!Q:Q)
-```
-
-En notación del modelo de datos web (§5.1):
+Notación del modelo de datos web (§5.1), con la corrección que incorpora las promociones directas:
 
 ```
-PromConAplazos = mean({ intento.nota : m ∈ M_obl ∪ M_ele, intento ∈ intentos(m) })
+PromConAplazos = mean(
+    { intento.nota : m ∈ M_obl ∪ M_ele, intentos(m) ≠ ∅, intento ∈ intentos(m) }
+  ∪ { nota_final(m) : m ∈ M_obl ∪ M_ele, intentos(m) = ∅, nota_final(m) ≠ null }
+)
 ```
 
-Si el conjunto es vacío (ningún intento cargado en ninguna materia), el KPI muestra `"—"`.
+Si el conjunto es vacío (ninguna materia tiene intentos ni nota final cargada), el KPI muestra `"—"`.
 
 Consecuencias semánticas a explicitar:
 
-1. Las materias aprobadas por promoción que tienen únicamente `nota_final` manual cargada (sin intentos) **no contribuyen a este promedio**. La fórmula oficial sólo agrega valores presentes en las seis columnas de notas de `Finales`.
-2. Un estudiante que desee que su nota de promoción cuente en el promedio con aplazos debe registrarla como un intento con la fecha correspondiente en la pestaña `📝 REGISTRO DE EXÁMENES FINALES`.
+1. Las materias aprobadas por promoción que tienen únicamente `nota_final` manual cargada (sin intentos) **sí contribuyen a este promedio**, con su nota final como único valor. Esto corrige la conducta original —réplica literal del Excel— que sólo agregaba los valores de las columnas de `Finales` y dejaba fuera las promociones directas.
+2. Para evitar doble conteo, la `nota_final` de una materia **sólo** se suma cuando esa materia no tiene intentos; si tiene intentos, participan sus notas de intento (y la auto-población de §8.1 hace que `nota_final` coincida con el último intento aprobatorio).
 3. Cada intento desaprobado (nota < 6) pesa lo mismo que un intento aprobado en el promedio.
-
-Esta asimetría con respecto al Promedio sin aplazos (§6.6, que sí admite `nota_final` manual para materias sin intentos) es deliberada y preserva la semántica del Excel original.
 
 ### 6.8 Horas electivas aprobadas
 
@@ -415,11 +412,11 @@ La columna `Materias faltantes` del Excel (columna I) replica una lista textual.
 
 1. Si la disponibilidad es `"Aprobada"`, `"Regular"` o `"Cursando"`, mostrar `"—"`.
 2. Si la disponibilidad es `"Disponible"`, mostrar `"Sin faltantes"`.
-3. Si la disponibilidad es `"No Disponible"`, construir una cadena que liste cada materia requerida no satisfecha, con su número y nombre, indicando si falta cursarla o aprobarla. Formato propuesto:
+3. Si la disponibilidad es `"No Disponible"`, construir una cadena que liste cada materia requerida no satisfecha, con su número y nombre, indicando si falta regularizarla (correlativa de cursada) o aprobarla (correlativa de aprobada). Formato:
 
-   `"3-Análisis Matemático II (cursar); 5-Química General (aprobar);"`
+   `"3-Análisis Matemático II (regular); 5-Química General (aprobada);"`
 
-   El orden es ascendente por `numero`. El delimitador es `"; "`. La cadena termina con `";"`.
+   El orden es ascendente por `numero`. El delimitador es `"; "`. La cadena termina con `";"`. Las etiquetas `(regular)` y `(aprobada)` reemplazan a las antiguas `(cursar)` y `(aprobar)`.
 
 En la vista de escritorio se muestra completa en la columna. En la vista móvil se accede al texto desde el popover gatillado por el badge de disponibilidad.
 
@@ -465,7 +462,8 @@ Columnas de la tabla (escritorio):
 Interacciones:
 
 - **Cambio de estado:** al modificar el dropdown de una fila, se actualiza el estado en memoria, se recalculan los nueve KPIs y se recalcula la columna `Disponible` para todas las filas (porque un cambio puede liberar o bloquear correlativas). El estado se persiste a `localStorage` con debounce (por ejemplo, 300 ms) para evitar escrituras excesivas.
-- **Cambio de nota final manual:** al ingresar una nota válida (entero 1–10) en el campo manual de la fila, se persiste en `materias[N].nota_final` y se recalculan los promedios. El campo manual es de naturaleza secundaria: si la materia tiene intentos registrados en `📝 REGISTRO DE EXÁMENES FINALES`, la nota efectiva la determina §6.6 a partir de los intentos. Cuando el valor manual difiere de la nota efectiva calculada, la UI muestra una advertencia visual no bloqueante en la fila (ícono Lucide `alert-triangle` color ámbar en el costado del campo, con tooltip explicativo: "El valor manual no coincide con la última nota aprobatoria registrada en los intentos."). El cálculo de los KPIs siempre prevalece sobre el valor manual.
+- **Cambio de nota final manual:** al ingresar una nota válida (entero 1–10) en el campo manual de la fila, se persiste en `materias[N].nota_final` y se recalculan los promedios. **Auto-«Aprobada» (regla #3):** si la nota cargada es ≥ 6, el estado de la materia pasa automáticamente a `"Aprobada"` y el dropdown de estado se actualiza en consecuencia. El campo manual es de naturaleza secundaria respecto de los intentos: si la materia tiene intentos registrados en `📝 REGISTRO DE EXÁMENES FINALES`, la nota efectiva la determina §6.6 a partir de los intentos.
+- **Advertencia de discrepancia (regla #2):** la UI muestra una advertencia visual no bloqueante en la fila (ícono `alert-triangle` color ámbar al costado del campo, con tooltip: "El valor manual no coincide con la última nota aprobatoria registrada en los intentos.") **únicamente** cuando coexisten una nota cargada en `Seguimiento` y al menos un intento en `📝 REGISTRO DE EXÁMENES FINALES` y ambos no coinciden. La advertencia **no aparece** si no hay ninguna nota registrada, ni cuando hay una nota en `Seguimiento` pero ningún intento en finales (caso de promoción directa). El cálculo de los KPIs siempre prevalece sobre el valor manual.
 - **Validación:** valores fuera de 1–10 se rechazan con feedback visual; estados fuera del enum no son seleccionables.
 - **Reordenamiento, filtrado y ordenamiento:** no son parte de v1; las filas se muestran siempre en el orden canónico del plan (por número, agrupadas por nivel).
 
@@ -480,6 +478,7 @@ Interacciones:
 
 - Cada par fecha/nota es editable. Las fechas se ingresan con un selector de fecha nativo o equivalente accesible. Las notas se validan en 1–10.
 - Al ingresar un par válido, se actualiza el arreglo `intentos` de la materia correspondiente en el estado, y se recalcula la nota final efectiva (§6.6), el promedio sin aplazos (§6.6) y el promedio con aplazos (§6.7).
+- **Auto-población de la nota y auto-«Aprobada» (reglas #4 y #3):** cuando un intento registrado tiene nota ≥ 6, esa nota (el último intento aprobatorio en orden cronológico) se vuelca automáticamente al campo `nota_final` de la materia en la pestaña `Seguimiento`, y el estado de la materia pasa a `"Aprobada"`. Los controles de la pestaña `Seguimiento` (dropdown de estado e input de nota) se actualizan en consecuencia. Si ningún intento alcanza 6, no se modifican ni la nota ni el estado.
 - Los intentos vacíos (fecha sin nota o nota sin fecha) se rechazan con feedback visual.
 - Encabezado informativo bajo el título: "Se aprueba con 6. Máximo 4 instancias en condición regular; las instancias 5° y 6° aplican a casos excepcionales (libres o por reválida)." Texto sujeto a confirmación institucional definitiva (ver §14, ítem residual de bibliografía institucional).
 
@@ -623,7 +622,7 @@ Los diez puntos abiertos identificados en la redacción inicial fueron resueltos
 |---|---|---|---|
 | 1 | Nombre del archivo del plan académico | Confirmado `data/plan_academico.json`; ejecutar renombrado desde `data/recursos.json` | §4 |
 | 2 | Cargas horarias por materia | Provistas íntegramente para las 41 obligatorias y las 13 electivas (horas semanales) | §4.2 |
-| 3 | Listas de correlatividades por materia | Provistas íntegramente para las 41 obligatorias como arreglos de `numero`; las electivas no presentan correlatividades formales en v1 | §4.2 |
+| 3 | Listas de correlatividades por materia | Provistas íntegramente para las 41 obligatorias y, a partir de la corrección de electivas, también para las 13 electivas como arreglos de `numero` | §4.2 |
 | 4 | Fórmula exacta del Promedio con aplazos | Adoptada la fórmula oficial `=PROMEDIO(Finales!G:G; Finales!I:I; Finales!K:K; Finales!M:M; Finales!O:O; Finales!Q:Q)` y explicitadas sus consecuencias semánticas | §6.7 |
 | 5 | Encabezado de la pestaña de finales | Cadena canónica fijada: `📝 REGISTRO DE EXÁMENES FINALES` | §3.1, §8.2 |
 | 6 | Encabezado de la pestaña de nota al estudiante | Cadena canónica fijada: `📝 NOTA AL ESTUDIANTE` | §3.1, §8.3 |
@@ -636,7 +635,7 @@ Los diez puntos abiertos identificados en la redacción inicial fueron resueltos
 
 1. **Backup automático local.** Posible extensión futura: el sistema podría guardar de forma transparente las últimas N exportaciones (por ejemplo, N = 5) en una sub-clave separada de `localStorage` (por ejemplo, `achetiq:seguimiento:backups:v1`), rotándolas en cola FIFO. La interfaz expondría una sección "Restaurar respaldo automático" con una lista de timestamps; la restauración requeriría confirmación de doble paso análoga al reinicio. Provee protección contra borrados accidentales del estado principal por el propio estudiante, pero no contra limpieza completa del `localStorage` por el navegador. No incluido en v1.
 
-2. **Correlatividades en electivas.** Si en una iteración futura se confirma que alguna materia electiva tiene prerrequisitos institucionales (cursadas o aprobadas), basta con poblar los campos `cursadas_requeridas` y `aprobadas_requeridas` correspondientes en `data/plan_academico.json`; el motor de cálculo de disponibilidad (§7) ya soporta correlatividades en electivas sin modificación.
+2. **Correlatividades en electivas.** *Implementado.* Las 13 electivas tienen ahora poblados sus campos `cursadas_requeridas` y `aprobadas_requeridas` en `data/plan_academico.json` (ver tabla de Nivel X en §4.2); el motor de cálculo de disponibilidad (§7) las procesa sin modificación. Cualquier ajuste futuro de prerrequisitos institucionales se aplica editando ese JSON.
 
 3. **Filtros y ordenamientos en la tabla principal.** No previstos en v1. Una v1.1 podría incorporar filtros por estado, por nivel o por disponibilidad, y ordenamiento por columnas.
 

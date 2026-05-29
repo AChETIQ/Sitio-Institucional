@@ -292,10 +292,10 @@ function faltantesTexto(numero) {
   const faltan = [];
   for (const c of m.cursadas_requeridas) {
     const ec = getEstado(c);
-    if (ec !== 'Regular' && ec !== 'Aprobada') faltan.push({ n: c, accion: 'cursar' });
+    if (ec !== 'Regular' && ec !== 'Aprobada') faltan.push({ n: c, accion: 'regular' });
   }
   for (const a of m.aprobadas_requeridas) {
-    if (getEstado(a) !== 'Aprobada') faltan.push({ n: a, accion: 'aprobar' });
+    if (getEstado(a) !== 'Aprobada') faltan.push({ n: a, accion: 'aprobada' });
   }
   faltan.sort((x, y) => x.n - y.n);
 
@@ -313,23 +313,29 @@ function faltantesTexto(numero) {
    6. Nota efectiva y KPIs (spec §6)
    ───────────────────────────────────────────────────────────── */
 
+/* Último intento aprobatorio (nota ≥ 6) de un arreglo de intentos,
+   en orden cronológico por fecha; null si ninguno alcanza la
+   aprobación. Base de la nota efectiva con intentos (spec §6.6) y de
+   la auto-población de la nota en Seguimiento (regla #4). */
+function ultimaAprobatoria(intentos) {
+  let res = null;
+  intentos.slice()
+    .sort((a, b) => (a.fecha < b.fecha ? -1 : (a.fecha > b.fecha ? 1 : 0)))
+    .forEach((it) => { if (it.nota >= NOTA_APROBACION) res = it.nota; });
+  return res;
+}
+
 /* Nota final efectiva por materia (spec §6.6). */
 function notaEfectiva(numero) {
   const rec = getRecord(numero);
   if (rec.intentos.length > 0) {
-    const ordenados = rec.intentos.slice().sort((a, b) =>
-      a.fecha < b.fecha ? -1 : (a.fecha > b.fecha ? 1 : 0));
-    let res;
-    for (const it of ordenados) {
-      if (it.nota >= NOTA_APROBACION) res = it.nota;
-    }
-    return res; /* puede ser undefined si ningún intento alcanza 6 */
+    return ultimaAprobatoria(rec.intentos); /* null si ninguno alcanza 6 */
   }
   if (rec.estado === 'Aprobada' && isNotaValida(rec.nota_final) &&
       rec.nota_final >= NOTA_APROBACION) {
     return rec.nota_final;
   }
-  return undefined;
+  return null;
 }
 
 function materiasDelTipo(tipo) {
@@ -371,13 +377,24 @@ function computeKPIs() {
   const promSin = efectivas.length
     ? efectivas.reduce((a, b) => a + b, 0) / efectivas.length : null;
 
-  /* 6.7 Promedio con aplazos: todas las notas de todos los intentos */
-  const todosIntentos = [];
+  /* 6.7 Promedio con aplazos: todas las notas de los intentos de
+     examen final MÁS las notas finales cargadas directamente en la
+     pestaña Seguimiento para materias sin intentos (promoción directa
+     que no pasa por el registro de finales). Cada intento se cuenta
+     individualmente (los aplazos pesan); para las materias sin
+     intentos, la nota final de Seguimiento aporta un único valor. Así
+     no se penaliza a quien sólo carga la nota de promoción. */
+  const valoresConAplazos = [];
   for (const m of todas) {
-    for (const it of getRecord(m.numero).intentos) todosIntentos.push(it.nota);
+    const rec = getRecord(m.numero);
+    if (rec.intentos.length > 0) {
+      for (const it of rec.intentos) valoresConAplazos.push(it.nota);
+    } else if (isNotaValida(rec.nota_final)) {
+      valoresConAplazos.push(rec.nota_final);
+    }
   }
-  const promCon = todosIntentos.length
-    ? todosIntentos.reduce((a, b) => a + b, 0) / todosIntentos.length : null;
+  const promCon = valoresConAplazos.length
+    ? valoresConAplazos.reduce((a, b) => a + b, 0) / valoresConAplazos.length : null;
 
   /* 6.8 Horas electivas aprobadas */
   const hsElect = ele
@@ -420,7 +437,7 @@ const KPI_DEFS = [
   { id: 'disponibles', label: 'Disponibles',            hint: 'sólo obligatorias',        unit: null },
   { id: 'regulares',   label: 'Regulares',              hint: 'obligatorias + electivas', unit: null },
   { id: 'promSin',     label: 'Prom. sin aplazos',      hint: 'notas finales ≥ 6',        unit: null },
-  { id: 'promCon',     label: 'Prom. con aplazos',      hint: 'todos los intentos',       unit: null },
+  { id: 'promCon',     label: 'Prom. con aplazos',      hint: 'intentos y promoción directa', unit: null },
   { id: 'hsElect',     label: 'Hs. electivas aprob.',   hint: 'sólo electivas',           unit: 'hs' },
   { id: 'porcElect',   label: '% electivas completadas', hint: 'sobre 24 hs requeridas',  unit: null }
 ];
@@ -776,6 +793,19 @@ function buildFinRow(m) {
    8. Manejadores de interacción
    ───────────────────────────────────────────────────────────── */
 
+/* Refleja estado y nota de una materia en sus controles de la
+   pestaña Seguimiento (dropdown + input) tras un cambio AUTOMÁTICO
+   que el usuario no realizó directamente sobre esos controles
+   (reglas #3 auto-«Aprobada» y #4 auto-población de la nota). */
+function syncSegControls(numero) {
+  const refs = segRefs.get(Number(numero));
+  if (!refs) return;
+  const rec = getRecord(numero);
+  refs.select.value = rec.estado;
+  refs.notaInput.value = isNotaValida(rec.nota_final) ? String(rec.nota_final) : '';
+  refs.notaInput.removeAttribute('aria-invalid');
+}
+
 function onEstadoChange(numero, value) {
   if (ESTADOS.indexOf(value) < 0) return;
   mutate(numero, (rec) => { rec.estado = value; });
@@ -800,7 +830,14 @@ function onNotaChange(numero, input) {
     return;
   }
   input.removeAttribute('aria-invalid');
-  mutate(numero, (rec) => { rec.nota_final = n; });
+  /* Una nota final ≥ 6 cargada directamente en Seguimiento aprueba
+     la materia automáticamente (regla #3: «Aprobada» con 6 o más). */
+  const aprueba = n >= NOTA_APROBACION;
+  mutate(numero, (rec) => {
+    rec.nota_final = n;
+    if (aprueba) rec.estado = 'Aprobada';
+  });
+  if (aprueba) syncSegControls(numero);
   refreshAll();
 }
 
@@ -831,7 +868,22 @@ function onIntentoChange(numero) {
     }
     if (intentos.length < MAX_INTENTOS) intentos.push({ fecha: f, nota: n });
   }
-  mutate(numero, (rec) => { rec.intentos = intentos; });
+
+  /* Nota final aprobatoria definitiva (último intento ≥ 6 en orden
+     cronológico), si existe. */
+  const aprobatoria = ultimaAprobatoria(intentos);
+  mutate(numero, (rec) => {
+    rec.intentos = intentos;
+    /* Al registrar un final ≥ 6 en «Exámenes finales», esa nota se
+       vuelca a la celda de nota de Seguimiento (regla #4) y la
+       materia pasa a «Aprobada» (regla #3). */
+    if (aprobatoria != null) {
+      rec.nota_final = aprobatoria;
+      rec.estado = 'Aprobada';
+    }
+  });
+  if (aprobatoria != null) syncSegControls(numero);
+
   const m = materiaByNumero.get(Number(numero));
   announce('Intentos de ' + numero + '-' + m.nombre + ' actualizados. ' +
            'Promedios recalculados.');
@@ -856,13 +908,22 @@ function refreshAll() {
     refs.faltCell.textContent = falt;
     buildPopoverContent(numero, refs.popover, falt);
 
-    /* Advertencia de discrepancia nota manual ↔ intentos. */
+    /* Advertencia de discrepancia nota manual ↔ intentos (regla #2).
+       Sólo aparece cuando coexisten AMBOS: una nota cargada en
+       Seguimiento Y al menos un intento en «Exámenes finales», y
+       además no coinciden. Nunca aparece si no hay ninguna nota
+       registrada, ni cuando la nota está en Seguimiento pero falta en
+       «Exámenes finales» (p. ej. materias promovidas directamente).
+       Se alterna el atributo `hidden` (no la propiedad IDL) para que
+       el toggle funcione también sobre el ícono SVG. */
     const rec = getRecord(numero);
-    const ne = notaEfectiva(numero);
+    const tieneNotaManual = isNotaValida(rec.nota_final);
     const hayIntentos = rec.intentos.length > 0;
-    const discrepa = hayIntentos && isNotaValida(rec.nota_final) &&
+    const ne = notaEfectiva(numero);
+    const discrepa = tieneNotaManual && hayIntentos &&
                      (ne == null || rec.nota_final !== ne);
-    refs.warn.hidden = !discrepa;
+    if (discrepa) refs.warn.removeAttribute('hidden');
+    else refs.warn.setAttribute('hidden', '');
   });
 
   /* Eco de estado y nota calculada en la pestaña Finales. */
@@ -1230,12 +1291,7 @@ function resetProgreso() {
 /* Vuelca el estado vigente a los controles ya renderizados (tras
    importar o reiniciar), sin reconstruir las tablas. */
 function syncControlsFromEstado() {
-  segRefs.forEach((refs, numero) => {
-    const rec = getRecord(numero);
-    refs.select.value = rec.estado;
-    refs.notaInput.value = isNotaValida(rec.nota_final) ? String(rec.nota_final) : '';
-    refs.notaInput.removeAttribute('aria-invalid');
-  });
+  segRefs.forEach((_refs, numero) => syncSegControls(numero));
   finRefs.forEach((refs, numero) => {
     const rec = getRecord(numero);
     refs.slots.forEach((slot, i) => {
