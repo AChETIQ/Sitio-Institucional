@@ -429,8 +429,8 @@ Este documento especifica la **composición vertical** de las cinco páginas pri
 │       ícono Lucide                                          │
 │       nombre del gabinete                                   │
 │       descripcion_corta                                     │
-│       footer: "N integrantes" + link "Conocer más →"        │
-│               → pages/gabinete.html?id=<slug>               │
+│       footer: link "Conocer más →"                          │
+│               → pages/gabinetes/<slug>.html                 │
 └─────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────┐  ✅
@@ -456,21 +456,27 @@ Este documento especifica la **composición vertical** de las cinco páginas pri
 
 > **Pendiente técnico:** el campo `orden` en `data/gabinetes.json` debe actualizarse para reflejar el nuevo orden editorial: Cursos y Conferencias (1) · Eventos (2) · Prensa y Difusión (3) · Solidario (4).
 
-### 3.1 Plantilla de gabinete individual (`pages/gabinete.html`)
+### 3.1 Plantilla de gabinete individual (`pages/gabinetes/<slug>.html`)
 
-🔲 **Pendiente — se aborda en sesión separada.**
-
-Página dinámica que toma el `id` del gabinete por query string (`?id=cursos-y-conferencias`) y renderiza el detalle completo. Estructura preliminar a validar en su momento:
+✅ **Cerrado.** Se construyó una página estática por gabinete
+(`pages/gabinetes/cursos-y-conferencias.html`, `eventos.html`,
+`prensa-y-difusion.html`, `solidario.html`) en lugar de una única
+página dinámica con query string. Cada página renderiza `proposito`,
+`actividades` e `historia` desde `data/gabinetes.json` vía el
+`data-loader` `gabinetes` (override en `assets/js/gabinete-detalle.js`).
+Estructura implementada:
 
 ```
 [1] SKIP-LINK + [2] NAVBAR
-[3] BREADCRUMBS: Inicio › Gabinetes › [Nombre del gabinete]
-[4] PAGE-HEADER: eyebrow "Gabinete" · h1 nombre · lead descripcion_corta
-[5] DESCRIPCIÓN COMPLETA: .prose 65ch · desde descripcion_completa del JSON
-[6] INTEGRANTES: .grid-cards--4 · desde integrantes[] · fallback empty-state
-[7] PROYECTOS ACTIVOS: lista · desde proyectos_activos[] · fallback empty-state
-[8] CTA: "Sumate al [nombre]" → contacto.html?asunto=<slug>
-[9] FOOTER
+[3] PAGE-HEADER: eyebrow "Gabinete" · h1 nombre · lead descripcion_corta
+[4] PROPÓSITO: .prose · desde `proposito` del JSON (data-loader)
+[5] ACTIVIDADES REGULARES: .prose · desde `actividades` del JSON (data-loader)
+[6] HISTORIA: .prose · desde `historia` del JSON (data-loader)
+[7] CTA: "¿Querés sumarte?" → mailto del gabinete (campo `email`)
+[8] FOOTER
+
+Sin sección de integrantes (decisión cerrada 2026-05-27: la web no
+publica el listado de integrantes por gabinete).
 ```
 ---
 

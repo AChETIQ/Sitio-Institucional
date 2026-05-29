@@ -69,7 +69,6 @@ achetiq.github.io/
 │   ├── Listado de gabinetes activos
 │   └── /gabinetes/[nombre]/ (página individual por gabinete)
 │       ├── Descripción y objetivos
-│       ├── Integrantes
 │       └── Proyectos / iniciativas en curso
 │
 ├── /recursos/ (Recursos Académicos)
@@ -123,7 +122,6 @@ achetiq.github.io/
 |---|---|---|
 | Lista de gabinetes activos | Texto estructurado | A definir |
 | Descripción de cada gabinete | Texto (200-300 palabras) | A redactar |
-| Integrantes por gabinete | Texto | A obtener |
 
 ### 4.4 Recursos Académicos
 | Elemento | Tipo | Estado |

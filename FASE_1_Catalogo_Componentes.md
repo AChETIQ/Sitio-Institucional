@@ -404,7 +404,6 @@ Ya definida en `tokens.css` (líneas 420-442). Sirve como base de las variantes 
   <h3 class="card-gabinete__title">Gabinete de Cursos y Conferencias</h3>
   <p class="card-gabinete__desc">Lleva adelante las actividades académicas de la asociación.</p>
   <footer class="card-footer">
-    <span class="caption">4 integrantes</span>
     <a href="/pages/gabinetes/cursos-y-conferencias.html" class="card-gabinete__link">
       Conocer más →
     </a>
