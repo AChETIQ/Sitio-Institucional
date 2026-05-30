@@ -21,12 +21,13 @@
   /* Directorio de imágenes, relativo a index.html. */
   var HERO_BASE = 'assets/img/hero/';
 
-  /* Orden cronológico EXACTO — extensiones .JPG en mayúsculas. */
+  /* Orden cronológico EXACTO — la extensión debe coincidir tal cual
+     con el archivo (sensible a mayúsculas/minúsculas en el servidor). */
   var HERO_IMAGES = [
     '2014.JPG',
-    '2015-1.JPG',
     '2015-2.JPG',
     '2018.JPG',
+    '2020.jpg',
     '2024.JPG'
   ];
 
