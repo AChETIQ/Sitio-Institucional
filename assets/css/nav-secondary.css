@@ -133,3 +133,20 @@
    pill activa el outline queda sobre el fondo de página, por
    lo que sigue siendo perfectamente perceptible. No requiere
    override. */
+
+
+/* ─────────────────────────────────────────────────────────────
+   7.3  PANELES DE PÁGINA — .about-panel
+   ─────────────────────────────────────────────────────────────
+   Paneles de contenido intercambiables de una página (Sobre
+   AChETIQ: «Asociación» / «Galería»). No hay selector propio: la
+   navegación la provee el desplegable «Sobre AChETIQ» del navbar y
+   el enrutado por hash (#asociacion · #galeria) de
+   assets/js/sobre-achetiq.js. El panel es un contenedor neutro —no
+   aporta caja propia (padding ni borde)— para preservar el ritmo
+   vertical de las secciones que envuelve, idéntico al que tenían
+   como hijas directas de .page. El estado oculto lo da el atributo
+   nativo [hidden] (regla defensiva ante resets de display). */
+.about-panel[hidden] {
+  display: none;
+}

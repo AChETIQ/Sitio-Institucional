@@ -229,6 +229,55 @@ function renderValores(container, data) {
 
 
 /* ─────────────────────────────────────────────────────────────
+   Paneles «Asociación / Galería» enrutados por hash
+   ─────────────────────────────────────────────────────────────
+   La página no expone un selector propio: la navegación entre los
+   dos paneles la provee el desplegable «Sobre AChETIQ» del navbar
+   (…#asociacion · …#galeria). El hash de la URL es la ÚNICA fuente
+   de verdad: al cargar y en cada `hashchange` se muestra el panel
+   que le corresponde y se oculta el otro con el atributo nativo
+   [hidden].
+
+   Mapa hash → panel:
+     #galeria                       → Galería
+     (vacío) · #asociacion · otro    → Asociación (vista por defecto)
+
+   Independiente del fetch de contenido: la Galería es markup
+   estático, así que el enrutado funciona aunque falle la red.
+   ───────────────────────────────────────────────────────────── */
+
+const PANEL_DEFAULT = 'asociacion';
+const PANEL_NAMES = ['asociacion', 'galeria'];
+
+/* Traduce el hash actual a un nombre de panel válido; cae al panel
+   por defecto ante un hash vacío o desconocido. */
+function panelFromHash() {
+  const name = (window.location.hash || '').replace(/^#/, '').toLowerCase();
+  return PANEL_NAMES.indexOf(name) !== -1 ? name : PANEL_DEFAULT;
+}
+
+function initPanels() {
+  const panels = Array.prototype.slice.call(
+    document.querySelectorAll('[data-about-panel]')
+  );
+  if (panels.length === 0) return;
+
+  /* Muestra el panel objetivo y oculta el resto con [hidden]. */
+  function activate(name) {
+    const target = PANEL_NAMES.indexOf(name) !== -1 ? name : PANEL_DEFAULT;
+    panels.forEach((panel) => {
+      panel.hidden = panel.getAttribute('data-about-panel') !== target;
+    });
+  }
+
+  window.addEventListener('hashchange', () => activate(panelFromHash()));
+
+  /* Estado inicial según el hash con el que se entró a la página. */
+  activate(panelFromHash());
+}
+
+
+/* ─────────────────────────────────────────────────────────────
    Arranque
    ─────────────────────────────────────────────────────────────
    Un único fetch de site_copy.json alimenta ambas secciones. Cada
@@ -275,8 +324,16 @@ function init() {
     });
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', init, { once: true });
-} else {
+/* Arranque conjunto: el enrutado de paneles (markup estático) se
+   inicializa junto al render de contenido dinámico. Cada uno es
+   autónomo. */
+function boot() {
+  initPanels();
   init();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', boot, { once: true });
+} else {
+  boot();
 }

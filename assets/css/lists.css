@@ -404,3 +404,115 @@
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+
+/* ─────────────────────────────────────────────────────────────
+   5.7  GALLERY ARCHIVE — .gallery-archive
+   ─────────────────────────────────────────────────────────────
+   Archivo cronológico de enlaces a carpetas compartidas de Google
+   Drive (panel «Galería» de Sobre AChETIQ). Lista limpia y sin
+   bordes, agrupada por año (más reciente → más antiguo). Cada
+   enlace abre en pestaña nueva e incluye un ícono de carpeta y una
+   flecha de apertura externa. Sólo tokens del sistema.
+   ───────────────────────────────────────────────────────────── */
+
+/* Sprite de íconos fuera de flujo: nunca se renderiza directamente
+   (sólo se referencia vía <use>). Se evita display:none a propósito
+   para que los <symbol> resuelvan en todos los navegadores. */
+.gallery-archive__defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.gallery-archive__lead {
+  max-width: 65ch;
+  margin-bottom: var(--space-10);
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+  color: var(--color-ink-soft);
+}
+
+/* Pila de grupos por año. */
+.gallery-archive {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-10);
+}
+
+.gallery-archive__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* Año: etiqueta mono primaria, mismo registro que .timeline__year. */
+.gallery-archive__year {
+  font-family: var(--font-mono);
+  font-size: var(--text-small);       /* 13 px */
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-primary);
+}
+
+.gallery-archive__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Lista sin reglas divisorias: la separación entre ítems la dan el
+   padding del enlace y el fondo de hover, no un borde. */
+.gallery-archive__item + .gallery-archive__item {
+  margin-top: var(--space-1);
+}
+
+.gallery-archive__link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  color: var(--color-ink);
+  text-decoration: none;
+  transition: background var(--transition-fast),
+              color var(--transition-fast);
+}
+
+.gallery-archive__link:hover,
+.gallery-archive__link:focus-visible {
+  background: var(--color-bg-panel);
+  color: var(--color-primary);
+}
+
+.gallery-archive__icon {
+  flex: 0 0 auto;
+  width: var(--icon-sm);              /* 16 px */
+  height: var(--icon-sm);
+  color: var(--color-primary-mid);    /* stroke = currentColor */
+}
+
+.gallery-archive__title {
+  flex: 1 1 auto;
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: var(--weight-medium);
+}
+
+/* Flecha de apertura externa: faint en reposo, primary cuando el
+   enlace recibe hover/foco (hereda currentColor del estado). */
+.gallery-archive__arrow {
+  flex: 0 0 auto;
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+  color: var(--color-ink-faint);
+  transition: color var(--transition-fast),
+              transform var(--transition-fast);
+}
+
+.gallery-archive__link:hover .gallery-archive__arrow,
+.gallery-archive__link:focus-visible .gallery-archive__arrow {
+  color: var(--color-primary);
+  transform: translate(2px, -2px);
+}

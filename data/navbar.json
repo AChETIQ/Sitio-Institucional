@@ -6,7 +6,15 @@
   },
   "links": [
     { "label": "Inicio", "href": "/index.html", "variant": "ghost" },
-    { "label": "Sobre AChETIQ", "href": "/pages/sobre-achetiq.html", "variant": "ghost" },
+    {
+      "label": "Sobre AChETIQ",
+      "href": "/pages/sobre-achetiq.html",
+      "variant": "ghost",
+      "submenu": [
+        { "label": "Asociación", "href": "/pages/sobre-achetiq.html#asociacion" },
+        { "label": "Galería", "href": "/pages/sobre-achetiq.html#galeria" }
+      ]
+    },
     {
       "label": "Gabinetes",
       "href": "/pages/gabinetes.html",
