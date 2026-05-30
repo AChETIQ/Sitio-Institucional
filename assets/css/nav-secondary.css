@@ -133,3 +133,29 @@
    pill activa el outline queda sobre el fondo de página, por
    lo que sigue siendo perfectamente perceptible. No requiere
    override. */
+
+
+/* ─────────────────────────────────────────────────────────────
+   7.3  TABS DE PÁGINA — .about-tabs / .about-panel
+   ─────────────────────────────────────────────────────────────
+   Sistema de pestañas internas de una página (Sobre AChETIQ:
+   «Asociación» / «Galería»). El tablist reutiliza el aspecto de
+   .pill-nav (§7.2): cada pestaña es un <button role="tab"> con
+   .is-active + aria-selected, y cada panel un contenedor
+   role="tabpanel" que se oculta con el atributo nativo [hidden]
+   cuando no está activo. El enrutado por hash (#asociacion ·
+   #galeria) y la activación los gestiona assets/js/sobre-achetiq.js.
+   ───────────────────────────────────────────────────────────── */
+
+/* Separación entre la fila de pestañas y el panel activo. */
+.about-tabs {
+  margin-bottom: var(--space-10);
+}
+
+/* El panel es un contenedor neutro: no aporta caja propia (padding
+   ni borde) para preservar el ritmo vertical de las secciones que
+   envuelve, idéntico al que tenían como hijas directas de .page.
+   El estado oculto lo da el atributo [hidden] (display:none nativo). */
+.about-panel[hidden] {
+  display: none;
+}

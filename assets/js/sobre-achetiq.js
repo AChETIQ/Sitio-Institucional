@@ -229,6 +229,100 @@ function renderValores(container, data) {
 
 
 /* ─────────────────────────────────────────────────────────────
+   Tabs internas «Asociación / Galería» + enrutado por hash
+   ─────────────────────────────────────────────────────────────
+   Pestañas dentro de la página gobernadas por el hash de la URL
+   (window.location.hash), que actúa como ÚNICA fuente de verdad:
+   al cargar y en cada `hashchange` se activa el panel que le
+   corresponde. Un click en una pestaña sólo reescribe el hash; la
+   activación visual y ARIA la dispara el propio `hashchange`. Así
+   el enlace del navbar (…#galeria) y la interacción directa con las
+   pestañas comparten exactamente el mismo camino de código.
+
+   Mapa hash → pestaña:
+     #galeria                       → Galería
+     (vacío) · #asociacion · otro    → Asociación (vista por defecto)
+
+   Independiente del fetch de contenido: si falla la red, las
+   pestañas siguen funcionando (la Galería es markup estático).
+   ───────────────────────────────────────────────────────────── */
+
+const TAB_DEFAULT = 'asociacion';
+const TAB_NAMES = ['asociacion', 'galeria'];
+
+/* Traduce el hash actual a un nombre de pestaña válido; cae a la
+   pestaña por defecto ante un hash vacío o desconocido. */
+function tabFromHash() {
+  const name = (window.location.hash || '').replace(/^#/, '').toLowerCase();
+  return TAB_NAMES.indexOf(name) !== -1 ? name : TAB_DEFAULT;
+}
+
+function initTabs() {
+  const tablist = document.querySelector('[data-about-tablist]');
+  if (!tablist) return;
+
+  const tabs = Array.prototype.slice.call(
+    tablist.querySelectorAll('[data-about-tab]')
+  );
+  const panels = Array.prototype.slice.call(
+    document.querySelectorAll('[data-about-panel]')
+  );
+  if (tabs.length === 0 || panels.length === 0) return;
+
+  /* Activa una pestaña: alterna la clase utilitaria .is-active y los
+     atributos ARIA del tablist (aria-selected, roving tabindex) y
+     muestra/oculta cada panel con el atributo [hidden]. No mueve el
+     foco: la activación puede venir de un hashchange programático
+     (enlace del navbar) y robar el foco sería intrusivo. */
+  function activate(name) {
+    const target = TAB_NAMES.indexOf(name) !== -1 ? name : TAB_DEFAULT;
+    tabs.forEach((tab) => {
+      const selected = tab.getAttribute('data-about-tab') === target;
+      tab.classList.toggle('is-active', selected);
+      tab.setAttribute('aria-selected', selected ? 'true' : 'false');
+      tab.setAttribute('tabindex', selected ? '0' : '-1');
+    });
+    panels.forEach((panel) => {
+      panel.hidden = panel.getAttribute('data-about-panel') !== target;
+    });
+  }
+
+  /* Click: el hash manda. Reescribir el hash dispara `hashchange`,
+     que es quien activa. Si ya estamos en ese hash (hashchange no se
+     emite cuando el valor no cambia), forzamos la activación a mano. */
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const name = tab.getAttribute('data-about-tab');
+      if (name === tabFromHash()) { activate(name); return; }
+      window.location.hash = name;
+    });
+  });
+
+  /* Teclado: flechas / Home / End mueven el foco entre pestañas y
+     activan automáticamente (patrón WAI-ARIA APG «tabs con
+     activación automática»). */
+  tablist.addEventListener('keydown', (ev) => {
+    const i = tabs.indexOf(document.activeElement);
+    if (i === -1) return;
+    let j = -1;
+    if (ev.key === 'ArrowRight' || ev.key === 'ArrowDown') j = (i + 1) % tabs.length;
+    else if (ev.key === 'ArrowLeft' || ev.key === 'ArrowUp') j = (i - 1 + tabs.length) % tabs.length;
+    else if (ev.key === 'Home') j = 0;
+    else if (ev.key === 'End') j = tabs.length - 1;
+    if (j === -1) return;
+    ev.preventDefault();
+    tabs[j].focus();
+    tabs[j].click();
+  });
+
+  window.addEventListener('hashchange', () => activate(tabFromHash()));
+
+  /* Estado inicial según el hash con el que se entró a la página. */
+  activate(tabFromHash());
+}
+
+
+/* ─────────────────────────────────────────────────────────────
    Arranque
    ─────────────────────────────────────────────────────────────
    Un único fetch de site_copy.json alimenta ambas secciones. Cada
@@ -275,8 +369,15 @@ function init() {
     });
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', init, { once: true });
-} else {
+/* Arranque conjunto: las pestañas (markup estático) se inicializan
+   junto al render de contenido dinámico. Cada una es autónoma. */
+function boot() {
+  initTabs();
   init();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', boot, { once: true });
+} else {
+  boot();
 }

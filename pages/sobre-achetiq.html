@@ -67,6 +67,39 @@
     </header>
 
     <!-- ════════════════════════════════════════════════════════
+         TABS INTERNAS — «Asociación» / «Galería»
+         Navegación tabular (.pill-nav, nav-secondary §7.2) con
+         semántica ARIA tablist/tab/tabpanel. El enrutado por hash
+         (#asociacion · #galeria) lo gestiona assets/js/sobre-achetiq.js:
+         lee window.location.hash al cargar y en cada hashchange, y
+         alterna las clases .is-active y los atributos aria-selected /
+         [hidden] para mostrar el panel correspondiente. Sin hash (o
+         con #asociacion) el panel «Asociación» queda activo por defecto.
+         ════════════════════════════════════════════════════════ -->
+    <div class="pill-nav about-tabs" role="tablist"
+         aria-label="Secciones de Sobre AChETIQ" data-about-tablist>
+      <button class="pill-nav__pill is-active" type="button" role="tab"
+              id="tab-asociacion" aria-selected="true"
+              aria-controls="panel-asociacion" data-about-tab="asociacion">
+        Asociación
+      </button>
+      <button class="pill-nav__pill" type="button" role="tab"
+              id="tab-galeria" aria-selected="false" tabindex="-1"
+              aria-controls="panel-galeria" data-about-tab="galeria">
+        Galería
+      </button>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════
+         PANEL «ASOCIACIÓN» — vista por defecto
+         Reúne el contenido institucional original de la página:
+         historia, misión/visión, valores, instituciones, documentos
+         y la llamada final a la acción.
+         ════════════════════════════════════════════════════════ -->
+    <div id="panel-asociacion" class="about-panel" role="tabpanel"
+         aria-labelledby="tab-asociacion" data-about-panel="asociacion">
+
+    <!-- ════════════════════════════════════════════════════════
          [4] NUESTRA HISTORIA — Timeline
          Wireframe §2 bloque [4] · catálogo §5.5 .timeline.
          El renderer historia (assets/js/loaders.js §4.4) ordena los
@@ -298,6 +331,200 @@
         <a href="./gabinetes.html" class="btn btn-secondary">Conocé los gabinetes</a>
       </div>
     </section>
+
+    </div><!-- /#panel-asociacion -->
+
+    <!-- ════════════════════════════════════════════════════════
+         PANEL «GALERÍA»
+         Archivo cronológico de carpetas compartidas de Google Drive,
+         agrupadas por año y ordenadas de la más reciente a la más
+         antigua. Lista limpia y sin bordes (.gallery-archive,
+         lists.css §5.7) con tokens del sistema; cada enlace abre en
+         una pestaña nueva (target="_blank" + rel="noopener
+         noreferrer"). Oculto por defecto: lo activa el enrutado por
+         hash de sobre-achetiq.js cuando la URL trae #galeria.
+         ════════════════════════════════════════════════════════ -->
+    <div id="panel-galeria" class="about-panel" role="tabpanel"
+         aria-labelledby="tab-galeria" data-about-panel="galeria" hidden>
+
+      <header class="section-title">
+        <p class="eyebrow">Archivo histórico</p>
+        <h2 id="galeria-title">Galería de <em>actividades</em></h2>
+      </header>
+      <p class="gallery-archive__lead">
+        Carpetas compartidas de Google Drive con fotografías y material de cada actividad, ordenadas de la más reciente a la más antigua. Cada enlace abre en una pestaña nueva.
+      </p>
+
+      <!-- Sprite local de íconos para la lista (carpeta + flecha de
+           apertura externa). Se referencia con <use> en cada enlace
+           para no repetir la geometría SVG ítem por ítem. -->
+      <svg class="gallery-archive__defs" aria-hidden="true" focusable="false">
+        <defs>
+          <symbol id="ga-folder" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/>
+          </symbol>
+          <symbol id="ga-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7 7h10v10"/>
+            <path d="M7 17 17 7"/>
+          </symbol>
+        </defs>
+      </svg>
+
+      <div class="gallery-archive">
+
+        <section class="gallery-archive__group" aria-labelledby="galeria-2024">
+          <h3 class="gallery-archive__year" id="galeria-2024">2024</h3>
+          <ul class="gallery-archive__list" role="list">
+            <li class="gallery-archive__item">
+              <a class="gallery-archive__link" href="https://drive.google.com/drive/folders/162Dm2XYh48CEd6TMAH4G_cwFiIW1SNoX?usp=sharing" target="_blank" rel="noopener noreferrer">
+                <svg class="gallery-archive__icon" aria-hidden="true" focusable="false"><use href="#ga-folder"/></svg>
+                <span class="gallery-archive__title">CoNEIQ 2024</span>
+                <svg class="gallery-archive__arrow" aria-hidden="true" focusable="false"><use href="#ga-arrow"/></svg>
+                <span class="sr-only">(abre en una pestaña nueva)</span>
+              </a>
+            </li>
+          </ul>
+        </section>
+
+        <section class="gallery-archive__group" aria-labelledby="galeria-2023">
+          <h3 class="gallery-archive__year" id="galeria-2023">2023</h3>
+          <ul class="gallery-archive__list" role="list">
+            <li class="gallery-archive__item">
+              <a class="gallery-archive__link" href="https://drive.google.com/drive/folders/118uWkbAJ_8-FOu7Zj8Q3Gw-l7licUpmn?usp=sharing" target="_blank" rel="noopener noreferrer">
+                <svg class="gallery-archive__icon" aria-hidden="true" focusable="false"><use href="#ga-folder"/></svg>
+                <span class="gallery-archive__title">Curso Tecnología de los Panificados</span>
+                <svg class="gallery-archive__arrow" aria-hidden="true" focusable="false"><use href="#ga-arrow"/></svg>
+                <span class="sr-only">(abre en una pestaña nueva)</span>
+              </a>
+            </li>
+            <li class="gallery-archive__item">
+              <a class="gallery-archive__link" href="https://drive.google.com/drive/folders/1kQjtsklRJkEWgHSUdfabcbbdZ80p-SM1?usp=sharing" target="_blank" rel="noopener noreferrer">
+                <svg class="gallery-archive__icon" aria-hidden="true" focusable="false"><use href="#ga-folder"/></svg>
+                <span class="gallery-archive__title">Cumpleaños 2023</span>
+                <svg class="gallery-archive__arrow" aria-hidden="true" focusable="false"><use href="#ga-arrow"/></svg>
+                <span class="sr-only">(abre en una pestaña nueva)</span>
+              </a>
+            </li>
+          </ul>
+        </section>
+
+        <section class="gallery-archive__group" aria-labelledby="galeria-2019">
+          <h3 class="gallery-archive__year" id="galeria-2019">2019</h3>
+          <ul class="gallery-archive__list" role="list">
+            <li class="gallery-archive__item">
+              <a class="gallery-archive__link" href="https://drive.google.com/drive/folders/1gq2d9GhIQ6szILG9HMmCZhaZGoUcYrhB?usp=sharing" target="_blank" rel="noopener noreferrer">
+                <svg class="gallery-archive__icon" aria-hidden="true" focusable="false"><use href="#ga-folder"/></svg>
+                <span class="gallery-archive__title">Recepción Ingeniería 2019</span>
+                <svg class="gallery-archive__arrow" aria-hidden="true" focusable="false"><use href="#ga-arrow"/></svg>
+                <span class="sr-only">(abre en una pestaña nueva)</span>
+              </a>
+            </li>
+          </ul>
+        </section>
+
+        <section class="gallery-archive__group" aria-labelledby="galeria-2018">
+          <h3 class="gallery-archive__year" id="galeria-2018">2018</h3>
+          <ul class="gallery-archive__list" role="list">
+            <li class="gallery-archive__item">
+              <a class="gallery-archive__link" href="https://drive.google.com/drive/folders/1dYKk-eyQIdKa-F4L5cxkxARTHcLe-OTN?usp=sharing" target="_blank" rel="noopener noreferrer">
+                <svg class="gallery-archive__icon" aria-hidden="true" focusable="false"><use href="#ga-folder"/></svg>
+                <span class="gallery-archive__title">Actividades 2018</span>
+                <svg class="gallery-archive__arrow" aria-hidden="true" focusable="false"><use href="#ga-arrow"/></svg>
+                <span class="sr-only">(abre en una pestaña nueva)</span>
+              </a>
+            </li>
+            <li class="gallery-archive__item">
+              <a class="gallery-archive__link" href="https://drive.google.com/drive/folders/1q2H9xblNEOt6z0TSzkRsMEhnBqzKWyC6?usp=sharing" target="_blank" rel="noopener noreferrer">
+                <svg class="gallery-archive__icon" aria-hidden="true" focusable="false"><use href="#ga-folder"/></svg>
+                <span class="gallery-archive__title">JoREIQ</span>
+                <svg class="gallery-archive__arrow" aria-hidden="true" focusable="false"><use href="#ga-arrow"/></svg>
+                <span class="sr-only">(abre en una pestaña nueva)</span>
+              </a>
+            </li>
+            <li class="gallery-archive__item">
+              <a class="gallery-archive__link" href="https://drive.google.com/drive/folders/1DMpNG4g248SbMZYKSCR8tfuhSmtJKi8K?usp=sharing" target="_blank" rel="noopener noreferrer">
+                <svg class="gallery-archive__icon" aria-hidden="true" focusable="false"><use href="#ga-folder"/></svg>
+                <span class="gallery-archive__title">PreCoNEIQ</span>
+                <svg class="gallery-archive__arrow" aria-hidden="true" focusable="false"><use href="#ga-arrow"/></svg>
+                <span class="sr-only">(abre en una pestaña nueva)</span>
+              </a>
+            </li>
+            <li class="gallery-archive__item">
+              <a class="gallery-archive__link" href="https://drive.google.com/drive/folders/1zxoZ9Nig35U3Ik2n8sljJMYN8WobUWNf?usp=sharing" target="_blank" rel="noopener noreferrer">
+                <svg class="gallery-archive__icon" aria-hidden="true" focusable="false"><use href="#ga-folder"/></svg>
+                <span class="gallery-archive__title">Comisión Organizadora</span>
+                <svg class="gallery-archive__arrow" aria-hidden="true" focusable="false"><use href="#ga-arrow"/></svg>
+                <span class="sr-only">(abre en una pestaña nueva)</span>
+              </a>
+            </li>
+            <li class="gallery-archive__item">
+              <a class="gallery-archive__link" href="https://drive.google.com/drive/folders/1DyNxWAm2BHQT24QrH4KrF7dXjzglQG4n?usp=sharing" target="_blank" rel="noopener noreferrer">
+                <svg class="gallery-archive__icon" aria-hidden="true" focusable="false"><use href="#ga-folder"/></svg>
+                <span class="gallery-archive__title">Recreativo</span>
+                <svg class="gallery-archive__arrow" aria-hidden="true" focusable="false"><use href="#ga-arrow"/></svg>
+                <span class="sr-only">(abre en una pestaña nueva)</span>
+              </a>
+            </li>
+          </ul>
+        </section>
+
+        <section class="gallery-archive__group" aria-labelledby="galeria-2015">
+          <h3 class="gallery-archive__year" id="galeria-2015">2015</h3>
+          <ul class="gallery-archive__list" role="list">
+            <li class="gallery-archive__item">
+              <a class="gallery-archive__link" href="https://drive.google.com/drive/folders/1hyshzlxeGGMX7vVAp0JiXKTwrwBbE0y2?usp=sharing" target="_blank" rel="noopener noreferrer">
+                <svg class="gallery-archive__icon" aria-hidden="true" focusable="false"><use href="#ga-folder"/></svg>
+                <span class="gallery-archive__title">Cumpleaños 2015</span>
+                <svg class="gallery-archive__arrow" aria-hidden="true" focusable="false"><use href="#ga-arrow"/></svg>
+                <span class="sr-only">(abre en una pestaña nueva)</span>
+              </a>
+            </li>
+            <li class="gallery-archive__item">
+              <a class="gallery-archive__link" href="https://drive.google.com/drive/folders/1meqq8j2IWc6K9PX8sxNY35uOc6hvyT08?usp=sharing" target="_blank" rel="noopener noreferrer">
+                <svg class="gallery-archive__icon" aria-hidden="true" focusable="false"><use href="#ga-folder"/></svg>
+                <span class="gallery-archive__title">Gabinete Solidario</span>
+                <svg class="gallery-archive__arrow" aria-hidden="true" focusable="false"><use href="#ga-arrow"/></svg>
+                <span class="sr-only">(abre en una pestaña nueva)</span>
+              </a>
+            </li>
+          </ul>
+        </section>
+
+        <section class="gallery-archive__group" aria-labelledby="galeria-2014">
+          <h3 class="gallery-archive__year" id="galeria-2014">2014</h3>
+          <ul class="gallery-archive__list" role="list">
+            <li class="gallery-archive__item">
+              <a class="gallery-archive__link" href="https://drive.google.com/drive/folders/1mrfNInTmpCp6GdHsP_djJ-hIkM0LxOag?usp=sharing" target="_blank" rel="noopener noreferrer">
+                <svg class="gallery-archive__icon" aria-hidden="true" focusable="false"><use href="#ga-folder"/></svg>
+                <span class="gallery-archive__title">CoNEIQ 2014 Resistencia</span>
+                <svg class="gallery-archive__arrow" aria-hidden="true" focusable="false"><use href="#ga-arrow"/></svg>
+                <span class="sr-only">(abre en una pestaña nueva)</span>
+              </a>
+            </li>
+            <li class="gallery-archive__item">
+              <a class="gallery-archive__link" href="https://drive.google.com/drive/folders/1tYW9k4na27pHIp6dGKoYSLsMnxaZCTxf?usp=sharing" target="_blank" rel="noopener noreferrer">
+                <svg class="gallery-archive__icon" aria-hidden="true" focusable="false"><use href="#ga-folder"/></svg>
+                <span class="gallery-archive__title">Gabinete Solidario</span>
+                <svg class="gallery-archive__arrow" aria-hidden="true" focusable="false"><use href="#ga-arrow"/></svg>
+                <span class="sr-only">(abre en una pestaña nueva)</span>
+              </a>
+            </li>
+            <li class="gallery-archive__item">
+              <a class="gallery-archive__link" href="https://drive.google.com/drive/folders/18kZinGtBQWsI6jazrkR3BUZli3o4wiaU?usp=sharing" target="_blank" rel="noopener noreferrer">
+                <svg class="gallery-archive__icon" aria-hidden="true" focusable="false"><use href="#ga-folder"/></svg>
+                <span class="gallery-archive__title">Elecciones</span>
+                <svg class="gallery-archive__arrow" aria-hidden="true" focusable="false"><use href="#ga-arrow"/></svg>
+                <span class="sr-only">(abre en una pestaña nueva)</span>
+              </a>
+            </li>
+          </ul>
+        </section>
+
+      </div><!-- /.gallery-archive -->
+
+    </div><!-- /#panel-galeria -->
 
   </main>
 
