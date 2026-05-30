@@ -1,175 +1,310 @@
 <!DOCTYPE html>
 <html lang="es-AR">
 <head>
-
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <title>AChETIQ — Asociación Chaqueña de Estudiantes Tecnológicos de Ingeniería Química</title>
-  <meta name="description" content="Asociación de estudiantes de Ingeniería Química de la UTN Facultad Regional Resistencia. Actividades académicas, eventos y recursos.">
-
-  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
-  <link rel="icon" href="./favicon.ico" sizes="32x32">
-  <link rel="apple-touch-icon" href="./apple-touch-icon.png">
-  <link rel="manifest" href="./site.webmanifest">
-  <meta name="theme-color" content="#0D3B66">
-
-  <link rel="preload" href="./assets/fonts/geist-400.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="./assets/fonts/instrument-serif-400.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
-
-  <link rel="stylesheet" href="./tokens.css">
-  <link rel="stylesheet" href="./assets/css/main.css">
-
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="AChETIQ">
-  <meta property="og:locale" content="es_AR">
-  <meta property="og:title" content="AChETIQ — Asociación Chaqueña de Estudiantes Tecnológicos de Ingeniería Química">
-  <meta property="og:description" content="Asociación de estudiantes de Ingeniería Química de la UTN Facultad Regional Resistencia. Actividades académicas, eventos y recursos.">
-  <meta property="og:url" content="https://achetiq.org.ar/">
-  <meta property="og:image" content="https://achetiq.org.ar/icon-512.png">
-
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="AChETIQ — Asociación Chaqueña de Estudiantes Tecnológicos de Ingeniería Química">
-  <meta name="twitter:description" content="Asociación de estudiantes de Ingeniería Química de la UTN Facultad Regional Resistencia. Actividades académicas, eventos y recursos.">
-  <meta name="twitter:image" content="https://achetiq.org.ar/icon-512.png">
-  <link rel="modulepreload" href="./assets/js/loaders.js">
-  <link rel="modulepreload" href="./assets/js/main.js">
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AChETIQ — UI Kit · Sitio Web</title>
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/kit.css">
+<link rel="stylesheet" href="css/navbar.css">
+<link rel="stylesheet" href="css/headers.css">
+<link rel="stylesheet" href="css/text.css">
+<link rel="stylesheet" href="css/cards.css">
+<link rel="stylesheet" href="css/cta.css">
+<link rel="stylesheet" href="css/forms.css">
+<link rel="stylesheet" href="css/states.css">
+<link rel="stylesheet" href="css/nav-secondary.css">
+<link rel="stylesheet" href="css/footer.css">
 </head>
 <body>
 
-  <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+<a class="skip-link" href="#contenido">Saltar al contenido principal</a>
 
-  <div data-loader="navbar">
-    <noscript>
-      <header class="navbar-fallback">
-        <div class="navbar-fallback__inner">
-          <a class="navbar-fallback__brand" href="./index.html">AChETIQ</a>
-        </div>
-      </header>
-    </noscript>
-  </div>
+<!-- ===================== NAVBAR ===================== -->
+<header class="navbar" data-navbar-root>
+  <nav class="navbar__inner" aria-label="Principal">
+    <a class="navbar__brand" href="#inicio" data-view-link="inicio">
+      <img class="navbar__logo" src="../../assets/img/logo/achetiq-logo.svg" alt="" width="32" height="32" aria-hidden="true">
+      <span class="navbar__wordmark">AChETIQ</span>
+    </a>
 
-  <main id="contenido" class="page" tabindex="-1">
+    <ul class="navbar__list" role="list">
+      <li class="navbar__item"><a class="nav-link nav-link--ghost" href="#inicio" data-view-link="inicio">Inicio</a></li>
+      <li class="navbar__item"><a class="nav-link nav-link--ghost" href="#sobre" data-view-link="sobre">Sobre AChETIQ</a></li>
+      <li class="navbar__item navbar__item--has-submenu">
+        <a class="nav-link nav-link--ghost" href="#gabinetes" data-view-link="gabinetes">Gabinetes
+          <svg class="navbar__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </a>
+        <ul class="navbar__submenu" role="list">
+          <li><a class="navbar__sublink" href="#gabinetes" data-view-link="gabinetes">Cursos y Conferencias</a></li>
+          <li><a class="navbar__sublink" href="#gabinetes" data-view-link="gabinetes">Eventos</a></li>
+          <li><a class="navbar__sublink" href="#gabinetes" data-view-link="gabinetes">Prensa y Difusión</a></li>
+          <li><a class="navbar__sublink" href="#gabinetes" data-view-link="gabinetes">Solidario</a></li>
+        </ul>
+      </li>
+      <li class="navbar__item navbar__item--has-submenu">
+        <a class="nav-link nav-link--ghost" href="#recursos" data-view-link="recursos">Recursos Académicos
+          <svg class="navbar__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </a>
+        <ul class="navbar__submenu" role="list">
+          <li><a class="navbar__sublink" href="#recursos" data-view-link="recursos">Apuntes por materia</a></li>
+          <li><a class="navbar__sublink" href="#recursos" data-view-link="recursos">Seguimiento de carrera</a></li>
+        </ul>
+      </li>
+      <li class="navbar__item"><a class="nav-link nav-link--primary" href="#contacto" data-view-link="contacto">Contacto</a></li>
+    </ul>
 
-    <section class="hero">
+    <button class="navbar__toggle" type="button" aria-controls="navbar-mobile-panel" aria-expanded="false" aria-label="Abrir menú principal" data-navbar-toggle>
+      <span class="navbar__toggle-icon" aria-hidden="true">
+        <span class="navbar__toggle-bar navbar__toggle-bar--top"></span>
+        <span class="navbar__toggle-bar navbar__toggle-bar--mid"></span>
+        <span class="navbar__toggle-bar navbar__toggle-bar--bot"></span>
+      </span>
+    </button>
+  </nav>
+
+  <div class="navbar__overlay" hidden data-navbar-overlay tabindex="-1"></div>
+
+  <aside class="navbar__panel" id="navbar-mobile-panel" hidden aria-label="Menú principal" data-navbar-panel>
+    <div class="navbar__panel-header">
+      <img class="navbar__logo" src="../../assets/img/logo/achetiq-logo.svg" alt="" width="36" height="36" aria-hidden="true">
+      <span class="navbar__wordmark">AChETIQ</span>
+    </div>
+    <ul class="navbar__panel-list" role="list">
+      <li class="navbar__panel-item"><div class="navbar__panel-row"><a class="navbar__panel-link" href="#inicio" data-view-link="inicio">Inicio</a></div></li>
+      <li class="navbar__panel-item"><div class="navbar__panel-row"><a class="navbar__panel-link" href="#sobre" data-view-link="sobre">Sobre AChETIQ</a></div></li>
+      <li class="navbar__panel-item"><div class="navbar__panel-row"><a class="navbar__panel-link" href="#gabinetes" data-view-link="gabinetes">Gabinetes</a></div></li>
+      <li class="navbar__panel-item"><div class="navbar__panel-row"><a class="navbar__panel-link" href="#recursos" data-view-link="recursos">Recursos Académicos</a></div></li>
+      <li class="navbar__panel-item"><div class="navbar__panel-row"><a class="navbar__panel-link navbar__panel-link--primary" href="#contacto" data-view-link="contacto">Contacto</a></div></li>
+    </ul>
+  </aside>
+</header>
+
+<main id="contenido" tabindex="-1">
+
+  <!-- ===================== INICIO ===================== -->
+  <div class="view is-active" data-view="inicio">
+    <section class="hero" aria-label="Presentación de AChETIQ">
+      <div class="hero__slideshow" data-hero-slideshow aria-hidden="true"></div>
+      <div class="hero__overlay" aria-hidden="true"></div>
       <div class="hero__content">
-        <p class="eyebrow hero__eyebrow">Asociación estudiantil — UTN FRRe</p>
-        <h1 class="hero__title">
-          Estudiantes de Ingeniería Química <em>organizados</em>, formados y conectados.
-        </h1>
-        <p class="hero__lead">
-          La Asociación Chaqueña de Estudiantes Tecnológicos de Ingeniería Química reúne a los estudiantes de la carrera en torno a actividades académicas, eventos y proyectos solidarios.
-        </p>
+        <h1 class="hero__title">Asociación Chaqueña de Estudiantes Tecnológicos de Ingeniería Química</h1>
+        <h2 class="hero__subtitle">Estudiantes de Ingeniería Química organizados, formados y conectados.</h2>
         <div class="hero__cta">
-          <a href="./pages/sobre-achetiq.html" class="btn btn-primary">Conocé la asociación</a>
-          <a href="./pages/gabinetes.html" class="btn btn-secondary">Ver gabinetes</a>
+          <a href="#sobre" class="btn btn-primary" data-view-link="sobre">Conocé la asociación</a>
+          <a href="#gabinetes" class="btn btn-secondary" data-view-link="gabinetes">Ver gabinetes</a>
         </div>
       </div>
-      <div class="hero__visual" aria-hidden="true"></div>
     </section>
 
     <section class="kpi-strip" aria-label="Indicadores institucionales de AChETIQ">
-      <div class="kpi-strip__item">
-        <p class="kpi-strip__value">+17</p>
-        <p class="kpi-strip__label">Años de historia</p>
-      </div>
-      <div class="kpi-strip__item">
-        <p class="kpi-strip__value">+100</p>
-        <p class="kpi-strip__label">Socios activos</p>
-      </div>
-      <div class="kpi-strip__item">
-        <p class="kpi-strip__value">4</p>
-        <p class="kpi-strip__label">Gabinetes</p>
-      </div>
-      <div class="kpi-strip__item kpi-strip__item--text">
-        <p class="kpi-strip__value">Ingeniería Química</p>
-        <p class="kpi-strip__label">Carrera</p>
-      </div>
+      <div class="kpi-strip__item"><p class="kpi-strip__value">+17</p><p class="kpi-strip__label">Años de historia</p></div>
+      <div class="kpi-strip__item"><p class="kpi-strip__value">+100</p><p class="kpi-strip__label">Socios activos</p></div>
+      <div class="kpi-strip__item"><p class="kpi-strip__value">4</p><p class="kpi-strip__label">Gabinetes</p></div>
+      <div class="kpi-strip__item kpi-strip__item--text"><p class="kpi-strip__value">Ingeniería Química</p><p class="kpi-strip__label">Carrera</p></div>
     </section>
 
-    <section aria-labelledby="presentacion-title">
-      <header class="section-title">
-        <p class="eyebrow">Sobre la asociación</p>
-        <h2 id="presentacion-title">Quiénes <em>somos</em></h2>
-      </header>
-      <article class="prose">
-        <p>
-          AChETIQ es una asociación civil sin fines de lucro fundada el 30 de abril de 2009 en la Universidad Tecnológica Nacional, Facultad Regional Resistencia (UTN FRRe), provincia de Chaco. Sus antecedentes se remontan a 2003, cuando comenzó la representación de la FRRe ante la Federación Nacional de Estudiantes de Ingeniería Química.
-        </p>
-        <p>
-          Reúne a los estudiantes de la carrera de Ingeniería Química de la UTN FRRe y trabaja sobre cuatro frentes: cursos y conferencias, eventos, prensa y difusión, y proyectos solidarios.
-        </p>
-        <p>
-          <a href="./pages/sobre-achetiq.html">Conocé más sobre AChETIQ →</a>
-        </p>
-      </article>
-    </section>
+    <div class="page">
+      <section aria-labelledby="presentacion-title">
+        <header class="section-title">
+          <p class="eyebrow">Sobre la asociación</p>
+          <h2 id="presentacion-title">Quiénes <em>somos</em></h2>
+        </header>
+        <article class="prose">
+          <p>AChETIQ es una asociación civil sin fines de lucro fundada el 30 de abril de 2009 en la Universidad Tecnológica Nacional, Facultad Regional Resistencia (UTN FRRe), provincia de Chaco. Sus antecedentes se remontan a 2003, cuando comenzó la representación de la FRRe ante la Federación Nacional de Estudiantes de Ingeniería Química.</p>
+          <p>Reúne a los estudiantes de la carrera de Ingeniería Química de la UTN FRRe y trabaja sobre cuatro frentes: cursos y conferencias, eventos, prensa y difusión, y proyectos solidarios.</p>
+          <p><a href="#sobre" data-view-link="sobre">Conocé más sobre AChETIQ →</a></p>
+        </article>
+      </section>
 
-    <section aria-labelledby="gabinetes-title">
-      <header class="section-title">
-        <p class="eyebrow">Cuatro frentes de trabajo</p>
-        <h2 id="gabinetes-title">Nuestros <em>gabinetes</em></h2>
-      </header>
-      <div data-loader="gabinetes"></div>
-      <p>
-        <a href="./pages/gabinetes.html">Ver todos los gabinetes →</a>
-      </p>
-    </section>
+      <section aria-labelledby="gabinetes-title">
+        <header class="section-title">
+          <p class="eyebrow">Cuatro frentes de trabajo</p>
+          <h2 id="gabinetes-title">Nuestros <em>gabinetes</em></h2>
+        </header>
+        <div class="grid-cards grid-cards--4" data-gabinetes-home></div>
+        <p style="margin-top:var(--space-6);"><a href="#gabinetes" data-view-link="gabinetes">Ver todos los gabinetes →</a></p>
+      </section>
 
-    <section aria-labelledby="recursos-title">
-      <header class="section-title">
-        <p class="eyebrow">Material académico</p>
-        <h2 id="recursos-title">Recursos para tu <em>carrera</em></h2>
-      </header>
-      <article class="prose">
-        <p>
-          Centralizamos material académico de las cuarenta y una materias del Plan 2023, organizado por año y por materia. Los apuntes provienen de los propios estudiantes, con el correo institucional como canal de aporte continuo.
-        </p>
-        <p>
-          <a href="./pages/recursos.html">Acceder al hub de Recursos Académicos →</a>
-        </p>
-      </article>
-    </section>
+      <section aria-labelledby="recursos-title">
+        <header class="section-title">
+          <p class="eyebrow">Material académico</p>
+          <h2 id="recursos-title">Recursos para tu <em>carrera</em></h2>
+        </header>
+        <article class="prose">
+          <p>Centralizamos material académico de las cuarenta y una materias del Plan 2023, organizado por año y por materia. Los apuntes provienen de los propios estudiantes, con el correo institucional como canal de aporte continuo.</p>
+          <p><a href="#recursos" data-view-link="recursos">Acceder al hub de Recursos Académicos →</a></p>
+        </article>
+      </section>
 
-    <section class="cta-final" aria-labelledby="cta-sumate-title">
-      <p class="eyebrow">Formá parte</p>
-      <h2 class="cta-final__title" id="cta-sumate-title">Sumate a <em>AChETIQ</em></h2>
-      <p class="cta-final__lead">
-        Participá en los gabinetes de trabajo, accedé a recursos académicos y conectá con otros estudiantes de Ingeniería Química.
-      </p>
-      <div class="cta-final__actions">
-        <a href="./pages/contacto.html" class="btn btn-primary">Sumate</a>
-        <a href="./pages/gabinetes.html" class="btn btn-secondary">Conocé los gabinetes</a>
-      </div>
-    </section>
-
-  </main>
-
-  <div data-loader="footer">
-    <noscript>
-      <footer class="footer-fallback" role="contentinfo">
-        <div class="footer-fallback__inner">
-          <p>© 2026 Asociación Chaqueña de Estudiantes Tecnológicos de Ingeniería Química · UTN FRRe</p>
+      <section class="cta-final" aria-labelledby="cta-sumate-title">
+        <p class="eyebrow">Formá parte</p>
+        <h2 class="cta-final__title" id="cta-sumate-title">Sumate a <em>AChETIQ</em></h2>
+        <p class="cta-final__lead">Participá en los gabinetes de trabajo, accedé a recursos académicos y conectá con otros estudiantes de Ingeniería Química.</p>
+        <div class="cta-final__actions">
+          <a href="#contacto" class="btn btn-primary" data-view-link="contacto">Sumate</a>
+          <a href="#gabinetes" class="btn btn-secondary" data-view-link="gabinetes">Conocé los gabinetes</a>
         </div>
-      </footer>
-    </noscript>
-  </div>
-
-  <div class="loader loader--overlay loader--msg-bottom" id="global-loader"
-       role="status" aria-live="polite" hidden>
-    <div class="loader__dots">
-      <span class="loader__dot safe-motion"></span>
-      <span class="loader__dot safe-motion"></span>
-      <span class="loader__dot safe-motion"></span>
+      </section>
     </div>
-    <p class="loader__message">Cargando…</p>
   </div>
 
-  <script src="./assets/js/loader.js"></script>
-  <script src="./assets/js/navbar.js"></script>
-  <script src="./assets/js/footer.js"></script>
-  <script type="module" src="./assets/js/main.js"></script>
+  <!-- ===================== SOBRE ===================== -->
+  <div class="view" data-view="sobre">
+    <div class="page">
+      <header class="page-header">
+        <p class="eyebrow">Sobre la asociación</p>
+        <h1 class="page-header__title">Una asociación con <em>valores</em></h1>
+        <p class="page-header__lead">Nacida en la UTN FRRe en 2009, AChETIQ nuclea a los estudiantes de Ingeniería Química en torno a la formación, la integración y el compromiso social.</p>
+      </header>
 
+      <section class="mission-vision" aria-label="Misión y Visión">
+        <article class="mission-vision__col">
+          <span class="mission-vision__label"><i data-lucide="eye" class="mission-vision__icon"></i> Visión</span>
+          <p class="mission-vision__prose">Constituirse en una asociación cuyos valores identifiquen a los estudiantes de Ingeniería Química, que sirva de referencia para las asociaciones afines y que goce de respeto y reconocimiento en el ámbito institucional y empresarial de la disciplina.</p>
+        </article>
+        <article class="mission-vision__col">
+          <span class="mission-vision__label"><i data-lucide="target" class="mission-vision__icon"></i> Misión</span>
+          <p class="mission-vision__prose">Mejorar de manera continua la formación académica y la integración de los estudiantes de Ingeniería Química de la UTN FRRe, y promover en ellos los valores de la Asociación mediante actividades académicas, recreativas y solidarias.</p>
+        </article>
+      </section>
+
+      <section aria-labelledby="valores-title">
+        <header class="section-title">
+          <p class="eyebrow">Lo que nos identifica</p>
+          <h2 id="valores-title">Nuestros <em>valores</em></h2>
+        </header>
+        <div class="grid-cards grid-cards--3" data-valores></div>
+      </section>
+
+      <section aria-labelledby="historia-title">
+        <header class="section-title">
+          <p class="eyebrow">Desde 2009</p>
+          <h2 id="historia-title">Nuestra <em>historia</em></h2>
+        </header>
+        <article class="prose">
+          <p>La Asociación Chaqueña de Estudiantes Tecnológicos de Ingeniería Química nació formalmente el 30 de abril de 2009. Sus raíces se remontan al año 2003, cuando en la UTN FRRe comenzó a gestarse lo que con el tiempo se convertiría en AChETIQ.</p>
+          <p>La comisión que asumió en 2010 organizó la 1.ª Jornada de Ingeniería Química de la región, realizada en agosto de 2010 en la UTN FRRe, con ejes en seguridad de laboratorio, energías alternativas, calidad alimentaria y química computacional. Esa jornada continúa hasta la actualidad.</p>
+        </article>
+        <blockquote class="quote" style="margin-top:var(--space-8);">
+          <p class="quote__text">Trabajar fuertemente con actividades académicas, recreativas y solidarias para influir positivamente en la sociedad en la que estamos insertos.</p>
+          <p class="quote__attribution">— Misión institucional de AChETIQ</p>
+        </blockquote>
+      </section>
+    </div>
+  </div>
+
+  <!-- ===================== GABINETES ===================== -->
+  <div class="view" data-view="gabinetes">
+    <div class="page">
+      <header class="page-header">
+        <p class="eyebrow">Cuatro frentes de trabajo</p>
+        <h1 class="page-header__title">Nuestros <em>gabinetes</em></h1>
+        <p class="page-header__lead">Cada gabinete sostiene una dimensión distinta de la vida estudiantil: formación, encuentro, comunicación y compromiso social.</p>
+      </header>
+      <section>
+        <div class="grid-cards grid-cards--2" data-gabinetes-full></div>
+      </section>
+    </div>
+  </div>
+
+  <!-- ===================== RECURSOS ===================== -->
+  <div class="view" data-view="recursos">
+    <div class="page">
+      <header class="page-header">
+        <p class="eyebrow">Material académico</p>
+        <h1 class="page-header__title">Apuntes por <em>materia</em></h1>
+        <p class="page-header__lead">Material de las 41 materias del Plan 2023, organizado por año. Filtrá por año para encontrar tu materia.</p>
+      </header>
+
+      <section>
+        <div class="pill-nav" role="tablist" aria-label="Filtrar por año" data-anio-filter>
+          <button class="pill-nav__pill is-active" data-anio="todos" role="tab" aria-selected="true">Todos</button>
+          <button class="pill-nav__pill" data-anio="1" role="tab" aria-selected="false">1.° año</button>
+          <button class="pill-nav__pill" data-anio="2" role="tab" aria-selected="false">2.° año</button>
+          <button class="pill-nav__pill" data-anio="3" role="tab" aria-selected="false">3.° año</button>
+          <button class="pill-nav__pill" data-anio="4" role="tab" aria-selected="false">4.° año</button>
+          <button class="pill-nav__pill" data-anio="5" role="tab" aria-selected="false">5.° año</button>
+        </div>
+        <div class="grid-cards grid-cards--4" data-materias style="margin-top:var(--space-6);"></div>
+      </section>
+    </div>
+  </div>
+
+  <!-- ===================== CONTACTO ===================== -->
+  <div class="view" data-view="contacto">
+    <div class="page">
+      <header class="page-header">
+        <p class="eyebrow">Formá parte</p>
+        <h1 class="page-header__title">Sumate a <em>AChETIQ</em></h1>
+        <p class="page-header__lead">Escribinos por nuestros canales directos. Operamos principalmente vía correo institucional e Instagram.</p>
+      </header>
+      <section>
+        <div class="grid-cards grid-cards--3" data-contacto></div>
+      </section>
+    </div>
+  </div>
+
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer" role="contentinfo">
+  <div class="footer__inner">
+    <div class="footer__col footer__col--brand">
+      <a class="footer__brand" href="#inicio" data-view-link="inicio" aria-label="AChETIQ — Inicio">
+        <img class="footer__logo" src="../../assets/img/logo/achetiq-logo.svg" alt="" width="48" height="48" aria-hidden="true">
+        <span class="footer__wordmark">AChETIQ</span>
+      </a>
+      <p class="footer__legal-name">Asociación Chaqueña de Estudiantes Tecnológicos de Ingeniería Química</p>
+    </div>
+    <nav class="footer__col" aria-label="Navegación de pie de página">
+      <h4 class="footer__heading">Navegación</h4>
+      <ul class="footer__list" role="list">
+        <li><a class="footer__link" href="#inicio" data-view-link="inicio">Inicio</a></li>
+        <li><a class="footer__link" href="#sobre" data-view-link="sobre">Sobre AChETIQ</a></li>
+        <li><a class="footer__link" href="#gabinetes" data-view-link="gabinetes">Gabinetes</a></li>
+        <li><a class="footer__link" href="#recursos" data-view-link="recursos">Recursos Académicos</a></li>
+        <li><a class="footer__link" href="#contacto" data-view-link="contacto">Contacto</a></li>
+      </ul>
+    </nav>
+    <div class="footer__col">
+      <h4 class="footer__heading">Contacto</h4>
+      <ul class="footer__list footer__list--contact" role="list">
+        <li class="footer__contact-item">
+          <span class="footer__contact-icon"><i data-lucide="mail"></i></span>
+          <span class="footer__contact-body">
+            <span class="footer__contact-label">Correo</span>
+            <a class="footer__contact-link" href="mailto:achetiq.resistencia@aneiqa.org">achetiq.resistencia@aneiqa.org</a>
+          </span>
+        </li>
+        <li class="footer__contact-item">
+          <span class="footer__contact-icon"><i data-lucide="map-pin"></i></span>
+          <span class="footer__contact-body">
+            <span class="footer__contact-label">Facultad</span>
+            <span class="footer__contact-value">Calle French 414, Resistencia, Chaco</span>
+          </span>
+        </li>
+      </ul>
+    </div>
+    <div class="footer__col">
+      <h4 class="footer__heading">Redes sociales</h4>
+      <ul class="footer__social" role="list">
+        <li><a class="footer__social-link" href="https://www.instagram.com/achetiq/" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <p class="footer__legal">© <span data-year>2026</span> Asociación Chaqueña de Estudiantes Tecnológicos de Ingeniería Química <span class="footer__legal-sep" aria-hidden="true">·</span> <span class="footer__faculty">UTN FRRe</span></p>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script src="js/data.js"></script>
+<script src="js/kit.js"></script>
+<script src="js/hero-carrousel.js"></script>
 </body>
 </html>
