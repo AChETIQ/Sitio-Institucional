@@ -86,8 +86,9 @@
      bloque de texto queda arriba (justify-content: flex-start del .hero)
      y las acciones se empujan al fondo vía .hero__cta { margin-top: auto }. */
   flex: 1 0 auto;
-  /* Interlínea mínima entre título y subtítulo: unidad cohesionada. */
-  gap: var(--space-2);
+  /* Separación corta entre título y subtítulo: unidad cohesionada con un
+     respiro algo mayor (feedback visual: bajar un poco el subtítulo). */
+  gap: var(--space-4);
   width: 100%;
   /* Ancho amplio para que el titular largo de la asociación entre en
      dos líneas equilibradas en desktop; acotado en pantallas anchas. */
@@ -101,7 +102,7 @@
    contenido; el tope del clamp evita que se vuelva desmesurado. */
 .hero__title {
   color: var(--color-on-media);
-  font-size: clamp(var(--text-h2), 4.5vw + 0.5rem, calc(var(--text-display) * 1.25));
+  font-size: clamp(var(--text-h2), 4.5vw + 0.5rem, calc(var(--text-display) * 1.35));
   line-height: var(--leading-tight);
   max-width: 100%;
   text-wrap: balance;
