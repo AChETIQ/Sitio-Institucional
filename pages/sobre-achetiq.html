@@ -67,37 +67,19 @@
     </header>
 
     <!-- ════════════════════════════════════════════════════════
-         TABS INTERNAS — «Asociación» / «Galería»
-         Navegación tabular (.pill-nav, nav-secondary §7.2) con
-         semántica ARIA tablist/tab/tabpanel. El enrutado por hash
-         (#asociacion · #galeria) lo gestiona assets/js/sobre-achetiq.js:
-         lee window.location.hash al cargar y en cada hashchange, y
-         alterna las clases .is-active y los atributos aria-selected /
-         [hidden] para mostrar el panel correspondiente. Sin hash (o
-         con #asociacion) el panel «Asociación» queda activo por defecto.
-         ════════════════════════════════════════════════════════ -->
-    <div class="pill-nav about-tabs" role="tablist"
-         aria-label="Secciones de Sobre AChETIQ" data-about-tablist>
-      <button class="pill-nav__pill is-active" type="button" role="tab"
-              id="tab-asociacion" aria-selected="true"
-              aria-controls="panel-asociacion" data-about-tab="asociacion">
-        Asociación
-      </button>
-      <button class="pill-nav__pill" type="button" role="tab"
-              id="tab-galeria" aria-selected="false" tabindex="-1"
-              aria-controls="panel-galeria" data-about-tab="galeria">
-        Galería
-      </button>
-    </div>
-
-    <!-- ════════════════════════════════════════════════════════
          PANEL «ASOCIACIÓN» — vista por defecto
          Reúne el contenido institucional original de la página:
          historia, misión/visión, valores, instituciones, documentos
          y la llamada final a la acción.
+
+         La página NO expone un selector propio: la navegación entre
+         este panel y «Galería» la provee el desplegable «Sobre
+         AChETIQ» del navbar (#asociacion · #galeria). El enrutado por
+         hash lo gestiona assets/js/sobre-achetiq.js, que lee
+         window.location.hash al cargar y en cada hashchange y muestra
+         el panel correspondiente con el atributo nativo [hidden].
          ════════════════════════════════════════════════════════ -->
-    <div id="panel-asociacion" class="about-panel" role="tabpanel"
-         aria-labelledby="tab-asociacion" data-about-panel="asociacion">
+    <div id="panel-asociacion" class="about-panel" data-about-panel="asociacion">
 
     <!-- ════════════════════════════════════════════════════════
          [4] NUESTRA HISTORIA — Timeline
@@ -344,8 +326,7 @@
          noreferrer"). Oculto por defecto: lo activa el enrutado por
          hash de sobre-achetiq.js cuando la URL trae #galeria.
          ════════════════════════════════════════════════════════ -->
-    <div id="panel-galeria" class="about-panel" role="tabpanel"
-         aria-labelledby="tab-galeria" data-about-panel="galeria" hidden>
+    <div id="panel-galeria" class="about-panel" data-about-panel="galeria" hidden>
 
       <header class="section-title">
         <p class="eyebrow">Archivo histórico</p>
