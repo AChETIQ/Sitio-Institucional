@@ -18,80 +18,145 @@
 /* ─────────────────────────────────────────────────────────────
    2.1  HERO — .hero
    ─────────────────────────────────────────────────────────────
-   Bloque de apertura prominente de index.html. Dos columnas en
-   desktop (texto + decoración), una columna en mobile.
-   Padding vertical 64 px (mobile) → 96 px (≥1024 px) según
-   FASE_1 §2.1.
+   Bloque de apertura a pantalla completa de index.html. Slideshow
+   de fondo (cross-fade entre fotografías institucionales) con un
+   velo oscuro y el texto + acciones centrados encima. Una sola
+   columna en cualquier viewport. Altura ≈ 100svh menos el navbar.
+   La rotación la maneja hero-carrousel.js.
    ───────────────────────────────────────────────────────────── */
 
+/* Hero a pantalla completa con slideshow de fondo. Tres capas
+   apiladas: .hero__slideshow (imágenes) → .hero__overlay (velo)
+   → .hero__content (texto + acciones, centrado). `isolation`
+   abre un contexto de apilamiento local para que los z-index del
+   hero no dependan del resto del documento. Altura = viewport
+   menos el navbar sticky, con `svh` para respetar la barra del
+   navegador en mobile. */
 .hero {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-8);
-  padding-block: var(--space-16);
-  background: var(--color-bg);
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: calc(100svh - var(--navbar-height));
+  padding: var(--space-16) var(--page-padding-x);
+  overflow: hidden;
+  background: var(--color-primary);   /* base visible mientras carga la 1.ª imagen */
+}
+
+/* Capa de imágenes. Cada slide ocupa todo el hero y sólo varía su
+   opacity para el cross-fade; el orden lo inyecta hero-carrousel.js. */
+.hero__slideshow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero__slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;            /* recorte dinámico 1920×1080 */
+  background-position: center;       /* foco centrado en cualquier viewport */
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity var(--transition-hero);
+}
+
+.hero__slide--active {
+  opacity: 1;
+}
+
+/* Velo de legibilidad entre las imágenes y el texto. */
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--color-hero-scrim);
 }
 
 .hero__content {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  align-items: center;
+  gap: var(--space-5);
+  width: 100%;
+  max-width: 60ch;
 }
 
-/* Eyebrow del hero: ajusta sólo el margen inferior; el resto del
-   estilo viene de la utilidad global .eyebrow (tokens.css). */
-.hero__eyebrow {
-  margin-bottom: var(--space-2);
-}
-
-/* H1 hereda de la regla global; aquí sólo se limita el ancho
-   para que las líneas se quiebren en la zona de máxima
-   legibilidad (40–50 caracteres). */
+/* H1 hereda familia/escala display de la regla global; aquí se
+   recolorea para fotografía, se limita el ancho para un quiebre
+   de línea legible y se equilibran las líneas con text-wrap. */
 .hero__title {
-  max-width: 18ch;
+  color: var(--color-on-media);
+  font-size: var(--text-h2);          /* 32 px mobile */
+  max-width: 24ch;
+  text-wrap: balance;
 }
 
-.hero__lead {
+/* Subtítulo (h2): tipografía de cuerpo, más pequeño que el global
+   y en blanco atenuado para subordinarlo al titular. */
+.hero__subtitle {
   font-family: var(--font-body);
-  font-size: var(--text-h3);          /* 20 px — el escalón más
-                                         cercano al rango 18–20 px
-                                         pedido por FASE_1 §2.1. */
-  line-height: var(--leading-relaxed);
-  color: var(--color-ink-soft);
-  max-width: 56ch;
+  font-weight: var(--weight-regular);
+  font-size: var(--text-h3);
+  line-height: var(--leading-snug);
+  color: var(--color-on-media-soft);
+  max-width: 46ch;
+  text-wrap: balance;
 }
 
+/* Grupo de acciones: apilado vertical en mobile, fila centrada en
+   ≥768 px. */
 .hero__cta {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: var(--space-3);
-  margin-top: var(--space-4);
+  width: 100%;
+  max-width: 20rem;
+  margin-top: var(--space-3);
 }
 
-/* Columna visual decorativa: grilla 3×3 de puntos en
-   `--color-rule` sobre `--color-bg`, evoca el isotipo sin
-   replicarlo. Puede sustituirse por una <img> institucional. */
-.hero__visual {
-  position: relative;
-  min-height: 280px;
-  border-radius: var(--radius-lg);
-  background-image:
-    radial-gradient(circle, var(--color-rule) 12%, transparent 13%);
-  background-size: calc(100% / 3) calc(100% / 3);
-  background-position: center;
+.hero__cta .btn {
+  justify-content: center;
+}
+
+/* La acción secundaria vive sobre fotografía: se recolorea con los
+   tokens "sobre media" para mantener contraste, sin alterar la
+   clase global .btn-secondary. */
+.hero__cta .btn-secondary {
+  background: transparent;
+  color: var(--color-on-media);
+  border-color: var(--color-on-media);
 }
 
 @media (min-width: 768px) {
-  .hero {
-    grid-template-columns: 1.2fr 1fr;
-    gap: var(--space-12);
-    align-items: center;
+  .hero__title {
+    font-size: var(--text-display);   /* 48 px desktop */
+    max-width: 22ch;
+  }
+  .hero__cta {
+    flex-direction: row;
+    justify-content: center;
+    width: auto;
+    max-width: none;
   }
 }
 
 @media (min-width: 1024px) {
   .hero {
     padding-block: calc(var(--space-16) * 1.5);  /* 96 px */
+  }
+}
+
+/* Movimiento reducido: el cross-fade se neutraliza (la lógica JS
+   además no inicia el temporizador → imagen fija). */
+@media (prefers-reduced-motion: reduce) {
+  .hero__slide {
+    transition: none;
   }
 }
 

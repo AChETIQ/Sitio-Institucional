@@ -34,6 +34,18 @@
   --color-bg-overlay: rgba(19, 17, 15, 0.40);
   /* Overlay de modales y drawers. */
 
+  --color-hero-scrim: rgba(0, 0, 0, 0.60);
+  /* Velo oscuro entre el slideshow de fondo del hero y el texto.
+     Garantiza contraste del texto blanco sobre cualquier
+     fotografía. Único punto del sistema con negro puro: es un velo
+     de legibilidad sobre foto, no una superficie de marca. */
+
+  --color-on-media:      #FFFFFF;
+  /* Texto y bordes sobre fotografía / overlay oscuro (hero). */
+
+  --color-on-media-soft: rgba(255, 255, 255, 0.82);
+  /* Texto secundario sobre fotografía (subtítulo del hero). */
+
 
   /* ─── COLOR — TINTA ──────────────────────────────────────── */
 
@@ -323,6 +335,10 @@
 
   --transition-slow:   400ms ease;
   /* Animaciones de entrada de secciones. */
+
+  --transition-hero:   1000ms ease;
+  /* Cross-fade (desvanecido) entre imágenes del slideshow del hero.
+     Dentro del rango 0.8–1 s para una transición suave y notoria. */
 
 }
 
