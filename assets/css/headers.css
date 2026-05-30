@@ -92,7 +92,8 @@
    de línea legible y se equilibran las líneas con text-wrap. */
 .hero__title {
   color: var(--color-on-media);
-  font-size: var(--text-h2);          /* 32 px mobile */
+  font-size: clamp(var(--text-h2), 5vw + 1rem, calc(var(--text-display) * 1.1));
+  line-height: var(--leading-tight);
   max-width: 24ch;
   text-wrap: balance;
 }
@@ -102,7 +103,7 @@
 .hero__subtitle {
   font-family: var(--font-body);
   font-weight: var(--weight-regular);
-  font-size: var(--text-h3);
+  font-size: clamp(var(--text-h3), 2vw + 0.5rem, var(--text-h2));
   line-height: var(--leading-snug);
   color: var(--color-on-media-soft);
   max-width: 46ch;
@@ -114,14 +115,16 @@
 .hero__cta {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: var(--space-6);
   width: 100%;
   max-width: 20rem;
-  margin-top: var(--space-3);
+  margin-top: var(--space-8);
 }
 
 .hero__cta .btn {
   justify-content: center;
+  padding: var(--space-4) var(--space-8);
+  font-size: var(--text-h4);
 }
 
 /* La acción secundaria vive sobre fotografía: se recolorea con los
@@ -135,7 +138,9 @@
 
 @media (min-width: 768px) {
   .hero__title {
-    font-size: var(--text-display);   /* 48 px desktop */
+    /* La escala la gobierna el clamp de la regla base (sube hasta
+       calc(var(--text-display) * 1.1)); aquí solo se ajusta el ancho
+       para mantener el quiebre en 2-3 líneas. */
     max-width: 22ch;
   }
   .hero__cta {
