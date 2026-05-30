@@ -38,7 +38,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   text-align: center;
   min-height: calc(100svh - var(--navbar-height));
   padding: var(--space-16) var(--page-padding-x);
@@ -82,7 +82,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-5);
+  /* Llena el alto del hero para repartir el espacio en vertical: el
+     bloque de texto queda arriba (justify-content: flex-start del .hero)
+     y las acciones se empujan al fondo vía .hero__cta { margin-top: auto }. */
+  flex: 1 0 auto;
+  /* Interlínea mínima entre título y subtítulo: unidad cohesionada. */
+  gap: var(--space-2);
   width: 100%;
   /* Ancho amplio para que el titular largo de la asociación entre en
      dos líneas equilibradas en desktop; acotado en pantallas anchas. */
@@ -130,7 +135,10 @@
   gap: var(--space-6);
   width: 100%;
   max-width: 20rem;
-  margin-top: var(--space-8);
+  /* margin-top: auto absorbe todo el espacio libre del .hero__content
+     (que ahora llena el alto), empujando las acciones al fondo del hero
+     y abriendo un gran espacio respecto al bloque de texto superior. */
+  margin-top: auto;
 }
 
 .hero__cta .btn {
