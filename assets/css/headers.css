@@ -38,7 +38,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   text-align: center;
   min-height: calc(100svh - var(--navbar-height));
   padding: var(--space-16) var(--page-padding-x);
@@ -82,19 +82,35 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-5);
+  /* Llena el alto del hero para repartir el espacio en vertical: el
+     bloque de texto queda arriba (justify-content: flex-start del .hero)
+     y las acciones se empujan al fondo vía .hero__cta { margin-top: auto }. */
+  flex: 1 0 auto;
+  /* Separación corta entre título y subtítulo: unidad cohesionada con un
+     respiro algo mayor (feedback visual: bajar un poco el subtítulo). */
+  gap: var(--space-4);
   width: 100%;
-  max-width: 60ch;
+  /* Ancho amplio para que el titular largo de la asociación entre en
+     dos líneas equilibradas en desktop; acotado en pantallas anchas. */
+  max-width: min(92vw, 60rem);
 }
 
 /* H1 hereda familia/escala display de la regla global; aquí se
-   recolorea para fotografía, se limita el ancho para un quiebre
-   de línea legible y se equilibran las líneas con text-wrap. */
+   recolorea para fotografía y se escala de forma fluida para leerse
+   grande y profesional. El titular largo de la asociación cae en dos
+   líneas equilibradas (text-wrap: balance) ocupando el ancho del
+   contenido; el tope del clamp evita que se vuelva desmesurado. */
 .hero__title {
   color: var(--color-on-media);
-  font-size: var(--text-h2);          /* 32 px mobile */
-  max-width: 24ch;
+  font-size: clamp(var(--text-h2), 4.5vw + 0.5rem, calc(var(--text-display) * 1.35));
+  line-height: var(--leading-tight);
+  max-width: 100%;
   text-wrap: balance;
+  /* Sombra de legibilidad sobre el slideshow: dos capas (halo difuso +
+     contacto nítido) derivadas de --color-ink, sin colores literales. */
+  text-shadow:
+    0 4px 16px color-mix(in srgb, var(--color-ink) 60%, transparent),
+    0 2px 4px color-mix(in srgb, var(--color-ink) 80%, transparent);
 }
 
 /* Subtítulo (h2): tipografía de cuerpo, más pequeño que el global
@@ -102,11 +118,14 @@
 .hero__subtitle {
   font-family: var(--font-body);
   font-weight: var(--weight-regular);
-  font-size: var(--text-h3);
+  font-size: clamp(var(--text-h3), 2vw + 0.5rem, var(--text-h2));
   line-height: var(--leading-snug);
   color: var(--color-on-media-soft);
   max-width: 46ch;
   text-wrap: balance;
+  text-shadow:
+    0 4px 16px color-mix(in srgb, var(--color-ink) 60%, transparent),
+    0 2px 4px color-mix(in srgb, var(--color-ink) 80%, transparent);
 }
 
 /* Grupo de acciones: apilado vertical en mobile, fila centrada en
@@ -114,14 +133,19 @@
 .hero__cta {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: var(--space-6);
   width: 100%;
   max-width: 20rem;
-  margin-top: var(--space-3);
+  /* margin-top: auto absorbe todo el espacio libre del .hero__content
+     (que ahora llena el alto), empujando las acciones al fondo del hero
+     y abriendo un gran espacio respecto al bloque de texto superior. */
+  margin-top: auto;
 }
 
 .hero__cta .btn {
   justify-content: center;
+  padding: var(--space-4) var(--space-8);
+  font-size: var(--text-h4);
 }
 
 /* La acción secundaria vive sobre fotografía: se recolorea con los
@@ -134,10 +158,6 @@
 }
 
 @media (min-width: 768px) {
-  .hero__title {
-    font-size: var(--text-display);   /* 48 px desktop */
-    max-width: 22ch;
-  }
   .hero__cta {
     flex-direction: row;
     justify-content: center;
