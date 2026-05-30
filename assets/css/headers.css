@@ -4,7 +4,7 @@
    Versión: 1.0 · Fase 2 — Desarrollo front-end
    Fundamento: FASE_1 §2 — Componentes de cabecera de sección
                (hero, page-header, section-title,
-                mission-vision, kpi-strip) · tokens.css
+                mission-vision) · tokens.css
 
    Mobile-first: las reglas base aplican a móvil, los @media
    (min-width: 768px) y (min-width: 1024px) añaden complejidad
@@ -278,80 +278,4 @@
    antes de renderizar, de modo que esta regla no llega a aplicar. */
 .mission-vision > noscript {
   display: contents;
-}
-
-
-/* ─────────────────────────────────────────────────────────────
-   2.5  KPI STRIP — .kpi-strip
-   ─────────────────────────────────────────────────────────────
-   Strip horizontal de cuatro indicadores institucionales.
-   2 columnas (mobile) → 4 columnas (≥768 px). Fondo en
-   `--color-bg-panel`, bordes superior e inferior en
-   `--color-rule`. Separadores verticales entre items en desktop.
-
-   Nota sobre escala tipográfica: FASE_1 §2.5 prescribe 48/36 px
-   para el valor numérico y 24/20 px para el slot textual.
-   Resolvemos con tokens existentes (--text-display 48 px,
-   --text-h2 32 px, --text-h3 20 px) — el delta máximo es de 4 px
-   en mobile, imperceptible.
-   ───────────────────────────────────────────────────────────── */
-
-.kpi-strip {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  background: var(--color-bg-panel);
-  border-block: 1px solid var(--color-rule);
-  padding-block: var(--space-10);
-}
-
-.kpi-strip__item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: var(--space-2);
-  padding: var(--space-4) var(--space-6);
-}
-
-.kpi-strip__value {
-  font-family: var(--font-display);
-  font-size: var(--text-h2);          /* 32 px mobile */
-  font-weight: var(--weight-regular);
-  line-height: 1;
-  color: var(--color-primary);
-}
-
-/* Modificador para slots de valor textual (ej. "Ingeniería
-   Química"): tipografía más pequeña para evitar el desborde de
-   etiquetas largas y preservar coherencia con los slots
-   numéricos. */
-.kpi-strip__item--text .kpi-strip__value {
-  font-size: var(--text-h3);          /* 20 px mobile */
-}
-
-.kpi-strip__label {
-  font-family: var(--font-body);
-  font-size: var(--text-small);       /* 13 px */
-  line-height: var(--leading-normal);
-  color: var(--color-ink-soft);
-}
-
-@media (min-width: 768px) {
-  .kpi-strip {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  /* Separadores verticales entre items, salvo el último. */
-  .kpi-strip__item:not(:last-child) {
-    border-right: 1px solid var(--color-rule);
-  }
-
-  .kpi-strip__value {
-    font-size: var(--text-display);   /* 48 px desktop */
-  }
-
-  .kpi-strip__item--text .kpi-strip__value {
-    font-size: var(--text-h2);        /* 32 px desktop */
-  }
 }
