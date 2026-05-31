@@ -53,8 +53,9 @@
 /* ─────────────────────────────────────────────────────────────
    A.  QUIÉNES SOMOS — .about-intro
    ─────────────────────────────────────────────────────────────
-   Grilla asimétrica en desktop (texto 40 % / imagen 60 %), una
-   sola columna en mobile con el texto primero y la imagen debajo.
+   Grilla 50/50 en desktop con la imagen extendida sólo por su borde
+   derecho hasta el borde del viewport; una sola columna en mobile
+   (texto primero, imagen debajo).
    ───────────────────────────────────────────────────────────── */
 
 .about-intro {
@@ -68,11 +69,40 @@
 
 @media (min-width: 768px) {
   .about-intro {
-    /* 40/60: la imagen recibe más ancho que el texto y se extiende
-       más a la derecha, llenando el espacio libre dentro del
-       contenedor (.page). El texto conserva una medida legible. */
-    grid-template-columns: minmax(0, 4fr) minmax(0, 6fr);
+    /* Layout «bueno» restaurado: 50/50. El texto NO se toca. */
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: var(--space-16);               /* 64 px — md:gap-16 */
+  }
+
+  /* Sangrado SÓLO de la imagen: su borde DERECHO se extiende más allá de
+     su columna hasta el borde derecho del viewport, rellenando el margen
+     centrado de .page. El texto, el borde IZQUIERDO de la imagen y el gap
+     NO se mueven (sin reacomodo). La altura se fija a la de su columna en
+     4:3, de modo que ensanchar a la derecha NO la hace crecer en alto: la
+     imagen queda panorámica, no más alta. */
+  .about-intro__figure {
+    /* ancho de la columna de la imagen (50 % del contenido de .page − gap) */
+    --about-col: calc(
+      (min(100vw, var(--max-width)) - 2 * var(--page-padding-x) - var(--space-16)) / 2
+    );
+    /* ancho = columna + distancia de su borde derecho al borde del viewport
+       (padding de página + margen centrado, sólo cuando el viewport supera
+       el max-width). */
+    width: calc(
+      var(--about-col) + var(--page-padding-x)
+      + max(0px, (100vw - var(--max-width)) / 2)
+    );
+    height: calc(var(--about-col) * 3 / 4);   /* altura de la columna en 4:3 */
+    aspect-ratio: auto;                        /* anula el ratio base; mandan width/height */
+    justify-self: start;                       /* ancla el borde IZQUIERDO; sólo crece a la derecha */
+  }
+
+  /* Seguridad anti-scroll horizontal: el ancho usa 100vw (incluye la barra
+     de scroll) y rebasa el área visible unos píxeles. overflow-x: clip lo
+     contiene SIN crear contexto de scroll → NO rompe el navbar
+     `position: sticky` (overflow-x: hidden sí lo haría). Sólo home, ≥768. */
+  body {
+    overflow-x: clip;
   }
 }
 
@@ -144,7 +174,7 @@
 /* ─────────────────────────────────────────────────────────────
    Imagen + primitiva de revelado por scroll
    ─────────────────────────────────────────────────────────────
-   La imagen (16:9, object-cover) se revela de izquierda a derecha
+   La imagen (object-cover) se revela de izquierda a derecha
    retrayendo un velo (clip-path inset) con fundido de opacidad,
    controlado por assets/js/scroll-reveal.js.
 
@@ -158,7 +188,7 @@
   margin: 0;
   width: 100%;                          /* llena el ancho de su columna */
   justify-self: stretch;                /* y se estira a ras del borde de la celda */
-  aspect-ratio: 16 / 9;                 /* panorámico: se ensancha sin crecer en alto */
+  aspect-ratio: 4 / 3;                  /* mobile/base; en desktop mandan width/height */
   border-radius: var(--radius-lg);
   overflow: hidden;
   background: var(--color-rule-soft);   /* fondo mientras carga la imagen */
