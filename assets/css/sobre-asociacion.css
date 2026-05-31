@@ -68,33 +68,11 @@
 
 @media (min-width: 768px) {
   .about-intro {
-    /* Full-bleed asimétrico: la sección rompe el max-width centrado de
-       .page y ocupa todo el ancho del viewport. El texto se realinea con
-       el borde de contenido de .page vía padding-left calculado; a la
-       derecha no hay padding, de modo que la columna de la imagen sangra
-       hasta el borde derecho de la pantalla.
-
-       Los términos 100vw del breakout (margin-inline) y del padding-left
-       se cancelan entre sí, por lo que el texto queda PERFECTAMENTE
-       alineado con el resto del sitio aunque exista barra de scroll. */
-    width: 100vw;
-    margin-inline: calc(50% - 50vw);
-    padding-left: max(var(--page-padding-x),
-                      calc((100vw - var(--max-width)) / 2 + var(--page-padding-x)));
-    padding-right: 0;
+    /* 50/50: la imagen ocupa la mitad del contenedor y llega a ras
+       del borde derecho de .page; el texto conserva una medida
+       legible en desktop. */
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: var(--space-16);               /* 64 px — md:gap-16 */
-  }
-
-  /* Seguridad anti-scroll horizontal. El sangrado usa 100vw, que incluye
-     el ancho de la barra de scroll y rebasa el área visible unos píxeles.
-     overflow-x: clip lo contiene SIN crear contexto de scroll, por lo que
-     NO rompe el navbar `position: sticky` (overflow-x: hidden sí lo haría:
-     forzaría overflow-y: auto en <body>). Ámbito: sólo la home — esta hoja
-     se enlaza únicamente en index.html — y sólo ≥768px, donde vive el
-     sangrado; en mobile el menú `position: fixed` queda intacto. */
-  body {
-    overflow-x: clip;
   }
 }
 
