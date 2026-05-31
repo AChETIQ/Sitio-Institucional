@@ -1,0 +1,321 @@
+/* ============================================================
+   AChETIQ — Sección «Sobre la Asociación» del Inicio
+   (sobre-asociacion.css)
+   ------------------------------------------------------------
+   Versión: 1.0 · Rediseño de las dos subsecciones del home:
+     · «Quiénes somos»      → .about-intro (dos columnas + imagen
+        con revelado por scroll de izquierda a derecha).
+     · «Nuestros gabinetes» → .gabinetes-feature (banda con tono
+        apenas diferenciado + grilla de cuatro tarjetas con ícono).
+
+   Hoja específica de la portada: index.html la enlaza directamente
+   (estas subsecciones sólo existen en el home), por lo que NO se
+   importa en main.css.
+
+   Mobile-first. RESTRICCIÓN (igual que el resto del sistema): cero
+   hex y cero familias tipográficas literales — todo deriva de
+   tokens.css (`var(--token)`). Para velos y sombras translúcidas
+   se usa `color-mix()` sobre tokens, técnica ya presente en
+   headers.css.
+   ============================================================ */
+
+
+/* ─────────────────────────────────────────────────────────────
+   Ritmo vertical común a ambas subsecciones
+   ─────────────────────────────────────────────────────────────
+   Padding vertical generoso (96–128 px en desktop, equivalente a
+   py-24 / md:py-32). Se escala por breakpoint con la misma
+   idiomática del hero (calc sobre --space-16) y se expone como
+   custom property local para mantener una sola fuente de verdad
+   entre las dos subsecciones.
+   ───────────────────────────────────────────────────────────── */
+
+.about-intro,
+.gabinetes-feature {
+  --feature-pad-y: var(--space-16);              /* 64 px — mobile */
+}
+
+@media (min-width: 768px) {
+  .about-intro,
+  .gabinetes-feature {
+    --feature-pad-y: calc(var(--space-16) * 1.5); /* 96 px — py-24 */
+  }
+}
+
+@media (min-width: 1024px) {
+  .about-intro,
+  .gabinetes-feature {
+    --feature-pad-y: calc(var(--space-16) * 2);   /* 128 px — md:py-32 */
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   A.  QUIÉNES SOMOS — .about-intro
+   ─────────────────────────────────────────────────────────────
+   Grilla asimétrica en desktop (texto ~58 % / imagen ~42 %), una
+   sola columna en mobile con el texto primero y la imagen debajo.
+   ───────────────────────────────────────────────────────────── */
+
+.about-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-12);                 /* 48 px — gap-12 */
+  align-items: center;
+  padding-block: var(--feature-pad-y);
+}
+
+@media (min-width: 768px) {
+  .about-intro {
+    /* 7/12 ≈ 58 % texto · 5/12 ≈ 42 % imagen → asimetría pedida. */
+    grid-template-columns: 7fr 5fr;
+    gap: var(--space-16);               /* 64 px — md:gap-16 */
+  }
+}
+
+.about-intro__text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-5);
+}
+
+/* Eyebrow: reutiliza la utilidad global .eyebrow (mono, uppercase,
+   tracking-wider, --color-ink-faint = muted). No se redefine. */
+
+/* Titular display. Parte de la escala global de <h2> (familia
+   display; el <em> hereda itálica + --color-primary de `h2 em`) y
+   lo agranda de forma fluida entre --text-h2 (32) y --text-display
+   (48) → "text-4xl md:text-5xl". */
+.about-intro__title {
+  font-size: clamp(var(--text-h2), 4vw + 0.5rem, var(--text-display));
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  text-wrap: balance;
+}
+
+/* Lead: mayor tamaño (text-xl) y medida ~62ch. */
+.about-intro__lead {
+  font-size: var(--text-h3);            /* 20 px */
+  line-height: var(--leading-relaxed);
+  color: var(--color-ink-soft);
+  max-width: 62ch;
+}
+
+/* Cuerpo: tamaño base, misma medida. */
+.about-intro__body {
+  font-size: var(--text-body);          /* 15 px */
+  line-height: var(--leading-relaxed);
+  color: var(--color-ink-soft);
+  max-width: 62ch;
+}
+
+/* CTA con flecha. Color primario (rol «texto de enlace» del
+   sistema), no el naranja --color-cta (reservado a botones de
+   acción primaria). */
+.about-intro__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: var(--weight-medium);
+  color: var(--color-primary);
+}
+
+.about-intro__cta:hover {
+  color: var(--color-primary-mid);
+}
+
+.about-intro__cta-icon {
+  width: 1em;
+  height: 1em;
+  flex: none;
+  transition: transform var(--transition-fast);
+}
+
+.about-intro__cta:hover .about-intro__cta-icon,
+.about-intro__cta:focus-visible .about-intro__cta-icon {
+  transform: translateX(var(--space-1));
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   Imagen + primitiva de revelado por scroll
+   ─────────────────────────────────────────────────────────────
+   La imagen (4:5, object-cover) se revela de izquierda a derecha
+   retrayendo un velo (clip-path inset) con fundido de opacidad,
+   controlado por assets/js/scroll-reveal.js.
+
+   Estado por defecto = REVELADO. El estado inicial oculto lo
+   aporta .scroll-reveal--armed, que el JS añade SÓLO si va a
+   animar (no bajo prefers-reduced-motion, no sin JS).
+   ───────────────────────────────────────────────────────────── */
+
+.about-intro__figure {
+  position: relative;
+  margin: 0;
+  width: 100%;
+  aspect-ratio: 4 / 5;                  /* retrato 4:5 */
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--color-rule-soft);   /* fondo mientras carga la imagen */
+}
+
+.about-intro__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Tratamiento de marca discreto: velo con un sutil tinte primario
+   que se desvanece en diagonal. Se reafinará al colocar la imagen
+   institucional definitiva. */
+.about-intro__img-tint {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    155deg,
+    color-mix(in srgb, var(--color-primary) 24%, transparent) 0%,
+    color-mix(in srgb, var(--color-primary) 8%, transparent) 42%,
+    transparent 100%
+  );
+}
+
+/* Estado inicial «armado» (lo añade scroll-reveal.js). */
+.scroll-reveal--armed {
+  clip-path: inset(0 100% 0 0);
+  -webkit-clip-path: inset(0 100% 0 0);
+  opacity: 0;
+  will-change: clip-path, opacity;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   B.  NUESTROS GABINETES — .gabinetes-feature
+   ─────────────────────────────────────────────────────────────
+   Banda con un tono apenas diferenciado del crema base
+   (--color-bg-panel) para separarla de «Quiénes somos». Encabezado
+   (eyebrow + titular display) + grilla de 4 tarjetas con ícono +
+   enlace inferior. El margen superior es 0: la separación con la
+   subsección anterior la da su padding inferior.
+   ───────────────────────────────────────────────────────────── */
+
+.gabinetes-feature {
+  background: var(--color-bg-panel);
+  border: 1px solid var(--color-rule-soft);
+  border-radius: var(--radius-xl);
+  padding-block: var(--feature-pad-y);
+  padding-inline: var(--space-6);       /* 24 px — mobile */
+  margin-block: 0 var(--feature-pad-y);
+}
+
+@media (min-width: 768px) {
+  .gabinetes-feature { padding-inline: var(--space-8); }   /* 32 px */
+}
+
+@media (min-width: 1024px) {
+  .gabinetes-feature { padding-inline: var(--space-12); }  /* 48 px */
+}
+
+.gabinetes-feature__title {
+  font-size: clamp(var(--text-h2), 4vw + 0.5rem, var(--text-display));
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  text-wrap: balance;
+}
+
+/* Grilla: 1 → 2 (≥640) → 4 (≥1024) columnas. minmax(0,1fr) evita
+   que el contenido fuerce el ancho de pista (igual criterio que
+   .grid-cards en lists.css). */
+.gabinetes-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);                  /* 16 px */
+}
+
+@media (min-width: 640px) {
+  .gabinetes-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (min-width: 1024px) {
+  .gabinetes-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* Tarjeta: pila vertical, altura completa (alturas iguales en la
+   fila), casi plana en reposo (sólo borde fino). Hover/focus:
+   borde a primario + leve elevación + sombra suave. */
+.gabinete-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  height: 100%;
+  background: transparent;
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);              /* 24 px */
+  transition: border-color var(--transition-fast),
+              transform var(--transition-fast),
+              box-shadow var(--transition-fast);
+}
+
+@media (min-width: 768px) {
+  .gabinete-card { padding: var(--space-8); }   /* 32 px — p-8 */
+}
+
+.gabinete-card:hover,
+.gabinete-card:focus-within {
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 var(--space-2) var(--space-6)
+              color-mix(in srgb, var(--color-ink) 8%, transparent);
+}
+
+.gabinete-card__icon {
+  display: inline-flex;
+  color: var(--color-primary);
+}
+
+.gabinete-card__icon svg {
+  width: var(--icon-lg);                /* 32 px ≈ size-8 */
+  height: var(--icon-lg);
+}
+
+/* .gabinete-card__title hereda <h3> global: font-body, medium,
+   --text-h3 (20px), --color-ink. */
+
+.gabinete-card__desc {
+  font-size: var(--text-small);         /* 13 px */
+  color: var(--color-ink-soft);
+}
+
+.gabinete-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: auto;                     /* empuja el CTA al fondo */
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  color: var(--color-primary);
+}
+
+.gabinete-card__link-icon {
+  width: 1em;
+  height: 1em;
+  flex: none;
+  transition: transform var(--transition-fast);
+}
+
+.gabinete-card:hover .gabinete-card__link-icon,
+.gabinete-card__link:focus-visible .gabinete-card__link-icon {
+  transform: translateX(var(--space-1));
+}
+
+/* Enlace inferior «Ver todos los gabinetes →». */
+.gabinetes-feature__more {
+  margin-top: var(--space-8);
+}

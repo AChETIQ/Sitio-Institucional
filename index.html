@@ -19,6 +19,7 @@
 
   <link rel="stylesheet" href="./tokens.css">
   <link rel="stylesheet" href="./assets/css/main.css">
+  <link rel="stylesheet" href="./assets/css/sobre-asociacion.css">
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="AChETIQ">
@@ -68,31 +69,128 @@
 
   <main id="contenido" class="page" tabindex="-1">
 
-    <section aria-labelledby="presentacion-title">
-      <header class="section-title">
+    <section class="about-intro" aria-labelledby="presentacion-title">
+      <div class="about-intro__text">
         <p class="eyebrow">Sobre la asociación</p>
-        <h2 id="presentacion-title">Quiénes <em>somos</em></h2>
-      </header>
-      <article class="prose">
-        <p>
+        <h2 class="about-intro__title" id="presentacion-title">Quiénes <em>somos</em></h2>
+        <p class="about-intro__lead">
           AChETIQ es una asociación civil sin fines de lucro fundada el 30 de abril de 2009 en la Universidad Tecnológica Nacional, Facultad Regional Resistencia (UTN FRRe), provincia de Chaco. Sus antecedentes se remontan a 2003, cuando comenzó la representación de la FRRe ante la Federación Nacional de Estudiantes de Ingeniería Química.
         </p>
-        <p>
+        <p class="about-intro__body">
           Reúne a los estudiantes de la carrera de Ingeniería Química de la UTN FRRe y trabaja sobre cuatro frentes: cursos y conferencias, eventos, prensa y difusión, y proyectos solidarios.
         </p>
-        <p>
-          <a href="./pages/sobre-achetiq.html">Conocé más sobre AChETIQ →</a>
-        </p>
-      </article>
+        <a class="about-intro__cta" href="./pages/sobre-achetiq.html">
+          Conocé más sobre AChETIQ
+          <svg class="about-intro__cta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 12h14" />
+            <path d="m12 5 7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+
+      <!-- TODO: reemplazar por imagen institucional definitiva (laboratorio / congreso / facultad) -->
+      <figure class="about-intro__figure" data-scroll-reveal>
+        <img class="about-intro__img"
+             src="./assets/img/hero/2015-1.JPG"
+             alt="Integrantes de AChETIQ durante una actividad institucional en la UTN FRRe"
+             width="800" height="1000" loading="lazy" decoding="async">
+        <span class="about-intro__img-tint" aria-hidden="true"></span>
+      </figure>
     </section>
 
-    <section aria-labelledby="gabinetes-title">
-      <header class="section-title">
+    <section class="gabinetes-feature" aria-labelledby="gabinetes-title">
+      <header class="section-title gabinetes-feature__header">
         <p class="eyebrow">Cuatro frentes de trabajo</p>
-        <h2 id="gabinetes-title">Nuestros <em>gabinetes</em></h2>
+        <h2 class="gabinetes-feature__title" id="gabinetes-title">Nuestros <em>gabinetes</em></h2>
       </header>
-      <div data-loader="gabinetes"></div>
-      <p>
+
+      <ul class="gabinetes-grid" role="list">
+        <li class="gabinete-card">
+          <span class="gabinete-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 3h20" />
+              <path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3" />
+              <path d="m7 21 5-5 5 5" />
+            </svg>
+          </span>
+          <h3 class="gabinete-card__title">Cursos y Conferencias</h3>
+          <p class="gabinete-card__desc">Formación continua dictada por profesionales, más allá del aula.</p>
+          <a class="gabinete-card__link" href="./pages/gabinetes/cursos-y-conferencias.html">
+            Ver gabinete
+            <svg class="gabinete-card__link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
+            </svg>
+          </a>
+        </li>
+
+        <li class="gabinete-card">
+          <span class="gabinete-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 2v4" />
+              <path d="M16 2v4" />
+              <rect width="18" height="18" x="3" y="4" rx="2" />
+              <path d="M3 10h18" />
+              <path d="M8 14h.01" />
+              <path d="M12 14h.01" />
+              <path d="M16 14h.01" />
+              <path d="M8 18h.01" />
+              <path d="M12 18h.01" />
+              <path d="M16 18h.01" />
+            </svg>
+          </span>
+          <h3 class="gabinete-card__title">Eventos</h3>
+          <p class="gabinete-card__desc">Encuentros que fortalecen los vínculos de la comunidad estudiantil.</p>
+          <a class="gabinete-card__link" href="./pages/gabinetes/eventos.html">
+            Ver gabinete
+            <svg class="gabinete-card__link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
+            </svg>
+          </a>
+        </li>
+
+        <li class="gabinete-card">
+          <span class="gabinete-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z" />
+              <path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14" />
+              <path d="M8 6v8" />
+            </svg>
+          </span>
+          <h3 class="gabinete-card__title">Prensa y Difusión</h3>
+          <p class="gabinete-card__desc">Comunicación institucional y difusión de las actividades de la asociación.</p>
+          <a class="gabinete-card__link" href="./pages/gabinetes/prensa-y-difusion.html">
+            Ver gabinete
+            <svg class="gabinete-card__link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
+            </svg>
+          </a>
+        </li>
+
+        <li class="gabinete-card">
+          <span class="gabinete-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z" />
+              <path d="M12 5 9.04 7.96a2.17 2.17 0 0 0 0 3.08v0c.82.82 2.13.85 3 .07l2.07-1.9a2.82 2.82 0 0 1 3.79 0l2.96 2.66" />
+              <path d="m18 15-2-2" />
+              <path d="m15 18-2-2" />
+            </svg>
+          </span>
+          <h3 class="gabinete-card__title">Solidario</h3>
+          <p class="gabinete-card__desc">Colectas, voluntariado y eventos a beneficio de la comunidad.</p>
+          <a class="gabinete-card__link" href="./pages/gabinetes/solidario.html">
+            Ver gabinete
+            <svg class="gabinete-card__link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
+            </svg>
+          </a>
+        </li>
+      </ul>
+
+      <p class="gabinetes-feature__more">
         <a href="./pages/gabinetes.html">Ver todos los gabinetes →</a>
       </p>
     </section>
@@ -150,6 +248,7 @@
   <script src="./assets/js/navbar.js"></script>
   <script src="./assets/js/footer.js"></script>
   <script src="./assets/js/hero-carrousel.js"></script>
+  <script src="./assets/js/scroll-reveal.js"></script>
   <script type="module" src="./assets/js/main.js"></script>
 
 </body>
