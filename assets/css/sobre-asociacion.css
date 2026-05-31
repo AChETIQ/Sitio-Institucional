@@ -67,8 +67,10 @@
 
 @media (min-width: 768px) {
   .about-intro {
-    /* 7/12 ≈ 58 % texto · 5/12 ≈ 42 % imagen → asimetría pedida. */
-    grid-template-columns: 7fr 5fr;
+    /* 11/20 = 55 % texto · 9/20 = 45 % imagen. La imagen apaisada
+       (4:3) ensancha su columna respecto al diseño anterior, pero el
+       texto conserva una medida cómoda y legible (no se comprime). */
+    grid-template-columns: 11fr 9fr;
     gap: var(--space-16);               /* 64 px — md:gap-16 */
   }
 }
@@ -154,7 +156,7 @@
   position: relative;
   margin: 0;
   width: 100%;
-  aspect-ratio: 4 / 5;                  /* retrato 4:5 */
+  aspect-ratio: 4 / 3;                  /* apaisado 4:3 (horizontal) */
   border-radius: var(--radius-lg);
   overflow: hidden;
   background: var(--color-rule-soft);   /* fondo mientras carga la imagen */

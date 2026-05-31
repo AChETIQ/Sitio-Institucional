@@ -11,9 +11,9 @@
    · Progreso equivalente al offset ["start end", "center start"]
      de useScroll: 0 cuando el borde superior del elemento toca el
      fondo del viewport; 1 cuando su centro alcanza el tope. El
-     revelado se completa en progress 0.7 (clip-path y opacity
-     mapeados sobre [0, 0.7]) → la imagen queda revelada con la
-     sección cómodamente centrada en el viewport.
+     revelado se completa en progress 0.5 (clip-path y opacity
+     mapeados sobre [0, 0.5]) → la imagen termina de revelarse
+     temprano, apenas la sección entra cómodamente en cuadro.
    · Respeta prefers-reduced-motion: NO arma el efecto; la imagen
      queda estática y completamente visible (estado por defecto
      del CSS). Mismo criterio que hero-carrousel.js.
@@ -49,8 +49,9 @@
 
   /* Progreso (sobre [0,1] del elemento dentro del viewport) en el
      que el revelado se completa. Equivale al tope superior del
-     rango [0, 0.7] usado por clip-path y opacity. */
-  var REVEAL_END = 0.7;
+     rango [0, REVEAL_END] usado por clip-path y opacity. Cuanto
+     más bajo, antes (más arriba en el scroll) termina el revelado. */
+  var REVEAL_END = 0.5;
 
   function clamp01(n) {
     if (n < 0) return 0;
