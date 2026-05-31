@@ -46,12 +46,12 @@ CONVENCIÓN DE NOMBRE
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!--
-    TÍTULO — patrón fijo: «{Título de la página} · AChETIQ».
-    REEMPLAZAR: el título de la página antes de « · AChETIQ».
-    Ejemplos: «Inicio · AChETIQ» — «Sobre AChETIQ · AChETIQ»
-              «Gabinetes · AChETIQ» — «Contacto · AChETIQ».
+    TÍTULO — patrón fijo: «{Título de la página} - AChETIQ».
+    REEMPLAZAR: el título de la página antes de « - AChETIQ».
+    Ejemplos: «Inicio - AChETIQ» — «Sobre AChETIQ - AChETIQ»
+              «Gabinetes - AChETIQ» — «Contacto - AChETIQ».
   -->
-  <title>REEMPLAZAR título de página · AChETIQ</title>
+  <title>REEMPLAZAR título de página - AChETIQ</title>
 
   <!--
     META DESCRIPTION — única por página (FASE_1 §7.5 SEO).
@@ -106,25 +106,33 @@ CONVENCIÓN DE NOMBRE
   <link rel="stylesheet" href="./assets/css/main.css">
 
   <!-- ============================================================
-       OPEN GRAPH / TWITTER CARD — PLACEHOLDERS
-       Se completan en Fase 6 (SEO y metadatos sociales).
-       REEMPLAZAR por página: og:title, og:description, og:url.
-       og:image / twitter:image: imagen institucional a definir
-       en Fase 6 (FASE_1 §7.5). Mantener como placeholders hasta
-       entonces.
+       OPEN GRAPH / TWITTER CARD
+       REEMPLAZAR por página: og:title, og:description.
+
+       URL BASE CENTRALIZADA — el dominio de og:url, og:image y
+       twitter:image NO se escribe a mano: vive en site.config.mjs
+       (BASE_URL) y lo aplica `npm run build:urls`
+       (scripts/build-urls.mjs). Para migrar de dominio se cambia
+       una sola línea en site.config.mjs y se re-ejecuta el script.
+
+       · og:url ......... build:urls lo deriva de la ruta del
+                          archivo bajo pages/ (dejar el placeholder).
+       · og:image /
+         twitter:image .. logo social compartido; build:urls los
+                          mantiene en sync con BASE_URL.
        ============================================================ -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="AChETIQ">
   <meta property="og:locale" content="es_AR">
-  <meta property="og:title" content="REEMPLAZAR título para redes · AChETIQ">
+  <meta property="og:title" content="REEMPLAZAR título para redes - AChETIQ">
   <meta property="og:description" content="REEMPLAZAR descripción para redes.">
-  <meta property="og:url" content="REEMPLAZAR URL canónica absoluta de esta página">
-  <meta property="og:image" content="REEMPLAZAR URL de imagen institucional (Fase 6)">
+  <meta property="og:url" content="REEMPLAZAR ruta de la página; build:urls aplica el dominio de site.config.mjs">
+  <meta property="og:image" content="https://ingqcautnfrre-lab.github.io/achetiq-lab/icon-512.png">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="REEMPLAZAR título para redes · AChETIQ">
+  <meta name="twitter:title" content="REEMPLAZAR título para redes - AChETIQ">
   <meta name="twitter:description" content="REEMPLAZAR descripción para redes.">
-  <meta name="twitter:image" content="REEMPLAZAR URL de imagen institucional (Fase 6)">
+  <meta name="twitter:image" content="https://ingqcautnfrre-lab.github.io/achetiq-lab/icon-512.png">
 
 </head>
 <body>
