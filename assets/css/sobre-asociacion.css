@@ -53,7 +53,7 @@
 /* ─────────────────────────────────────────────────────────────
    A.  QUIÉNES SOMOS — .about-intro
    ─────────────────────────────────────────────────────────────
-   Grilla asimétrica en desktop (texto ~58 % / imagen ~42 %), una
+   Grilla asimétrica en desktop (texto 40 % / imagen 60 %), una
    sola columna en mobile con el texto primero y la imagen debajo.
    ───────────────────────────────────────────────────────────── */
 
@@ -68,10 +68,10 @@
 
 @media (min-width: 768px) {
   .about-intro {
-    /* 50/50: la imagen ocupa la mitad del contenedor y llega a ras
-       del borde derecho de .page; el texto conserva una medida
-       legible en desktop. */
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    /* 40/60: la imagen recibe más ancho que el texto y se extiende
+       más a la derecha, llenando el espacio libre dentro del
+       contenedor (.page). El texto conserva una medida legible. */
+    grid-template-columns: minmax(0, 4fr) minmax(0, 6fr);
     gap: var(--space-16);               /* 64 px — md:gap-16 */
   }
 }
@@ -144,7 +144,7 @@
 /* ─────────────────────────────────────────────────────────────
    Imagen + primitiva de revelado por scroll
    ─────────────────────────────────────────────────────────────
-   La imagen (4:5, object-cover) se revela de izquierda a derecha
+   La imagen (16:9, object-cover) se revela de izquierda a derecha
    retrayendo un velo (clip-path inset) con fundido de opacidad,
    controlado por assets/js/scroll-reveal.js.
 
@@ -158,7 +158,7 @@
   margin: 0;
   width: 100%;                          /* llena el ancho de su columna */
   justify-self: stretch;                /* y se estira a ras del borde de la celda */
-  aspect-ratio: 4 / 3;                  /* apaisado 4:3 (horizontal) */
+  aspect-ratio: 16 / 9;                 /* panorámico: se ensancha sin crecer en alto */
   border-radius: var(--radius-lg);
   overflow: hidden;
   background: var(--color-rule-soft);   /* fondo mientras carga la imagen */
