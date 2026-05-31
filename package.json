@@ -1,0 +1,10 @@
+{
+  "name": "achetiq-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sitio web oficial de AChETIQ — estático, servido desde GitHub Pages.",
+  "scripts": {
+    "build:urls": "node scripts/build-urls.mjs",
+    "build": "npm run build:urls"
+  }
+}

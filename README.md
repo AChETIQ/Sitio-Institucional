@@ -31,6 +31,28 @@ Repositorio del sitio web de la **Asociación Chaqueña de Estudiantes Tecnológ
 
 Ver `FASE_0_Arquitectura.md` para la documentación completa de la arquitectura de información.
 
+## URL base y metadatos sociales
+
+El dominio del sitio está centralizado en **`site.config.mjs`** (`BASE_URL`),
+única fuente de verdad para los metadatos sociales (`og:url`, `og:image`,
+`twitter:image`). El sitio es estático y se sirve tal cual desde GitHub Pages,
+por lo que esas URLs viven resueltas en el HTML (los scrapers sociales no
+ejecutan JavaScript).
+
+Para regenerarlas tras cambiar el dominio:
+
+```bash
+npm run build:urls
+```
+
+El script `scripts/build-urls.mjs` (sin dependencias) reescribe esas etiquetas
+en `index.html`, `404.html` y `pages/**`, derivando cada `og:url` de la ruta del
+archivo. Es idempotente: ejecutarlo sin cambiar `BASE_URL` no modifica nada.
+
+**Migrar al dominio final:** editar una sola línea en `site.config.mjs`
+(`BASE_URL = "https://achetiq.org.ar"`), ejecutar `npm run build:urls` y
+commitear el HTML regenerado.
+
 ## Contribuir
 
 Consultar `CONTRIBUTING.md` para las guías de contribución al proyecto.
