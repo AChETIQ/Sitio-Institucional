@@ -63,14 +63,15 @@
   gap: var(--space-12);                 /* 48 px — gap-12 */
   align-items: center;
   padding-block: var(--feature-pad-y);
+  width: 100%;                          /* la grilla llena el ancho del contenedor (.page) */
 }
 
 @media (min-width: 768px) {
   .about-intro {
-    /* 11/20 = 55 % texto · 9/20 = 45 % imagen. La imagen apaisada
-       (4:3) ensancha su columna respecto al diseño anterior, pero el
-       texto conserva una medida cómoda y legible (no se comprime). */
-    grid-template-columns: 11fr 9fr;
+    /* 50/50: la imagen ocupa la mitad del contenedor y llega a ras
+       del borde derecho de .page; el texto conserva una medida
+       legible en desktop. */
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: var(--space-16);               /* 64 px — md:gap-16 */
   }
 }
@@ -155,7 +156,8 @@
 .about-intro__figure {
   position: relative;
   margin: 0;
-  width: 100%;
+  width: 100%;                          /* llena el ancho de su columna */
+  justify-self: stretch;                /* y se estira a ras del borde de la celda */
   aspect-ratio: 4 / 3;                  /* apaisado 4:3 (horizontal) */
   border-radius: var(--radius-lg);
   overflow: hidden;
