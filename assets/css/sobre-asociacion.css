@@ -81,20 +81,17 @@
      4:3, de modo que ensanchar a la derecha NO la hace crecer en alto: la
      imagen queda panorámica, no más alta. */
   .about-intro__figure {
-    /* ancho de la columna de la imagen (50 % del contenido de .page − gap) */
-    --about-col: calc(
-      (min(100vw, var(--max-width)) - 2 * var(--page-padding-x) - var(--space-16)) / 2
-    );
-    /* ancho = columna + distancia de su borde derecho al borde del viewport
-       (padding de página + margen centrado, sólo cuando el viewport supera
-       el max-width). */
-    width: calc(
-      var(--about-col) + var(--page-padding-x)
-      + max(0px, (100vw - var(--max-width)) / 2)
-    );
-    height: calc(var(--about-col) * 3 / 4);   /* altura de la columna en 4:3 */
-    aspect-ratio: auto;                        /* anula el ratio base; mandan width/height */
-    justify-self: start;                       /* ancla el borde IZQUIERDO; sólo crece a la derecha */
+    /* Extiende SÓLO el borde derecho de la imagen hasta el filo del viewport:
+       parte del ancho de su columna (100%) y le suma lo que falta para llegar
+       al borde = relleno lateral de página + margen centrado del contenedor.
+       Sin variables anidadas (eso es lo que antes no resolvía el navegador). */
+    width: calc(100% + var(--page-padding-x) + max(0px, (100vw - var(--max-width)) / 2));
+    justify-self: start;                /* ancla el borde IZQUIERDO; sólo crece a la derecha */
+    /* Altura ≈ la de su columna en 4:3 (queda panorámica al ensancharse). Si
+       el navegador no resolviera esta altura, el aspect-ratio 2/1 de respaldo
+       evita que la imagen quede sin alto. */
+    height: calc((min(100vw, var(--max-width)) - var(--page-padding-x) * 2 - var(--space-16)) / 2 * 3 / 4);
+    aspect-ratio: 2 / 1;
   }
 
   /* Seguridad anti-scroll horizontal: el ancho usa 100vw (incluye la barra
