@@ -73,35 +73,13 @@
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: var(--space-16);               /* 64 px — md:gap-16 */
   }
-
-  /* Sangrado SÓLO de la imagen: su borde DERECHO se extiende más allá de
-     su columna hasta el borde derecho del viewport, rellenando el margen
-     centrado de .page. El texto, el borde IZQUIERDO de la imagen y el gap
-     NO se mueven (sin reacomodo). La altura se fija a la de su columna en
-     4:3, de modo que ensanchar a la derecha NO la hace crecer en alto: la
-     imagen queda panorámica, no más alta. */
-  .about-intro__figure {
-    /* Extiende SÓLO el borde derecho de la imagen hasta el filo del viewport:
-       parte del ancho de su columna (100%) y le suma lo que falta para llegar
-       al borde = relleno lateral de página + margen centrado del contenedor.
-       Sin variables anidadas (eso es lo que antes no resolvía el navegador). */
-    width: calc(100% + var(--page-padding-x) + max(0px, (100vw - var(--max-width)) / 2));
-    justify-self: start;                /* ancla el borde IZQUIERDO; sólo crece a la derecha */
-    /* Altura ≈ la de su columna en 4:3 (queda panorámica al ensancharse). Si
-       el navegador no resolviera esta altura, el aspect-ratio 2/1 de respaldo
-       evita que la imagen quede sin alto. */
-    height: calc((min(100vw, var(--max-width)) - var(--page-padding-x) * 2 - var(--space-16)) / 2 * 3 / 4);
-    aspect-ratio: 2 / 1;
-  }
-
-  /* Seguridad anti-scroll horizontal: el ancho usa 100vw (incluye la barra
-     de scroll) y rebasa el área visible unos píxeles. overflow-x: clip lo
-     contiene SIN crear contexto de scroll → NO rompe el navbar
-     `position: sticky` (overflow-x: hidden sí lo haría). Sólo home, ≥768. */
-  body {
-    overflow-x: clip;
-  }
 }
+
+/* El sangrado derecho de la imagen (override desktop de .about-intro__figure)
+   vive MÁS ABAJO, justo después de su regla base — ver §«Imagen + revelado».
+   Debe ir después porque las @media no suman especificidad: si se declarara
+   aquí (antes de la base), la regla base `width: 100%` ganaría por orden de
+   cascada y la imagen quedaría contenida (el bug que arrastraba esta sección). */
 
 .about-intro__text {
   display: flex;
@@ -189,6 +167,40 @@
   border-radius: var(--radius-lg);
   overflow: hidden;
   background: var(--color-rule-soft);   /* fondo mientras carga la imagen */
+}
+
+/* Sangrado SÓLO de la imagen (≥768): su borde DERECHO se extiende más allá de
+   su columna hasta el borde derecho del viewport, rellenando el margen centrado
+   de .page. El texto, el borde IZQUIERDO de la imagen y el gap NO se mueven
+   (sin reacomodo). La altura se fija a la de su columna en 4:3, de modo que
+   ensanchar a la derecha NO la hace crecer en alto: queda panorámica, no más alta.
+
+   IMPORTANTE: este override va DESPUÉS de la regla base .about-intro__figure.
+   Como las @media no suman especificidad, el orden de cascada es lo único que
+   decide el desempate entre dos `.about-intro__figure`; si se declarara antes de
+   la base, ganaría `width: 100%` y la imagen quedaría contenida. */
+@media (min-width: 768px) {
+  .about-intro__figure {
+    /* Extiende SÓLO el borde derecho hasta el filo del viewport: parte del ancho
+       de su columna (100%) y le suma lo que falta para llegar al borde = relleno
+       lateral de página + margen centrado del contenedor. Sin variables anidadas
+       (eso es lo que antes no resolvía el navegador). */
+    width: calc(100% + var(--page-padding-x) + max(0px, (100vw - var(--max-width)) / 2));
+    justify-self: start;                /* ancla el borde IZQUIERDO; sólo crece a la derecha */
+    /* Altura ≈ la de su columna en 4:3 (queda panorámica al ensancharse). Si el
+       navegador no resolviera esta altura, el aspect-ratio 2/1 de respaldo evita
+       que la imagen quede sin alto. */
+    height: calc((min(100vw, var(--max-width)) - var(--page-padding-x) * 2 - var(--space-16)) / 2 * 3 / 4);
+    aspect-ratio: 2 / 1;
+  }
+
+  /* Seguridad anti-scroll horizontal: el ancho usa 100vw (incluye la barra de
+     scroll) y rebasa el área visible unos píxeles. overflow-x: clip lo contiene
+     SIN crear contexto de scroll → NO rompe el navbar `position: sticky`
+     (overflow-x: hidden sí lo haría). */
+  body {
+    overflow-x: clip;
+  }
 }
 
 .about-intro__img {
