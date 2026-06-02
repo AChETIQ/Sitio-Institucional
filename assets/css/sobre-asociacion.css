@@ -70,7 +70,7 @@
 @media (min-width: 768px) {
   .about-intro {
     /* Layout «bueno» restaurado: 50/50. El texto NO se toca. */
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 6.5fr) minmax(0, 9fr);
     gap: var(--space-16);               /* 64 px — md:gap-16 */
   }
 }
@@ -157,7 +157,7 @@
   margin: 0;
   width: 100%;                          /* llena el ancho de su columna */
   justify-self: stretch;                /* y se estira a ras del borde de la celda */
-  aspect-ratio: 3 / 2;                  /* panorámica suave; contenida en su columna (no sangra) */
+  aspect-ratio: 16 / 9;                  /* panorámica suave; contenida en su columna (no sangra) */
   border-radius: var(--radius-lg);
   overflow: hidden;
   background: var(--color-rule-soft);   /* fondo mientras carga la imagen */
@@ -173,7 +173,7 @@
    genera scroll horizontal ni rompe el navbar sticky. */
 @media (min-width: 768px) {
   .about-intro__figure {
-    --shift-right: 0px;                 /* ← AJUSTÁ ESTE VALOR */
+    --shift-right: 200px;                 /* ← AJUSTÁ ESTE VALOR */
     transform: translateX(var(--shift-right));
   }
 
