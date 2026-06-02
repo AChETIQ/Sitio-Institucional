@@ -70,36 +70,8 @@
 @media (min-width: 768px) {
   .about-intro {
     /* Layout «bueno» restaurado: 50/50. El texto NO se toca. */
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 6.5fr) minmax(0, 9fr);
     gap: var(--space-16);               /* 64 px — md:gap-16 */
-  }
-
-  /* Sangrado SÓLO de la imagen: su borde DERECHO se extiende más allá de
-     su columna hasta el borde derecho del viewport, rellenando el margen
-     centrado de .page. El texto, el borde IZQUIERDO de la imagen y el gap
-     NO se mueven (sin reacomodo). La altura se fija a la de su columna en
-     4:3, de modo que ensanchar a la derecha NO la hace crecer en alto: la
-     imagen queda panorámica, no más alta. */
-  .about-intro__figure {
-    /* Extiende SÓLO el borde derecho de la imagen hasta el filo del viewport:
-       parte del ancho de su columna (100%) y le suma lo que falta para llegar
-       al borde = relleno lateral de página + margen centrado del contenedor.
-       Sin variables anidadas (eso es lo que antes no resolvía el navegador). */
-    width: calc(100% + var(--page-padding-x) + max(0px, (100vw - var(--max-width)) / 2));
-    justify-self: start;                /* ancla el borde IZQUIERDO; sólo crece a la derecha */
-    /* Altura ≈ la de su columna en 4:3 (queda panorámica al ensancharse). Si
-       el navegador no resolviera esta altura, el aspect-ratio 2/1 de respaldo
-       evita que la imagen quede sin alto. */
-    height: calc((min(100vw, var(--max-width)) - var(--page-padding-x) * 2 - var(--space-16)) / 2 * 3 / 4);
-    aspect-ratio: 2 / 1;
-  }
-
-  /* Seguridad anti-scroll horizontal: el ancho usa 100vw (incluye la barra
-     de scroll) y rebasa el área visible unos píxeles. overflow-x: clip lo
-     contiene SIN crear contexto de scroll → NO rompe el navbar
-     `position: sticky` (overflow-x: hidden sí lo haría). Sólo home, ≥768. */
-  body {
-    overflow-x: clip;
   }
 }
 
@@ -185,10 +157,30 @@
   margin: 0;
   width: 100%;                          /* llena el ancho de su columna */
   justify-self: stretch;                /* y se estira a ras del borde de la celda */
-  aspect-ratio: 4 / 3;                  /* mobile/base; en desktop mandan width/height */
+  aspect-ratio: 16 / 9;                  /* panorámica suave; contenida en su columna (no sangra) */
   border-radius: var(--radius-lg);
   overflow: hidden;
   background: var(--color-rule-soft);   /* fondo mientras carga la imagen */
+}
+
+/* ── Desplazamiento horizontal de la imagen (solo desktop ≥768) ──────────
+   Controla CUÁNTO se corre la imagen hacia la derecha respecto de su columna,
+   SIN cambiar su tamaño (es un translate, no reacomoda nada).
+     ·  0px            → contenida, sin moverse (estado actual).
+     ·  valor positivo → la acerca al borde derecho de la página.
+     ·  valor negativo → la corre hacia la izquierda (hacia el texto).
+   Lo que se salga del viewport se recorta con overflow-x: clip → nunca
+   genera scroll horizontal ni rompe el navbar sticky. */
+@media (min-width: 768px) {
+  .about-intro__figure {
+    --shift-right: 200px;                 /* ← AJUSTÁ ESTE VALOR */
+    transform: translateX(var(--shift-right));
+  }
+
+  /* Contención anti-scroll: debe ir en html Y body. Sólo en body no
+     alcanza a contener el desbordamiento del translate. `clip` no crea
+     contenedor de scroll → no rompe el navbar `position: sticky`. */
+  html, body { overflow-x: clip; }
 }
 
 .about-intro__img {
