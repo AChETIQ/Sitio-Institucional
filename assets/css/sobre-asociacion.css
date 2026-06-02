@@ -163,6 +163,26 @@
   background: var(--color-rule-soft);   /* fondo mientras carga la imagen */
 }
 
+/* ── Desplazamiento horizontal de la imagen (solo desktop ≥768) ──────────
+   Controla CUÁNTO se corre la imagen hacia la derecha respecto de su columna,
+   SIN cambiar su tamaño (es un translate, no reacomoda nada).
+     ·  0px            → contenida, sin moverse (estado actual).
+     ·  valor positivo → la acerca al borde derecho de la página.
+     ·  valor negativo → la corre hacia la izquierda (hacia el texto).
+   Lo que se salga del viewport se recorta con overflow-x: clip → nunca
+   genera scroll horizontal ni rompe el navbar sticky. */
+@media (min-width: 768px) {
+  .about-intro__figure {
+    --shift-right: 0px;                 /* ← AJUSTÁ ESTE VALOR */
+    transform: translateX(var(--shift-right));
+  }
+
+  /* Contención anti-scroll: debe ir en html Y body. Sólo en body no
+     alcanza a contener el desbordamiento del translate. `clip` no crea
+     contenedor de scroll → no rompe el navbar `position: sticky`. */
+  html, body { overflow-x: clip; }
+}
+
 .about-intro__img {
   position: absolute;
   inset: 0;
