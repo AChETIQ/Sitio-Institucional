@@ -2,7 +2,7 @@
 ## Sitio Web Oficial de AChETIQ
 
 *Documento elaborado: 2026-05-08 · Última actualización: 2026-06-10*
-*Estado: Referencia técnica para desarrollo front-end (Fase 2) · Tokens v2 «Pátina & Cobre»*
+*Estado: Referencia técnica para desarrollo front-end (Fase 2) · Tokens v2 «Pátina & Cobre» · Contratos S2 de elevación y ritmo (§0.3)*
 
 ---
 
@@ -53,7 +53,36 @@ La sesión S1 del rediseño reemplazó por completo los sistemas de color y tipo
 
 3. **Alias de componente**: `--color-materia-anio-1…5` (narrativa arena → pátina profunda) y la paleta por nivel del Seguimiento (`--nivel-*-accent/-fondo-alt/-texto`, antes excepción local de `seguimiento.css`, hoy centralizada y re-derivada en OKLCH con contraste verificado 6.4–7.4:1).
 
-Sombras: tiers globales `--shadow-xs/-sm/-md/-lg` derivados de `--patina-950` vía `color-mix()`. Ninguna hoja declara sombras propias.
+Sombras: tiers globales `--shadow-xs/-sm/-md/-lg` derivados de `--patina-950` vía `color-mix()`. Ninguna hoja declara sombras propias. Los componentes no consumen los tiers crudos sino los alias del contrato de elevación (§0.3).
+
+### 0.3 Elevación y ritmo vertical — contratos S2 (2026-06-10)
+
+La sesión S2 (componentes y layout) formalizó dos contratos sobre los tokens existentes. Son la referencia normativa de profundidad y espaciado; ningún componente declara estos valores con escalones propios.
+
+**Contrato de elevación.** Regla del sistema: *en reposo todo es plano* — la elevación de base la expresa el borde, nunca una sombra. Sólo se proyecta sombra ante interacción u superposición real.
+
+| Alias (tokens.css) | Valor | Uso |
+|---|---|---|
+| `--elevation-border` | `1px solid var(--color-border)` | «Elevación plana»: contorno de tarjeta/panel en reposo. El hover interactivo intensifica `border-color` a `--color-accent`. |
+| `--elevation-border-soft` | `1px solid var(--color-border-soft)` | Bandas de baja jerarquía (`.gabinetes-feature`) y separadores internos (pie de tarjeta, filas de lista). |
+| `--elevation-hover` | `var(--shadow-sm)` | Sombra de tarjeta interactiva al hover, acompañada de `transform: translateY(var(--elevation-lift))`. |
+| `--elevation-overlay` | `var(--shadow-md)` | Capas flotantes (dropdown del navbar). |
+| `--elevation-modal` | `var(--shadow-lg)` | Paneles protagónicos (panel del countdown); único caso de sombra en reposo. |
+| `--elevation-lift` | `-2px` | Desplazamiento vertical que acompaña a `--elevation-hover`. |
+
+Reciben elevación al hover **sólo** las tarjetas interactivas (son `<a>` o contienen su enlace de apertura): `.card-gabinete`, `.gabinete-card`, `.card-materia` (variante `--drive`), `.card-institucion`, `a.contact-card`. Permanecen planos sin hover los paneles estáticos: `.card--valor`, `.card-documento`, `.card-integrante`, `.mission-vision__col`, `.cta-final`, `.contact-card--proximamente`, `.card-materia--placeholder`.
+
+**Contrato de ritmo vertical** (alias sobre la escala de 4 px):
+
+| Nivel | Token | Valor | Implementación |
+|---|---|---|---|
+| Sección ↔ sección | `--section-gap` | 64 px | Regla genérica `:where(.page) > section + section` en `main.css` §4 (especificidad 0-0-2: cualquier componente con ritmo propio la sobreescribe; los márgenes colapsan, no se duplican). |
+| page-header → contenido | `--space-12` | 48 px | `margin-bottom` de `.page-header`. |
+| section-title → bloque | `--header-gap` | 32 px | `margin-bottom` de `.section-title`; también `.pill-nav + *`. |
+| Interior de tarjeta estándar | `--card-pad` | 20 px | `.card` base, `.card--valor`, body de `.card-noticia`. |
+| Interior de tarjeta extensa | `--card-pad-lg` | 24 px | `.card-gabinete`, `.gabinete-card`, `.card-documento`, `.contact-card`, `.mission-vision__col`. |
+
+Medidas asociadas: `--measure-title` (22ch, titulares display de `.page-header` y `.cta-final`) y `--card-min` (17.5rem, pista mínima de `.grid-cards--fluid`).
 
 ### 0.2 Tipografía
 
@@ -297,7 +326,12 @@ El placeholder es reemplazado por `js/navbar.js`, que carga `partials/navbar.htm
 </header>
 ```
 
-**Especificación visual.** Margen inferior `var(--space-8)` antes del bloque siguiente. Sin borde, sin fondo.
+**Especificación visual.** Margen inferior `var(--header-gap)` (32 px, contrato de ritmo §0.3) antes del bloque siguiente. Sin borde, sin fondo.
+
+**Elementos y modificadores (S2).**
+
+- `.section-title__lead`: bajada opcional bajo el `<h2>`, en escalón `--text-body` y medida `--measure-narrow` (subordinada al lead de página; reemplaza la reutilización indebida de `.page-header__lead` dentro de secciones).
+- `.section-title--display`: eleva el `<h2>` al rol `--text-display` (40→52 px) con `leading-tight`, `tracking-tight` y `text-wrap: balance`. Es el patrón de las cabeceras protagónicas de portada («Quiénes somos», «Nuestros gabinetes»), antes duplicado en `sobre-asociacion.css`.
 
 ---
 
@@ -452,6 +486,8 @@ El cuarto slot demuestra que el componente debe admitir valores no numéricos: e
 ### 4.1 Card base — `.card`
 
 Ya definida en `tokens.css` (§COMPONENTE — TARJETA). Sirve como base de las variantes que siguen.
+
+*Actualización S2.* El borde pasó de 0.5 px a `var(--elevation-border)` (1 px — el medio píxel rendía de forma inconsistente en pantallas no retina) y el padding consume `var(--card-pad)`. El separador de `.card-footer` usa `var(--elevation-border-soft)`.
 
 ---
 
@@ -791,6 +827,8 @@ Ya definida en `tokens.css` (§COMPONENTE — TARJETA). Sirve como base de las v
 
 **Atributos externos.** Para canales externos (Instagram, LinkedIn cuando esté activo), incluir `target="_blank" rel="noopener noreferrer"`.
 
+*Nota de restauración (S2).* Los estilos de la variante «Próximamente» y de `.contact-card__badge` se habían perdido por un truncamiento de `cards.css` en un commit de carga manual (el archivo terminaba a mitad de comentario); fueron restaurados desde el historial y migrados a los tokens v2 (`--color-text-disabled`, `--color-border-soft`).
+
 ---
 
 ## 5. Listas y grids
@@ -803,7 +841,9 @@ Ya definida en `tokens.css` (§COMPONENTE — TARJETA). Sirve como base de las v
 
 - Display: `grid`.
 - Gap: `var(--grid-gap)` (12 px) en su forma compacta, `var(--space-6)` (24 px) en su forma cómoda.
-- Modificadores de columnas: `.grid-cards--2`, `.grid-cards--3`, `.grid-cards--4` (definen `grid-template-columns: repeat(N, 1fr)`).
+- Modificadores de columnas: `.grid-cards--2`, `.grid-cards--3`, `.grid-cards--4` (definen `grid-template-columns: repeat(N, 1fr)`). Reservados a conjuntos cuya cuenta de columnas es semántica (4 gabinetes en 2×2, 6 valores en 3×2, pares de documentos/instituciones).
+- Modificador `.grid-cards--fluid` (S2): `repeat(auto-fit, minmax(min(var(--card-min), 100%), 1fr))` para colecciones sin cuenta semántica (las 41 materias de Apuntes). Sin `@media`: la densidad escala sola entre 1 y 4 columnas según el ancho disponible.
+- Alineación interna por subgrid (S2): dentro de `.grid-cards`, las tarjetas de tres filas (`.card-gabinete`, `.card--valor`) comparten pistas de fila vía `grid-template-rows: subgrid` (bloque `@supports`), de modo que título/descripción/pie quedan alineados entre tarjetas hermanas. Fallback sin soporte: pila flex original con `.card-footer { margin-top: auto }` — sólo se pierde la alineación fina intermedia.
 - Responsive: en `<= 768 px`, todas las variantes colapsan a 1 columna; en `<= 1024 px`, las de 4 columnas pasan a 2.
 
 **HTML.**
@@ -1073,6 +1113,8 @@ Ya definida en `tokens.css` (§COMPONENTE — TARJETA). Sirve como base de las v
 ### 7.1 Breadcrumbs — `.breadcrumbs`
 
 **Propósito.** Navegación contextual en páginas profundas (un gabinete específico, un recurso de una materia).
+
+**Estado de despliegue (S2, 2026-06-10).** DESPLEGADO en las seis páginas de detalle: `pages/gabinetes/{cursos-y-conferencias,eventos,prensa-y-difusion,solidario}.html` y `pages/recursos/{apuntes,seguimiento}.html`. El `aria-label` canónico es **«Ruta de navegación»** (las dos páginas de Recursos usaban «Migas de pan»; unificado). Cuando las migas abren la página, `.page-header` reduce su padding superior (`.breadcrumbs + .page-header`, headers.css) para no duplicar la respiración bajo el navbar.
 
 **HTML.**
 

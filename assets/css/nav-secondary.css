@@ -20,6 +20,12 @@
    13 px, color faint, separador "›" generado por CSS. El último
    ítem es texto plano (no link) en color ink, marcado con
    aria-current="page" en el HTML.
+
+   DESPLIEGUE (S2). Activas en TODAS las páginas de detalle:
+   pages/gabinetes/*.html y pages/recursos/{apuntes,seguimiento}
+   .html, con aria-label canónico «Ruta de navegación» (FASE_1
+   §7.1). El ajuste de respiración con el .page-header contiguo
+   vive en headers.css (.breadcrumbs + .page-header).
    ───────────────────────────────────────────────────────────── */
 
 .breadcrumbs {
@@ -90,6 +96,13 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2);
+}
+
+/* Ritmo: el filtro queda acoplado al bloque que filtra con la
+   respiración cabecera → contenido del contrato S2 (antes el
+   grid arrancaba pegado a las pills). */
+.pill-nav + * {
+  margin-block-start: var(--header-gap);
 }
 
 .pill-nav__pill {

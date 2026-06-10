@@ -37,6 +37,20 @@
   gap: var(--space-6);
 }
 
+/* Modificador --fluid: grid intrínseco para colecciones cuyo
+   número de columnas NO es semántico (p. ej. las 41 materias de
+   Apuntes). El propio contenido decide cuántas pistas entran:
+   ninguna pista baja de --card-min (≈280 px; min(…, 100%) evita
+   desborde en viewports más angostos que el mínimo) y el resto
+   se reparte. Sin @media: la densidad escala sola entre 1 y 4
+   columnas según el ancho disponible.
+   Los modificadores --2/--3/--4 se conservan para los conjuntos
+   donde la cuenta SÍ es semántica (4 gabinetes en 2×2, 6 valores
+   en 3×2, 2 documentos/instituciones en par). */
+.grid-cards--fluid {
+  grid-template-columns: repeat(auto-fit, minmax(min(var(--card-min), 100%), 1fr));
+}
+
 @media (min-width: 768px) {
   .grid-cards--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .grid-cards--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -45,6 +59,34 @@
 
 @media (min-width: 1024px) {
   .grid-cards--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* Alineación interna entre tarjetas hermanas vía subgrid: las
+   tarjetas de tres filas (título / descripción / pie en
+   .card-gabinete; ícono / título / descripción en .card--valor)
+   comparten las pistas de fila del grid padre, de modo que sus
+   filas internas quedan alineadas entre tarjetas aunque los
+   textos varíen de longitud. El row-gap heredado del padre
+   (--grid-gap, 12 px) coincide con el gap interno de .card
+   (--space-3), por lo que el ritmo interior no cambia.
+   FALLBACK. Sin soporte de subgrid, las tarjetas conservan su
+   pila flex original: .card-footer { margin-top: auto } sigue
+   anclando el pie y sólo se pierde la alineación fina de las
+   filas intermedias. */
+@supports (grid-template-rows: subgrid) {
+  .grid-cards > .card-gabinete,
+  .grid-cards > .card--valor {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 3;
+  }
+
+  /* En grid, el anclaje del pie lo da la propia pista de fila
+     compartida; align-content evita huecos si una tarjeta tiene
+     menos hijos que filas. */
+  .grid-cards > .card-gabinete {
+    align-content: start;
+  }
 }
 
 /* Fallback sin JavaScript: cuando un grid de tarjetas trae un
@@ -73,7 +115,7 @@
 }
 
 .list-downloads__item {
-  border-bottom: 0.5px solid var(--color-border-soft);
+  border-bottom: var(--elevation-border-soft);
 }
 
 .list-downloads__item:last-child {
@@ -165,10 +207,12 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
+  /* Panel estático: elevación plana (sólo borde), sin sombra ni
+     hover — la interacción vive en su botón de descarga. */
   background: var(--color-surface-raised);
-  border: 1px solid var(--color-border);
+  border: var(--elevation-border);
   border-radius: var(--radius-md);
-  padding: var(--space-6);
+  padding: var(--card-pad-lg);
 }
 
 .card-documento__icon {

@@ -79,21 +79,17 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--space-5);
+  gap: var(--space-4);
 }
 
 /* Eyebrow: reutiliza la utilidad global .eyebrow (mono, uppercase,
    tracking-wider, --color-text-faint = muted). No se redefine. */
 
-/* Titular display. Parte de la escala global de <h2> (familia
-   display; el <em> hereda itálica + --color-accent de `h2 em`) y
-   sube al rol display de la escala fluida (40→52 px). */
-.about-intro__title {
-  font-size: var(--text-display);
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-tight);
-  text-wrap: balance;
-}
+/* Titular display: el patrón eyebrow + h2 display se sirve ahora
+   del componente compartido .section-title --display (headers.css
+   §2.3) — la duplicación local fue eliminada (dedup S2). El
+   margin-bottom del .section-title (--header-gap) suma a la pila
+   flex la respiración cabecera → lead. */
 
 /* Lead: mayor tamaño (text-xl) y medida ~62ch. */
 .about-intro__lead {
@@ -225,8 +221,10 @@
    ───────────────────────────────────────────────────────────── */
 
 .gabinetes-feature {
+  /* Banda estática de baja jerarquía: elevación plana con borde
+     suave, sin sombra (contrato de elevación S2). */
   background: var(--color-surface-raised);
-  border: 1px solid var(--color-border-soft);
+  border: var(--elevation-border-soft);
   border-radius: var(--radius-xl);
   padding-block: var(--feature-pad-y);
   padding-inline: var(--space-6);       /* 24 px — mobile */
@@ -241,12 +239,8 @@
   .gabinetes-feature { padding-inline: var(--space-12); }  /* 48 px */
 }
 
-.gabinetes-feature__title {
-  font-size: var(--text-display);
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-tight);
-  text-wrap: balance;
-}
+/* .gabinetes-feature__title: absorbido por .section-title--display
+   (headers.css §2.3) — dedup S2. */
 
 /* Grilla: 1 → 2 (≥640) → 4 (≥1024) columnas. minmax(0,1fr) evita
    que el contenido fuerce el ancho de pista (igual criterio que
@@ -277,9 +271,9 @@
   gap: var(--space-3);
   height: 100%;
   background: transparent;
-  border: 1px solid var(--color-border);
+  border: var(--elevation-border);
   border-radius: var(--radius-lg);
-  padding: var(--space-6);              /* 24 px */
+  padding: var(--card-pad-lg);          /* 24 px */
   transition: border-color var(--transition-fast),
               transform var(--transition-fast),
               box-shadow var(--transition-fast);
@@ -292,8 +286,8 @@
 .gabinete-card:hover,
 .gabinete-card:focus-within {
   border-color: var(--color-accent);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-sm);
+  transform: translateY(var(--elevation-lift));
+  box-shadow: var(--elevation-hover);
 }
 
 .gabinete-card__icon {

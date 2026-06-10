@@ -22,12 +22,19 @@
    ───────────────────────────────────────────────────────────── */
 
 .card-gabinete {
-  padding: var(--space-6);
-  transition: border-color var(--transition-fast);
+  padding: var(--card-pad-lg);
+  transition: border-color var(--transition-fast),
+              transform var(--transition-fast),
+              box-shadow var(--transition-fast);
 }
 
+/* Tarjeta interactiva (contiene su enlace de apertura): hover con
+   elevación del contrato S2 — borde a acento + sombra + lift.
+   Mismo idioma que .gabinete-card de portada. */
 .card-gabinete:hover {
   border-color: var(--color-accent);
+  transform: translateY(var(--elevation-lift));
+  box-shadow: var(--elevation-hover);
 }
 
 .card-gabinete__icon {
@@ -146,7 +153,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-  padding: var(--space-5);
+  padding: var(--card-pad);
 }
 
 .card-noticia__category {
@@ -317,10 +324,12 @@
    ───────────────────────────────────────────────────────────── */
 
 .card--valor {
+  /* Panel estático: elevación plana (sólo borde), sin sombra ni
+     hover — contrato de elevación S2. */
   background: transparent;
-  border: 1px solid var(--color-border);
+  border: var(--elevation-border);
   border-radius: var(--radius-md);
-  padding: var(--space-5);
+  padding: var(--card-pad);
   min-height: 180px;
   gap: var(--space-3);
 }
@@ -352,18 +361,23 @@
    ───────────────────────────────────────────────────────────── */
 
 .card-institucion {
-  border: 1px solid var(--color-border);
+  border: var(--elevation-border);
   border-radius: var(--radius-md);
   background: var(--color-surface-raised);
   padding: var(--space-8);
   align-items: center;
   text-align: center;
   gap: var(--space-4);
-  transition: border-color var(--transition-fast);
+  transition: border-color var(--transition-fast),
+              transform var(--transition-fast),
+              box-shadow var(--transition-fast);
 }
 
+/* Tarjeta con enlace externo propio: hover con elevación S2. */
 .card-institucion:hover {
   border-color: var(--color-accent);
+  transform: translateY(var(--elevation-lift));
+  box-shadow: var(--elevation-hover);
 }
 
 .card-institucion__logo {
@@ -402,12 +416,14 @@
   display: flex;
   flex-direction: column;
   background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  border: var(--elevation-border);
   border-radius: var(--radius-md);
   overflow: hidden;
   text-decoration: none;
   color: var(--color-text);
-  transition: border-color var(--transition-fast);
+  transition: border-color var(--transition-fast),
+              transform var(--transition-fast),
+              box-shadow var(--transition-fast);
   padding: 0;
 }
 
@@ -421,9 +437,13 @@
   display: none;
 }
 
+/* Tarjeta-enlace: hover con elevación S2 (la variante
+   --placeholder, no interactiva, lo anula más abajo). */
 .card-materia:hover {
   border-color: var(--color-accent);
   color: var(--color-text);
+  transform: translateY(var(--elevation-lift));
+  box-shadow: var(--elevation-hover);
 }
 
 .card-materia:hover .card-materia__cover {
@@ -477,7 +497,11 @@
 }
 
 .card-materia--placeholder:hover {
-  border-color: var(--color-border);    /* anula el hover de .card-materia */
+  /* Anula el hover interactivo de .card-materia (borde, lift y
+     sombra): la tarjeta sin carpeta es estática → plana. */
+  border-color: var(--color-border);
+  transform: none;
+  box-shadow: none;
 }
 
 .card-materia--placeholder:hover .card-materia__cover {
@@ -534,17 +558,24 @@
   flex-direction: column;
   gap: var(--space-2);
   background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  border: var(--elevation-border);
   border-radius: var(--radius-md);
-  padding: var(--space-6);
+  padding: var(--card-pad-lg);
   text-decoration: none;
   color: var(--color-text);
   transition: border-color var(--transition-fast),
-              color var(--transition-fast);
+              color var(--transition-fast),
+              transform var(--transition-fast),
+              box-shadow var(--transition-fast);
 }
 
+/* Sólo la variante activa (<a>) es interactiva: hover con
+   elevación S2. La variante "Próximamente" (<div>) no matchea
+   este selector y permanece plana. */
 a.contact-card:hover {
   border-color: var(--color-accent);
+  transform: translateY(var(--elevation-lift));
+  box-shadow: var(--elevation-hover);
 }
 
 a.contact-card:hover .contact-card__icon {
@@ -578,4 +609,38 @@ a.contact-card:hover .contact-card__icon {
   white-space: nowrap;
 }
 
-/* Variante "Próximamente": estado inactivo. Sin opacity
+/* Variante "Próximamente": estado inactivo. Sin opacity — la
+   atenuación visual proviene de --color-text-disabled, token
+   verificado WCAG AA (5.6:1) contra --color-surface y
+   --color-surface-raised. El borde y el fondo se mantienen
+   iguales al estado activo para que la tarjeta siga siendo
+   identificable como elemento de la grilla, no como "rota" o
+   "ausente".
+
+   NOTA DE RESTAURACIÓN (S2). Este bloque y .contact-card__badge
+   se habían perdido en un commit de carga manual («Add files via
+   upload») que truncó el archivo a mitad de este comentario; se
+   restauran desde el historial, migrados a los tokens v2. */
+.contact-card--proximamente {
+  cursor: default;
+}
+
+.contact-card--proximamente .contact-card__icon {
+  color: var(--color-text-disabled);
+}
+
+.contact-card--proximamente .contact-card__value {
+  color: var(--color-text-disabled);
+}
+
+.contact-card__badge {
+  align-self: flex-start;
+  margin-top: var(--space-2);
+  padding: var(--space-px-2) var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);     /* 11 px */
+  letter-spacing: var(--tracking-wide);
+  background: var(--color-border-soft);
+  color: var(--color-text-soft);
+  border-radius: var(--radius-pill);
+}

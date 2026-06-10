@@ -317,6 +317,20 @@ pre {
   }
 }
 
+/* Ritmo vertical entre secciones (contrato S2, tokens.css
+   §ESPACIADO — CONTRATO DE RITMO): toda sección hermana de otra
+   dentro del flujo principal respira --section-gap. Antes ninguna
+   regla separaba secciones y cada página dependía de márgenes ad
+   hoc de componente. :where() mantiene la especificidad en 0-0-2
+   para que cualquier componente con ritmo propio (.cta-final,
+   .gabinetes-feature) la sobreescriba con una sola clase. Los
+   márgenes adyacentes colapsan con los de esos componentes, por lo
+   que la regla no duplica respiración donde ya existe. */
+:where(.page) > section + section,
+:where(.about-panel) > section + section {
+  margin-block-start: var(--section-gap);
+}
+
 
 /* ─────────────────────────────────────────────────────────────
    5. BREAKPOINTS (referencia)
