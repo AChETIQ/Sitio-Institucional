@@ -25,7 +25,7 @@
 .breadcrumbs {
   font-family: var(--font-body);
   font-size: var(--text-small);       /* 13 px */
-  color: var(--color-ink-faint);
+  color: var(--color-text-faint);
 }
 
 .breadcrumbs__list {
@@ -50,24 +50,24 @@
 .breadcrumbs__list li:not(:first-child)::before {
   content: "›";
   padding-inline: var(--space-2);
-  color: var(--color-ink-faint);
+  color: var(--color-text-faint);
   speak: none;
 }
 
 .breadcrumbs a {
-  color: var(--color-ink-faint);
+  color: var(--color-text-faint);
   text-decoration: none;
   transition: color var(--transition-fast);
 }
 
 .breadcrumbs a:hover {
-  color: var(--color-primary);
+  color: var(--color-accent);
 }
 
 /* Último ítem (la página actual): texto plano, color ink,
    marcado con aria-current="page" en el HTML. */
 .breadcrumbs__list li[aria-current="page"] {
-  color: var(--color-ink);
+  color: var(--color-text);
 }
 
 
@@ -102,9 +102,9 @@
   font-family: var(--font-body);
   font-size: var(--text-small);       /* 13 px */
   font-weight: var(--weight-medium);
-  color: var(--color-ink);
+  color: var(--color-text);
   background: transparent;
-  border: 1px solid var(--color-rule);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-pill);
   transition: background var(--transition-fast),
               border-color var(--transition-fast),
@@ -114,22 +114,22 @@
 /* Hover sobre pill no activo. El selector :not(.is-active)
    evita que el hover compita visualmente con el estado activo. */
 .pill-nav__pill:hover:not(.is-active) {
-  background: var(--color-bg-panel);
-  border-color: var(--color-primary);
+  background: var(--color-surface-raised);
+  border-color: var(--color-accent);
 }
 
-/* Estado activo. Fondo en primary, texto en bg (contraste
-   --color-bg / --color-primary ≈ 10.7:1, WCAG AAA). El borde
-   pasa también a primary para evitar el "halo" del borde rule
-   visible sobre el fondo coloreado. */
+/* Estado activo. Fondo en acento, texto en --color-on-accent
+   (contraste ≈ 8.6:1, WCAG AAA). El borde pasa también a acento
+   para evitar el "halo" del borde estándar visible sobre el
+   fondo coloreado. */
 .pill-nav__pill.is-active {
-  background: var(--color-primary);
-  color: var(--color-bg);
-  border-color: var(--color-primary);
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  border-color: var(--color-accent);
 }
 
 /* Foco visible: heredado del :focus-visible global en main.css
-   (outline 2 px en --color-primary con offset 2 px). Sobre la
+   (outline 2 px en --color-accent con offset 2 px). Sobre la
    pill activa el outline queda sobre el fondo de página, por
    lo que sigue siendo perfectamente perceptible. No requiere
    override. */

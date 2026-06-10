@@ -43,7 +43,7 @@
   min-height: calc(100svh - var(--navbar-height));
   padding: var(--space-16) var(--page-padding-x);
   overflow: hidden;
-  background: var(--color-primary);   /* base visible mientras carga la 1.ª imagen */
+  background: var(--color-surface-inverse);   /* base visible mientras carga la 1.ª imagen */
 }
 
 /* Capa de imágenes. Cada slide ocupa todo el hero y sólo varía su
@@ -73,7 +73,7 @@
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: var(--color-hero-scrim);
+  background: var(--color-scrim);
 }
 
 .hero__content {
@@ -96,36 +96,36 @@
 }
 
 /* H1 hereda familia/escala display de la regla global; aquí se
-   recolorea para fotografía y se escala de forma fluida para leerse
-   grande y profesional. El titular largo de la asociación cae en dos
-   líneas equilibradas (text-wrap: balance) ocupando el ancho del
-   contenido; el tope del clamp evita que se vuelva desmesurado. */
+   recolorea para fotografía y sube al rol display-xl de la escala
+   fluida (tokens.css): 40 px en móvil → 65 px en desktop. El titular
+   largo de la asociación cae en líneas equilibradas
+   (text-wrap: balance) ocupando el ancho del contenido. */
 .hero__title {
   color: var(--color-on-media);
-  font-size: clamp(var(--text-h2), 4.5vw + 0.5rem, calc(var(--text-display) * 1.35));
+  font-size: var(--text-display-xl);
   line-height: var(--leading-tight);
   max-width: 100%;
   text-wrap: balance;
   /* Sombra de legibilidad sobre el slideshow: dos capas (halo difuso +
-     contacto nítido) derivadas de --color-ink, sin colores literales. */
+     contacto nítido) derivadas de --color-text, sin colores literales. */
   text-shadow:
-    0 4px 16px color-mix(in srgb, var(--color-ink) 60%, transparent),
-    0 2px 4px color-mix(in srgb, var(--color-ink) 80%, transparent);
+    0 4px 16px color-mix(in srgb, var(--color-text) 60%, transparent),
+    0 2px 4px color-mix(in srgb, var(--color-text) 80%, transparent);
 }
 
-/* Subtítulo (h2): tipografía de cuerpo, más pequeño que el global
-   y en blanco atenuado para subordinarlo al titular. */
+/* Subtítulo (h2): tipografía de cuerpo en el rol lead de la escala
+   fluida, en blanco atenuado para subordinarlo al titular. */
 .hero__subtitle {
   font-family: var(--font-body);
   font-weight: var(--weight-regular);
-  font-size: clamp(var(--text-h3), 2vw + 0.5rem, var(--text-h2));
+  font-size: var(--text-lead);
   line-height: var(--leading-snug);
   color: var(--color-on-media-soft);
   max-width: 46ch;
   text-wrap: balance;
   text-shadow:
-    0 4px 16px color-mix(in srgb, var(--color-ink) 60%, transparent),
-    0 2px 4px color-mix(in srgb, var(--color-ink) 80%, transparent);
+    0 4px 16px color-mix(in srgb, var(--color-text) 60%, transparent),
+    0 2px 4px color-mix(in srgb, var(--color-text) 80%, transparent);
 }
 
 /* Grupo de acciones: apilado vertical en mobile, fila centrada en
@@ -185,7 +185,7 @@
    2.2  PAGE HEADER — .page-header
    ─────────────────────────────────────────────────────────────
    Cabecera compacta de páginas interiores. 48 px arriba, 32 px
-   abajo. Borde inferior 1 px `--color-rule` para separar del
+   abajo. Borde inferior 1 px `--color-border` para separar del
    primer bloque temático.
    ───────────────────────────────────────────────────────────── */
 
@@ -194,7 +194,7 @@
   flex-direction: column;
   gap: var(--space-3);
   padding-block: var(--space-12) var(--space-8);
-  border-bottom: 1px solid var(--color-rule);
+  border-bottom: 1px solid var(--color-border);
   margin-bottom: var(--space-12);
 }
 
@@ -207,8 +207,8 @@
   font-family: var(--font-body);
   font-size: var(--text-h3);
   line-height: var(--leading-relaxed);
-  color: var(--color-ink-soft);
-  max-width: 56ch;
+  color: var(--color-text-soft);
+  max-width: var(--measure-narrow);
 }
 
 
@@ -233,7 +233,7 @@
    ─────────────────────────────────────────────────────────────
    Dos columnas paralelas en desktop, una sola en mobile. Cada
    columna lleva borde lateral izquierdo de 3 px en
-   `--color-primary` (decisión de simetría sin <h2> global —
+   `--color-accent` (decisión de simetría sin <h2> global —
    FASE_1 §2.4: Misión y Visión sin jerarquía entre sí).
    ───────────────────────────────────────────────────────────── */
 
@@ -247,8 +247,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-  background: var(--color-bg-panel);
-  border-left: 3px solid var(--color-primary);
+  background: var(--color-surface-raised);
+  border-left: 3px solid var(--color-accent);
   border-radius: var(--radius-md);
   padding: var(--space-6) var(--space-6) var(--space-6) var(--space-8);
 }
@@ -262,11 +262,11 @@
   font-weight: var(--weight-medium);
   letter-spacing: var(--tracking-wider);
   text-transform: uppercase;
-  color: var(--color-primary);
+  color: var(--color-accent);
 }
 
 /* Ícono Lucide inline. `currentColor` hace que herede el color
-   del label (`--color-primary`). 16×16 px = `var(--text-h4)`. */
+   del label (`--color-accent`). 16×16 px = `var(--text-h4)`. */
 .mission-vision__icon {
   width: var(--text-h4);
   height: var(--text-h4);
@@ -278,8 +278,8 @@
   font-family: var(--font-body);
   font-size: var(--text-h4);          /* 16 px */
   line-height: var(--leading-relaxed);
-  color: var(--color-ink-soft);
-  max-width: 56ch;
+  color: var(--color-text-soft);
+  max-width: var(--measure-narrow);
 }
 
 @media (min-width: 768px) {

@@ -17,7 +17,7 @@
    hay datos todavía (galería sin álbumes, noticias vacías,
    gabinete sin proyectos activos). Padding generoso para que
    la sección se sienta "en pausa" pero no rota. Íconos y
-   títulos en --color-ink-faint para suavizar el registro.
+   títulos en --color-text-faint para suavizar el registro.
    ───────────────────────────────────────────────────────────── */
 
 .empty-state {
@@ -33,19 +33,19 @@
 .empty-state__icon {
   width: var(--space-12);             /* 48 px */
   height: var(--space-12);
-  color: var(--color-ink-faint);
+  color: var(--color-text-faint);
 }
 
 .empty-state__title {
   /* H3 global; color sobrescrito a faint para registrar
-     "sección en pausa". Cumple WCAG AA (~4.5:1) al ser
-     >= 18 px de tipografía. */
-  color: var(--color-ink-faint);
+     "sección en pausa". Cumple WCAG AA (5.6:1 sobre
+     --color-surface). */
+  color: var(--color-text-faint);
 }
 
 .empty-state__desc {
   font-size: var(--text-small);
-  color: var(--color-ink-faint);
+  color: var(--color-text-faint);
   max-width: 50ch;
 }
 
@@ -57,7 +57,7 @@
    renderer fallan, assets/js/loaders.js inserta este bloque con
    role="alert". Mantiene el mismo registro visual que el
    empty-state (centrado, padding generoso, una sola línea de
-   copy) pero con la tinta semántica de --color-neg y un sutil
+   copy) pero con la tinta semántica de --color-negative y un sutil
    borde de aviso para distinguirlo del estado vacío.
    Sin botones de acción: el mensaje invita a recargar, no se
    sobreescribe el patrón de CTA del sitio.
@@ -72,8 +72,8 @@
   gap: var(--space-3);
   padding-block: var(--space-12);
   padding-inline: var(--space-5);
-  background: color-mix(in oklab, var(--color-neg) 4%, var(--color-bg-panel));
-  border: 1px solid color-mix(in oklab, var(--color-neg) 25%, var(--color-rule));
+  background: color-mix(in oklab, var(--color-negative) 4%, var(--color-surface-raised));
+  border: 1px solid color-mix(in oklab, var(--color-negative) 25%, var(--color-border));
   border-radius: var(--radius-lg);
 }
 
@@ -81,7 +81,7 @@
   font-family: var(--font-body);
   font-size: var(--text-body);
   line-height: var(--leading-relaxed);
-  color: var(--color-neg);
+  color: var(--color-negative);
   max-width: 50ch;
 }
 
@@ -100,17 +100,16 @@
   padding: var(--space-px-2) var(--space-2);
   font-family: var(--font-mono);
   font-size: var(--text-eyebrow-sm);  /* 11 px */
-  color: var(--color-ink);
-  background: var(--color-rule-soft);
+  color: var(--color-text);
+  background: var(--color-border-soft);
   border-radius: var(--radius-sm);
 }
 
-/* Variante destacada: fondo primary-mid, texto bg.
-   Contraste --color-bg / --color-primary-mid ≈ 4.6:1 → WCAG AA
-   para texto pequeño. */
+/* Variante destacada: fondo acento medio, texto --color-on-accent.
+   Contraste ≈ 5.5:1 → WCAG AA para texto pequeño. */
 .tag--primary {
-  background: var(--color-primary-mid);
-  color: var(--color-bg);
+  background: var(--color-accent-soft);
+  color: var(--color-on-accent);
 }
 
 
@@ -121,7 +120,7 @@
    saltos de layout. Bloque con dimensiones equivalentes al
    componente final (definidas por la página que lo use vía
    width/height o modificadores --text/--avatar/--card), fondo
-   --color-rule-soft con pulso sutil de opacidad.
+   --color-border-soft con pulso sutil de opacidad.
 
    La opacity acá es decorativa pura (el bloque no contiene
    texto). El @media (prefers-reduced-motion) global de
@@ -130,7 +129,7 @@
    ───────────────────────────────────────────────────────────── */
 
 .skeleton {
-  background: var(--color-rule-soft);
+  background: var(--color-border-soft);
   border-radius: var(--radius-md);
   animation: skeleton-pulse 1.5s ease-in-out infinite;
 }

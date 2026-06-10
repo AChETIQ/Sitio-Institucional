@@ -83,14 +83,13 @@
 }
 
 /* Eyebrow: reutiliza la utilidad global .eyebrow (mono, uppercase,
-   tracking-wider, --color-ink-faint = muted). No se redefine. */
+   tracking-wider, --color-text-faint = muted). No se redefine. */
 
 /* Titular display. Parte de la escala global de <h2> (familia
-   display; el <em> hereda itálica + --color-primary de `h2 em`) y
-   lo agranda de forma fluida entre --text-h2 (32) y --text-display
-   (48) → "text-4xl md:text-5xl". */
+   display; el <em> hereda itálica + --color-accent de `h2 em`) y
+   sube al rol display de la escala fluida (40→52 px). */
 .about-intro__title {
-  font-size: clamp(var(--text-h2), 4vw + 0.5rem, var(--text-display));
+  font-size: var(--text-display);
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-tight);
   text-wrap: balance;
@@ -98,33 +97,33 @@
 
 /* Lead: mayor tamaño (text-xl) y medida ~62ch. */
 .about-intro__lead {
-  font-size: var(--text-h3);            /* 20 px */
+  font-size: var(--text-h3);
   line-height: var(--leading-relaxed);
-  color: var(--color-ink-soft);
-  max-width: 62ch;
+  color: var(--color-text-soft);
+  max-width: var(--measure-prose);
 }
 
 /* Cuerpo: tamaño base, misma medida. */
 .about-intro__body {
-  font-size: var(--text-body);          /* 15 px */
+  font-size: var(--text-body);
   line-height: var(--leading-relaxed);
-  color: var(--color-ink-soft);
-  max-width: 62ch;
+  color: var(--color-text-soft);
+  max-width: var(--measure-prose);
 }
 
-/* CTA con flecha. Color primario (rol «texto de enlace» del
-   sistema), no el naranja --color-cta (reservado a botones de
+/* CTA con flecha. Color de acento (rol «texto de enlace» del
+   sistema), no el cobre --color-cta (reservado a botones de
    acción primaria). */
 .about-intro__cta {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
   font-weight: var(--weight-medium);
-  color: var(--color-primary);
+  color: var(--color-accent);
 }
 
 .about-intro__cta:hover {
-  color: var(--color-primary-mid);
+  color: var(--color-accent-soft);
 }
 
 .about-intro__cta-icon {
@@ -160,7 +159,7 @@
   aspect-ratio: 16 / 9;                  /* panorámica suave; contenida en su columna (no sangra) */
   border-radius: var(--radius-lg);
   overflow: hidden;
-  background: var(--color-rule-soft);   /* fondo mientras carga la imagen */
+  background: var(--color-border-soft);   /* fondo mientras carga la imagen */
 }
 
 /* ── Desplazamiento horizontal de la imagen (solo desktop ≥768) ──────────
@@ -200,8 +199,8 @@
   pointer-events: none;
   background: linear-gradient(
     155deg,
-    color-mix(in srgb, var(--color-primary) 24%, transparent) 0%,
-    color-mix(in srgb, var(--color-primary) 8%, transparent) 42%,
+    color-mix(in srgb, var(--color-accent) 24%, transparent) 0%,
+    color-mix(in srgb, var(--color-accent) 8%, transparent) 42%,
     transparent 100%
   );
 }
@@ -219,15 +218,15 @@
    B.  NUESTROS GABINETES — .gabinetes-feature
    ─────────────────────────────────────────────────────────────
    Banda con un tono apenas diferenciado del crema base
-   (--color-bg-panel) para separarla de «Quiénes somos». Encabezado
+   (--color-surface-raised) para separarla de «Quiénes somos». Encabezado
    (eyebrow + titular display) + grilla de 4 tarjetas con ícono +
    enlace inferior. El margen superior es 0: la separación con la
    subsección anterior la da su padding inferior.
    ───────────────────────────────────────────────────────────── */
 
 .gabinetes-feature {
-  background: var(--color-bg-panel);
-  border: 1px solid var(--color-rule-soft);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border-soft);
   border-radius: var(--radius-xl);
   padding-block: var(--feature-pad-y);
   padding-inline: var(--space-6);       /* 24 px — mobile */
@@ -243,7 +242,7 @@
 }
 
 .gabinetes-feature__title {
-  font-size: clamp(var(--text-h2), 4vw + 0.5rem, var(--text-display));
+  font-size: var(--text-display);
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-tight);
   text-wrap: balance;
@@ -278,7 +277,7 @@
   gap: var(--space-3);
   height: 100%;
   background: transparent;
-  border: 1px solid var(--color-rule);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   padding: var(--space-6);              /* 24 px */
   transition: border-color var(--transition-fast),
@@ -292,15 +291,14 @@
 
 .gabinete-card:hover,
 .gabinete-card:focus-within {
-  border-color: var(--color-primary);
+  border-color: var(--color-accent);
   transform: translateY(-2px);
-  box-shadow: 0 var(--space-2) var(--space-6)
-              color-mix(in srgb, var(--color-ink) 8%, transparent);
+  box-shadow: var(--shadow-sm);
 }
 
 .gabinete-card__icon {
   display: inline-flex;
-  color: var(--color-primary);
+  color: var(--color-accent);
 }
 
 .gabinete-card__icon svg {
@@ -309,11 +307,11 @@
 }
 
 /* .gabinete-card__title hereda <h3> global: font-body, medium,
-   --text-h3 (20px), --color-ink. */
+   --text-h3 (20px), --color-text. */
 
 .gabinete-card__desc {
   font-size: var(--text-small);         /* 13 px */
-  color: var(--color-ink-soft);
+  color: var(--color-text-soft);
 }
 
 .gabinete-card__link {
@@ -323,7 +321,7 @@
   margin-top: auto;                     /* empuja el CTA al fondo */
   font-size: var(--text-small);
   font-weight: var(--weight-medium);
-  color: var(--color-primary);
+  color: var(--color-accent);
 }
 
 .gabinete-card__link-icon {

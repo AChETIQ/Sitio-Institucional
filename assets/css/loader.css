@@ -51,7 +51,7 @@
 .loader__dot {
   width: var(--space-3);            /* 12 px de diámetro. */
   height: var(--space-3);
-  background: var(--color-primary);
+  background: var(--color-accent);
   border-radius: var(--radius-pill);
   animation: loader-bounce 0.6s infinite ease-in-out;
 }
@@ -78,7 +78,7 @@
 .loader__message {
   font-family: var(--font-body);
   font-size: var(--text-small);
-  color: var(--color-ink-soft);
+  color: var(--color-text-soft);
 }
 
 
@@ -94,7 +94,7 @@
   position: fixed;
   inset: 0;
   z-index: var(--z-overlay);
-  background: color-mix(in oklab, var(--color-bg) 80%, transparent);
+  background: color-mix(in oklab, var(--color-surface) 80%, transparent);
   backdrop-filter: blur(2px);
 }
 

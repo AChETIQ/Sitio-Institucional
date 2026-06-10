@@ -209,7 +209,8 @@ achetiq-lab/                      ← raíz del repositorio
 │   │   ├── apuntes.js            ← override del loader «recursos» (pills + estado)
 │   │   └── gabinete-detalle.js   ← override de «gabinetes» para subpáginas
 │   ├── fonts/                    ← tipografías autoalojadas (.woff2)
-│   │   ├── geist-400.woff2
+│   │   ├── geist-400-600.woff2
+│   │   ├── geist-mono-400-500.woff2
 │   │   ├── instrument-serif-400.woff2
 │   │   └── instrument-serif-400-italic.woff2
 │   └── img/

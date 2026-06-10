@@ -7,7 +7,7 @@
                gabinete?» / «Aportar material»).
 
    El catálogo (FASE_1_Catalogo_Componentes.md) describe estos
-   cierres de página como «bloque dedicado, fondo --color-primary»
+   cierres de página como «bloque dedicado, fondo --color-accent»
    sin componentizarlos. Esta hoja formaliza la variante de fondo
    primario (la única usada en index.html y pages/sobre-achetiq.html
    por ahora). Cuando entren en alcance las variantes de fondo
@@ -21,17 +21,17 @@
 /* ─────────────────────────────────────────────────────────────
    CTA FINAL — .cta-final
    ─────────────────────────────────────────────────────────────
-   Bloque de cierre de página: fondo --color-primary, contenido
+   Bloque de cierre de página: fondo --color-accent, contenido
    centrado, botones con paleta invertida para mantener contraste
    y jerarquía contra el fondo oscuro.
 
-   CONTRASTE WCAG (paleta Océano & Areia, ya analizada en tokens):
-     · --color-bg sobre --color-primary ≈ 10.7 : 1 — AAA para
+   CONTRASTE WCAG (paleta Pátina & Cobre, documentada en tokens):
+     · --color-on-accent sobre --color-accent ≈ 8.6 : 1 — AAA para
        texto normal y grande.
-     · .btn-primary invertido (texto --color-primary sobre
-       --color-bg) mantiene el mismo ratio.
-     · .btn-secondary outline (texto --color-bg + borde --color-bg
-       sobre --color-primary) idem.
+     · .btn-primary invertido (texto --color-accent sobre
+       --color-on-accent) mantiene el mismo ratio.
+     · .btn-secondary outline (texto --color-on-accent + borde
+       --color-on-accent sobre --color-accent) idem.
    ───────────────────────────────────────────────────────────── */
 
 .cta-final {
@@ -41,8 +41,8 @@
   text-align: center;
   gap: var(--space-4);
 
-  background: var(--color-primary);
-  color: var(--color-bg);
+  background: var(--color-accent);
+  color: var(--color-on-accent);
 
   border-radius: var(--radius-lg);
   padding: var(--space-12) var(--space-6);
@@ -51,31 +51,31 @@
 
 /* Inversión cromática del eyebrow global (.eyebrow vive en
    tokens.css §UTILIDADES DE TIPOGRAFÍA y por defecto usa
-   --color-ink-faint, ilegible sobre fondo primario). */
+   --color-text-faint, ilegible sobre fondo primario). */
 .cta-final .eyebrow {
-  color: var(--color-bg);
+  color: var(--color-on-accent);
 }
 
 /* Título del CTA. H2 hereda su escala y familia de los estilos
    globales (main.css §3); aquí sólo cambia color y limita ancho
    para forzar quiebre en zona de máxima legibilidad. El <em>
    interno hereda el color del padre (no aplicamos
-   `--color-primary` como hace la regla global de `h2 em` —
+   `--color-accent` como hace la regla global de `h2 em` —
    quedaría invisible sobre el fondo). */
 .cta-final__title {
-  color: var(--color-bg);
+  color: var(--color-on-accent);
   max-width: 22ch;
 }
 
 .cta-final__title em {
-  color: var(--color-bg);
+  color: var(--color-on-accent);
 }
 
 .cta-final__lead {
   font-family: var(--font-body);
   font-size: var(--text-h4);
   line-height: var(--leading-relaxed);
-  color: var(--color-bg);
+  color: var(--color-on-accent);
   max-width: 60ch;
 }
 
@@ -89,21 +89,21 @@
   margin-top: var(--space-4);
 }
 
-/* Inversión de botones sobre fondo primario. Los .btn globales
+/* Inversión de botones sobre fondo de acento. Los .btn globales
    (tokens.css §COMPONENTE — BOTÓN) están pensados para fondo
-   claro: .btn-primary usa --color-cta (naranja) y .btn-secondary
-   borde --color-primary. Sobre fondo --color-primary, el naranja
-   da un contraste cromático ruidoso y el outline azul desaparece;
-   por eso aquí cambiamos a paleta clara. */
+   claro: .btn-primary usa --color-cta (cobre) y .btn-secondary
+   borde --color-accent. Sobre fondo --color-accent, el cobre
+   resulta cromáticamente ruidoso y el outline pátina desaparece;
+   por eso aquí cambiamos a paleta clara (--color-on-accent). */
 .cta-final .btn-primary {
-  background: var(--color-bg);
-  color: var(--color-primary);
+  background: var(--color-on-accent);
+  color: var(--color-accent);
 }
 
 .cta-final .btn-secondary {
   background: transparent;
-  color: var(--color-bg);
-  border: 1px solid var(--color-bg);
+  color: var(--color-on-accent);
+  border: 1px solid var(--color-on-accent);
 }
 
 /* Tablet/desktop: padding interno más generoso para que el

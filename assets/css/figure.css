@@ -47,5 +47,5 @@
   font-size: var(--text-caption);     /* 12 px */
   font-weight: var(--weight-regular);
   letter-spacing: var(--tracking-wide);
-  color: var(--color-ink-faint);
+  color: var(--color-text-faint);
 }

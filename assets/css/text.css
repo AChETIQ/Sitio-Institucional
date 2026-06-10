@@ -20,8 +20,8 @@
    ───────────────────────────────────────────────────────────── */
 
 .prose {
-  max-width: 65ch;
-  color: var(--color-ink-soft);
+  max-width: var(--measure-prose);
+  color: var(--color-text-soft);
   font-size: var(--text-body);
   line-height: var(--leading-relaxed);
 }
@@ -35,12 +35,12 @@
 }
 
 /* Subtítulos internos: 32 px de respiración previa, color
-   `--color-ink` (más fuerte que el cuerpo) para reafirmar
+   `--color-text` (más fuerte que el cuerpo) para reafirmar
    jerarquía dentro del bloque. */
 .prose > h3 {
   margin-top: var(--space-8);
   margin-bottom: var(--space-3);
-  color: var(--color-ink);
+  color: var(--color-text);
 }
 
 /* Listas dentro de .prose: respetan el espaciado entre párrafos
@@ -63,13 +63,13 @@
    interrumpir el flujo de lectura. */
 .prose a {
   text-decoration: underline;
-  text-decoration-color: var(--color-rule);
+  text-decoration-color: var(--color-border);
   text-underline-offset: 0.2em;
   transition: text-decoration-color var(--transition-fast);
 }
 
 .prose a:hover {
-  text-decoration-color: var(--color-primary);
+  text-decoration-color: var(--color-accent);
 }
 
 
@@ -77,12 +77,12 @@
    3.2  QUOTE — .quote
    ─────────────────────────────────────────────────────────────
    Cita destacada (testimonio, frase institucional). Borde
-   izquierdo de 3 px en `--color-primary`, texto principal en
+   izquierdo de 3 px en `--color-accent`, texto principal en
    tipografía display itálica, atribución debajo en body normal.
    ───────────────────────────────────────────────────────────── */
 
 .quote {
-  border-left: 3px solid var(--color-primary);
+  border-left: 3px solid var(--color-accent);
   padding-left: var(--space-5);
   display: flex;
   flex-direction: column;
@@ -96,12 +96,12 @@
   font-style: italic;
   font-size: var(--text-h3);          /* 20 px */
   line-height: var(--leading-snug);
-  color: var(--color-ink);
+  color: var(--color-text);
 }
 
 .quote__attribution {
   font-family: var(--font-body);
   font-size: var(--text-small);       /* 13 px */
   font-weight: var(--weight-regular);
-  color: var(--color-ink-faint);
+  color: var(--color-text-faint);
 }
