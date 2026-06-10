@@ -51,14 +51,80 @@
   grid-template-columns: repeat(auto-fit, minmax(min(var(--card-min), 100%), 1fr));
 }
 
-@media (min-width: 768px) {
-  .grid-cards--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .grid-cards--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .grid-cards--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+/* ── CONTAINER QUERIES (S3) ──────────────────────────────────
+   Los modificadores --2/--3/--4 ya no consultan el viewport sino
+   el ancho del CONTENEDOR del grid: un grid colocado en un
+   contexto angosto (columna lateral, panel) colapsa solo aunque
+   el viewport sea ancho.
+
+   Arquitectura en dos niveles:
+     1. El PADRE del grid se declara query container vía :has()
+        (un elemento no puede consultar su propio tamaño): de él
+        leen los modificadores de columnas.
+     2. El PROPIO .grid-cards se declara container a su vez: de él
+        leen las TARJETAS para sus ajustes internos (p. ej. el
+        cambio vertical → horizontal de .card-documento más abajo
+        y de .card-recurso en cards.css §4.6).
+
+   Umbrales canónicos (tokens.css §UMBRALES DE CONTENEDOR):
+     560 px → 2 col · 860 px → 3 col / horizontales · 1080 px → 4 col.
+   La grilla de directiva (--4 con .card-integrante) intercala un
+   paso de 3 columnas en 860 px: doce retratos 1:1 en pistas de
+   media página resultan desproporcionados en tablet apaisada.
+
+   PROGRESIVE ENHANCEMENT. La rama @supports exige container
+   queries Y :has() (Chrome/Edge 105+, Safari 16+, Firefox 121+);
+   cualquier navegador que no cumpla ambas cae en la rama
+   @supports not(…) con las @media originales por viewport. Así
+   ningún navegador con CQ pero sin :has() queda con grids de una
+   sola columna. */
+@supports (container-type: inline-size) and (selector(:has(*))) {
+  :where(:has(> .grid-cards)) {
+    container-type: inline-size;
+  }
+
+  .grid-cards {
+    container-type: inline-size;
+  }
+
+  @container (min-width: 560px) {
+    .grid-cards--2,
+    .grid-cards--3,
+    .grid-cards--4 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @container (min-width: 860px) {
+    .grid-cards--3,
+    .grid-cards--4:has(> .card-integrante) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @container (min-width: 1080px) {
+    /* El selector :has repetido iguala la especificidad (0,2,0) de
+       la regla de 3 columnas de 860 px: sin él, la directiva
+       quedaría clavada en 3 pistas también en contenedores anchos. */
+    .grid-cards--4,
+    .grid-cards--4:has(> .card-integrante) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
 }
 
-@media (min-width: 1024px) {
-  .grid-cards--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+/* Fallback por viewport (navegadores sin container queries o sin
+   :has()): el comportamiento previo a S3, sin cambios. */
+@supports not ((container-type: inline-size) and (selector(:has(*)))) {
+  @media (min-width: 768px) {
+    .grid-cards--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-cards--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-cards--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media (min-width: 1024px) {
+    .grid-cards--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
 }
 
 /* Alineación interna entre tarjetas hermanas vía subgrid: las
@@ -247,16 +313,37 @@
   align-self: flex-start;
 }
 
-@media (min-width: 768px) {
-  .card-documento {
-    flex-direction: row;
-    align-items: flex-start;
-    gap: var(--space-5);
-  }
+/* Cambio vertical → horizontal dirigido por el ancho del GRID que
+   contiene a la tarjeta (.grid-cards es query container, §5.1):
+   con el grid a dos columnas, la tarjeta solo se acuesta cuando su
+   pista supera ~420 px (grid ≥ 860 px), no por viewport. */
+@supports (container-type: inline-size) and (selector(:has(*))) {
+  @container (min-width: 860px) {
+    .card-documento {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: var(--space-5);
+    }
 
-  .card-documento__action {
-    align-self: center;
-    margin-left: auto;
+    .card-documento__action {
+      align-self: center;
+      margin-left: auto;
+    }
+  }
+}
+
+@supports not ((container-type: inline-size) and (selector(:has(*)))) {
+  @media (min-width: 768px) {
+    .card-documento {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: var(--space-5);
+    }
+
+    .card-documento__action {
+      align-self: center;
+      margin-left: auto;
+    }
   }
 }
 

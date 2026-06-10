@@ -1,0 +1,218 @@
+/* ============================================================
+   AChETIQ — Estilos de impresión (print.css)
+   ------------------------------------------------------------
+   Versión: 1.0 · S3 — Comportamiento responsive y medios
+   Importado desde assets/css/main.css §1 (último de la cadena,
+   para ganar por orden de aparición a igual especificidad).
+
+   Alcance: TODO el sitio. Una sola hoja agrupa las reglas
+   @media print para que el criterio de impresión sea auditable
+   en un solo lugar.
+
+   Principios:
+     1. Tinta negra sobre papel blanco: se descartan fondos,
+        sombras y velos (ahorro de tóner + máximo contraste).
+        EXCEPCIÓN DELIBERADA al contrato «cero colores literales»:
+        en papel los tokens de pantalla no aplican; se usan las
+        palabras clave `black`/`white`, documentadas aquí.
+     2. Se imprime el CONTENIDO, no la interfaz: navegación,
+        footer, CTAs, filtros, loaders y countdown se ocultan.
+     3. Los enlaces externos de recursos exponen su URL entre
+        paréntesis: el papel no es clickeable.
+     4. Control de salto de página: las tarjetas no se parten y
+        los títulos no quedan huérfanos al pie de la hoja.
+
+   NOTA SOBRE max-width. El contrato responsive del sitio (S3)
+   prohíbe @media (max-width…) en pantalla; dentro de @media print
+   no hay cascada mobile-first que proteger, pero igualmente no se
+   usa: todas las reglas son incondicionales dentro del bloque.
+   ============================================================ */
+
+@media print {
+
+  /* ───────────────────────────────────────────────────────────
+     1. TINTA NEGRA SOBRE PAPEL BLANCO
+     ─────────────────────────────────────────────────────────── */
+
+  *,
+  *::before,
+  *::after {
+    background: transparent !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+
+  html,
+  body {
+    background: white !important;
+  }
+
+  body {
+    font-size: 11pt;
+    line-height: 1.5;
+  }
+
+  /* ───────────────────────────────────────────────────────────
+     2. INTERFAZ QUE NO SE IMPRIME
+     Navegación (principal y fallback), footer, CTAs de cierre,
+     loaders/skeletons, countdown (dato caduco en papel), filtros
+     interactivos y controles de la herramienta Seguimiento.
+     ─────────────────────────────────────────────────────────── */
+
+  .navbar,
+  .navbar-fallback,
+  [data-loader="navbar"],
+  .footer,
+  .footer-fallback,
+  [data-loader="footer"],
+  .skip-link,
+  .cta-final,
+  .loader,
+  .skeleton,
+  .countdown,
+  .pill-nav,
+  .seguimiento__actions,
+  .seg-tabs,
+  .seg-dialog,
+  .gabinetes-feature__more,
+  .hero__cta,
+  .hero__slideshow,
+  .hero__overlay {
+    display: none !important;
+  }
+
+  /* ───────────────────────────────────────────────────────────
+     3. ESTRUCTURA DE PÁGINA
+     El contenido ocupa el ancho del papel; el hero deja de ser
+     una composición a pantalla completa y se imprime como una
+     cabecera tipográfica plana.
+     ─────────────────────────────────────────────────────────── */
+
+  .page {
+    max-width: none;
+    padding: 0;
+  }
+
+  .hero {
+    min-height: 0;
+    padding: 0 0 24pt;
+  }
+
+  .hero__content {
+    max-width: none;
+    gap: 8pt;
+  }
+
+  /* El revelado por scroll y el corrimiento de la imagen del home
+     no aplican al papel: la figura se imprime contenida. */
+  .about-intro__figure {
+    transform: none !important;
+    clip-path: none !important;
+    opacity: 1 !important;
+  }
+
+  /* ───────────────────────────────────────────────────────────
+     4. ENLACES — URL expandida en recursos externos
+     Solo enlaces http(s) dentro del contenido principal: el
+     papel no es clickeable y la URL es el dato útil. Se excluyen
+     los anclajes internos y los botones (la URL larga rompería
+     la caja del botón).
+     ─────────────────────────────────────────────────────────── */
+
+  a {
+    text-decoration: underline;
+  }
+
+  main a[href^="http"]:not(.btn)::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+    word-break: break-all;
+  }
+
+  /* ───────────────────────────────────────────────────────────
+     5. CONTROL DE SALTO DE PÁGINA
+     Las tarjetas y entradas de contenido no se parten entre dos
+     hojas; los títulos arrastran consigo el bloque que encabezan
+     (sin encabezados huérfanos al pie del papel).
+     ─────────────────────────────────────────────────────────── */
+
+  h1, h2, h3, h4 {
+    break-after: avoid;
+    break-inside: avoid;
+  }
+
+  .card,
+  .card-materia,
+  .contact-card,
+  .card-documento,
+  .card-recurso,
+  .gabinete-card,
+  .mission-vision__col,
+  .timeline__entry,
+  .seg-kpi,
+  .quote,
+  .figure,
+  .page-header,
+  .section-title {
+    break-inside: avoid;
+  }
+
+  .seg-table tr {
+    break-inside: avoid;
+  }
+
+  /* ───────────────────────────────────────────────────────────
+     6. AJUSTES DE COMPONENTE
+     ─────────────────────────────────────────────────────────── */
+
+  /* Grids de tarjetas: dos columnas fijas en papel (compactas y
+     predecibles; el ancho de hoja no varía como un viewport).
+     Las colecciones de una sola tarjeta por fila quedan en una. */
+  .grid-cards,
+  .grid-cards--2,
+  .grid-cards--3,
+  .grid-cards--4,
+  .grid-cards--fluid,
+  .gabinetes-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12pt !important;
+  }
+
+  /* El cover coloreado de las materias es un bloque de fondo puro:
+     sin fondo no aporta nada y desperdicia papel. */
+  .card-materia__cover,
+  .card-noticia__cover-link {
+    display: none;
+  }
+
+  /* Los recortes de texto (line-clamp) liberan el contenido
+     completo: en papel no hay «leer más». */
+  .card-noticia__title,
+  .card-noticia__excerpt {
+    display: block;
+    -webkit-line-clamp: none;
+    overflow: visible;
+  }
+
+  /* Los valores de contacto truncados con ellipsis muestran el
+     dato completo (el email/dirección ES el contenido). */
+  .contact-card__value {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
+
+  /* Tablas del Seguimiento: el contenedor con scroll se expande
+     (en papel no hay scroll) y la cabecera sticky vuelve a flujo. */
+  .seg-table-scroll {
+    overflow: visible;
+    border: none;
+  }
+
+  .seg-table thead th {
+    position: static;
+  }
+}

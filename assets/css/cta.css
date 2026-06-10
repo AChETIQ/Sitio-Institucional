@@ -47,7 +47,11 @@
   color: var(--color-on-accent);
 
   border-radius: var(--radius-lg);
-  padding: var(--space-12) var(--space-6);
+  /* Padding fluido (S3): 48 → 64 px vertical y 24 → 48 px lateral
+     entre 360 y 1480 px de viewport. Absorbe el salto @media de
+     768 px que vivía al final de esta hoja. */
+  padding: clamp(48px, 42.86px + 1.43vw, 64px)
+           clamp(24px, 16.29px + 2.14vw, 48px);
   /* Respiración de sección del contrato de ritmo S2 (colapsa con
      el margen de la sección anterior, no se duplica). */
   margin-top: var(--section-gap);
@@ -110,10 +114,3 @@
   border: 1px solid var(--color-on-accent);
 }
 
-/* Tablet/desktop: padding interno más generoso para que el
-   bloque respire en pantallas anchas. */
-@media (min-width: 768px) {
-  .cta-final {
-    padding: var(--space-16) var(--space-12);
-  }
-}

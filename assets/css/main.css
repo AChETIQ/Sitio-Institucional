@@ -62,6 +62,10 @@
 @import url('cta.css');
 @import url('countdown-recursos.css');
 @import url('seguimiento.css');
+@import url('print.css');
+/* print.css agrupa TODOS los estilos de impresión del sitio
+   (@media print). Va al final de la cadena para que sus
+   anulaciones ganen por orden de aparición a igual especificidad. */
 /* countdown-recursos.css se importa globalmente para que el componente
    .countdown quede disponible en todo el sitio sin que cada página
    tenga que enlazar su hoja por separado. Hoy se usa solo en el hub
@@ -294,27 +298,21 @@ pre {
    reservado para variables; las clases estructurales viven en
    main.css.
 
-   Mobile-first (FASE_1 §1.1):
+   Espaciado fluido (S3):
      Ancho máximo:     var(--max-width)        = 1480 px
-     Padding lateral:  var(--space-5)  20 px → var(--page-padding-x) 52 px
-     Padding vertical: var(--space-6)  24 px → var(--page-padding-y) 44 px
+     Padding lateral:  var(--page-padding-x)   20 → 64 px fluido
+     Padding vertical: var(--page-padding-y)   24 → 44 px fluido
+   Los tokens de padding interpolan con clamp() en tokens.css
+   §LAYOUT: el salto por @media en 768 px quedó absorbido por la
+   escala continua.
    ───────────────────────────────────────────────────────────── */
 
 .page {
   width: 100%;
   max-width: var(--max-width);
   margin-inline: auto;
-  padding-inline: var(--space-5);
-  padding-block: var(--space-6);
-}
-
-/* Tablet/desktop ≥ 768 px — padding amplio.
-   768 px = breakpoint --bp-md de tokens.css (ver §5). */
-@media (min-width: 768px) {
-  .page {
-    padding-inline: var(--page-padding-x);
-    padding-block: var(--page-padding-y);
-  }
+  padding-inline: var(--page-padding-x);
+  padding-block: var(--page-padding-y);
 }
 
 /* Ritmo vertical entre secciones (contrato S2, tokens.css
@@ -355,6 +353,16 @@ pre {
      base                Móvil  (reglas sin @media)
      @media (min-width:  768px)  Tablet   → --bp-md
      @media (min-width: 1024px)  Desktop  → --bp-lg
+
+   CONTRATO DE USO (S3). Tras la auditoría responsive:
+     · El viewport gobierna el LAYOUT DE PÁGINA (navbar, footer,
+       hero, composiciones de cabecera, about-intro).
+     · El CONTENEDOR gobierna los GRIDS DE TARJETAS (@container,
+       lists.css §5.1 y sobre-asociacion.css): un grid colocado en
+       un contexto angosto colapsa solo, sin importar el viewport.
+     · El espaciado de página NO usa breakpoints: es fluido
+       (clamp() en tokens.css §LAYOUT).
+     · max-width queda prohibido fuera de @media print.
 
    No se proponen tokens nuevos: los breakpoints ya existen en
    tokens.css y la limitación de @media es propia de CSS.
