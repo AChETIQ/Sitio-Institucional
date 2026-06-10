@@ -41,12 +41,16 @@
   text-align: center;
   gap: var(--space-4);
 
+  /* Panel estático de cierre: elevación plana por contraste de
+     relleno (sin borde ni sombra) — contrato de elevación S2. */
   background: var(--color-accent);
   color: var(--color-on-accent);
 
   border-radius: var(--radius-lg);
   padding: var(--space-12) var(--space-6);
-  margin-top: var(--space-16);
+  /* Respiración de sección del contrato de ritmo S2 (colapsa con
+     el margen de la sección anterior, no se duplica). */
+  margin-top: var(--section-gap);
 }
 
 /* Inversión cromática del eyebrow global (.eyebrow vive en
@@ -64,7 +68,7 @@
    quedaría invisible sobre el fondo). */
 .cta-final__title {
   color: var(--color-on-accent);
-  max-width: 22ch;
+  max-width: var(--measure-title);
 }
 
 .cta-final__title em {
@@ -76,7 +80,7 @@
   font-size: var(--text-h4);
   line-height: var(--leading-relaxed);
   color: var(--color-on-accent);
-  max-width: 60ch;
+  max-width: var(--measure-narrow);
 }
 
 /* Contenedor de botones. flex-wrap permite a los CTAs colapsar

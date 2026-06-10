@@ -63,8 +63,11 @@ registerLoader('recursos', function (container, data) {
     return ya - yb;
   });
 
+  /* Grid fluido (S2): 41 materias sin cuenta de columnas
+     semántica — repeat(auto-fit, minmax(var(--card-min), 1fr))
+     decide la densidad según el ancho disponible. */
   var grid = createElement('div', {
-    class: 'grid-cards grid-cards--3 apuntes__grid'
+    class: 'grid-cards grid-cards--fluid apuntes__grid'
   });
 
   list.forEach(function (m) {

@@ -322,6 +322,53 @@
 
 
   /* ─────────────────────────────────────────────────────────────
+     ELEVACIÓN — CONTRATO DE USO (S2)
+     Capa semántica sobre los tiers de sombra. Los componentes
+     consumen estos alias —no los tiers crudos— para que el
+     criterio de profundidad del sitio sea auditable en un solo
+     lugar.
+
+     Regla del sistema: EN REPOSO todo es plano. La elevación de
+     base la expresa el BORDE (alternativa «plana» coherente con
+     la paleta papel/pátina), nunca una sombra. Sólo se proyecta
+     sombra cuando hay interacción (hover de tarjetas enlazadas)
+     o superposición real (dropdowns, paneles protagónicos).
+
+       Plano    paneles estáticos (card--valor, card-documento,
+                mission-vision, cta-final): borde, sin sombra,
+                sin hover.
+       Hover    tarjetas interactivas (<a> o con enlace propio):
+                borde a --color-accent + --elevation-hover +
+                translateY(var(--elevation-lift)).
+       Overlay  capas flotantes (dropdown del navbar).
+       Modal    paneles protagónicos (panel del countdown).
+     ───────────────────────────────────────────────────────────── */
+
+  --elevation-border: 1px solid var(--color-border);
+  /* «Elevación plana»: contorno estándar de tarjeta/panel en
+     reposo. Los componentes interactivos intensifican
+     border-color a --color-accent en hover. */
+
+  --elevation-border-soft: 1px solid var(--color-border-soft);
+  /* Contorno de bandas/paneles de baja jerarquía
+     (.gabinetes-feature) y separadores internos de componente
+     (pie de tarjeta, filas de lista). */
+
+  --elevation-hover: var(--shadow-sm);
+  /* Sombra de tarjeta interactiva al hover. */
+
+  --elevation-overlay: var(--shadow-md);
+  /* Dropdowns y popovers. */
+
+  --elevation-modal: var(--shadow-lg);
+  /* Modales y paneles protagónicos. */
+
+  --elevation-lift: -2px;
+  /* Desplazamiento vertical que acompaña a --elevation-hover:
+     transform: translateY(var(--elevation-lift)). */
+
+
+  /* ─────────────────────────────────────────────────────────────
      TIPOGRAFÍA — FAMILIAS
      Autoalojadas en assets/fonts/ (woff2, subset latin,
      font-display: swap — ver @font-face en main.css §1).
@@ -493,6 +540,12 @@
   --measure-narrow: 56ch;
   /* Medida acotada para bajadas y leads junto a titulares. */
 
+  --measure-title: 22ch;
+  /* Medida máxima de titulares display (h1 de page-header,
+     título de .cta-final): fuerza el quiebre en zona de máxima
+     legibilidad. Antes vivía como literal duplicado en
+     headers.css y cta.css. */
+
 
   /* ─────────────────────────────────────────────────────────────
      ESPACIADO
@@ -522,6 +575,37 @@
 
 
   /* ─────────────────────────────────────────────────────────────
+     ESPACIADO — CONTRATO DE RITMO VERTICAL (S2)
+     Alias sobre la escala de 4 px que fijan el ritmo del sitio.
+     Jerarquía de respiración, de mayor a menor:
+
+       Sección ↔ sección       --section-gap (64 px; ver LAYOUT).
+                               Regla genérica en main.css §4.
+       page-header → contenido --space-12 (48 px; margin-bottom
+                               de .page-header).
+       section-title → bloque  --header-gap (32 px).
+       Interior de tarjeta     --card-pad / --card-pad-lg según
+                               densidad de contenido.
+
+     Ningún componente declara estos valores con escalones
+     propios: consume el alias correspondiente.
+     ───────────────────────────────────────────────────────────── */
+
+  --header-gap: var(--space-8);
+  /* Separación entre la cabecera de sección (.section-title) y
+     el bloque de contenido que encabeza. */
+
+  --card-pad: var(--space-5);
+  /* Padding interno de tarjeta estándar (.card base, .card--valor,
+     body de .card-noticia). */
+
+  --card-pad-lg: var(--space-6);
+  /* Padding de tarjeta con contenido extenso o jerarquía
+     institucional (.card-gabinete, .card-documento, .contact-card,
+     .mission-vision__col). */
+
+
+  /* ─────────────────────────────────────────────────────────────
      TAMAÑOS DE COMPONENTE
      Dimensiones recurrentes que no caen ni en la escala de
      espaciado (4 px) ni en la escala tipográfica. Existen para
@@ -540,6 +624,11 @@
   --logo-md:  64px;
   /* Altura media de logos institucionales en tarjeta
      (card-institucion). */
+
+  --card-min: 17.5rem;
+  /* Ancho mínimo de tarjeta en grids fluidos
+     (.grid-cards--fluid, repeat(auto-fit, minmax(...))): ≈280 px.
+     Por debajo, el grid colapsa una columna. */
 
 
   /* ─────────────────────────────────────────────────────────────
@@ -786,9 +875,12 @@ strong, b {
 
 .card {
   background: var(--color-surface-raised);
-  border: 0.5px solid var(--color-border);
+  /* Elevación plana del sistema: borde de 1 px, sin sombra en
+     reposo (contrato de elevación S2; antes 0.5 px, que rinde
+     de forma inconsistente en pantallas no retina). */
+  border: var(--elevation-border);
   border-radius: var(--radius-lg);
-  padding: var(--space-5);
+  padding: var(--card-pad);
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
@@ -804,7 +896,7 @@ strong, b {
   justify-content: space-between;
   align-items: center;
   padding-top: var(--space-3);
-  border-top: 0.5px solid var(--color-border-soft);
+  border-top: var(--elevation-border-soft);
   margin-top: auto;
 }
 

@@ -121,7 +121,7 @@
   font-size: var(--text-lead);
   line-height: var(--leading-snug);
   color: var(--color-on-media-soft);
-  max-width: 46ch;
+  max-width: var(--measure-narrow);
   text-wrap: balance;
   text-shadow:
     0 4px 16px color-mix(in srgb, var(--color-text) 60%, transparent),
@@ -198,9 +198,16 @@
   margin-bottom: var(--space-12);
 }
 
+/* Cuando la página abre con breadcrumbs (páginas de detalle), las
+   migas ya aportan el aire superior: el page-header reduce su
+   padding alto para no duplicar respiración bajo el navbar. */
+.breadcrumbs + .page-header {
+  padding-block-start: var(--space-6);
+}
+
 .page-header__title {
   /* H1 global; .page-header sólo añade contexto contenedor. */
-  max-width: 22ch;
+  max-width: var(--measure-title);
 }
 
 .page-header__lead {
@@ -217,14 +224,38 @@
    ─────────────────────────────────────────────────────────────
    Encabezado de cada sección dentro de una página. Sin fondo,
    sin borde, sólo margen inferior de respiración antes del
-   bloque siguiente.
+   bloque siguiente (--header-gap, contrato de ritmo S2).
    ───────────────────────────────────────────────────────────── */
 
 .section-title {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  margin-bottom: var(--space-8);
+  margin-bottom: var(--header-gap);
+}
+
+/* Bajada opcional de la cabecera de sección. Mismo registro que
+   .page-header__lead pero en escalón body (subordinada al lead de
+   página): antes algunas páginas reutilizaban .page-header__lead
+   dentro de .section-title, mezclando bloques BEM y jerarquías. */
+.section-title__lead {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-soft);
+  max-width: var(--measure-narrow);
+}
+
+/* Modificador --display: eleva el <h2> de la sección al rol
+   display de la escala fluida (40→52 px). Es el patrón de las
+   cabeceras protagónicas de portada («Quiénes somos», «Nuestros
+   gabinetes»), antes duplicado en sobre-asociacion.css
+   (.about-intro__title / .gabinetes-feature__title). */
+.section-title--display h2 {
+  font-size: var(--text-display);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  text-wrap: balance;
 }
 
 
@@ -247,10 +278,12 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
+  /* Panel estático: elevación plana (borde de acento), sin sombra
+     ni hover — contrato de elevación S2. */
   background: var(--color-surface-raised);
   border-left: 3px solid var(--color-accent);
   border-radius: var(--radius-md);
-  padding: var(--space-6) var(--space-6) var(--space-6) var(--space-8);
+  padding: var(--card-pad-lg) var(--card-pad-lg) var(--card-pad-lg) var(--space-8);
 }
 
 .mission-vision__label {
