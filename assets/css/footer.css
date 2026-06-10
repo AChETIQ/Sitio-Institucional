@@ -7,14 +7,16 @@
 
    Importado desde assets/css/main.css §1.
 
-   Decisión de fondo (2026-05-26): el §1.3 del catálogo prescribe
-   fondo neutro con separación por borde. Para esta v1.0 se eligió
-   `var(--color-primary)` como cierre institucional contundente.
-   Contraste --color-bg sobre --color-primary ≈ 10.7:1 (WCAG AAA).
+   Decisión de fondo (2026-05-26, recalibrada en tokens v2): el
+   §1.3 del catálogo prescribía fondo neutro con separación por
+   borde; se mantiene el cierre institucional contundente, ahora
+   sobre `var(--color-surface-inverse)` (pátina profunda).
+   Contraste --color-on-accent sobre surface-inverse ≈ 13.2:1
+   (WCAG AAA); tintas derivadas vía color-mix ≥ 5.7:1 (AA).
 
    Tokens usados (tokens.css):
-     --color-primary, --color-primary-mid, --color-bg, --color-bg-panel,
-     --color-ink-faint, --color-rule, --font-body, --font-mono,
+     --color-accent, --color-accent-soft, --color-surface, --color-surface-raised,
+     --color-text-faint, --color-border, --font-body, --font-mono,
      --text-body, --text-small, --text-eyebrow, --text-caption,
      --weight-medium, --tracking-wider, --tracking-wide, --tracking-tight,
      --leading-snug, --leading-relaxed, --space-*, --radius-md,
@@ -33,12 +35,12 @@
    ───────────────────────────────────────────────────────────── */
 
 .footer {
-  --footer-ink:        var(--color-bg);
-  --footer-ink-soft:   color-mix(in srgb, var(--color-bg) 78%, transparent);
-  --footer-ink-faint:  color-mix(in srgb, var(--color-bg) 60%, transparent);
-  --footer-rule:       color-mix(in srgb, var(--color-bg) 18%, transparent);
-  --footer-rule-soft:  color-mix(in srgb, var(--color-bg) 10%, transparent);
-  --footer-bg-hover:   color-mix(in srgb, var(--color-bg) 10%, transparent);
+  --footer-ink:        var(--color-on-accent);
+  --footer-ink-soft:   color-mix(in srgb, var(--color-on-accent) 78%, transparent);
+  --footer-ink-faint:  color-mix(in srgb, var(--color-on-accent) 60%, transparent);
+  --footer-rule:       color-mix(in srgb, var(--color-on-accent) 18%, transparent);
+  --footer-rule-soft:  color-mix(in srgb, var(--color-on-accent) 10%, transparent);
+  --footer-bg-hover:   color-mix(in srgb, var(--color-on-accent) 10%, transparent);
 }
 
 
@@ -47,7 +49,7 @@
    ───────────────────────────────────────────────────────────── */
 
 .footer {
-  background-color: var(--color-primary);
+  background-color: var(--color-surface-inverse);
   color: var(--footer-ink);
   font-family: var(--font-body);
   font-size: var(--text-small);
@@ -123,7 +125,7 @@
 
 .footer__wordmark {
   font-family: var(--font-display);
-  font-size: 28px;
+  font-size: var(--text-wordmark);
   font-weight: var(--weight-regular);
   line-height: 1;
   letter-spacing: var(--tracking-tight);
@@ -322,7 +324,7 @@
 
 /* ─────────────────────────────────────────────────────────────
    5. FOCUS RING — sobre fondo oscuro
-   El anillo global usa --color-primary, invisible aquí. Se
+   El anillo global usa --color-accent, invisible aquí. Se
    sustituye por el crema del propio footer.
    ───────────────────────────────────────────────────────────── */
 
@@ -339,8 +341,8 @@
    ───────────────────────────────────────────────────────────── */
 
 .footer-fallback {
-  background-color: var(--color-primary);
-  color: var(--color-bg);
+  background-color: var(--color-surface-inverse);
+  color: var(--color-on-accent);
   margin-top: var(--space-16);
   padding-block: var(--space-8);
   text-align: center;

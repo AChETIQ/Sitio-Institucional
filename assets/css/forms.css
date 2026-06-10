@@ -64,13 +64,13 @@
   font-family: var(--font-body);
   font-size: var(--text-small);       /* 13 px */
   font-weight: var(--weight-medium);
-  color: var(--color-ink);
+  color: var(--color-text);
 }
 
 
 /* ─── Input / select / textarea — .form__input ──────────────
-   Borde 1 px en --color-rule; foco intensifica a 2 px en
-   --color-primary (sin shadow box: el anillo es el borde
+   Borde 1 px en --color-border; foco intensifica a 2 px en
+   --color-accent (sin shadow box: el anillo es el borde
    mismo, lo que asegura consistencia con el :focus-visible
    global). */
 
@@ -80,9 +80,9 @@
   font-family: var(--font-body);
   font-size: var(--text-body);
   font-weight: var(--weight-regular);
-  color: var(--color-ink);
-  background: var(--color-bg-panel);
-  border: 1px solid var(--color-rule);
+  color: var(--color-text);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   transition: border-color var(--transition-fast);
   /* Reset de defaults agresivos del navegador en select y
@@ -92,14 +92,14 @@
 }
 
 .form__input:hover {
-  border-color: var(--color-ink-faint);
+  border-color: var(--color-text-faint);
 }
 
 .form__input:focus,
 .form__input:focus-visible {
   outline: none;                      /* el borde mismo actúa de
                                          anillo de foco. */
-  border-color: var(--color-primary);
+  border-color: var(--color-accent);
   border-width: 2px;
   /* Compensa el +1 px de borde para que el contenido no salte. */
   padding: calc(var(--space-3) - 1px) calc(var(--space-4) - 1px);
@@ -115,38 +115,38 @@
 /* Placeholder en color faint (suficiente contraste, claramente
    diferenciado del texto introducido por el usuario). */
 .form__input::placeholder {
-  color: var(--color-ink-faint);
+  color: var(--color-text-faint);
   opacity: 1;                         /* fuerza el valor (Firefox
                                          aplica 0.54 por defecto). */
 }
 
 
 /* ─── Estados — inválido y deshabilitado ────────────────────
-   Inválido: borde en --color-neg, label de error sigue al
-   campo. Deshabilitado: --color-disabled (semántico, auditable),
+   Inválido: borde en --color-negative, label de error sigue al
+   campo. Deshabilitado: --color-text-disabled (semántico, auditable),
    cursor not-allowed. Sin opacity. */
 
 .form__input[aria-invalid="true"],
 .form__input:user-invalid {
-  border-color: var(--color-neg);
+  border-color: var(--color-negative);
 }
 
 .form__input[aria-invalid="true"]:focus,
 .form__input:user-invalid:focus {
-  border-color: var(--color-neg);     /* mantiene rojo en foco
+  border-color: var(--color-negative);     /* mantiene rojo en foco
                                          para no diluir la señal
                                          de error. */
 }
 
 .form__input:disabled {
-  color: var(--color-disabled);
-  background: var(--color-bg);
-  border-color: var(--color-rule-soft);
+  color: var(--color-text-disabled);
+  background: var(--color-surface);
+  border-color: var(--color-border-soft);
   cursor: not-allowed;
 }
 
 .form__input:disabled::placeholder {
-  color: var(--color-disabled);
+  color: var(--color-text-disabled);
 }
 
 
@@ -156,7 +156,7 @@
 .form__error {
   font-family: var(--font-body);
   font-size: var(--text-small);
-  color: var(--color-neg);
+  color: var(--color-negative);
 }
 
 
@@ -166,5 +166,5 @@
 .form__hint {
   font-family: var(--font-body);
   font-size: var(--text-small);
-  color: var(--color-ink-faint);
+  color: var(--color-text-faint);
 }

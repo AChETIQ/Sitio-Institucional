@@ -1,8 +1,8 @@
 # Fase 1 — Catálogo de Componentes Visuales
 ## Sitio Web Oficial de AChETIQ
 
-*Documento elaborado: 2026-05-08 · Última actualización: 2026-05-20*
-*Estado: Referencia técnica para desarrollo front-end (Fase 2)*
+*Documento elaborado: 2026-05-08 · Última actualización: 2026-06-10*
+*Estado: Referencia técnica para desarrollo front-end (Fase 2) · Tokens v2 «Pátina & Cobre»*
 
 ---
 
@@ -16,6 +16,73 @@ Este documento traduce los design tokens definidos en `tokens.css` a un conjunto
 - Las clases siguen la convención BEM (Block — Element — Modifier) ya pactada: `.bloque__elemento--modificador`.
 - Cada componente incluye especificación de **estados** (hover, focus, active, disabled) cuando es interactivo.
 - Cada componente incluye notas de **accesibilidad** (rol ARIA, semántica HTML, foco visible) cuando aplican.
+
+---
+
+## 0. Sistema de tokens v2 — «Pátina & Cobre» (S1, 2026-06-10)
+
+La sesión S1 del rediseño reemplazó por completo los sistemas de color y tipografía de `tokens.css` (v1 «Océano & Areia»). Esta sección es la referencia normativa del sistema vigente; toda mención de tokens en los componentes de este catálogo remite a ella.
+
+### 0.1 Color — arquitectura en tres capas
+
+1. **Primitivas** (`--arena-*`, `--patina-*`, `--cobre-*`, `--verde-700`, `--rojo-700`, `--ambar-600`): escalas crudas definidas en OKLCH con fallback hex sRGB (bloque `@supports`). No se consumen desde componentes.
+2. **Semánticas** (capa de consumo):
+
+| Token | Valor | Rol | Contraste (sobre surface / raised) |
+|---|---|---|---|
+| `--color-surface` | arena-100 `#F4F0E9` | Fondo de página | — |
+| `--color-surface-raised` | arena-50 `#FAF7F3` | Tarjetas, paneles, modales | — |
+| `--color-surface-inverse` | patina-900 `#02303A` | Footer, base del hero | — |
+| `--color-text` | arena-950 `#1C1914` | Texto principal | 15.4 / 16.4 — AAA |
+| `--color-text-soft` | arena-700 `#514C44` | Cuerpo de prosa | 7.5 / 8.0 — AAA |
+| `--color-text-faint` | arena-600 `#655F58` | Eyebrows, captions | 5.6 / 5.9 — AA |
+| `--color-text-disabled` | arena-600 | Estados inactivos declarados | 5.6 — AA |
+| `--color-accent` | patina-700 `#084F5F` | Enlaces, énfasis, itálicas de titular | 8.1 / 8.6 — AAA |
+| `--color-accent-soft` | patina-500 `#1A6E82` | Hover de enlaces, eyebrows de categoría, íconos | 5.1 / 5.5 — AA |
+| `--color-on-accent` | arena-50 | Texto sobre rellenos accent/inverse | 8.6 / 13.2 — AAA |
+| `--color-cta` | cobre-600 `#9E4502` | SOLO botones de acción primaria (relleno) | 6.0 con on-cta — AA |
+| `--color-cta-text` | cobre-700 `#863709` | Cobre como texto («Abrir →», «Descargar →») | 7.2 / 7.7 — AAA |
+| `--color-on-cta` | arena-50 | Texto sobre relleno CTA | 6.0 — AA |
+| `--color-positive` | verde-700 `#225A35` | Confirmaciones, datos positivos | 7.2 — AAA |
+| `--color-negativeative` | rojo-700 `#822D1D` | Errores, datos negativos | 7.9 — AAA |
+| `--color-warning` | ambar-600 `#895709` | Avisos no destructivos | 5.7 — AA |
+| `--color-border` | arena-300 `#D2CCC0` | Bordes de tarjeta y separadores | decorativo |
+| `--color-border-soft` | arena-200 `#E5E0D6` | Separadores internos | decorativo |
+| `--color-overlay` / `--color-scrim` | derivados con alfa | Velo de modales / velo del hero | scrim: ≥ 5.4 con blanco |
+| `--color-on-media` / `--color-on-media-soft` | blanco / blanco 88 % | Texto sobre fotografía | ≥ 4.6 sobre scrim |
+
+3. **Alias de componente**: `--color-materia-anio-1…5` (narrativa arena → pátina profunda) y la paleta por nivel del Seguimiento (`--nivel-*-accent/-fondo-alt/-texto`, antes excepción local de `seguimiento.css`, hoy centralizada y re-derivada en OKLCH con contraste verificado 6.4–7.4:1).
+
+Sombras: tiers globales `--shadow-xs/-sm/-md/-lg` derivados de `--patina-950` vía `color-mix()`. Ninguna hoja declara sombras propias.
+
+### 0.2 Tipografía
+
+- **Familias** (autoalojadas, woff2 subset latin, `font-display: swap`): Instrument Serif 400 + itálica (display); **Geist variable 400–600** (cuerpo/UI — el peso 500/600 es real, ya no sintetizado); **Geist Mono variable 400–500** (eyebrows, metadatos, dígitos — en v1 el token no tenía archivo y degradaba a Courier New).
+- **Pesos**: `--weight-regular` 400 · `--weight-medium` 500 · `--weight-semibold` 600 (reservado a `<strong>`).
+- **Escala fluida** (rem + `clamp()`, interpolada entre 360 px y 1280 px; ratio tercera menor 1.2 → tercera mayor 1.25, niveles display ampliados):
+
+| Token | 360 px | 1280 px | Uso |
+|---|---|---|---|
+| `--text-display-2xl` | 72 | 120 | Dígitos del 404 |
+| `--text-display-xl` | 40 | 65 | Titular del hero |
+| `--text-display` | 40 | 52 | H1, titulares feature |
+| `--text-h2` | 33 | 41 | H2 |
+| `--text-kpi` / `--text-wordmark` | 28 | 33 | KPI / wordmark del footer |
+| `--text-lead` | 22 | 26 | Bajada del hero |
+| `--text-h3` | 19 | 21 | H3, leads de página |
+| `--text-h4` | 17 | 18 | H4, UI |
+| `--text-body` | 16 | 17 | Cuerpo (mínimo 1 rem) |
+| `--text-small` | 14 | 14 | Auxiliar |
+| `--text-caption` | 12 | 12 | Metadatos mono |
+| `--text-eyebrow` / `--text-eyebrow-sm` | 11 / 12 | estáticos | Supratítulos mono |
+| `--text-digits` | 28 | 52 | Reloj del countdown |
+
+- **Interlineado**: `--leading-tight` 1.08 · `--leading-snug` 1.3 · `--leading-normal` 1.5 · `--leading-relaxed` 1.7.
+- **Tracking**: `--tracking-tight` −0.015em · `--tracking-normal` 0 · `--tracking-wide` 0.04em · `--tracking-wider` 0.12em.
+- **Medida de lectura**: `--measure-prose` 65ch (bloques de prosa) · `--measure-narrow` 56ch (leads junto a titulares).
+- `html` ya no fija `font-size: 16px`: la escala respeta la preferencia de tamaño de la persona usuaria.
+
+> **Nota de migración.** Equivalencias v1 → v2: `--color-surface`→`surface` · `--color-surface-raised`→`surface-raised` · `--color-text/-soft/-faint`→`text/-soft/-faint` · `--color-accent`→`accent` · `--color-accent-soft`→`accent-soft` · `--color-border/-soft`→`border/-soft` · `--color-negative/-pos`→`negative/positive` · `--color-scrim`→`scrim` · `--color-surface-overlay`→`overlay`. Las menciones de tamaños en px que persistan en las especificaciones de componentes de este catálogo son orientativas de la v1; el valor normativo es siempre el token indicado.
 
 ---
 
@@ -50,8 +117,8 @@ Este documento traduce los design tokens definidos en `tokens.css` a un conjunto
 **Especificación visual.**
 
 - Altura: 56–64 px.
-- Fondo: `var(--color-bg)` con alfa 0.92 y `backdrop-filter: blur(12px)`; fallback opaco mediante `@supports not (backdrop-filter: blur(...))`.
-- Borde inferior: 1 px `var(--color-rule)`.
+- Fondo: `var(--color-surface)` con alfa 0.92 y `backdrop-filter: blur(12px)`; fallback opaco mediante `@supports not (backdrop-filter: blur(...))`.
+- Borde inferior: 1 px `var(--color-border)`.
 - Posición: `position: sticky; top: 0; z-index: var(--z-navbar)`.
 - Layout interno: flexbox con `justify-content: space-between`. Logo + wordmark a la izquierda, lista de enlaces + CTA a la derecha.
 
@@ -65,9 +132,9 @@ El placeholder es reemplazado por `js/navbar.js`, que carga `partials/navbar.htm
 
 **Variantes de enlace (modificadores de `.nav-link`).**
 
-- `.nav-link--ghost`: sin borde ni fondo. Hover: fondo `var(--color-bg-panel)`, texto `var(--color-primary)`.
-- `.nav-link--outline`: borde 1 px `var(--color-rule)`, fondo transparente.
-- `.nav-link--primary`: fondo `var(--color-primary)`, texto claro. Hover: fondo `var(--color-primary-mid)`.
+- `.nav-link--ghost`: sin borde ni fondo. Hover: fondo `var(--color-surface-raised)`, texto `var(--color-accent)`.
+- `.nav-link--outline`: borde 1 px `var(--color-border)`, fondo transparente.
+- `.nav-link--primary`: fondo `var(--color-accent)`, texto `var(--color-on-accent)`. Hover: fondo `var(--color-accent-soft)`.
 
 **Comportamiento de submenús (desktop ≥ 768 px).** El label permanece como `<a>` clickeable a la página general; el panel desplegable se abre únicamente por hover del mouse o focus del teclado (`:hover` + `:focus-within`). Chevron Lucide a la derecha del label, decorativo, rota 180° al abrir.
 
@@ -85,8 +152,8 @@ El placeholder es reemplazado por `js/navbar.js`, que carga `partials/navbar.htm
 
 **Especificación visual.**
 
-- Fondo: `var(--color-bg)` (sin contraste contra el body — separación dada por borde superior).
-- Borde superior: `1px solid var(--color-rule)`.
+- Fondo: `var(--color-surface)` (sin contraste contra el body — separación dada por borde superior).
+- Borde superior: `1px solid var(--color-border)`.
 - Padding vertical generoso: `var(--space-16)` = 64 px arriba y abajo.
 - Layout interno: grid de 4 columnas en desktop, colapsa a 1 columna en mobile.
 
@@ -127,9 +194,9 @@ El placeholder es reemplazado por `js/navbar.js`, que carga `partials/navbar.htm
 
 **Tipografía.**
 
-- `.footer__heading`: tipografía mono, eyebrow style (10.5 px, uppercase, tracking wider).
-- `.footer__list`: tipografía body, 13 px, color `var(--color-ink-soft)`.
-- `.footer__tagline`: tipografía body, 13 px, color `var(--color-ink-faint)`.
+- `.footer__heading`: tipografía mono, eyebrow style (`--text-eyebrow`, uppercase, tracking wider).
+- `.footer__list`: tipografía body, `--text-small`, tintas locales derivadas de `--color-on-accent` (el footer vive sobre `--color-surface-inverse`).
+- `.footer__tagline`: tipografía body, `--text-small`, tinta atenuada local.
 
 ---
 
@@ -145,7 +212,7 @@ El placeholder es reemplazado por `js/navbar.js`, que carga `partials/navbar.htm
 <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
 ```
 
-**Comportamiento visual.** Oculto fuera de pantalla por defecto (vía `position: absolute; left: -9999px`). Al recibir foco (Tab), salta a posición visible en la esquina superior izquierda con fondo `var(--color-primary)` y texto blanco. El `<main>` correspondiente debe tener `id="main-content"` y `tabindex="-1"`.
+**Comportamiento visual.** Oculto fuera de pantalla por defecto (vía `position: absolute; left: -9999px`). Al recibir foco (Tab), salta a posición visible en la esquina superior izquierda con fondo `var(--color-accent)` y texto `var(--color-on-accent)` (8.6:1 — AAA). El `<main>` correspondiente debe tener `id="main-content"` y `tabindex="-1"`.
 
 ---
 
@@ -161,7 +228,7 @@ El placeholder es reemplazado por `js/navbar.js`, que carga `partials/navbar.htm
 
 - Padding vertical: `var(--space-16)` arriba y abajo (64 px); en pantallas ≥ 1024 px, escalar a 96 px (`calc(var(--space-16) * 1.5)`).
 - Layout: dos columnas en desktop (texto + imagen/decoración), una columna en mobile.
-- Fondo: `var(--color-bg)` con un detalle decorativo (ver "decoración" abajo).
+- Fondo: `var(--color-surface)` con un detalle decorativo (ver "decoración" abajo).
 
 **Estructura HTML.**
 
@@ -188,10 +255,10 @@ El placeholder es reemplazado por `js/navbar.js`, que carga `partials/navbar.htm
 
 **Tipografía.**
 
-- `.hero__title`: hereda de `<h1>` global (Instrument Serif, 48 px, leading-tight). El `<em>` interno aplica color `var(--color-primary)` ya definido en la regla global de `h1 em`.
-- `.hero__lead`: 18–20 px, body font, color `var(--color-ink-soft)`, ancho máximo 56ch para legibilidad.
+- `.hero__title`: hereda de `<h1>` global (Instrument Serif) y sube al rol `--text-display-xl` (fluido 40→65 px), en `--color-on-media` sobre el scrim. El `<em>` interno aplica el color de la regla global de `h1 em`.
+- `.hero__lead` / `.hero__subtitle`: rol `--text-lead` (fluido 22→26 px), body font, `--color-on-media-soft`, ancho máximo `--measure-narrow`.
 
-**Decoración (opcional, recomendada).** Usar la grilla 3×3 del logo como patrón geométrico de fondo en la columna visual: cuadrados de `var(--color-rule)` sobre `var(--color-bg)`, dispuestos como una grilla decorativa que evoca el isotipo sin replicarlo.
+**Decoración (opcional, recomendada).** Usar la grilla 3×3 del logo como patrón geométrico de fondo en la columna visual: cuadrados de `var(--color-border)` sobre `var(--color-surface)`, dispuestos como una grilla decorativa que evoca el isotipo sin replicarlo.
 
 ---
 
@@ -213,7 +280,7 @@ El placeholder es reemplazado por `js/navbar.js`, que carga `partials/navbar.htm
 </header>
 ```
 
-**Especificación visual.** Padding vertical 48 px arriba, 32 px abajo. Borde inferior `1px solid var(--color-rule)` para separar del contenido.
+**Especificación visual.** Padding vertical 48 px arriba, 32 px abajo. Borde inferior `1px solid var(--color-border)` para separar del contenido.
 
 ---
 
@@ -269,9 +336,9 @@ El placeholder es reemplazado por `js/navbar.js`, que carga `partials/navbar.htm
 
 - Layout: `display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-8)` en desktop; colapsa a una columna (`1fr`) en mobile.
 - Sin `<h2>` global encabezando el bloque; las etiquetas `Misión` y `Visión` actúan como rótulos internos. Decisión deliberada de simetría visual (sin jerarquía entre Misión y Visión).
-- Cada columna: borde lateral izquierdo de `3px solid var(--color-primary)`, fondo `var(--color-bg-panel)`, padding `var(--space-6) var(--space-6) var(--space-6) var(--space-8)`, radio `var(--radius-md)`.
-- Etiqueta (`.mission-vision__label`): tipografía `Geist Mono`, uppercase, tracking-wider, 12 px, color `var(--color-primary)`, con ícono Lucide inline a la izquierda (16×16 px, `currentColor`).
-- Prose (`.mission-vision__prose`): tipografía body, 16 px, color `var(--color-ink-soft)`, ancho máximo 56ch.
+- Cada columna: borde lateral izquierdo de `3px solid var(--color-accent)`, fondo `var(--color-surface-raised)`, padding `var(--space-6) var(--space-6) var(--space-6) var(--space-8)`, radio `var(--radius-md)`.
+- Etiqueta (`.mission-vision__label`): tipografía `Geist Mono`, uppercase, tracking-wider, `--text-caption`, color `var(--color-accent)`, con ícono Lucide inline a la izquierda (16×16 px, `currentColor`).
+- Prose (`.mission-vision__prose`): tipografía body, `--text-h4`, color `var(--color-text-soft)`, ancho máximo `--measure-narrow`.
 
 **Íconos Lucide previstos.** `target` (Misión) y `telescope` (Visión). Disponibilidad de `telescope` a verificar; fallback: `compass` o `eye`.
 
@@ -322,13 +389,13 @@ El cuarto slot demuestra que el componente debe admitir valores no numéricos: e
 **Especificación visual.**
 
 - Layout: `display: grid; grid-template-columns: repeat(4, 1fr)` en desktop; colapsa a 2 columnas en tablet (`≤ 768 px`) y 2 columnas en mobile pequeño (`≤ 480 px`).
-- Fondo: `var(--color-bg-panel)`; borde superior e inferior `1px solid var(--color-rule)`; sin radios.
+- Fondo: `var(--color-surface-raised)`; borde superior e inferior `1px solid var(--color-border)`; sin radios.
 - Padding vertical: `var(--space-10)` (40 px); padding horizontal según `.page`.
-- Separadores verticales entre ítems en desktop: `border-right: 1px solid var(--color-rule)` excepto el último.
+- Separadores verticales entre ítems en desktop: `border-right: 1px solid var(--color-border)` excepto el último.
 - Item (`.kpi-strip__item`): alineación centrada, padding `0 var(--space-6)`.
-- Valor numérico (`.kpi-strip__value`): tipografía `Instrument Serif`, 48 px en desktop, 36 px en mobile, color `var(--color-primary)`, peso normal. Permite prefijos como "+" y sufijos como "k", "%".
-- Modificador `.kpi-strip__item--text` para slots de valor textual (caso 4): reducir tamaño del valor a 24 px (desktop) / 20 px (mobile) y mantener la misma tipografía y color, para preservar coherencia tipográfica sin generar disonancia visual con los slots numéricos.
-- Label (`.kpi-strip__label`): tipografía body, 13 px, color `var(--color-ink-soft)`, alineación centrada.
+- Valor numérico (`.kpi-strip__value`): tipografía `Instrument Serif`, rol `--text-display` (fluido 40→52 px), color `var(--color-accent)`, peso normal. Permite prefijos como "+" y sufijos como "k", "%".
+- Modificador `.kpi-strip__item--text` para slots de valor textual (caso 4): reducir el valor al rol `--text-lead` y mantener la misma tipografía y color, para preservar coherencia tipográfica sin generar disonancia visual con los slots numéricos.
+- Label (`.kpi-strip__label`): tipografía body, `--text-small`, color `var(--color-text-soft)`, alineación centrada.
 
 **Carga.** Estática en v1.0. Los valores se hardcodean en el HTML de `index.html`; revisión semestral por la comisión directiva. No se justifica un JSON dedicado mientras los KPIs no superen 4 valores.
 
@@ -355,11 +422,11 @@ El cuarto slot demuestra que el componente debe admitir valores no numéricos: e
 
 **Especificación visual.**
 
-- Ancho máximo 65ch (medida óptima de lectura).
+- Ancho máximo `var(--measure-prose)` (65ch, medida óptima de lectura).
 - Espaciado entre párrafos: `var(--space-4)` (16 px).
 - Espaciado superior antes de un `<h3>` interno: `var(--space-8)` (32 px).
-- Color de texto: `var(--color-ink-soft)` para mejor confort de lectura larga.
-- Color de subtítulos `<h3>`: `var(--color-ink)`.
+- Color de texto: `var(--color-text-soft)` para mejor confort de lectura larga.
+- Color de subtítulos `<h3>`: `var(--color-text)`.
 
 ---
 
@@ -376,7 +443,7 @@ El cuarto slot demuestra que el componente debe admitir valores no numéricos: e
 </blockquote>
 ```
 
-**Especificación visual.** Borde izquierdo de 3 px en `var(--color-primary)`, padding izquierdo `var(--space-5)`, tipografía `var(--font-display)` en cursiva para `.quote__text`, body normal para `.quote__attribution`.
+**Especificación visual.** Borde izquierdo de 3 px en `var(--color-accent)`, padding izquierdo `var(--space-5)`, tipografía `var(--font-display)` en cursiva para `.quote__text`, body normal para `.quote__attribution`.
 
 ---
 
@@ -384,7 +451,7 @@ El cuarto slot demuestra que el componente debe admitir valores no numéricos: e
 
 ### 4.1 Card base — `.card`
 
-Ya definida en `tokens.css` (líneas 420-442). Sirve como base de las variantes que siguen.
+Ya definida en `tokens.css` (§COMPONENTE — TARJETA). Sirve como base de las variantes que siguen.
 
 ---
 
@@ -414,10 +481,10 @@ Ya definida en `tokens.css` (líneas 420-442). Sirve como base de las variantes 
 **Especificación visual.**
 
 - Padding interno: `var(--space-6)` (24 px).
-- Icono: 32×32 px, color `var(--color-primary)`.
+- Icono: 32×32 px, color `var(--color-accent)`.
 - Título: usa `<h3>` con tipografía global.
-- Link de footer: color `var(--color-cta)` (uso permitido — es enlace de apertura directa).
-- Hover: borde se intensifica a `var(--color-primary)` con `transition: border-color var(--transition-fast)`.
+- Link de footer: color `var(--color-cta-text)` (cobre tipográfico, 7.2:1 — uso permitido por ser enlace de apertura directa).
+- Hover: borde se intensifica a `var(--color-accent)` con `transition: border-color var(--transition-fast)`.
 
 *Nota (2026-05-16).* El patrón de plantilla única parametrizada por query string fue descartado. Cada gabinete tiene su propia página dedicada bajo `pages/gabinetes/`. El listado completo de URLs hijas está fijado en `data/navbar.json`.
 
@@ -446,9 +513,9 @@ Ya definida en `tokens.css` (líneas 420-442). Sirve como base de las variantes 
 
 - Foto: aspecto cuadrado 1:1, `border-radius: var(--radius-lg)` (10 px), `object-fit: cover`.
 - Sin borde de tarjeta — es un "tarjeta sin caja", visualmente más liviana.
-- Nombre: `<h3>` con tipografía body, 18 px, peso medium.
-- Cargo: `<p>` con tipografía body, 14 px, color `var(--color-ink-soft)`.
-- Estado sin foto (`foto: null`): placeholder con iniciales del nombre sobre fondo `var(--color-rule-soft)` y color `var(--color-primary)`.
+- Nombre: `<h3>` con tipografía body (`--text-h3`), peso medium.
+- Cargo: `<p>` con tipografía body, `--text-small`, color `var(--color-text-soft)`.
+- Estado sin foto (`foto: null`): placeholder con iniciales del nombre sobre fondo `var(--color-border-soft)` y color `var(--color-accent)`.
 
 ---
 
@@ -512,9 +579,9 @@ Ya definida en `tokens.css` (líneas 420-442). Sirve como base de las variantes 
 **Especificación visual.**
 
 - Layout interno horizontal: bloque de fecha a la izquierda (ancho fijo 80 px), contenido a la derecha (flex: 1).
-- Bloque de fecha: fondo `var(--color-primary)`, texto blanco, padding `var(--space-3)`.
-- Día: tipografía display, 32 px.
-- Mes: tipografía mono, 12 px, uppercase, tracking-wider.
+- Bloque de fecha: fondo `var(--color-accent)`, texto blanco, padding `var(--space-3)`.
+- Día: tipografía display, `--text-h2`.
+- Mes: tipografía mono, `--text-caption`, uppercase, tracking-wider. Texto del bloque en `--color-on-accent` sobre relleno `--color-accent`.
 
 ---
 
@@ -539,7 +606,7 @@ Ya definida en `tokens.css` (líneas 420-442). Sirve como base de las variantes 
 </article>
 ```
 
-**Especificación visual.** Layout horizontal en desktop, vertical en mobile. Icono: 24×24 px, color `var(--color-primary-mid)`. Acción: `var(--color-cta)` (uso permitido por ser enlace de apertura/descarga directa).
+**Especificación visual.** Layout horizontal en desktop, vertical en mobile. Icono: 24×24 px, color `var(--color-accent-soft)`. Acción: `var(--color-cta-text)` (cobre tipográfico; uso permitido por ser enlace de apertura/descarga directa).
 
 ---
 
@@ -565,12 +632,12 @@ Ya definida en `tokens.css` (líneas 420-442). Sirve como base de las variantes 
 
 **Especificación visual.**
 
-- Borde `1px solid var(--color-rule)`; radio `var(--radius-md)`; sin fondo (`background: transparent`, hereda `var(--color-bg)`).
+- Borde `1px solid var(--color-border)`; radio `var(--radius-md)`; sin fondo (`background: transparent`, hereda `var(--color-surface)`).
 - Padding interno: `var(--space-5)` (20 px).
 - `min-height` uniforme entre tarjetas del grid (≈ 180 px) para evitar discrepancia visual cuando las descripciones varían en longitud. Valor exacto a ajustar en Fase 2 contra el texto definitivo.
-- Ícono: 28×28 px, color `var(--color-primary)`. Margen inferior `var(--space-3)`.
-- Título: `<h3>`, tipografía body, 18 px, peso medium, color `var(--color-ink)`.
-- Descripción: tipografía body, 14 px, color `var(--color-ink-soft)`.
+- Ícono: 28×28 px, color `var(--color-accent)`. Margen inferior `var(--space-3)`.
+- Título: `<h3>`, tipografía body (`--text-h3`), peso medium, color `var(--color-text)`.
+- Descripción: tipografía body, `--text-small`, color `var(--color-text-soft)`.
 
 **Estados.** No interactivo. Sin hover.
 
@@ -605,18 +672,18 @@ Ya definida en `tokens.css` (líneas 420-442). Sirve como base de las variantes 
 
 **Especificación visual.**
 
-- Borde `1px solid var(--color-rule)`; radio `var(--radius-md)`; fondo `var(--color-bg-panel)`.
+- Borde `1px solid var(--color-border)`; radio `var(--radius-md)`; fondo `var(--color-surface-raised)`.
 - Padding generoso: `var(--space-8)` (32 px), para dar respiración al logo.
 - Layout interno vertical centrado: logo arriba, nombre al medio, link al pie.
 - Logo: altura fija ≈ 64 px, ancho `auto`, `object-fit: contain`. Sin manipulación de colores; el logo debe entregarse con fondo transparente.
-- Nombre: tipografía body, 16 px, peso medium, color `var(--color-ink)`, alineación centrada.
-- Link: tipografía body, 13 px, color `var(--color-cta)` (uso permitido — enlace externo institucional). Margen superior `var(--space-2)`.
+- Nombre: tipografía body, `--text-h4`, peso medium, color `var(--color-text)`, alineación centrada.
+- Link: tipografía body, `--text-small`, color `var(--color-cta-text)` (uso permitido — enlace externo institucional). Margen superior `var(--space-2)`.
 
-**Estados.** Hover sobre la tarjeta: borde se intensifica a `var(--color-primary)`; transición `var(--transition-fast)`.
+**Estados.** Hover sobre la tarjeta: borde se intensifica a `var(--color-accent)`; transición `var(--transition-fast)`.
 
 **Carga dinámica.** Poblada vía `data-loader="instituciones"` desde `data/instituciones.json`.
 
-**Estado de assets (2026-05-20).** Los logos transparentes de UTN FRRe (`assets/img/institucional/utn-frre-logo.svg`) y ANEIQA (`assets/img/institucional/aneiqa-logo.svg`) están provistos y disponibles en el repositorio. Ambos son SVG con fondo transparente, compatibles con el fondo `var(--color-bg-panel)` de la tarjeta. Pendiente menor (no bloqueante): optimización de los SVG (actualmente vectorizados a partir de bitmaps; ~30 KB cada uno) en una iteración post-despliegue.
+**Estado de assets (2026-05-20).** Los logos transparentes de UTN FRRe (`assets/img/institucional/utn-frre-logo.svg`) y ANEIQA (`assets/img/institucional/aneiqa-logo.svg`) están provistos y disponibles en el repositorio. Ambos son SVG con fondo transparente, compatibles con el fondo `var(--color-surface-raised)` de la tarjeta. Pendiente menor (no bloqueante): optimización de los SVG (actualmente vectorizados a partir de bitmaps; ~30 KB cada uno) en una iteración post-despliegue.
 
 ---
 
@@ -645,7 +712,7 @@ Ya definida en `tokens.css` (líneas 420-442). Sirve como base de las variantes 
 **Especificación visual.**
 
 - Tarjeta como elemento `<a>` para hacer toda la superficie clickeable (no envolver con `<a>` exterior).
-- Borde `1px solid var(--color-rule)`; radio `var(--radius-md)`; fondo `var(--color-bg)`.
+- Borde `1px solid var(--color-border)`; radio `var(--radius-md)`; fondo `var(--color-surface)`.
 - Layout interno: cover en la parte superior (aspecto 16:9 o 4:3, a definir contra wireframe), body debajo con padding `var(--space-4)`.
 - Cover (placeholder v1.0): fondo `var(--color-materia-anio-N)` donde `N ∈ {1,2,3,4,5}`, derivado del atributo `data-anio` mediante regla CSS:
 
@@ -654,14 +721,14 @@ Ya definida en `tokens.css` (líneas 420-442). Sirve como base de las variantes 
   /* idem 2–5 */
   ```
 
-  Los cinco colores `--color-materia-anio-1` a `--color-materia-anio-5` quedan **pendientes de definición** (lote separado: "Paleta placeholder por año"). Deben derivarse de la paleta Océano & Areia, distintos entre sí, sin solapamiento con los colores reservados al isotipo.
-- Año (`.card-materia__year`): estilo `caption`, color `var(--color-ink-faint)`, uppercase, tracking-wider, 11 px.
-- Nombre (`.card-materia__name`): `<h3>`, tipografía body, 16 px, peso medium, color `var(--color-ink)`.
+  Los cinco colores `--color-materia-anio-1` a `--color-materia-anio-5` están **definidos en tokens v2** (capa de alias de componente): narrativa arena dorada (1.°) → cobre claro → salvia → pátina niebla → pátina profunda (5.°), derivados de las primitivas «Pátina & Cobre», distintos entre sí y sin solapamiento con los colores reservados al isotipo.
+- Año (`.card-materia__year`): mono `--text-eyebrow-sm`, color `var(--color-text-faint)`, uppercase, tracking-wider.
+- Nombre (`.card-materia__name`): `<h3>`, tipografía body, `--text-h4`, peso medium, color `var(--color-text)`.
 
 **Estados.**
 
-- Hover: borde se intensifica a `var(--color-primary)`; cover aumenta brillo levemente (`filter: brightness(1.05)`). Transición `var(--transition-fast)`.
-- Foco: contorno `2px solid var(--color-primary)` con offset 2 px.
+- Hover: borde se intensifica a `var(--color-accent)`; cover aumenta brillo levemente (`filter: brightness(1.05)`). Transición `var(--transition-fast)`.
+- Foco: contorno `2px solid var(--color-accent)` con offset 2 px.
 
 **Carga dinámica.** Poblada vía `data-loader="recursos"` desde `data/recursos.json` (41 materias). El loader debe agrupar visualmente por año y conectar con el filtro de `.pill-nav`.
 
@@ -707,17 +774,17 @@ Ya definida en `tokens.css` (líneas 420-442). Sirve como base de las variantes 
 **Especificación visual.**
 
 - Tarjeta como `<a>` en su forma activa (toda la superficie clickeable); como `<div>` en variante "Próximamente" (no interactiva).
-- Borde `1px solid var(--color-rule)`; radio `var(--radius-md)`; fondo `var(--color-bg)`.
+- Borde `1px solid var(--color-border)`; radio `var(--radius-md)`; fondo `var(--color-surface)`.
 - Padding interno: `var(--space-6)` (24 px).
 - Layout interno vertical: ícono arriba, eyebrow, valor; opcionalmente badge en variante "Próximamente".
-- Ícono: 28×28 px, color `var(--color-primary)`, margen inferior `var(--space-3)`.
-- Eyebrow (`.contact-card__eyebrow`): tipografía `Geist Mono`, uppercase, tracking-wider, 11 px, color `var(--color-ink-faint)`.
-- Valor (`.contact-card__value`): tipografía body, 15 px, peso medium, color `var(--color-ink)`. Truncar con `text-overflow: ellipsis` si excede el ancho.
-- Badge (`.contact-card__badge`): pill con fondo `var(--color-rule-soft)`, color `var(--color-ink-soft)`, tipografía mono 10 px, padding `2px 8px`, radio `var(--radius-pill)`.
+- Ícono: 28×28 px, color `var(--color-accent)`, margen inferior `var(--space-3)`.
+- Eyebrow (`.contact-card__eyebrow`): tipografía `Geist Mono`, uppercase, tracking-wider, `--text-eyebrow-sm`, color `var(--color-text-faint)`.
+- Valor (`.contact-card__value`): tipografía body, `--text-body`, peso medium, color `var(--color-text)`. Truncar con `text-overflow: ellipsis` si excede el ancho.
+- Badge (`.contact-card__badge`): pill con fondo `var(--color-border-soft)`, color `var(--color-text-soft)`, tipografía mono `--text-eyebrow`, padding `var(--space-px-2) var(--space-2)`, radio `var(--radius-pill)`.
 
 **Estados.**
 
-- Hover (variante activa): borde se intensifica a `var(--color-primary)`; ícono cambia a `var(--color-primary-mid)`. Transición `var(--transition-fast)`.
+- Hover (variante activa): borde se intensifica a `var(--color-accent)`; ícono cambia a `var(--color-accent-soft)`. Transición `var(--transition-fast)`.
 - Variante "Próximamente": opacidad global 0.7, cursor `default`, sin hover.
 
 **Carga dinámica.** Las cuatro tarjetas se generan desde `data/redes.json`. Solo se renderizan canales con campo `valor` no nulo, excepto LinkedIn que se renderiza siempre en variante "Próximamente" hasta que el campo deje de ser `null`.
@@ -769,7 +836,7 @@ Ya definida en `tokens.css` (líneas 420-442). Sirve como base de las variantes 
 </ul>
 ```
 
-**Especificación.** Cada ítem: `display: flex`, padding `var(--space-3)`, separador inferior `0.5px solid var(--color-rule-soft)`. Hover: fondo `var(--color-bg-panel)`.
+**Especificación.** Cada ítem: `display: flex`, padding `var(--space-3)`, separador inferior `0.5px solid var(--color-border-soft)`. Hover: fondo `var(--color-surface-raised)`.
 
 ---
 
@@ -786,7 +853,7 @@ Ya definida en `tokens.css` (líneas 420-442). Sirve como base de las variantes 
 </ul>
 ```
 
-**Especificación.** Layout horizontal con `gap: var(--space-3)`. Cada icono: 24×24 px, color `var(--color-ink-soft)`, hover a `var(--color-primary)`.
+**Especificación.** Layout horizontal con `gap: var(--space-3)`. Cada icono: 24×24 px, color `var(--color-text-soft)`, hover a `var(--color-accent)`.
 
 ---
 
@@ -827,13 +894,13 @@ Ya definida en `tokens.css` (líneas 420-442). Sirve como base de las variantes 
 
 **Especificación visual.**
 
-- Borde `1px solid var(--color-rule)`; radio `var(--radius-md)`; fondo `var(--color-bg-panel)`.
+- Borde `1px solid var(--color-border)`; radio `var(--radius-md)`; fondo `var(--color-surface-raised)`.
 - Padding interno: `var(--space-6)` (24 px).
 - Layout interno: en desktop, ícono a la izquierda (48×48 px), body al centro (`flex: 1`), acción al pie del body o a la derecha; en mobile, vertical apilado.
-- Ícono: 32×32 px, color `var(--color-primary)`.
-- Título: `<h3>` global, tipografía body, 18 px, peso medium.
-- Descripción: tipografía body, 14 px, color `var(--color-ink-soft)`.
-- Metadatos (formato y peso): estilo `caption`, color `var(--color-ink-faint)`.
+- Ícono: 32×32 px, color `var(--color-accent)`.
+- Título: `<h3>` global, tipografía body (`--text-h3`), peso medium.
+- Descripción: tipografía body, `--text-small`, color `var(--color-text-soft)`.
+- Metadatos (formato y peso): estilo `caption`, color `var(--color-text-faint)`.
 - Acción: botón secundario, no link plano, para enfatizar la naturaleza institucional de la descarga.
 
 **Carga dinámica.** Poblada vía `data-loader="documentos"` desde `data/documentos.json` (2 ítems en v1.0).
@@ -875,13 +942,13 @@ Ya definida en `tokens.css` (líneas 420-442). Sirve como base de las variantes 
 
 **Especificación visual.**
 
-- Línea vertical continua `1px solid var(--color-rule)` recorre el eje izquierdo del bloque (en desktop). Decisión de eje centrado vs lateral en mobile a confirmar en Fase 2.
+- Línea vertical continua `1px solid var(--color-border)` recorre el eje izquierdo del bloque (en desktop). Decisión de eje centrado vs lateral en mobile a confirmar en Fase 2.
 - Cada entrada: `display: grid; grid-template-columns: 48px 1fr; gap: var(--space-5)`.
-- Marker: círculo de 32×32 px, fondo `var(--color-bg)`, borde `2px solid var(--color-primary)`, posicionado sobre la línea vertical para taparla. Ícono Lucide centrado, 16×16 px, color `var(--color-primary)`.
-- Entrada ghost (`--ghost`): marker con `border-style: dashed` y `opacity: 0.6`; contenido con color `var(--color-ink-faint)` y `font-style: italic` en `__desc`.
-- Año (`.timeline__year`): tipografía `Geist Mono`, 14 px, peso medium, color `var(--color-primary)`.
-- Título (`.timeline__title`): `<h3>`, tipografía body, 18 px, peso medium.
-- Descripción (`.timeline__desc`): tipografía body, 14 px, color `var(--color-ink-soft)`, ancho máximo 60ch.
+- Marker: círculo de 32×32 px, fondo `var(--color-surface)`, borde `2px solid var(--color-accent)`, posicionado sobre la línea vertical para taparla. Ícono Lucide centrado, 16×16 px, color `var(--color-accent)`.
+- Entrada ghost (`--ghost`): marker con `border-style: dashed` y `opacity: 0.6`; contenido con color `var(--color-text-faint)` y `font-style: italic` en `__desc`.
+- Año (`.timeline__year`): tipografía `Geist Mono`, `--text-small`, peso medium, color `var(--color-accent)`.
+- Título (`.timeline__title`): `<h3>`, tipografía body (`--text-h3`), peso medium.
+- Descripción (`.timeline__desc`): tipografía body, `--text-small`, color `var(--color-text-soft)`, ancho máximo `var(--measure-prose)`.
 - Separación vertical entre entradas: `margin-bottom: var(--space-8)`.
 
 **Carga dinámica.** Poblada vía `data-loader="historia"` desde `data/historia.json`. La entrada ghost se incluye al final del array como objeto con `anio: "Próximamente"` o se renderiza estáticamente desde el template (decisión menor de Fase 2; mantener configurable).
@@ -988,13 +1055,13 @@ Ya definida en `tokens.css` (líneas 420-442). Sirve como base de las variantes 
 
 - `.form__row`: layout grid de 2 columnas en desktop, 1 en mobile, gap `var(--space-4)`.
 - `.form__field`: layout vertical, gap `var(--space-2)` entre label e input.
-- `.form__label`: tipografía body, 13 px, peso medium, color `var(--color-ink)`.
-- `.form__input`: padding `var(--space-3) var(--space-4)`, borde `1px solid var(--color-rule)`, radio `var(--radius-md)`, fondo `var(--color-bg-panel)`. Foco: borde `2px solid var(--color-primary)`, sin shadow box.
+- `.form__label`: tipografía body, 13 px, peso medium, color `var(--color-text)`.
+- `.form__input`: padding `var(--space-3) var(--space-4)`, borde `1px solid var(--color-border)`, radio `var(--radius-md)`, fondo `var(--color-surface-raised)`. Foco: borde `2px solid var(--color-accent)`, sin shadow box.
 - `.form__input--textarea`: `resize: vertical; min-height: 120px`.
 
 **Estados.**
 
-- Inválido (post-submit, vía `:invalid` o atributo `aria-invalid`): borde `var(--color-neg)`, mensaje de error abajo del campo.
+- Inválido (post-submit, vía `:invalid` o atributo `aria-invalid`): borde `var(--color-negative)`, mensaje de error abajo del campo.
 - Disabled: opacity 0.5, cursor `not-allowed`.
 
 **Accesibilidad.** Cada input tiene `<label>` asociado por `for/id`. Mensajes de error referenciados vía `aria-describedby`. Los campos requeridos llevan `required` (validación nativa) y `aria-required="true"`.
@@ -1019,7 +1086,7 @@ Ya definida en `tokens.css` (líneas 420-442). Sirve como base de las variantes 
 </nav>
 ```
 
-**Especificación visual.** Tipografía body, 13 px, color `var(--color-ink-faint)`. Separador entre items: ` / ` o ` › ` (texto, no imagen). El último ítem es texto plano (no link), color `var(--color-ink)`.
+**Especificación visual.** Tipografía body, `--text-small`, color `var(--color-text-faint)`. Separador entre items: ` / ` o ` › ` (texto, no imagen). El último ítem es texto plano (no link), color `var(--color-text)`.
 
 ---
 
@@ -1042,9 +1109,9 @@ Ya definida en `tokens.css` (líneas 420-442). Sirve como base de las variantes 
 
 **Especificación visual.**
 
-- Cada pill: padding `var(--space-2) var(--space-4)`, borde `1px solid var(--color-rule)`, radio `var(--radius-pill)` (999 px), tipografía body, 13 px.
-- Estado activo (`is-active`): fondo `var(--color-primary)`, texto blanco, sin borde.
-- Hover (no activo): fondo `var(--color-bg-panel)`, borde `var(--color-primary)`.
+- Cada pill: padding `var(--space-2) var(--space-4)`, borde `1px solid var(--color-border)`, radio `var(--radius-pill)` (999 px), tipografía body, `--text-small`.
+- Estado activo (`is-active`): fondo `var(--color-accent)`, texto `var(--color-on-accent)` (8.6:1 — AAA), borde acento.
+- Hover (no activo): fondo `var(--color-surface-raised)`, borde `var(--color-accent)`.
 
 ---
 
@@ -1066,7 +1133,7 @@ Ya definida en `tokens.css` (líneas 420-442). Sirve como base de las variantes 
 </div>
 ```
 
-**Especificación.** Padding generoso (64 px arriba y abajo), texto centrado, color de íconos y títulos en `var(--color-ink-faint)` para que la sección se sienta "en pausa" pero no rota.
+**Especificación.** Padding generoso (64 px arriba y abajo), texto centrado, color de íconos y títulos en `var(--color-text-faint)` para que la sección se sienta "en pausa" pero no rota.
 
 ---
 
@@ -1076,7 +1143,7 @@ Ya definida en `tokens.css` (líneas 420-442). Sirve como base de las variantes 
 
 **HTML.** `<span class="tag">Termodinámica</span>`
 
-**Especificación.** Padding `2px 8px`, fondo `var(--color-rule-soft)`, color `var(--color-ink)`, tipografía mono 11 px, radio `var(--radius-sm)`. Variante `--primary` con fondo `var(--color-primary-mid)` y texto blanco.
+**Especificación.** Padding `var(--space-px-2) var(--space-2)`, fondo `var(--color-border-soft)`, color `var(--color-text)`, tipografía mono `--text-eyebrow-sm`, radio `var(--radius-sm)`. Variante `--primary` con fondo `var(--color-accent-soft)` y texto `var(--color-on-accent)` (5.5:1 — AA).
 
 ---
 
@@ -1103,7 +1170,7 @@ Ya definida en `tokens.css` (líneas 420-442). Sirve como base de las variantes 
 
 **HTML.** `<hr class="divider">`
 
-**Especificación.** `border: 0; border-top: 1px solid var(--color-rule); margin: var(--space-12) 0;` (48 px arriba y abajo).
+**Especificación.** `border: 0; border-top: 1px solid var(--color-border); margin: var(--space-12) 0;` (48 px arriba y abajo).
 
 ---
 
@@ -1141,7 +1208,7 @@ El script `js/loaders.js` recorre el DOM al cargar la página, identifica todos 
 
 **Propósito.** Placeholder visual que se muestra mientras `fetch()` está en curso, evitando saltos de layout.
 
-**Especificación.** Bloque con dimensiones equivalentes al componente final, fondo `var(--color-rule-soft)` con animación sutil de pulso (opacity 0.6 → 1 → 0.6 en 1.5 s, ease-in-out, infinita).
+**Especificación.** Bloque con dimensiones equivalentes al componente final, fondo `var(--color-border-soft)` con animación sutil de pulso (opacity 0.6 → 1 → 0.6 en 1.5 s, ease-in-out, infinita).
 
 ---
 
@@ -1211,7 +1278,7 @@ Reaplicación práctica de los breakpoints declarados en `tokens.css`:
 
 **Pendientes técnicos identificados (no bloquean Fase 2, sí v1.0):**
 
-- Cinco colores `--color-materia-anio-1` a `--color-materia-anio-5` para `.card-materia` (lote separado: "Paleta placeholder por año").
+- ~~Cinco colores `--color-materia-anio-1` a `--color-materia-anio-5` para `.card-materia`~~ — resuelto en tokens v2 (§0.1, capa de alias de componente).
 - Verificación en `https://lucide.dev/icons/` de la disponibilidad de `presentation`, `telescope` y `heart-handshake`; aplicación de fallbacks si corresponde.
 - Selección de íconos Lucide por hito de la timeline.
 
@@ -1224,11 +1291,11 @@ Con este catálogo cerrado (incluidas las nueve altas y las cuatro correcciones 
 **Antes de generar el primer archivo HTML de Fase 2 conviene resolver, en este orden:**
 
 1. **Esqueleto base HTML (boilerplate)** reutilizable para todas las páginas y para las páginas hijas de `pages/gabinetes/` y `pages/recursos/`. Reemplaza a las plantillas parametrizadas descartadas el 2026-05-16.
-2. **Paleta placeholder por año** para `.card-materia` (5 colores derivados de Océano & Areia).
+2. ~~**Paleta placeholder por año** para `.card-materia`~~ — resuelta en tokens v2 (§0.1).
 3. **Verificación de íconos Lucide** críticos (`presentation`, `telescope`, `heart-handshake`).
 
 Los pendientes de contenido (validación de valores, prose de Misión, contenido de gabinetes, fotos de directiva, logos transparentes, compresión del Estatuto) no bloquean el desarrollo técnico inicial, pero sí el despliegue público de v1.0.
 
 ---
 
-*AChETIQ — Documento técnico interno — Fase 1 — 2026-05-08 · actualizado 2026-05-20*
+*AChETIQ — Documento técnico interno — Fase 1 — 2026-05-08 · actualizado 2026-06-10 (tokens v2)*

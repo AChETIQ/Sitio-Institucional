@@ -73,7 +73,7 @@
 }
 
 .list-downloads__item {
-  border-bottom: 0.5px solid var(--color-rule-soft);
+  border-bottom: 0.5px solid var(--color-border-soft);
 }
 
 .list-downloads__item:last-child {
@@ -86,20 +86,20 @@
   align-items: center;
   gap: var(--space-3);
   padding: var(--space-3);
-  color: var(--color-ink);
+  color: var(--color-text);
   text-decoration: none;
   transition: background var(--transition-fast);
 }
 
 .list-downloads__link:hover {
-  background: var(--color-bg-panel);
-  color: var(--color-ink);
+  background: var(--color-surface-raised);
+  color: var(--color-text);
 }
 
 .list-downloads__icon {
   width: var(--space-6);              /* 24 px */
   height: var(--space-6);
-  color: var(--color-primary-mid);
+  color: var(--color-accent-soft);
   flex-shrink: 0;
 }
 
@@ -107,12 +107,12 @@
   font-family: var(--font-body);
   font-size: var(--text-body);
   font-weight: var(--weight-medium);
-  color: var(--color-ink);
+  color: var(--color-text);
 }
 
 .list-downloads__meta {
   /* hereda .caption */
-  color: var(--color-ink-faint);
+  color: var(--color-text-faint);
 }
 
 
@@ -138,12 +138,12 @@
   justify-content: center;
   width: var(--space-6);              /* 24 px */
   height: var(--space-6);
-  color: var(--color-ink-soft);
+  color: var(--color-text-soft);
   transition: color var(--transition-fast);
 }
 
 .list-redes a:hover {
-  color: var(--color-primary);
+  color: var(--color-accent);
 }
 
 .list-redes svg {
@@ -165,8 +165,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-  background: var(--color-bg-panel);
-  border: 1px solid var(--color-rule);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   padding: var(--space-6);
 }
@@ -174,7 +174,7 @@
 .card-documento__icon {
   width: var(--icon-lg);              /* 32 px */
   height: var(--icon-lg);
-  color: var(--color-primary);
+  color: var(--color-accent);
   flex-shrink: 0;
 }
 
@@ -191,12 +191,12 @@
 
 .card-documento__desc {
   font-size: var(--text-small);
-  color: var(--color-ink-soft);
+  color: var(--color-text-soft);
 }
 
 .card-documento__meta {
   /* hereda .caption */
-  color: var(--color-ink-faint);
+  color: var(--color-text-faint);
 }
 
 .card-documento__action {
@@ -221,12 +221,12 @@
    5.5  TIMELINE — .timeline
    ─────────────────────────────────────────────────────────────
    Línea de tiempo institucional. Línea vertical 1 px en
-   --color-rule recorre el eje izquierdo del bloque; cada
+   --color-border recorre el eje izquierdo del bloque; cada
    entrada tiene marker circular (32×32) sobre la línea, año
    en mono primario, título H3, descripción body soft.
 
    Entrada ghost: marker dashed sin ícono, contenido en
-   --color-disabled, descripción en itálica. No usa opacity
+   --color-text-disabled, descripción en itálica. No usa opacity
    (mismo criterio que .contact-card--proximamente).
    ───────────────────────────────────────────────────────────── */
 
@@ -247,7 +247,7 @@
   top: 0;
   bottom: 0;
   width: 1px;
-  background: var(--color-rule);
+  background: var(--color-border);
 }
 
 .timeline__entry {
@@ -269,8 +269,8 @@
   width: var(--icon-lg);              /* 32 px */
   height: var(--icon-lg);
   border-radius: 50%;
-  background: var(--color-bg);
-  border: 2px solid var(--color-primary);
+  background: var(--color-surface);
+  border: 2px solid var(--color-accent);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -282,7 +282,7 @@
 .timeline__icon {
   width: var(--icon-sm);              /* 16 px */
   height: var(--icon-sm);
-  color: var(--color-primary);
+  color: var(--color-accent);
 }
 
 .timeline__content {
@@ -295,38 +295,38 @@
   font-family: var(--font-mono);
   font-size: var(--text-small);       /* 13 px ≈ 14 px catálogo */
   font-weight: var(--weight-medium);
-  color: var(--color-primary);
+  color: var(--color-accent);
 }
 
 .timeline__title {
   font-family: var(--font-body);
   font-size: var(--text-h3);          /* 20 px ≈ 18 px catálogo */
   font-weight: var(--weight-medium);
-  color: var(--color-ink);
+  color: var(--color-text);
 }
 
 .timeline__desc {
   font-family: var(--font-body);
   font-size: var(--text-small);
-  color: var(--color-ink-soft);
-  max-width: 60ch;
+  color: var(--color-text-soft);
+  max-width: var(--measure-prose);
 }
 
 /* Entrada ghost: el último hito que proyecta hacia el futuro.
-   Marker dashed sin ícono; texto descriptivo en --color-disabled
+   Marker dashed sin ícono; texto descriptivo en --color-text-disabled
    y descripción en itálica para diferenciar registro. */
 .timeline__entry--ghost .timeline__marker,
 .timeline__marker--ghost {
   border-style: dashed;
-  border-color: var(--color-rule);
+  border-color: var(--color-border);
 }
 
 .timeline__entry--ghost .timeline__year {
-  color: var(--color-disabled);
+  color: var(--color-text-disabled);
 }
 
 .timeline__entry--ghost .timeline__desc {
-  color: var(--color-disabled);
+  color: var(--color-text-disabled);
   font-style: italic;
 }
 
@@ -355,7 +355,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  max-width: 65ch;
+  max-width: var(--measure-prose);
 }
 
 .gallery-events__title {
@@ -364,7 +364,7 @@
 
 .gallery-events__desc {
   font-size: var(--text-body);
-  color: var(--color-ink-soft);
+  color: var(--color-text-soft);
   line-height: var(--leading-relaxed);
 }
 
@@ -427,11 +427,11 @@
 }
 
 .gallery-archive__lead {
-  max-width: 65ch;
+  max-width: var(--measure-prose);
   margin-bottom: var(--space-10);
   font-size: var(--text-body);
   line-height: var(--leading-relaxed);
-  color: var(--color-ink-soft);
+  color: var(--color-text-soft);
 }
 
 /* Pila de grupos por año. */
@@ -453,7 +453,7 @@
   font-size: var(--text-small);       /* 13 px */
   font-weight: var(--weight-medium);
   letter-spacing: var(--tracking-wide);
-  color: var(--color-primary);
+  color: var(--color-accent);
 }
 
 .gallery-archive__list {
@@ -474,7 +474,7 @@
   gap: var(--space-3);
   padding: var(--space-3);
   border-radius: var(--radius-md);
-  color: var(--color-ink);
+  color: var(--color-text);
   text-decoration: none;
   transition: background var(--transition-fast),
               color var(--transition-fast);
@@ -482,15 +482,15 @@
 
 .gallery-archive__link:hover,
 .gallery-archive__link:focus-visible {
-  background: var(--color-bg-panel);
-  color: var(--color-primary);
+  background: var(--color-surface-raised);
+  color: var(--color-accent);
 }
 
 .gallery-archive__icon {
   flex: 0 0 auto;
   width: var(--icon-sm);              /* 16 px */
   height: var(--icon-sm);
-  color: var(--color-primary-mid);    /* stroke = currentColor */
+  color: var(--color-accent-soft);    /* stroke = currentColor */
 }
 
 .gallery-archive__title {
@@ -506,13 +506,13 @@
   flex: 0 0 auto;
   width: var(--icon-sm);
   height: var(--icon-sm);
-  color: var(--color-ink-faint);
+  color: var(--color-text-faint);
   transition: color var(--transition-fast),
               transform var(--transition-fast);
 }
 
 .gallery-archive__link:hover .gallery-archive__arrow,
 .gallery-archive__link:focus-visible .gallery-archive__arrow {
-  color: var(--color-primary);
+  color: var(--color-accent);
   transform: translate(2px, -2px);
 }

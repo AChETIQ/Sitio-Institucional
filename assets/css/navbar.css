@@ -8,28 +8,26 @@
    Importado desde assets/css/main.css §1.
 
    Tokens usados (tokens.css):
-     --color-bg, --color-ink, --color-primary, --color-primary-mid,
-     --color-cta, --color-rule, --color-bg-panel, --color-ink-soft,
+     --color-surface, --color-text, --color-accent, --color-accent-soft,
+     --color-cta, --color-border, --color-surface-raised, --color-text-soft,
      --font-body, --max-width, --navbar-height, --page-padding-x,
      --space-*, --radius-md, --z-navbar, --z-modal, --transition-fast.
 
    El canónico nombra «--color-panel / --color-border / --color-accent
-   / --color-primary-light»; el proyecto los tiene declarados como
-   «--color-bg-panel / --color-rule / --color-cta / --color-primary-mid»
+   / --color-accent-light»; el proyecto los tiene declarados como
+   «--color-surface-raised / --color-border / --color-cta / --color-accent-soft»
    (ver tokens.css y FASE_1 §1.2). Se usan los nombres reales.
    ============================================================ */
 
 
 /* ─────────────────────────────────────────────────────────────
-   1. SOMBRA LOCAL DEL DROPDOWN
-   tokens.css no expone --shadow-md; la definimos aquí.
+   1. VARIABLES LOCALES
+   La sombra del dropdown usa el tier global --shadow-md de
+   tokens.css (la definición local de la v1 quedó obsoleta).
    ───────────────────────────────────────────────────────────── */
 
 .navbar {
-  --navbar-shadow-md:
-    0 4px 6px -1px color-mix(in srgb, var(--color-ink) 8%, transparent),
-    0 10px 24px -6px color-mix(in srgb, var(--color-ink) 10%, transparent);
-  --navbar-bg-alpha: color-mix(in srgb, var(--color-bg) 92%, transparent);
+  --navbar-bg-alpha: color-mix(in srgb, var(--color-surface) 92%, transparent);
   --navbar-easing: cubic-bezier(0.22, 1, 0.36, 1);
   --navbar-close-delay: 150ms;
 }
@@ -44,9 +42,9 @@
   top: 0;
   z-index: var(--z-navbar);
   width: 100%;
-  border-bottom: 1px solid var(--color-rule);
+  border-bottom: 1px solid var(--color-border);
   font-family: var(--font-body);
-  color: var(--color-ink);
+  color: var(--color-text);
 }
 
 /* Fondo translúcido + desenfoque de la barra, aislado en un
@@ -71,7 +69,7 @@
 /* Fallback opaco cuando backdrop-filter no está disponible. */
 @supports not ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
   .navbar::before {
-    background-color: var(--color-bg);
+    background-color: var(--color-surface);
   }
 }
 
@@ -102,7 +100,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  color: var(--color-ink);
+  color: var(--color-text);
   text-decoration: none;
   font-weight: var(--weight-medium);
   font-size: var(--text-h4);
@@ -111,7 +109,7 @@
 }
 
 .navbar__brand:hover {
-  color: var(--color-primary);
+  color: var(--color-accent);
 }
 
 .navbar__logo {
@@ -165,7 +163,7 @@
   font-size: var(--text-body);
   font-weight: var(--weight-medium);
   line-height: 1;
-  color: var(--color-ink);
+  color: var(--color-text);
   text-decoration: none;
   border: 1px solid transparent;
   border-radius: var(--radius-md);
@@ -179,31 +177,31 @@
 
 .nav-link--ghost:hover,
 .nav-link--ghost:focus-visible {
-  background-color: var(--color-bg-panel);
-  color: var(--color-primary);
+  background-color: var(--color-surface-raised);
+  color: var(--color-accent);
 }
 
 .nav-link--outline {
-  border-color: var(--color-rule);
+  border-color: var(--color-border);
 }
 
 .nav-link--outline:hover,
 .nav-link--outline:focus-visible {
-  background-color: var(--color-bg-panel);
-  color: var(--color-primary);
+  background-color: var(--color-surface-raised);
+  color: var(--color-accent);
 }
 
 .nav-link--primary {
-  background-color: var(--color-primary);
-  color: var(--color-bg);
-  border-color: var(--color-primary);
+  background-color: var(--color-accent);
+  color: var(--color-on-accent);
+  border-color: var(--color-accent);
 }
 
 .nav-link--primary:hover,
 .nav-link--primary:focus-visible {
-  background-color: var(--color-primary-mid);
-  border-color: var(--color-primary-mid);
-  color: var(--color-bg);
+  background-color: var(--color-accent-soft);
+  border-color: var(--color-accent-soft);
+  color: var(--color-on-accent);
 }
 
 
@@ -237,10 +235,10 @@
   list-style: none;
   margin: 0;
   padding: var(--space-2);
-  background-color: var(--color-bg-panel);
-  border: 1px solid var(--color-rule);
+  background-color: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  box-shadow: var(--navbar-shadow-md);
+  box-shadow: var(--shadow-md);
 
   /* Estado cerrado. */
   opacity: 0;
@@ -283,7 +281,7 @@
   font-size: var(--text-small);
   font-weight: var(--weight-regular);
   line-height: var(--leading-normal);
-  color: var(--color-ink);
+  color: var(--color-text);
   text-decoration: none;
   border-radius: var(--radius-sm);
   transition:
@@ -294,8 +292,8 @@
 
 .navbar__sublink:hover,
 .navbar__sublink:focus-visible {
-  background-color: var(--color-bg);
-  color: var(--color-primary);
+  background-color: var(--color-surface);
+  color: var(--color-accent);
 }
 
 
@@ -313,7 +311,7 @@
   background-color: transparent;
   border: 1px solid transparent;
   border-radius: var(--radius-md);
-  color: var(--color-ink);
+  color: var(--color-text);
   cursor: pointer;
   transition:
     background-color var(--transition-fast),
@@ -322,8 +320,8 @@
 
 .navbar__toggle:hover,
 .navbar__toggle:focus-visible {
-  background-color: var(--color-bg-panel);
-  border-color: var(--color-rule);
+  background-color: var(--color-surface-raised);
+  border-color: var(--color-border);
 }
 
 @media (min-width: 768px) {
@@ -380,7 +378,7 @@
 .navbar__overlay {
   position: fixed;
   inset: 0;
-  background-color: color-mix(in srgb, var(--color-ink) 50%, transparent);
+  background-color: color-mix(in srgb, var(--color-text) 50%, transparent);
   -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
   z-index: var(--z-modal);
@@ -400,10 +398,10 @@
   width: min(86vw, 360px);
   max-width: 100%;
   padding: calc(var(--navbar-height) + var(--space-4)) var(--space-5) var(--space-6);
-  background-color: color-mix(in srgb, var(--color-bg) 95%, transparent);
+  background-color: color-mix(in srgb, var(--color-surface) 95%, transparent);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
-  border-right: 1px solid var(--color-rule);
+  border-right: 1px solid var(--color-border);
   z-index: calc(var(--z-modal) + 1);
   overflow-y: auto;
   transform: translateX(-100%);
@@ -412,7 +410,7 @@
 
 @supports not ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
   .navbar__panel {
-    background-color: var(--color-bg);
+    background-color: var(--color-surface);
   }
 }
 
@@ -444,11 +442,11 @@
   gap: var(--space-2);
   padding-block-end: var(--space-4);
   margin-block-end: var(--space-2);
-  border-bottom: 1px solid var(--color-rule);
+  border-bottom: 1px solid var(--color-border);
   font-size: var(--text-h4);
   font-weight: var(--weight-medium);
   line-height: 1;
-  color: var(--color-ink);
+  color: var(--color-text);
 }
 
 .navbar__panel-list,
@@ -459,7 +457,7 @@
 }
 
 .navbar__panel-item {
-  border-bottom: 1px solid var(--color-rule);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .navbar__panel-item:last-child {
@@ -480,18 +478,18 @@
   font-family: var(--font-body);
   font-size: var(--text-h4);
   font-weight: var(--weight-medium);
-  color: var(--color-ink);
+  color: var(--color-text);
   text-decoration: none;
   transition: color var(--transition-fast);
 }
 
 .navbar__panel-link:hover,
 .navbar__panel-link:focus-visible {
-  color: var(--color-primary);
+  color: var(--color-accent);
 }
 
 .navbar__panel-link--primary {
-  color: var(--color-primary);
+  color: var(--color-accent);
 }
 
 .navbar__panel-toggle {
@@ -504,7 +502,7 @@
   background-color: transparent;
   border: 0;
   border-radius: var(--radius-md);
-  color: var(--color-ink-soft);
+  color: var(--color-text-soft);
   cursor: pointer;
   transition:
     background-color var(--transition-fast),
@@ -513,8 +511,8 @@
 
 .navbar__panel-toggle:hover,
 .navbar__panel-toggle:focus-visible {
-  background-color: var(--color-bg-panel);
-  color: var(--color-primary);
+  background-color: var(--color-surface-raised);
+  color: var(--color-accent);
 }
 
 .navbar__panel-toggle[aria-expanded="true"] .navbar__chevron {
@@ -537,14 +535,14 @@
   font-family: var(--font-body);
   font-size: var(--text-body);
   font-weight: var(--weight-regular);
-  color: var(--color-ink-soft);
+  color: var(--color-text-soft);
   text-decoration: none;
   transition: color var(--transition-fast);
 }
 
 .navbar__panel-sublink:hover,
 .navbar__panel-sublink:focus-visible {
-  color: var(--color-primary);
+  color: var(--color-accent);
 }
 
 
@@ -559,8 +557,8 @@
   top: 0;
   z-index: var(--z-navbar);
   width: 100%;
-  background-color: var(--color-bg);
-  border-bottom: 1px solid var(--color-rule);
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .navbar-fallback__inner {
@@ -577,7 +575,7 @@
   font-family: var(--font-body);
   font-size: var(--text-h4);
   font-weight: var(--weight-medium);
-  color: var(--color-ink);
+  color: var(--color-text);
   text-decoration: none;
 }
 

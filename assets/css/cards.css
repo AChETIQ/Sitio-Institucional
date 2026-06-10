@@ -3,8 +3,8 @@
    ------------------------------------------------------------
    Versión: 1.0 · Fase 2 — Desarrollo front-end
    Fundamento: FASE_1 §4 — Tarjetas (todas variantes de .card,
-               cuya base vive en tokens.css líneas 432-454)
-   · tokens.css
+               cuya base vive en tokens.css §COMPONENTE — TARJETA)
+   · tokens.css v2 «Pátina & Cobre»
 
    Mobile-first. Cero hex y cero familias literales: todo deriva
    de tokens.css. Las dimensiones de íconos, logos y eyebrows
@@ -17,8 +17,8 @@
    4.2  CARD GABINETE — .card-gabinete
    ─────────────────────────────────────────────────────────────
    Extiende .card. Padding interno 24 px, ícono 32×32 px en
-   primario, link de footer en CTA (uso permitido — enlace de
-   apertura directa). Hover: borde intensificado a primario.
+   primario, link de footer en cobre tipográfico (uso permitido —
+   enlace de apertura directa). Hover: borde a acento.
    ───────────────────────────────────────────────────────────── */
 
 .card-gabinete {
@@ -27,13 +27,13 @@
 }
 
 .card-gabinete:hover {
-  border-color: var(--color-primary);
+  border-color: var(--color-accent);
 }
 
 .card-gabinete__icon {
   width: var(--icon-lg);              /* 32 px */
   height: var(--icon-lg);
-  color: var(--color-primary);
+  color: var(--color-accent);
 }
 
 .card-gabinete__title {
@@ -42,13 +42,13 @@
 
 .card-gabinete__desc {
   font-size: var(--text-small);
-  color: var(--color-ink-soft);
+  color: var(--color-text-soft);
 }
 
 .card-gabinete__link {
   font-size: var(--text-small);
   font-weight: var(--weight-medium);
-  color: var(--color-cta);
+  color: var(--color-cta-text);
 }
 
 
@@ -74,7 +74,7 @@
   width: 100%;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  background: var(--color-rule-soft);
+  background: var(--color-border-soft);
 }
 
 .card-integrante__photo img {
@@ -92,21 +92,21 @@
   height: 100%;
   font-family: var(--font-display);
   font-size: var(--text-h2);
-  color: var(--color-primary);
-  background: var(--color-rule-soft);
+  color: var(--color-accent);
+  background: var(--color-border-soft);
 }
 
 .card-integrante__name {
   font-family: var(--font-body);
   font-size: var(--text-h3);          /* 20 px ≈ 18 px catálogo */
   font-weight: var(--weight-medium);
-  color: var(--color-ink);
+  color: var(--color-text);
 }
 
 .card-integrante__role {
   font-family: var(--font-body);
   font-size: var(--text-small);
-  color: var(--color-ink-soft);
+  color: var(--color-text-soft);
 }
 
 
@@ -151,7 +151,7 @@
 
 .card-noticia__category {
   /* hereda .eyebrow */
-  color: var(--color-primary-mid);
+  color: var(--color-accent-soft);
 }
 
 .card-noticia__title {
@@ -163,16 +163,16 @@
 }
 
 .card-noticia__title a {
-  color: var(--color-ink);
+  color: var(--color-text);
 }
 
 .card-noticia__title a:hover {
-  color: var(--color-primary);
+  color: var(--color-accent);
 }
 
 .card-noticia__excerpt {
   font-size: var(--text-small);
-  color: var(--color-ink-soft);
+  color: var(--color-text-soft);
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -182,7 +182,7 @@
 .card-noticia__readmore {
   font-size: var(--text-small);
   font-weight: var(--weight-medium);
-  color: var(--color-cta);
+  color: var(--color-cta-text);
 }
 
 
@@ -190,7 +190,7 @@
    4.5  CARD ACTIVIDAD — .card-actividad
    ─────────────────────────────────────────────────────────────
    Layout horizontal: bloque de fecha 80 px a la izquierda,
-   contenido a la derecha. Fecha sobre fondo `--color-primary`,
+   contenido a la derecha. Fecha sobre fondo `--color-accent`,
    texto claro.
    ───────────────────────────────────────────────────────────── */
 
@@ -207,8 +207,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: var(--color-primary);
-  color: var(--color-bg);
+  background: var(--color-accent);
+  color: var(--color-on-accent);
   padding: var(--space-3);
 }
 
@@ -240,12 +240,12 @@
 
 .card-actividad__meta {
   font-size: var(--text-small);
-  color: var(--color-ink-faint);
+  color: var(--color-text-faint);
 }
 
 .card-actividad__desc {
   font-size: var(--text-small);
-  color: var(--color-ink-soft);
+  color: var(--color-text-soft);
 }
 
 
@@ -267,7 +267,7 @@
 .card-recurso__icon {
   width: var(--space-6);              /* 24 px */
   height: var(--space-6);
-  color: var(--color-primary-mid);
+  color: var(--color-accent-soft);
   flex-shrink: 0;
 }
 
@@ -285,13 +285,13 @@
 .card-recurso__meta {
   font-family: var(--font-mono);
   font-size: var(--text-caption);
-  color: var(--color-ink-faint);
+  color: var(--color-text-faint);
 }
 
 .card-recurso__action {
   font-size: var(--text-small);
   font-weight: var(--weight-medium);
-  color: var(--color-cta);
+  color: var(--color-cta-text);
 }
 
 @media (min-width: 768px) {
@@ -310,15 +310,15 @@
 /* ─────────────────────────────────────────────────────────────
    4.7  CARD VALOR — .card--valor
    ─────────────────────────────────────────────────────────────
-   Variante de .card sin fondo (transparente sobre --color-bg),
-   borde 1 px en --color-rule, radio --radius-md, min-height
+   Variante de .card sin fondo (transparente sobre --color-surface),
+   borde 1 px en --color-border, radio --radius-md, min-height
    uniforme para evitar discrepancia con descripciones de
    distinta longitud. No interactivo (sin hover).
    ───────────────────────────────────────────────────────────── */
 
 .card--valor {
   background: transparent;
-  border: 1px solid var(--color-rule);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   padding: var(--space-5);
   min-height: 180px;
@@ -328,33 +328,33 @@
 .card--valor__icon {
   width: var(--icon-md);              /* 28 px */
   height: var(--icon-md);
-  color: var(--color-primary);
+  color: var(--color-accent);
   margin-bottom: var(--space-1);
 }
 
 .card--valor__title {
   /* H3 global. */
-  color: var(--color-ink);
+  color: var(--color-text);
 }
 
 .card--valor__desc {
   font-size: var(--text-small);
-  color: var(--color-ink-soft);
+  color: var(--color-text-soft);
 }
 
 
 /* ─────────────────────────────────────────────────────────────
    4.8  CARD INSTITUCION — .card-institucion
    ─────────────────────────────────────────────────────────────
-   Variante de .card: borde 1 px --color-rule, fondo
-   --color-bg-panel, padding generoso (32 px), layout vertical
+   Variante de .card: borde 1 px --color-border, fondo
+   --color-surface-raised, padding generoso (32 px), layout vertical
    centrado. Hover: borde a primary.
    ───────────────────────────────────────────────────────────── */
 
 .card-institucion {
-  border: 1px solid var(--color-rule);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  background: var(--color-bg-panel);
+  background: var(--color-surface-raised);
   padding: var(--space-8);
   align-items: center;
   text-align: center;
@@ -363,7 +363,7 @@
 }
 
 .card-institucion:hover {
-  border-color: var(--color-primary);
+  border-color: var(--color-accent);
 }
 
 .card-institucion__logo {
@@ -376,13 +376,13 @@
   font-family: var(--font-body);
   font-size: var(--text-h4);          /* 16 px */
   font-weight: var(--weight-medium);
-  color: var(--color-ink);
+  color: var(--color-text);
 }
 
 .card-institucion__link {
   font-family: var(--font-body);
   font-size: var(--text-small);
-  color: var(--color-cta);
+  color: var(--color-cta-text);
   margin-top: var(--space-2);
 }
 
@@ -401,12 +401,12 @@
 .card-materia {
   display: flex;
   flex-direction: column;
-  background: var(--color-bg);
-  border: 1px solid var(--color-rule);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   overflow: hidden;
   text-decoration: none;
-  color: var(--color-ink);
+  color: var(--color-text);
   transition: border-color var(--transition-fast);
   padding: 0;
 }
@@ -422,8 +422,8 @@
 }
 
 .card-materia:hover {
-  border-color: var(--color-primary);
-  color: var(--color-ink);
+  border-color: var(--color-accent);
+  color: var(--color-text);
 }
 
 .card-materia:hover .card-materia__cover {
@@ -432,7 +432,7 @@
 
 .card-materia__cover {
   aspect-ratio: 16 / 9;
-  background: var(--color-rule-soft); /* fallback antes de aplicar
+  background: var(--color-border-soft); /* fallback antes de aplicar
                                          color por año. */
   transition: filter var(--transition-fast);
 }
@@ -456,14 +456,14 @@
   font-weight: var(--weight-regular);
   letter-spacing: var(--tracking-wider);
   text-transform: uppercase;
-  color: var(--color-ink-faint);
+  color: var(--color-text-faint);
 }
 
 .card-materia__name {
   font-family: var(--font-body);
   font-size: var(--text-h4);          /* 16 px */
   font-weight: var(--weight-medium);
-  color: var(--color-ink);
+  color: var(--color-text);
 }
 
 /* Variante «sin carpeta» (drive_url vacío). Tarjeta NO
@@ -477,7 +477,7 @@
 }
 
 .card-materia--placeholder:hover {
-  border-color: var(--color-rule);    /* anula el hover de .card-materia */
+  border-color: var(--color-border);    /* anula el hover de .card-materia */
 }
 
 .card-materia--placeholder:hover .card-materia__cover {
@@ -487,7 +487,7 @@
 .card-materia__status {
   font-family: var(--font-mono);
   font-size: var(--text-caption);     /* 12 px */
-  color: var(--color-ink-faint);
+  color: var(--color-text-faint);
   margin-top: var(--space-1);
 }
 
@@ -500,7 +500,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-1);
-  color: var(--color-primary);
+  color: var(--color-accent);
 }
 
 .card-materia--drive:hover .card-materia__status--link,
@@ -525,36 +525,36 @@
    Tarjeta de canal de contacto. Variante activa (<a>): toda la
    superficie clickeable. Variante "Próximamente" (<div>): no
    interactiva. La atenuación NO usa `opacity` (reduce contraste
-   de forma no auditable): se aplica vía --color-disabled, token
-   semántico verificado WCAG AA (~5.14:1 sobre --color-bg).
+   de forma no auditable): se aplica vía --color-text-disabled, token
+   semántico verificado WCAG AA (5.6:1 sobre --color-surface).
    ───────────────────────────────────────────────────────────── */
 
 .contact-card {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  background: var(--color-bg);
-  border: 1px solid var(--color-rule);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   padding: var(--space-6);
   text-decoration: none;
-  color: var(--color-ink);
+  color: var(--color-text);
   transition: border-color var(--transition-fast),
               color var(--transition-fast);
 }
 
 a.contact-card:hover {
-  border-color: var(--color-primary);
+  border-color: var(--color-accent);
 }
 
 a.contact-card:hover .contact-card__icon {
-  color: var(--color-primary-mid);
+  color: var(--color-accent-soft);
 }
 
 .contact-card__icon {
   width: var(--icon-md);              /* 28 px */
   height: var(--icon-md);
-  color: var(--color-primary);
+  color: var(--color-accent);
   margin-bottom: var(--space-3);
   transition: color var(--transition-fast);
 }
@@ -564,14 +564,14 @@ a.contact-card:hover .contact-card__icon {
   font-size: var(--text-eyebrow-sm);  /* 11 px */
   letter-spacing: var(--tracking-wider);
   text-transform: uppercase;
-  color: var(--color-ink-faint);
+  color: var(--color-text-faint);
 }
 
 .contact-card__value {
   font-family: var(--font-body);
   font-size: var(--text-body);        /* 15 px */
   font-weight: var(--weight-medium);
-  color: var(--color-ink);
+  color: var(--color-text);
   /* Trunca cuando excede el ancho disponible. */
   overflow: hidden;
   text-overflow: ellipsis;

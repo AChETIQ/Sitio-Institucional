@@ -1,224 +1,497 @@
 /* ============================================================
    AChETIQ — Design Tokens
-   Versión: 1.0
-   Fase: 1 — Diseño Visual
-   Sistema: Paleta B — Océano & Areia
-   Última revisión: 2026-05-08
+   Versión: 2.0
+   Fase: S1 — Rediseño de tipografía y color
+   Sistema: Paleta «Pátina & Cobre»
+   Última revisión: 2026-06-10
    ============================================================
 
    INSTRUCCIONES DE USO
-   Importar este archivo al inicio de la hoja de estilos principal:
-     @import url('tokens.css');
+   Este archivo es la única fuente de verdad de todos los valores
+   visuales del sitio. Se enlaza vía <link> ANTES de main.css.
+   No escribir valores hexadecimales, nombres de familia
+   tipográfica ni tamaños en px en ningún otro archivo CSS —
+   siempre usar var(--token).
 
-   Todos los valores visuales del sitio deben referenciar estas
-   variables. No escribir valores hexadecimales ni tamaños
-   hardcodeados en otros archivos CSS — siempre usar var(--token).
+   ARQUITECTURA DE COLOR EN TRES CAPAS
+     1. Primitivas  (--arena-*, --patina-*, --cobre-*, …)
+        Escalas crudas de color. Definidas en hex sRGB como
+        fallback y redeclaradas en OKLCH dentro de un bloque
+        @supports para navegadores modernos. NO consumir
+        directamente desde componentes.
+     2. Semánticas  (--color-surface, --color-text, --color-accent, …)
+        Roles de uso. Es la capa que consumen los componentes.
+     3. Alias de componente (--color-materia-anio-*, --nivel-*-*)
+        Valores con nombre propio para casos puntuales, derivados
+        de la misma metodología cromática.
+
+   CONCEPTO DE PALETA — «Pátina & Cobre»
+   Identidad enraizada en la química: el cobre (intercambiadores,
+   alambiques, conductores) y su producto de oxidación, la pátina
+   o verdín (azul-verde petróleo). Pátina como color estructural
+   de marca; cobre como color exclusivo de acción (CTA); papel
+   cálido como soporte. Todos los pares texto/fondo documentan su
+   ratio de contraste WCAG 2.2 calculado (no estimado).
 
    ============================================================ */
 
 
 /* ─────────────────────────────────────────────────────────────
-   COLOR — FONDOS
+   CAPA 1 — PRIMITIVAS DE COLOR
+   Fallback sRGB hex. La redeclaración OKLCH (autoritativa) vive
+   en el bloque @supports al final de esta sección. Cada hex es
+   la conversión exacta del valor OKLCH comentado.
    ───────────────────────────────────────────────────────────── */
 
 :root {
 
-  --color-bg:         #F5F2EC;
-  /* Fondo principal de página. Base térmica cálida. */
+  /* ── ARENA — neutros cálidos (matiz 76–84) ────────────────── */
 
-  --color-bg-panel:   #F8F6F2;
-  /* Superficies elevadas: tarjetas, modales, paneles.
-     Blanco cálido — evita el contraste brusco del blanco puro
-     sobre el fondo crema. */
+  --arena-50:  #FAF7F3;   /* oklch(0.978 0.006 84) — papel elevado */
+  --arena-100: #F4F0E9;   /* oklch(0.957 0.010 84) — papel base    */
+  --arena-200: #E5E0D6;   /* oklch(0.908 0.014 84) — borde suave   */
+  --arena-300: #D2CCC0;   /* oklch(0.846 0.018 84) — borde         */
+  --arena-600: #655F58;   /* oklch(0.490 0.014 76) — tinta terciaria */
+  --arena-700: #514C44;   /* oklch(0.418 0.014 76) — tinta secundaria */
+  --arena-950: #1C1914;   /* oklch(0.215 0.010 76) — tinta principal */
 
-  --color-bg-overlay: rgba(19, 17, 15, 0.40);
-  /* Overlay de modales y drawers. */
+  /* ── PÁTINA — azul-verde petróleo, color de marca (matiz 218) ── */
 
-  --color-hero-scrim: rgba(0, 0, 0, 0.60);
-  /* Velo oscuro entre el slideshow de fondo del hero y el texto.
-     Garantiza contraste del texto blanco sobre cualquier
-     fotografía. Único punto del sistema con negro puro: es un velo
-     de legibilidad sobre foto, no una superficie de marca. */
+  --patina-50:  #EBF6F9;  /* oklch(0.965 0.012 218) — tinte mínimo  */
+  --patina-100: #CFEAF2;  /* oklch(0.920 0.030 218) — tinte claro   */
+  --patina-300: #81BCCD;  /* oklch(0.760 0.065 218) — pátina clara  */
+  --patina-500: #1A6E82;  /* oklch(0.500 0.082 218) — pátina media  */
+  --patina-700: #084F5F;  /* oklch(0.395 0.068 218) — pátina (marca) */
+  --patina-900: #02303A;  /* oklch(0.285 0.050 218) — pátina profunda */
+  --patina-950: #072229;  /* oklch(0.235 0.035 220) — base de velos y sombras */
+
+  /* ── COBRE — acento de acción (matiz 45–60) ───────────────── */
+
+  --cobre-100: #F7E0CE;   /* oklch(0.920 0.035 60) — tinte (reservado) */
+  --cobre-500: #B35713;   /* oklch(0.560 0.140 50) — cobre vivo (reservado a superficies grandes ≥ 24 px) */
+  --cobre-600: #9E4502;   /* oklch(0.500 0.135 48) — cobre de acción */
+  --cobre-700: #863709;   /* oklch(0.440 0.120 45) — cobre como texto */
+
+  /* ── ESTADO — verde, rojo y ámbar (L≈0.42–0.50 emparejados) ── */
+
+  --verde-700: #225A35;   /* oklch(0.420 0.085 152) */
+  --rojo-700:  #822D1D;   /* oklch(0.420 0.120  33) */
+  --ambar-600: #895709;   /* oklch(0.500 0.105  70) */
+
+}
+
+/* Redeclaración autoritativa de primitivas en OKLCH.
+   En navegadores con soporte (2023+) estos valores reemplazan a
+   los hex; la conversión es idéntica, pero OKLCH documenta la
+   relación perceptual (L/C/H emparejados) entre escalones. */
+@supports (color: oklch(40% 0 0)) {
+  :root {
+    --arena-50:  oklch(0.978 0.006 84);
+    --arena-100: oklch(0.957 0.010 84);
+    --arena-200: oklch(0.908 0.014 84);
+    --arena-300: oklch(0.846 0.018 84);
+    --arena-600: oklch(0.490 0.014 76);
+    --arena-700: oklch(0.418 0.014 76);
+    --arena-950: oklch(0.215 0.010 76);
+
+    --patina-50:  oklch(0.965 0.012 218);
+    --patina-100: oklch(0.920 0.030 218);
+    --patina-300: oklch(0.760 0.065 218);
+    --patina-500: oklch(0.500 0.082 218);
+    --patina-700: oklch(0.395 0.068 218);
+    --patina-900: oklch(0.285 0.050 218);
+    --patina-950: oklch(0.235 0.035 220);
+
+    --cobre-100: oklch(0.920 0.035 60);
+    --cobre-500: oklch(0.560 0.140 50);
+    --cobre-600: oklch(0.500 0.135 48);
+    --cobre-700: oklch(0.440 0.120 45);
+
+    --verde-700: oklch(0.420 0.085 152);
+    --rojo-700:  oklch(0.420 0.120 33);
+    --ambar-600: oklch(0.500 0.105 70);
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   CAPA 2 — TOKENS SEMÁNTICOS DE COLOR
+   La capa que consumen los componentes. Cada par texto/fondo
+   documenta su ratio WCAG 2.2 calculado sobre los valores sRGB.
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+
+  /* ── Superficies ──────────────────────────────────────────── */
+
+  --color-surface:        var(--arena-100);
+  /* Fondo principal de página. Papel cálido. */
+
+  --color-surface-raised: var(--arena-50);
+  /* Superficies elevadas: tarjetas, paneles, modales, dropdowns. */
+
+  --color-surface-inverse: var(--patina-900);
+  /* Superficie institucional oscura: footer, base del hero
+     mientras carga la fotografía. */
+
+  --color-overlay: rgba(28, 25, 20, 0.45);
+  /* Velo de modales y drawers. Derivado de --arena-950. */
+
+  --color-scrim: rgba(7, 34, 41, 0.66);
+  /* Velo de legibilidad entre el slideshow del hero y el texto.
+     Derivado de --patina-950 (el velo lleva la marca, ya no negro
+     puro). Peor caso medido (fotografía blanca pura detrás):
+     blanco sobre scrim+foto ≈ 5.4:1 — AA para texto normal,
+     reforzado además por text-shadow en el componente. */
 
   --color-on-media:      #FFFFFF;
-  /* Texto y bordes sobre fotografía / overlay oscuro (hero). */
+  /* Texto y bordes sobre fotografía / scrim oscuro (hero). */
 
-  --color-on-media-soft: rgba(255, 255, 255, 0.82);
-  /* Texto secundario sobre fotografía (subtítulo del hero). */
+  --color-on-media-soft: rgba(255, 255, 255, 0.88);
+  /* Texto secundario sobre fotografía. Sobre scrim+foto blanca
+     ≈ 4.6:1 — AA (antes 0.82, reforzado en este rediseño). */
+
+  /* ── Tinta ────────────────────────────────────────────────── */
+
+  --color-text:       var(--arena-950);
+  /* Texto principal. Negro cálido.
+     Sobre --color-surface 15.4:1 · sobre raised 16.4:1 — AAA. */
+
+  --color-text-soft:  var(--arena-700);
+  /* Texto secundario y CUERPO DE PROSA.
+     Sobre --color-surface 7.5:1 · sobre raised 8.0:1 — AAA
+     (el cuerpo de lectura del sitio apunta a AAA, no a AA). */
+
+  --color-text-faint: var(--arena-600);
+  /* Texto terciario: eyebrows, captions, metadatos.
+     Sobre --color-surface 5.6:1 · sobre raised 5.9:1 — AA
+     con margen (la v1 operaba al límite de 4.5:1). */
+
+  --color-text-disabled: var(--arena-600);
+  /* Estado inactivo/deshabilitado declarado explícitamente
+     (ej.: .contact-card--proximamente). Comparte valor con
+     --color-text-faint pero se expone aparte para que el
+     componente declare la intención sin depender de opacity
+     (que reduce contraste de forma no auditable). 5.6:1 — AA. */
+
+  /* ── Acento estructural (pátina) ──────────────────────────── */
+
+  --color-accent:      var(--patina-700);
+  /* Pátina de marca. Uso: enlaces, énfasis estructural, bordes
+     destacados, itálicas de titular (h1/h2 em), rellenos
+     institucionales (CTA final).
+     Como texto sobre --color-surface 8.1:1 · raised 8.6:1 — AAA. */
+
+  --color-accent-soft: var(--patina-500);
+  /* Pátina media. Uso: hover de enlaces, eyebrows de categoría,
+     íconos de soporte.
+     Como texto sobre --color-surface 5.1:1 · raised 5.5:1 — AA. */
+
+  --color-on-accent:   var(--arena-50);
+  /* Texto/íconos sobre rellenos --color-accent o inverse.
+     Sobre accent 8.6:1 — AAA · sobre inverse 13.2:1 — AAA. */
+
+  /* ── Acción (cobre) ───────────────────────────────────────── */
+
+  --color-cta:    var(--cobre-600);
+  /* Cobre de acción.
+     ⚠ ROL ÚNICO: exclusivamente botones de acción primaria y
+     enlaces de apertura directa («Abrir →», «Descargar →»).
+     NO usar para datos, métricas, decoración ni énfasis.
+     Como relleno con --color-on-cta encima: 6.0:1 — AA.
+     Para cobre como TEXTO usar --color-cta-text. */
+
+  --color-cta-text: var(--cobre-700);
+  /* Cobre tipográfico (enlaces de apertura directa).
+     Sobre --color-surface 7.2:1 · raised 7.7:1 — AAA.
+     (En v1 el cobre-texto daba ≈ 3.5:1: defecto corregido.) */
+
+  --color-on-cta: var(--arena-50);
+  /* Texto sobre relleno --color-cta. 6.0:1 — AA. */
+
+  /* ── Estado semántico ─────────────────────────────────────── */
+
+  --color-negative: var(--rojo-700);
+  /* Datos negativos, pérdidas, alertas, errores.
+     Sobre --color-surface 7.9:1 · raised 8.4:1 — AAA. */
+
+  --color-positive: var(--verde-700);
+  /* Datos positivos, confirmaciones, éxito.
+     Sobre --color-surface 7.2:1 · raised 7.6:1 — AAA. */
+
+  --color-warning:  var(--ambar-600);
+  /* Avisos no destructivos (divergencia de versión, discrepancia
+     de nota en Seguimiento). Sobre raised 5.7:1 — AA. */
+
+  /* ── Bordes y separadores ─────────────────────────────────── */
+
+  --color-border:      var(--arena-300);
+  /* Borde estándar: contornos de tarjeta, separadores de sección.
+     Sobre --color-surface 1.4:1 (decorativo, sin requisito). */
+
+  --color-border-soft: var(--arena-200);
+  /* Separadores internos de componente (pie de tarjeta, filas). */
+
+}
 
 
-  /* ─── COLOR — TINTA ──────────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────────
+   CAPA 3 — ALIAS DE COMPONENTE
+   ───────────────────────────────────────────────────────────── */
 
-  --color-ink:        #13110F;
-  /* Texto principal. Negro cálido, no neutro. */
+:root {
 
-  --color-ink-soft:   #5C5650;
-  /* Texto secundario. Contraste ~5.8:1 sobre --color-bg.
-     Cumple WCAG AA para texto normal y pequeño. */
+  /* ── Placeholder por año (card-materia, FASE_1 §4.9) ─────────
+     Narrativa visual: arena (1.°) → pátina profunda (5.°), ahora
+     pasando por el cobre y la salvia de la nueva paleta.
+     Decorativos: no llevan texto encima en v1.0, por lo que no
+     se verifica contraste de texto. */
 
-  --color-ink-faint:  #6B6560;
-  /* Texto terciario. Contraste ~4.5:1 sobre --color-bg.
-     Cumple WCAG AA en el límite — usar solo para texto ≥ 14px. */
+  --color-materia-anio-1: #E7D6AF;   /* oklch(0.880 0.055  88) arena dorada   */
+  --color-materia-anio-2: #DBAD81;   /* oklch(0.780 0.080  65) cobre claro    */
+  --color-materia-anio-3: #97B39C;   /* oklch(0.740 0.045 150) salvia         */
+  --color-materia-anio-4: #6694A3;   /* oklch(0.640 0.055 220) pátina niebla  */
+  --color-materia-anio-5: #245E6E;   /* oklch(0.450 0.065 220) pátina profunda */
 
-  --color-disabled:   #6B6560;
-  /* Token semántico de estado inactivo/deshabilitado. Comparte
-     valor con --color-ink-faint pero se expone aparte para que
-     los componentes declaren explícitamente "este elemento está
-     desactivado" (ej: .contact-card--proximamente). Contraste
-     ~5.14:1 sobre --color-bg y ~5.0:1 sobre --color-bg-panel —
-     cumple WCAG AA para texto normal y grande, sin depender de
-     opacity (que reduce contraste de forma no auditable). */
+  /* ── Paleta por nivel — Seguimiento de Carrera ───────────────
+     (spec_seguimiento.md §8.1). Réplica funcional del Excel
+     original, re-derivada con la metodología OKLCH del sistema:
+     accent L 0.60 / fondo-alt L 0.965 / texto L 0.45 con matiz
+     constante por nivel. Antes vivía como excepción local en
+     seguimiento.css; centralizada aquí elimina la excepción.
+     Contraste texto sobre fondo-alt / sobre raised:
+       I 6.8 / 7.1 · II 7.0 / 7.3 · III 6.4 / 6.6 · IV 6.8 / 7.1
+       V 7.1 / 7.4 · X 7.0 / 7.2 — todos AA, mayoría AAA. */
 
+  --nivel-i-accent:   #507ED3;  --nivel-i-fondo-alt:   #EEF4FD;  --nivel-i-texto:   #325392;
+  --nivel-ii-accent:  #8E6AC7;  --nivel-ii-fondo-alt:  #F5F2FC;  --nivel-ii-texto:  #5F4589;
+  --nivel-iii-accent: #039585;  --nivel-iii-fondo-alt: #EAF7F4;  --nivel-iii-texto: #00635A;
+  --nivel-iv-accent:  #AA7323;  --nivel-iv-fondo-alt:  #F9F2E9;  --nivel-iv-texto:  #754B10;
+  --nivel-v-accent:   #C65A4F;  --nivel-v-fondo-alt:   #FDF0EE;  --nivel-v-texto:   #883931;
+  --nivel-x-accent:   #7473D1;  --nivel-x-fondo-alt:   #F2F3FD;  --nivel-x-texto:   #4D4B90;
 
-  /* ─── COLOR — PRIMARIO ───────────────────────────────────── */
+}
 
-  --color-primary:    #0D3B66;
-  /* Azul océano profundo.
-     Uso: navegación, énfasis estructural, bordes destacados,
-     texto de enlaces, botones secundarios. */
+@supports (color: oklch(40% 0 0)) {
+  :root {
+    --color-overlay: oklch(0.215 0.010 76 / 0.45);
+    --color-scrim:   oklch(0.235 0.035 220 / 0.66);
 
-  --color-primary-mid: #1E6FA0;
-  /* Azul medio.
-     Uso: eyebrows, categorías, tags de estado, íconos de soporte.
-     No usar para texto sobre fondo blanco sin verificar contraste. */
+    --color-materia-anio-1: oklch(0.880 0.055 88);
+    --color-materia-anio-2: oklch(0.780 0.080 65);
+    --color-materia-anio-3: oklch(0.740 0.045 150);
+    --color-materia-anio-4: oklch(0.640 0.055 220);
+    --color-materia-anio-5: oklch(0.450 0.065 220);
 
-
-  /* ─── COLOR — ACENTO ─────────────────────────────────────── */
-
-  --color-cta:        #C8551C;
-  /* Naranja terracota.
-     ⚠ ROL ÚNICO: exclusivamente para botones de acción primaria
-     y enlaces de apertura directa ("Abrir →").
-     NO usar para datos, métricas, decoración ni énfasis de texto. */
-
-
-  /* ─── COLOR — SEMÁNTICO ──────────────────────────────────── */
-
-  --color-neg:        #9B3622;
-  /* Rojo oscuro para datos negativos, pérdidas energéticas,
-     alertas y estados de error.
-     Contraste ~7.6:1 sobre --color-bg — supera WCAG AAA. */
-
-  --color-pos:        #1A5C34;
-  /* Verde oscuro para datos positivos, ganancias, confirmaciones.
-     Uso reservado para KPIs y estados de éxito. */
-
-
-  /* ─── COLOR — BORDES Y SEPARADORES ──────────────────────── */
-
-  --color-rule:       #D8D0C4;
-  /* Borde estándar: contornos de tarjetas, separadores de sección,
-     líneas horizontales de divisón. */
-
-  --color-rule-soft:  #E8E2D8;
-  /* Borde suave: separadores internos dentro de componentes
-     (ej: pie de tarjeta, divisor de KPI strip). */
+    --nivel-i-accent:   oklch(0.600 0.140 262);  --nivel-i-fondo-alt:   oklch(0.965 0.014 262);  --nivel-i-texto:   oklch(0.450 0.110 262);
+    --nivel-ii-accent:  oklch(0.600 0.140 300);  --nivel-ii-fondo-alt:  oklch(0.965 0.014 300);  --nivel-ii-texto:  oklch(0.450 0.110 300);
+    --nivel-iii-accent: oklch(0.600 0.107 182);  --nivel-iii-fondo-alt: oklch(0.965 0.014 182);  --nivel-iii-texto: oklch(0.450 0.080 182);
+    --nivel-iv-accent:  oklch(0.600 0.115 72);   --nivel-iv-fondo-alt:  oklch(0.965 0.014 75);   --nivel-iv-texto:  oklch(0.450 0.090 70);
+    --nivel-v-accent:   oklch(0.600 0.140 28);   --nivel-v-fondo-alt:   oklch(0.965 0.014 28);   --nivel-v-texto:   oklch(0.450 0.110 28);
+    --nivel-x-accent:   oklch(0.600 0.140 282);  --nivel-x-fondo-alt:   oklch(0.965 0.014 282);  --nivel-x-texto:   oklch(0.450 0.110 282);
+  }
+}
 
 
-  /* ─── COLOR — PLACEHOLDER POR AÑO (card-materia) ──────────
-     Cinco tonos derivados de la paleta Océano & Areia para usar
-     como fondo del cover de .card-materia (FASE_1 §4.9).
-     Narrativa visual: arena (1.°) → mar profundo (5.°). Distintos
-     entre sí y sin solapamiento con los colores reservados al
-     isotipo (--color-primary, --color-cta). Decorativos: no
-     llevan texto encima en v1.0, por lo que no se verifica
-     contraste de texto. */
+/* ─────────────────────────────────────────────────────────────
+   SOMBRAS
+   Derivadas de --patina-950 vía color-mix: la sombra fría sobre
+   papel cálido evita el efecto «mancha gris». Tiers únicos para
+   todo el sitio (antes cada hoja improvisaba su rgba local).
+   ───────────────────────────────────────────────────────────── */
 
-  --color-materia-anio-1: #E6D7B5;   /* Arena clara */
-  --color-materia-anio-2: #C9B07A;   /* Médano dorado */
-  --color-materia-anio-3: #A4B5A8;   /* Marisma */
-  --color-materia-anio-4: #6F8FA0;   /* Niebla marina */
-  --color-materia-anio-5: #3D5B6E;   /* Marejada profunda */
+:root {
+
+  --shadow-xs:
+    0 1px 2px color-mix(in srgb, var(--patina-950) 6%, transparent);
+  /* Cajas pequeñas en reposo (unidades del countdown). */
+
+  --shadow-sm:
+    0 2px 8px color-mix(in srgb, var(--patina-950) 9%, transparent);
+  /* Elevación leve al hover de tarjetas. */
+
+  --shadow-md:
+    0 4px 6px -1px color-mix(in srgb, var(--patina-950) 9%, transparent),
+    0 10px 24px -6px color-mix(in srgb, var(--patina-950) 11%, transparent);
+  /* Dropdowns, popovers. */
+
+  --shadow-lg:
+    0 6px 16px -2px color-mix(in srgb, var(--patina-950) 10%, transparent),
+    0 16px 40px -8px color-mix(in srgb, var(--patina-950) 16%, transparent);
+  /* Paneles protagónicos, modales. */
 
 
   /* ─────────────────────────────────────────────────────────────
      TIPOGRAFÍA — FAMILIAS
+     Autoalojadas en assets/fonts/ (woff2, subset latin,
+     font-display: swap — ver @font-face en main.css §1).
      ───────────────────────────────────────────────────────────── */
 
   --font-display: 'Instrument Serif', Georgia, 'Times New Roman', serif;
-  /* Uso: H1, H2, títulos de sección, valores KPI grandes.
-     Carga desde Google Fonts — incluir <link> en <head>. */
+  /* Voz editorial de la marca: H1, H2, valores KPI, wordmark.
+     Familia de un solo peso (400) por diseño; el énfasis se
+     construye con la itálica (h1 em / h2 em), nunca con bold. */
 
   --font-body:    'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  /* Uso: cuerpo de texto, H3, H4, labels UI, botones, nav. */
+  /* Cuerpo, H3–H6, labels UI, botones, nav. Fuente VARIABLE
+     400–600: los pesos medium y semibold son reales, no
+     sintetizados por el navegador (defecto v1 corregido). */
 
-  --font-mono:    'Geist Mono', 'Courier New', Courier, monospace;
-  /* Uso: eyebrows, etiquetas técnicas, metadatos, código. */
+  --font-mono:    'Geist Mono', ui-monospace, 'Cascadia Mono', 'Courier New', monospace;
+  /* Eyebrows, etiquetas técnicas, metadatos, dígitos tabulares,
+     código. Fuente VARIABLE 400–500 autoalojada (en v1 el token
+     existía sin archivo y degradaba a Courier New: corregido). */
 
 
-  /* ─── TIPOGRAFÍA — ESCALA DE TAMAÑOS ────────────────────── */
+  /* ─── TIPOGRAFÍA — PESOS ─────────────────────────────────────
+     Tres pesos reales servidos por las variables (sin síntesis).
+     Disciplina de uso: regular para prosa, medium para UI y
+     subtítulos, semibold SOLO para <strong> y énfasis puntual. */
 
-  --text-display:    48px;
-  /* H1 — Hero, portada. Font: display. */
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
 
-  --text-h2:         32px;
-  /* H2 — Títulos de sección. Font: display. */
 
-  --text-h3:         20px;
-  /* H3 — Subtítulos, encabezados de tarjeta. Font: body, 500. */
+  /* ─────────────────────────────────────────────────────────────
+     TIPOGRAFÍA — ESCALA FLUIDA
+     ─────────────────────────────────────────────────────────────
+     Capa 1 (primitivas --type-step-*): escala modular fluida en
+     rem con clamp(), interpolada entre los viewports 360 px y
+     1280 px. Ratio: tercera menor (1.2) sobre base 16 px en
+     360 px → tercera mayor (1.25) sobre base 17 px en 1280 px,
+     redondeada a incrementos de 0.0625 rem. Los pasos display
+     (5–7) abren el ratio para jerarquía editorial.
 
-  --text-h4:         16px;
-  /* H4 — Encabezados de componente UI. Font: body, 500. */
+     Capa 2 (semánticos --text-*): roles que consumen los pasos.
+     Nada de px: el documento respeta el tamaño base configurado
+     por la persona usuaria (rem) y los H1 ya no desbordan en
+     360–414 px (defecto v1 corregido).
 
-  --text-body:       15px;
-  /* Cuerpo de párrafos. Font: body, 400. */
+     paso    360px → 1280px
+     -2      12    → 12     (piso de legibilidad, estático)
+     -1      14    → 14     (estático)
+      0      16    → 17     cuerpo
+      0.5    17    → 18     h4
+      1      19    → 21     h3
+      2      22    → 26     lead destacado
+      3      28    → 33     KPI / wordmark
+      4      33    → 41     h2
+      5      40    → 52     display (h1)
+      6      40    → 65     display-xl (hero; converge con 5 en móvil)
+      7      72    → 120    display-2xl (decorativo, 404)
+     ───────────────────────────────────────────────────────────── */
 
-  --text-small:      13px;
-  /* Texto auxiliar, notas, descripciones cortas. Font: body, 400. */
+  --type-step--2: 0.75rem;
+  --type-step--1: 0.875rem;
+  --type-step-0:  clamp(1rem, 0.9755rem + 0.1087vw, 1.0625rem);
+  --type-step-0h: clamp(1.0625rem, 1.038rem + 0.1087vw, 1.125rem);
+  --type-step-1:  clamp(1.1875rem, 1.1386rem + 0.2174vw, 1.3125rem);
+  --type-step-2:  clamp(1.375rem, 1.2772rem + 0.4348vw, 1.625rem);
+  --type-step-3:  clamp(1.75rem, 1.6277rem + 0.5435vw, 2.0625rem);
+  --type-step-4:  clamp(2.0625rem, 1.8668rem + 0.8696vw, 2.5625rem);
+  --type-step-5:  clamp(2.5rem, 2.2065rem + 1.3043vw, 3.25rem);
+  --type-step-6:  clamp(2.5rem, 1.8886rem + 2.7174vw, 4.0625rem);
+  --type-step-7:  clamp(4.5rem, 3.3261rem + 5.2174vw, 7.5rem);
 
-  --text-eyebrow:    10.5px;
-  /* Supratítulos y etiquetas mono. Font: mono, uppercase.
-     Siempre acompañar con letter-spacing: var(--tracking-wider). */
 
-  --text-eyebrow-sm: 11px;
-  /* Eyebrow ligeramente mayor que --text-eyebrow, para
-     componentes donde 10.5 px queda demasiado pequeño contra el
-     resto del bloque (ej: año en .card-materia, eyebrow de
-     .contact-card). Mismo registro tipográfico: mono, uppercase,
+  /* ─── TIPOGRAFÍA — ROLES SEMÁNTICOS ─────────────────────── */
+
+  --text-display-2xl: var(--type-step-7);
+  /* Cifras decorativas gigantes (dígitos del 404). Font: display. */
+
+  --text-display-xl:  var(--type-step-6);
+  /* Titular del hero de portada. Font: display. */
+
+  --text-display:     var(--type-step-5);
+  /* H1 — cabeceras de página. Font: display. */
+
+  --text-h2:          var(--type-step-4);
+  /* H2 — títulos de sección. Font: display. */
+
+  --text-kpi:         var(--type-step-3);
+  /* Valores numéricos KPI. Font: display. */
+
+  --text-wordmark:    var(--type-step-3);
+  /* Wordmark tipográfico del footer. Font: display. */
+
+  --text-lead:        var(--type-step-2);
+  /* Bajada destacada (subtítulo del hero). Font: body. */
+
+  --text-h3:          var(--type-step-1);
+  /* H3 — subtítulos, encabezados de tarjeta, leads de página.
+     Font: body, medium. */
+
+  --text-h4:          var(--type-step-0h);
+  /* H4 — encabezados de componente UI. Font: body, medium. */
+
+  --text-body:        var(--type-step-0);
+  /* Cuerpo de párrafos. Mínimo garantizado 1rem (16 px).
+     Font: body, regular. */
+
+  --text-small:       var(--type-step--1);
+  /* Texto auxiliar, notas, descripciones cortas. Font: body. */
+
+  --text-caption:     var(--type-step--2);
+  /* Metadatos, timestamps, créditos. Font: mono. */
+
+  --text-eyebrow:     0.6875rem;
+  /* Supratítulos mono uppercase (11 px estático; piso de
+     legibilidad — la v1 usaba 10.5 px). Siempre acompañar con
      letter-spacing: var(--tracking-wider). */
 
-  --text-caption:    12px;
-  /* Metadatos, timestamps, créditos. Font: mono, 400. */
+  --text-eyebrow-sm:  0.75rem;
+  /* Eyebrow un punto mayor para componentes donde 11 px queda
+     corto contra el bloque (año de .card-materia, eyebrow de
+     .contact-card, th de tablas). Mismo registro: mono,
+     uppercase, tracking-wider. */
 
-  --text-kpi:        30px;
-  /* Valores numéricos en KPI strip. Font: display. */
-
-
-  /* ─── TIPOGRAFÍA — PESOS ─────────────────────────────────── */
-
-  --weight-regular: 400;
-  --weight-medium:  500;
-  /* Únicos dos pesos en uso. No usar 600 ni 700. */
+  --text-digits:      clamp(1.75rem, 1.1630rem + 2.6087vw, 3.25rem);
+  /* Dígitos del reloj de cuenta regresiva (28→52 px fluido;
+     reemplaza los tres escalones por breakpoint de la v1).
+     Font: mono, medium, tabular-nums. */
 
 
   /* ─── TIPOGRAFÍA — INTERLINEADO ─────────────────────────── */
 
   --leading-tight:   1.08;
-  /* Display / H1 — titulares grandes. */
+  /* Display / H1 / cifras grandes. */
 
   --leading-snug:    1.3;
-  /* H2, H3 — subtítulos. */
+  /* H2, H3, subtítulos, texto compacto multilinea. */
 
   --leading-normal:  1.5;
-  /* H4, labels, UI compacto. */
+  /* H4, labels, UI compacta. */
 
-  --leading-relaxed: 1.75;
-  /* Body text — máxima legibilidad en bloques de prosa. */
+  --leading-relaxed: 1.7;
+  /* Prosa. Calibrado para el cuerpo de 16–17 px y medida de
+     65ch (la v1 usaba 1.75 sobre cuerpo de 15 px). */
 
 
   /* ─── TIPOGRAFÍA — ESPACIADO DE LETRA ───────────────────── */
 
-  --tracking-tight:  -0.01em;
-  /* Titulares display — compensa el espaciado generoso de Instrument Serif. */
+  --tracking-tight:  -0.015em;
+  /* Titulares display — compensa el aire de Instrument Serif
+     en los cuerpos grandes de la nueva escala. */
 
   --tracking-normal:  0em;
   /* Cuerpo y UI. */
 
   --tracking-wide:    0.04em;
-  /* Labels mono en tamaño normal (~12px). */
+  /* Labels mono en tamaño normal (~12 px). */
 
   --tracking-wider:   0.12em;
-  /* Eyebrows uppercase — siempre text-transform: uppercase. */
+  /* Eyebrows uppercase — siempre con text-transform: uppercase. */
+
+
+  /* ─── TIPOGRAFÍA — MEDIDA DE LECTURA ────────────────────── */
+
+  --measure-prose: 65ch;
+  /* Medida máxima de bloques de prosa (.prose y equivalentes).
+     ~65 caracteres por línea: óptimo de lectura sostenida. */
+
+  --measure-narrow: 56ch;
+  /* Medida acotada para bajadas y leads junto a titulares. */
 
 
   /* ─────────────────────────────────────────────────────────────
@@ -355,15 +628,16 @@
 }
 
 html {
-  font-size: 16px;
+  /* Sin font-size fijo: el documento respeta la preferencia de
+     tamaño base de la persona usuaria (escala rem fluida). */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
 }
 
 body {
-  background-color: var(--color-bg);
-  color: var(--color-ink);
+  background-color: var(--color-surface);
+  color: var(--color-text);
   font-family: var(--font-body);
   font-weight: var(--weight-regular);
   font-size: var(--text-body);
@@ -382,12 +656,12 @@ h1 {
   font-weight: var(--weight-regular);
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-tight);
-  color: var(--color-ink);
+  color: var(--color-text);
 }
 
 h1 em {
   font-style: italic;
-  color: var(--color-primary);
+  color: var(--color-accent);
 }
 
 h2 {
@@ -395,12 +669,12 @@ h2 {
   font-size: var(--text-h2);
   font-weight: var(--weight-regular);
   line-height: var(--leading-snug);
-  color: var(--color-ink);
+  color: var(--color-text);
 }
 
 h2 em {
   font-style: italic;
-  color: var(--color-primary);
+  color: var(--color-accent);
 }
 
 h3 {
@@ -408,7 +682,7 @@ h3 {
   font-size: var(--text-h3);
   font-weight: var(--weight-medium);
   line-height: var(--leading-snug);
-  color: var(--color-ink);
+  color: var(--color-text);
 }
 
 h4 {
@@ -416,22 +690,28 @@ h4 {
   font-size: var(--text-h4);
   font-weight: var(--weight-medium);
   line-height: var(--leading-normal);
-  color: var(--color-ink);
+  color: var(--color-text);
 }
 
 p {
-  color: var(--color-ink-soft);
+  color: var(--color-text-soft);
   line-height: var(--leading-relaxed);
 }
 
 a {
-  color: var(--color-primary);
+  color: var(--color-accent);
   text-decoration: none;
   transition: color var(--transition-fast);
 }
 
 a:hover {
-  color: var(--color-primary-mid);
+  color: var(--color-accent-soft);
+}
+
+strong, b {
+  /* Peso semibold REAL servido por la variable Geist 400–600;
+     evita el bold 700 sintetizado por el navegador. */
+  font-weight: var(--weight-semibold);
 }
 
 
@@ -445,7 +725,7 @@ a:hover {
   font-weight: var(--weight-regular);
   letter-spacing: var(--tracking-wider);
   text-transform: uppercase;
-  color: var(--color-ink-faint);
+  color: var(--color-text-faint);
 }
 
 .caption {
@@ -453,15 +733,15 @@ a:hover {
   font-size: var(--text-caption);
   font-weight: var(--weight-regular);
   letter-spacing: var(--tracking-wide);
-  color: var(--color-ink-faint);
+  color: var(--color-text-faint);
 }
 
-.text-primary  { color: var(--color-primary); }
-.text-cta      { color: var(--color-cta); }
-.text-neg      { color: var(--color-neg); }
-.text-pos      { color: var(--color-pos); }
-.text-soft     { color: var(--color-ink-soft); }
-.text-faint    { color: var(--color-ink-faint); }
+.text-accent   { color: var(--color-accent); }
+.text-cta      { color: var(--color-cta-text); }
+.text-negative { color: var(--color-negative); }
+.text-positive { color: var(--color-positive); }
+.text-soft     { color: var(--color-text-soft); }
+.text-faint    { color: var(--color-text-faint); }
 
 
 /* ─────────────────────────────────────────────────────────────
@@ -489,13 +769,14 @@ a:hover {
 
 .btn-primary {
   background: var(--color-cta);
-  color: var(--color-bg);
+  color: var(--color-on-cta);
+  /* Contraste 6.0:1 — AA (la v1 operaba en ≈3.5:1). */
 }
 
 .btn-secondary {
   background: transparent;
-  color: var(--color-primary);
-  border: 1px solid var(--color-primary);
+  color: var(--color-accent);
+  border: 1px solid var(--color-accent);
 }
 
 
@@ -504,8 +785,8 @@ a:hover {
    ───────────────────────────────────────────────────────────── */
 
 .card {
-  background: var(--color-bg-panel);
-  border: 0.5px solid var(--color-rule);
+  background: var(--color-surface-raised);
+  border: 0.5px solid var(--color-border);
   border-radius: var(--radius-lg);
   padding: var(--space-5);
   display: flex;
@@ -515,7 +796,7 @@ a:hover {
 
 .card-featured {
   border-width: 1.5px;
-  border-color: var(--color-primary);
+  border-color: var(--color-accent);
 }
 
 .card-footer {
@@ -523,7 +804,7 @@ a:hover {
   justify-content: space-between;
   align-items: center;
   padding-top: var(--space-3);
-  border-top: 0.5px solid var(--color-rule-soft);
+  border-top: 0.5px solid var(--color-border-soft);
   margin-top: auto;
 }
 
@@ -543,6 +824,6 @@ a:hover {
   font-family: var(--font-body);
   font-size: var(--text-small);
   font-weight: var(--weight-regular);
-  color: var(--color-ink-soft);
+  color: var(--color-text-soft);
 }
 /* Sufijo o unidad junto al valor KPI (ej: "k", "%", "+"). */

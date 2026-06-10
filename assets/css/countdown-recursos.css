@@ -2,7 +2,7 @@
    AChETIQ — Componente: Cuenta regresiva de Recursos Académicos
    Bloque BEM: .countdown
    Fase: 2 — Desarrollo front-end
-   Depende de: tokens.css (paleta "Océano & Areia")
+   Depende de: tokens.css (paleta «Pátina & Cobre»)
    ------------------------------------------------------------
    Todos los valores referencian var(--token). No se introducen
    colores hexadecimales ni tamaños hardcodeados.
@@ -42,7 +42,7 @@
   height: 600px;
   top: -50%;
   left: -25%;
-  background: color-mix(in oklab, var(--color-primary) 8%, transparent);
+  background: color-mix(in oklab, var(--color-accent) 8%, transparent);
 }
 
 .countdown__glow--sand {
@@ -50,7 +50,7 @@
   height: 600px;
   bottom: 0;
   right: 0;
-  background: color-mix(in oklab, var(--color-primary-mid) 6%, transparent);
+  background: color-mix(in oklab, var(--color-accent-soft) 6%, transparent);
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -69,10 +69,10 @@
   gap: var(--space-12);
   text-align: center;
   padding: var(--space-16) var(--space-12);
-  background: var(--color-bg-panel);
-  border: 1px solid var(--color-rule);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-lg, 0 4px 10px color-mix(in srgb, var(--color-ink) 10%, transparent));
+  box-shadow: var(--shadow-lg);
   overflow: hidden;
 }
 
@@ -84,7 +84,7 @@
   pointer-events: none;
   background: linear-gradient(
     to bottom,
-    color-mix(in oklab, var(--color-bg-panel) 60%, transparent),
+    color-mix(in oklab, var(--color-surface-raised) 60%, transparent),
     transparent 40%
   );
 }
@@ -109,20 +109,20 @@
   gap: var(--space-2);
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-pill);
-  background: color-mix(in oklab, var(--color-primary-mid) 10%, var(--color-bg-panel));
-  border: 1px solid var(--color-rule);
+  background: color-mix(in oklab, var(--color-accent-soft) 10%, var(--color-surface-raised));
+  border: 1px solid var(--color-border);
   font-family: var(--font-mono);
   font-size: var(--text-eyebrow);
   font-weight: var(--weight-regular);
   letter-spacing: var(--tracking-wider);
   text-transform: uppercase;
-  color: var(--color-primary-mid);
+  color: var(--color-accent-soft);
 }
 
 .countdown__badge svg {
   width: 14px;
   height: 14px;
-  stroke: var(--color-primary-mid);
+  stroke: var(--color-accent-soft);
 }
 
 .countdown__title {
@@ -131,20 +131,20 @@
   font-weight: var(--weight-regular);
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-tight);
-  color: var(--color-ink);
+  color: var(--color-text);
   margin: 0;
 }
 
 .countdown__title em {
   font-style: italic;
-  color: var(--color-primary);
+  color: var(--color-accent);
 }
 
 .countdown__lead {
   font-family: var(--font-body);
   font-size: var(--text-body);
   line-height: var(--leading-relaxed);
-  color: var(--color-ink-soft);
+  color: var(--color-text-soft);
   margin: 0;
 }
 
@@ -175,20 +175,20 @@
   justify-content: center;
   min-width: 92px;
   padding: var(--space-4) var(--space-5);
-  background: var(--color-bg);
-  border: 1px solid var(--color-rule);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-xs, 0 4px 10px color-mix(in srgb, var(--color-ink) 5%, transparent));
+  box-shadow: var(--shadow-xs);
   overflow: hidden;
 }
 
 .countdown__digits {
   font-family: var(--font-mono);
-  font-size: 52px;
+  font-size: var(--text-digits);   /* 28→52 px fluido (tokens.css) */
   font-weight: var(--weight-medium);
   line-height: 1;
   letter-spacing: var(--tracking-tight);
-  color: var(--color-primary);
+  color: var(--color-accent);
   font-variant-numeric: tabular-nums;
   display: inline-block;
 }
@@ -209,16 +209,16 @@
   font-weight: var(--weight-regular);
   letter-spacing: var(--tracking-wider);
   text-transform: uppercase;
-  color: var(--color-ink-faint);
+  color: var(--color-text-faint);
 }
 
 .countdown__sep {
   align-self: center;
   margin-top: calc(-1 * var(--space-6));
   font-family: var(--font-mono);
-  font-size: 36px;
+  font-size: calc(var(--text-digits) * 0.7);   /* subordinado a los dígitos */
   font-weight: var(--weight-regular);
-  color: color-mix(in oklab, var(--color-ink-faint) 55%, transparent);
+  color: color-mix(in oklab, var(--color-text-faint) 55%, transparent);
   animation: countdown-pulse 1.6s ease-in-out infinite;
 }
 
@@ -237,7 +237,7 @@
   font-family: var(--font-mono);
   font-size: var(--text-caption);
   letter-spacing: var(--tracking-wide);
-  color: var(--color-ink-faint);
+  color: var(--color-text-faint);
   margin: calc(-1 * var(--space-6)) 0 0;
 }
 
@@ -266,19 +266,19 @@
    RESPONSIVE
    ───────────────────────────────────────────────────────────── */
 
+/* La escala fluida de tokens.css absorbe los antiguos escalones
+   tipográficos por breakpoint (52→34→28 px); los @media conservan
+   solo los ajustes de caja. */
 @media (max-width: 768px) {
   .countdown { padding: var(--space-12) var(--space-4); }
   .countdown__panel { padding: var(--space-12) var(--space-6); gap: var(--space-10); }
-  .countdown__title { font-size: var(--text-h2); }
   .countdown__box { min-width: 64px; padding: var(--space-3) var(--space-3); }
-  .countdown__digits { font-size: 34px; }
   .countdown__clock { gap: var(--space-2); }
-  .countdown__sep { font-size: 24px; margin-top: calc(-1 * var(--space-5)); }
+  .countdown__sep { margin-top: calc(-1 * var(--space-5)); }
 }
 
 @media (max-width: 380px) {
   .countdown__box { min-width: 54px; }
-  .countdown__digits { font-size: 28px; }
 }
 
 /* ─────────────────────────────────────────────────────────────
