@@ -680,6 +680,10 @@
   /* Gap estándar de grids de tarjetas (fluido 12 → 20 px). */
   --section-gap: clamp(48px, 32.57px + 4.29vw, 96px);
   /* Separación entre secciones de página (fluido 48 → 96 px). */
+  --section-pad-y: clamp(48px, 42.86px + 1.43vw, 64px);
+  /* Respiración vertical estándar de sección (fluido 48 → 64 px). */
+  --section-pad-y-lg: clamp(64px, 53.71px + 2.86vw, 96px);
+  /* Respiración vertical amplia, nivel hero (fluido 64 → 96 px). */
 
   --breakpoint-seguimiento: 1024px;
   /* Breakpoint funcional de la herramienta Seguimiento de Carrera
@@ -775,6 +779,21 @@
   --transition-hero:   1000ms ease;
   /* Cross-fade (desvanecido) entre imágenes del slideshow del hero.
      Dentro del rango 0.8–1 s para una transición suave y notoria. */
+
+
+  /* ─────────────────────────────────────────────────────────────
+     DECORACIÓN DE TEXTO
+     ───────────────────────────────────────────────────────────── */
+
+  --underline-offset: 2px;
+  /* Separación entre el texto y su subrayado (enlaces inline).
+     Los contextos que necesitan más aire lo redefinen localmente
+     (footer, 404). */
+
+  --text-shadow-media: 0 4px 16px color-mix(in srgb, var(--color-text) 60%, transparent), 0 2px 4px color-mix(in srgb, var(--color-text) 80%, transparent);
+  /* Sombra de legibilidad para texto sobre fotografía (hero): dos
+     capas (halo difuso + contacto nítido) derivadas de
+     --color-text, sin colores literales. */
 
 }
 

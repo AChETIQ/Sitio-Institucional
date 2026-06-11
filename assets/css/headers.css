@@ -41,10 +41,11 @@
   justify-content: flex-start;
   text-align: center;
   min-height: calc(100svh - var(--navbar-height));
-  /* Respiración vertical fluida (S3): 64 → 96 px entre 360 y
-     1480 px de viewport (absorbe el escalón @media de 1024). El
-     padding lateral hereda el token fluido de página. */
-  padding: clamp(64px, 53.71px + 2.86vw, 96px) var(--page-padding-x);
+  /* Respiración vertical fluida (S3): token amplio nivel hero
+     (64 → 96 px entre 360 y 1480 px de viewport; absorbe el
+     escalón @media de 1024). El padding lateral hereda el token
+     fluido de página. */
+  padding: var(--section-pad-y-lg) var(--page-padding-x);
   overflow: hidden;
   background: var(--color-surface-inverse);   /* base visible mientras carga la 1.ª imagen */
 }
@@ -110,10 +111,8 @@
   max-width: 100%;
   text-wrap: balance;
   /* Sombra de legibilidad sobre el slideshow: dos capas (halo difuso +
-     contacto nítido) derivadas de --color-text, sin colores literales. */
-  text-shadow:
-    0 4px 16px color-mix(in srgb, var(--color-text) 60%, transparent),
-    0 2px 4px color-mix(in srgb, var(--color-text) 80%, transparent);
+     contacto nítido), tokenizada en tokens.css. */
+  text-shadow: var(--text-shadow-media);
 }
 
 /* Subtítulo (h2): tipografía de cuerpo en el rol lead de la escala
@@ -126,9 +125,7 @@
   color: var(--color-on-media-soft);
   max-width: var(--measure-narrow);
   text-wrap: balance;
-  text-shadow:
-    0 4px 16px color-mix(in srgb, var(--color-text) 60%, transparent),
-    0 2px 4px color-mix(in srgb, var(--color-text) 80%, transparent);
+  text-shadow: var(--text-shadow-media);
 }
 
 /* Grupo de acciones: apilado vertical en mobile, fila centrada en

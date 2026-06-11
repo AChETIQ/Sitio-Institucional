@@ -47,10 +47,11 @@
   color: var(--color-on-accent);
 
   border-radius: var(--radius-lg);
-  /* Padding fluido (S3): 48 → 64 px vertical y 24 → 48 px lateral
-     entre 360 y 1480 px de viewport. Absorbe el salto @media de
-     768 px que vivía al final de esta hoja. */
-  padding: clamp(48px, 42.86px + 1.43vw, 64px)
+  /* Padding fluido (S3): respiración vertical estándar de sección
+     (token global, 48 → 64 px) y 24 → 48 px lateral entre 360 y
+     1480 px de viewport. Absorbe el salto @media de 768 px que
+     vivía al final de esta hoja. */
+  padding: var(--section-pad-y)
            clamp(24px, 16.29px + 2.14vw, 48px);
   /* Respiración de sección del contrato de ritmo S2 (colapsa con
      el margen de la sección anterior, no se duplica). */

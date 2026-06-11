@@ -62,10 +62,11 @@
   max-width: var(--max-width);
   margin-inline: auto;
   /* Espaciado fluido (S3): el padding lateral usa el token de
-     página (20 → 64 px) y el vertical interpola 48 → 64 px; ambos
-     saltos por @media quedaron absorbidos. */
+     página (20 → 64 px) y el vertical la respiración estándar de
+     sección (48 → 64 px); ambos saltos por @media quedaron
+     absorbidos. */
   padding-inline: var(--page-padding-x);
-  padding-block: clamp(48px, 42.86px + 1.43vw, 64px);
+  padding-block: var(--section-pad-y);
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-10);
@@ -186,7 +187,10 @@
 .footer__contact-link:hover {
   color: var(--footer-ink);
   text-decoration: underline;
-  text-underline-offset: 3px;
+  /* Override local del token global (2 px): los enlaces del footer
+     llevan 3 px de aire bajo el texto para conservar su render. */
+  --underline-offset: 3px;
+  text-underline-offset: var(--underline-offset);
   text-decoration-thickness: 1px;
 }
 

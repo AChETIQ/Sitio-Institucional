@@ -171,7 +171,10 @@
   font-size: var(--text-small);
   color: var(--color-accent);
   text-decoration: underline;
-  text-underline-offset: 3px;
+  /* Override local del token global (2 px): estos enlaces llevan
+     3 px de aire bajo el texto para conservar su render. */
+  --underline-offset: 3px;
+  text-underline-offset: var(--underline-offset);
 }
 
 .error404__nav-list a:hover {

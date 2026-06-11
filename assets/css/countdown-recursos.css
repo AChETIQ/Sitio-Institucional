@@ -72,7 +72,8 @@
   align-items: center;
   gap: clamp(40px, 36.87px + 0.87vw, 48px);
   text-align: center;
-  padding: clamp(48px, 41.74px + 1.74vw, 64px)
+  /* Vertical: respiración estándar de sección (48 → 64 px). */
+  padding: var(--section-pad-y)
            clamp(24px, 14.61px + 2.61vw, 48px);
   background: var(--color-surface-raised);
   border: var(--elevation-border);
