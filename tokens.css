@@ -776,6 +776,21 @@
   /* Cross-fade (desvanecido) entre imágenes del slideshow del hero.
      Dentro del rango 0.8–1 s para una transición suave y notoria. */
 
+
+  /* ─────────────────────────────────────────────────────────────
+     DECORACIÓN DE TEXTO
+     ───────────────────────────────────────────────────────────── */
+
+  --underline-offset: 2px;
+  /* Separación entre el texto y su subrayado (enlaces inline).
+     Los contextos que necesitan más aire lo redefinen localmente
+     (footer, 404). */
+
+  --text-shadow-media: 0 4px 16px color-mix(in srgb, var(--color-text) 60%, transparent), 0 2px 4px color-mix(in srgb, var(--color-text) 80%, transparent);
+  /* Sombra de legibilidad para texto sobre fotografía (hero): dos
+     capas (halo difuso + contacto nítido) derivadas de
+     --color-text, sin colores literales. */
+
 }
 
 

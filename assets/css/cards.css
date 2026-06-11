@@ -551,7 +551,7 @@
 .card-materia--drive:hover .card-materia__status--link,
 .card-materia--drive:focus-visible .card-materia__status--link {
   text-decoration: underline;
-  text-underline-offset: 2px;
+  text-underline-offset: var(--underline-offset);
 }
 
 /* Ícono «enlace externo» (decorativo, aria-hidden en el markup).

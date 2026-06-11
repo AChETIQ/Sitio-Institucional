@@ -110,10 +110,8 @@
   max-width: 100%;
   text-wrap: balance;
   /* Sombra de legibilidad sobre el slideshow: dos capas (halo difuso +
-     contacto nítido) derivadas de --color-text, sin colores literales. */
-  text-shadow:
-    0 4px 16px color-mix(in srgb, var(--color-text) 60%, transparent),
-    0 2px 4px color-mix(in srgb, var(--color-text) 80%, transparent);
+     contacto nítido), tokenizada en tokens.css. */
+  text-shadow: var(--text-shadow-media);
 }
 
 /* Subtítulo (h2): tipografía de cuerpo en el rol lead de la escala
@@ -126,9 +124,7 @@
   color: var(--color-on-media-soft);
   max-width: var(--measure-narrow);
   text-wrap: balance;
-  text-shadow:
-    0 4px 16px color-mix(in srgb, var(--color-text) 60%, transparent),
-    0 2px 4px color-mix(in srgb, var(--color-text) 80%, transparent);
+  text-shadow: var(--text-shadow-media);
 }
 
 /* Grupo de acciones: apilado vertical en mobile, fila centrada en

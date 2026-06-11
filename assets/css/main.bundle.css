@@ -213,6 +213,8 @@
 --transition-normal: 250ms ease;
 --transition-slow:   400ms ease;
 --transition-hero:   1000ms ease;
+--underline-offset: 2px;
+--text-shadow-media: 0 4px 16px color-mix(in srgb, var(--color-text) 60%, transparent), 0 2px 4px color-mix(in srgb, var(--color-text) 80%, transparent);
 }
 *, *::before, *::after {
 box-sizing: border-box;
@@ -899,7 +901,8 @@ margin-block: calc(-1 * var(--space-1));
 .footer__contact-link:hover {
 color: var(--footer-ink);
 text-decoration: underline;
-text-underline-offset: 3px;
+--underline-offset: 3px;
+text-underline-offset: var(--underline-offset);
 text-decoration-thickness: 1px;
 }
 .footer__list--contact {
@@ -1163,9 +1166,7 @@ font-size: var(--text-display-xl);
 line-height: var(--leading-tight);
 max-width: 100%;
 text-wrap: balance;
-text-shadow:
-0 4px 16px color-mix(in srgb, var(--color-text) 60%, transparent),
-0 2px 4px color-mix(in srgb, var(--color-text) 80%, transparent);
+text-shadow: var(--text-shadow-media);
 }
 .hero__subtitle {
 font-family: var(--font-body);
@@ -1175,9 +1176,7 @@ line-height: var(--leading-snug);
 color: var(--color-on-media-soft);
 max-width: var(--measure-narrow);
 text-wrap: balance;
-text-shadow:
-0 4px 16px color-mix(in srgb, var(--color-text) 60%, transparent),
-0 2px 4px color-mix(in srgb, var(--color-text) 80%, transparent);
+text-shadow: var(--text-shadow-media);
 }
 .hero__cta {
 display: flex;
@@ -1733,7 +1732,7 @@ color: var(--color-accent);
 .card-materia--drive:hover .card-materia__status--link,
 .card-materia--drive:focus-visible .card-materia__status--link {
 text-decoration: underline;
-text-underline-offset: 2px;
+text-underline-offset: var(--underline-offset);
 }
 .card-materia__ext-icon {
 inline-size: 0.9em;
@@ -2318,7 +2317,7 @@ gap: var(--space-1);
 color: var(--color-negative);
 font-size: var(--text-small);
 text-decoration: underline;
-text-underline-offset: 2px;
+text-underline-offset: var(--underline-offset);
 }
 .form__status {
 display: flex;
