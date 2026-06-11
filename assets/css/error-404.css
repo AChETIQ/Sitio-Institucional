@@ -12,6 +12,10 @@
    bloque queda centrado en el ancho disponible y mantiene una caja
    amplia para que el conjunto no se pegue al navbar ni al footer. */
 .error404 {
+  /* Ancho máximo del conjunto interior (dígitos + fantasma + copy):
+     ~34 ch de la lectura del lead en --text-body; valor puntual del
+     componente, intencionalmente local (no es un token global). */
+  --error-panel-max: 560px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -24,7 +28,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 560px;
+  max-width: var(--error-panel-max);
   /* Entrada del conjunto */
   animation: error404-rise var(--transition-slow) cubic-bezier(0.43, 0.13, 0.23, 0.96) both;
 }
