@@ -30,23 +30,12 @@
    entre las dos subsecciones.
    ───────────────────────────────────────────────────────────── */
 
+/* Fluido (S3): 64 → 128 px interpolado entre 360 y 1480 px de
+   viewport. Reemplaza los tres escalones por breakpoint (64/96/128)
+   con la misma llegada en los extremos y ≈87 px en 768 px. */
 .about-intro,
 .gabinetes-feature {
-  --feature-pad-y: var(--space-16);              /* 64 px — mobile */
-}
-
-@media (min-width: 768px) {
-  .about-intro,
-  .gabinetes-feature {
-    --feature-pad-y: calc(var(--space-16) * 1.5); /* 96 px — py-24 */
-  }
-}
-
-@media (min-width: 1024px) {
-  .about-intro,
-  .gabinetes-feature {
-    --feature-pad-y: calc(var(--space-16) * 2);   /* 128 px — md:py-32 */
-  }
+  --feature-pad-y: clamp(64px, 43.43px + 5.71vw, 128px);
 }
 
 
@@ -67,9 +56,21 @@
   width: 100%;                          /* la grilla llena el ancho del contenedor (.page) */
 }
 
-@media (min-width: 768px) {
+/* AJUSTE S3 (auditoría): a 768 px las dos columnas 6.5fr/9fr
+   dejaban el texto en ≈250 px (~28 caracteres por línea). Tablet
+   portrait queda en una columna; el paso a dos columnas se retrasa
+   a 1024 px con reparto parejo, y la asimetría editorial 6.5/9 se
+   reserva para ≥ 1280 px, donde la columna de texto conserva una
+   medida de lectura digna (> 45 caracteres). */
+@media (min-width: 1024px) {
   .about-intro {
-    /* Layout «bueno» restaurado: 50/50. El texto NO se toca. */
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-12);               /* 48 px */
+  }
+}
+
+@media (min-width: 1280px) {
+  .about-intro {
     grid-template-columns: minmax(0, 6.5fr) minmax(0, 9fr);
     gap: var(--space-16);               /* 64 px — md:gap-16 */
   }
@@ -166,7 +167,10 @@
      ·  valor negativo → la corre hacia la izquierda (hacia el texto).
    Lo que se salga del viewport se recorta con overflow-x: clip → nunca
    genera scroll horizontal ni rompe el navbar sticky. */
-@media (min-width: 768px) {
+/* AJUSTE S3: el corrimiento acompaña a la asimetría 6.5/9, que
+   ahora arranca en 1280 px (ver grid de .about-intro). Entre 1024
+   y 1279 px la imagen queda contenida en su columna pareja. */
+@media (min-width: 1280px) {
   .about-intro__figure {
     --shift-right: 200px;                 /* ← AJUSTÁ ESTE VALOR */
     transform: translateX(var(--shift-right));
@@ -227,24 +231,24 @@
   border: var(--elevation-border-soft);
   border-radius: var(--radius-xl);
   padding-block: var(--feature-pad-y);
-  padding-inline: var(--space-6);       /* 24 px — mobile */
+  /* Fluido (S3): 24 → 48 px (absorbe los escalones 24/32/48). */
+  padding-inline: clamp(24px, 16.29px + 2.14vw, 48px);
   margin-block: 0 var(--feature-pad-y);
-}
-
-@media (min-width: 768px) {
-  .gabinetes-feature { padding-inline: var(--space-8); }   /* 32 px */
-}
-
-@media (min-width: 1024px) {
-  .gabinetes-feature { padding-inline: var(--space-12); }  /* 48 px */
 }
 
 /* .gabinetes-feature__title: absorbido por .section-title--display
    (headers.css §2.3) — dedup S2. */
 
-/* Grilla: 1 → 2 (≥640) → 4 (≥1024) columnas. minmax(0,1fr) evita
-   que el contenido fuerce el ancho de pista (igual criterio que
-   .grid-cards en lists.css). */
+/* Grilla: 1 → 2 → 4 columnas dirigidas por el ancho del CONTENEDOR
+   (container queries S3, misma arquitectura que .grid-cards en
+   lists.css §5.1): la banda .gabinetes-feature se declara query
+   container vía :has() y la grilla lee de ella. Umbral de 4
+   columnas en 960 px de contenedor (no 1080): la auditoría mostró
+   tarjetas de ≈190 px a 1024 px de viewport con el salto anterior
+   en --bp-lg; con 960 px de contenedor las cuatro pistas solo
+   aparecen cuando cada tarjeta conserva ≥ 230 px (viewport
+   ≈ 1180+). minmax(0,1fr) evita que el contenido fuerce el ancho
+   de pista. */
 .gabinetes-grid {
   list-style: none;
   margin: 0;
@@ -254,12 +258,29 @@
   gap: var(--space-4);                  /* 16 px */
 }
 
-@media (min-width: 640px) {
-  .gabinetes-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@supports (container-type: inline-size) and (selector(:has(*))) {
+  :where(:has(> .gabinetes-grid)) {
+    container-type: inline-size;
+  }
+
+  @container (min-width: 560px) {
+    .gabinetes-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @container (min-width: 960px) {
+    .gabinetes-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
 }
 
-@media (min-width: 1024px) {
-  .gabinetes-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+/* Fallback por viewport (sin container queries / sin :has()). */
+@supports not ((container-type: inline-size) and (selector(:has(*)))) {
+  @media (min-width: 640px) {
+    .gabinetes-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media (min-width: 1280px) {
+    .gabinetes-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
 }
 
 /* Tarjeta: pila vertical, altura completa (alturas iguales en la

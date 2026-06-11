@@ -160,14 +160,35 @@
   gap: var(--grid-gap);
 }
 
-@media (min-width: 640px) {
-  .seg-dashboard__grid { grid-template-columns: repeat(2, 1fr); }
+/* Columnas dirigidas por el ancho del contenedor (container
+   queries S3, misma arquitectura que .grid-cards en lists.css
+   §5.1): el panel padre se declara query container vía :has().
+   Umbrales canónicos 560 / 860 px (tokens.css §UMBRALES DE
+   CONTENEDOR). Fallback por viewport: el comportamiento previo. */
+@supports (container-type: inline-size) and (selector(:has(*))) {
+  :where(:has(> .seg-dashboard__grid)) {
+    container-type: inline-size;
+  }
+
+  @container (min-width: 560px) {
+    .seg-dashboard__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @container (min-width: 860px) {
+    .seg-dashboard__grid { grid-template-columns: repeat(3, 1fr); }
+  }
 }
 
-/* Grilla de tres columnas en escritorio (spec §3.2). 1024px =
-   --breakpoint-seguimiento. */
-@media (min-width: 1024px) {
-  .seg-dashboard__grid { grid-template-columns: repeat(3, 1fr); }
+@supports not ((container-type: inline-size) and (selector(:has(*)))) {
+  @media (min-width: 640px) {
+    .seg-dashboard__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* Grilla de tres columnas en escritorio (spec §3.2). 1024px =
+     --breakpoint-seguimiento. */
+  @media (min-width: 1024px) {
+    .seg-dashboard__grid { grid-template-columns: repeat(3, 1fr); }
+  }
 }
 
 .seg-kpi {
@@ -515,21 +536,38 @@
    ocultan y se acceden por el popover del badge.
    ───────────────────────────────────────────────────────────── */
 
-@media (max-width: 1023.98px) {
-  .seg-table--seguimiento th[data-col="curs"],
-  .seg-table--seguimiento td[data-col="curs"],
-  .seg-table--seguimiento th[data-col="aprob"],
-  .seg-table--seguimiento td[data-col="aprob"],
-  .seg-table--seguimiento th[data-col="falt"],
-  .seg-table--seguimiento td[data-col="falt"],
-  .seg-table--seguimiento th[data-col="hs"],
-  .seg-table--seguimiento td[data-col="hs"] {
-    display: none;
-  }
+/* Mobile-first (S3): las columnas detalladas se OCULTAN en la
+   regla base y se muestran a partir de --breakpoint-seguimiento
+   (antes la lógica era max-width-first, única excepción del sitio
+   al contrato mobile-first). */
+.seg-table--seguimiento th[data-col="curs"],
+.seg-table--seguimiento td[data-col="curs"],
+.seg-table--seguimiento th[data-col="aprob"],
+.seg-table--seguimiento td[data-col="aprob"],
+.seg-table--seguimiento th[data-col="falt"],
+.seg-table--seguimiento td[data-col="falt"],
+.seg-table--seguimiento th[data-col="hs"],
+.seg-table--seguimiento td[data-col="hs"] {
+  display: none;
 }
 
-/* Escritorio: el badge actúa como dato visual; el popover sigue
-   disponible pero la información ya está en columnas. */
+/* Escritorio: tabla maestra completa. El badge actúa como dato
+   visual; el popover sigue disponible pero la información ya está
+   en columnas. */
 @media (min-width: 1024px) {
+  .seg-table--seguimiento th[data-col="curs"],
+  .seg-table--seguimiento th[data-col="aprob"],
+  .seg-table--seguimiento th[data-col="falt"],
+  .seg-table--seguimiento th[data-col="hs"] {
+    display: table-cell;
+  }
+
+  .seg-table--seguimiento td[data-col="curs"],
+  .seg-table--seguimiento td[data-col="aprob"],
+  .seg-table--seguimiento td[data-col="falt"],
+  .seg-table--seguimiento td[data-col="hs"] {
+    display: table-cell;
+  }
+
   .seg-table__nombre { min-width: 26ch; }
 }

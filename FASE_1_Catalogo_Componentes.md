@@ -123,7 +123,7 @@ Medidas asociadas: `--measure-title` (22ch, titulares display de `.page-header` 
 
 **Aparición.** Envuelve el `<main>` de cada página HTML.
 
-**Especificación.** Definido en `assets/css/main.css` (clase estructural; `tokens.css` queda reservado para variables). Ancho máximo 1480 px, padding horizontal 52 px (desktop), 20 px (mobile ≤ 768 px); padding vertical 44 px (desktop), 24 px (mobile).
+**Especificación.** Definido en `assets/css/main.css` (clase estructural; `tokens.css` queda reservado para variables). Ancho máximo 1480 px. Padding **fluido** (S3): horizontal `--page-padding-x` 20 → 64 px y vertical `--page-padding-y` 24 → 44 px, interpolados con `clamp()` entre los viewports 360 y 1480 px (sin saltos por breakpoint; antes conmutaba 20/52 y 24/44 en 768 px).
 
 **HTML.**
 
@@ -165,9 +165,11 @@ El placeholder es reemplazado por `js/navbar.js`, que carga `partials/navbar.htm
 - `.nav-link--outline`: borde 1 px `var(--color-border)`, fondo transparente.
 - `.nav-link--primary`: fondo `var(--color-accent)`, texto `var(--color-on-accent)`. Hover: fondo `var(--color-accent-soft)`.
 
-**Comportamiento de submenús (desktop ≥ 768 px).** El label permanece como `<a>` clickeable a la página general; el panel desplegable se abre únicamente por hover del mouse o focus del teclado (`:hover` + `:focus-within`). Chevron Lucide a la derecha del label, decorativo, rota 180° al abrir.
+**Comportamiento de submenús (desktop ≥ 1024 px).** El label permanece como `<a>` clickeable a la página general; el panel desplegable se abre únicamente por hover del mouse o focus del teclado (`:hover` + `:focus-within`). Chevron Lucide a la derecha del label, decorativo, rota 180° al abrir.
 
-**Comportamiento mobile (< 768 px).** Lista colapsa en botón hamburguesa; panel lateral con overlay. Submenús como acordeón anidado in-place, con botón independiente para el chevron (área táctil ≥ 44×44 px). Scroll del body bloqueado mientras el panel está visible.
+**Comportamiento mobile/tablet (< 1024 px).** Lista colapsa en botón hamburguesa; panel lateral con overlay. Submenús como acordeón anidado in-place, con botón independiente para el chevron (área táctil ≥ 44×44 px). Scroll del body bloqueado mientras el panel está visible.
+
+**Corrección S3 (auditoría responsive).** El cambio hamburguesa ↔ lista horizontal vivía en 768 px, pero la lista completa (brand + 5 ítems + CTA) mide ≈ 851 px: entre 768 y ~850 px desbordaba el viewport con scroll horizontal en todas las páginas. El umbral se retrasó al breakpoint canónico siguiente (`--bp-lg`, 1024 px): tablet portrait conserva el panel hamburguesa como estado diseñado. El contenedor interno además se alinea con `.page` (mismo `--max-width` y mismo padding fluido `--page-padding-x`).
 
 **Especificación normativa.** Esta sección es un resumen operativo. La fuente normativa completa del componente —incluida la configuración definitiva de `data/navbar.json`, criterios de aceptación, accesibilidad por teclado, transiciones y restricciones explícitas— está consolidada en el documento canónico de la navbar (memoria del proyecto, referencia *AChETIQ — Prompt canónico de la barra de navegación*, cerrado 2026-05-16). Cualquier divergencia entre ambos textos se resuelve en favor del prompt canónico.
 
@@ -840,11 +842,19 @@ Ya definida en `tokens.css` (§COMPONENTE — TARJETA). Sirve como base de las v
 **Especificación.**
 
 - Display: `grid`.
-- Gap: `var(--grid-gap)` (12 px) en su forma compacta, `var(--space-6)` (24 px) en su forma cómoda.
+- Gap: `var(--grid-gap)` (fluido 12 → 20 px, S3) en su forma compacta, `var(--space-6)` (24 px) en su forma cómoda.
 - Modificadores de columnas: `.grid-cards--2`, `.grid-cards--3`, `.grid-cards--4` (definen `grid-template-columns: repeat(N, 1fr)`). Reservados a conjuntos cuya cuenta de columnas es semántica (4 gabinetes en 2×2, 6 valores en 3×2, pares de documentos/instituciones).
 - Modificador `.grid-cards--fluid` (S2): `repeat(auto-fit, minmax(min(var(--card-min), 100%), 1fr))` para colecciones sin cuenta semántica (las 41 materias de Apuntes). Sin `@media`: la densidad escala sola entre 1 y 4 columnas según el ancho disponible.
 - Alineación interna por subgrid (S2): dentro de `.grid-cards`, las tarjetas de tres filas (`.card-gabinete`, `.card--valor`) comparten pistas de fila vía `grid-template-rows: subgrid` (bloque `@supports`), de modo que título/descripción/pie quedan alineados entre tarjetas hermanas. Fallback sin soporte: pila flex original con `.card-footer { margin-top: auto }` — sólo se pierde la alineación fina intermedia.
-- Responsive: en `<= 768 px`, todas las variantes colapsan a 1 columna; en `<= 1024 px`, las de 4 columnas pasan a 2.
+
+**Estrategia de container queries (S3).** Los modificadores `--2/--3/--4` ya **no consultan el viewport sino el ancho del contenedor del grid**: un grid colocado en un contexto angosto (panel, columna lateral) colapsa solo aunque el viewport sea ancho. Arquitectura en dos niveles:
+
+1. **El padre del grid** se declara query container mediante `:where(:has(> .grid-cards)) { container-type: inline-size }` (un elemento no puede consultar su propio tamaño): de él leen los modificadores de columnas vía `@container`.
+2. **El propio `.grid-cards`** se declara container a su vez: de él leen las **tarjetas** para sus ajustes internos (el cambio vertical → horizontal de `.card-documento` y `.card-recurso` es `@container`, no `@media`).
+
+Umbrales de contenedor canónicos (referencia en `tokens.css` §UMBRALES DE CONTENEDOR): **560 px → 2 columnas · 860 px → 3 columnas / tarjetas horizontales · 1080 px → 4 columnas** (la grilla de banda `.gabinetes-grid` usa 960 px para su paso a 4, y la directiva —`--4` con `.card-integrante`— intercala un paso de 3 columnas en 860 px). El mismo patrón se replica en `.gabinetes-grid` (sobre-asociacion.css) y `.seg-dashboard__grid` (seguimiento.css).
+
+**Progressive enhancement.** La rama activa exige container queries **y** `:has()` — `@supports (container-type: inline-size) and (selector(:has(*)))` — (Chrome/Edge 105+, Safari 16+, Firefox 121+). Cualquier navegador que no cumpla ambas cae en la rama `@supports not (…)`, que conserva las `@media` por viewport previas a S3 (768 px → 2/3 columnas; 1024 px → 4). Así un navegador con CQ pero sin `:has()` (Firefox 110–120) nunca queda clavado en una columna.
 
 **HTML.**
 
@@ -1285,19 +1295,31 @@ Se utilizará un set único de íconos vectoriales en SVG inline (no fuentes de 
 
 ---
 
-## 12. Responsive — Breakpoints aplicados
+## 12. Responsive — Contrato de breakpoints y contenedores (S3)
 
-Reaplicación práctica de los breakpoints declarados en `tokens.css`:
+Tras la auditoría responsive S3, el sitio reparte responsabilidades en tres mecanismos. **Contrato de uso:**
 
-| Breakpoint | Aplicación |
+1. **El viewport gobierna el layout de página** (`@media min-width`): navbar, footer, composiciones de cabecera, `about-intro`, columnas del Seguimiento.
+2. **El contenedor gobierna los grids de tarjetas** (`@container`, §5.1): la densidad de columnas depende del contexto donde vive el grid, no de la pantalla.
+3. **El espaciado de página no usa breakpoints**: `--page-padding-x/y`, `--section-gap` y `--grid-gap` interpolan con `clamp()` entre 360 y 1480 px (tokens.css §LAYOUT), igual que la escala tipográfica fluida.
+
+**Breakpoints de viewport** (declarados en `tokens.css`; el literal de cada `@media` SIEMPRE corresponde a uno canónico):
+
+| Breakpoint | Uso real tras S3 |
 |---|---|
-| `< 640 px` | Móvil (1 columna en todo, navbar colapsado, hero compacto) |
-| `640–767 px` | Móvil grande (algunas grids pasan a 2 columnas) |
-| `768–1023 px` | Tablet (navbar expandido, grids de 3 columnas en general) |
-| `1024–1279 px` | Laptop (layout completo desktop) |
-| `≥ 1280 px` | Desktop ancho (sin cambios estructurales, solo más respiración) |
+| `< 640 px` | Móvil: 1 columna en todo, navbar hamburguesa, hero compacto |
+| `640 px` (`--bp-sm`) | Footer a 2 columnas (fallback sin CQ: grids de banda a 2) |
+| `768 px` (`--bp-md`) | `mission-vision` y `form__row` a 2 columnas; fila de CTA del hero (fallback sin CQ: grids a 2/3 columnas) |
+| `1024 px` (`--bp-lg`) | **Navbar pasa de hamburguesa a lista horizontal** (corrección S3, §1.2); footer a 4 columnas; `about-intro` a 2 columnas parejas; tabla completa del Seguimiento (`--breakpoint-seguimiento`) |
+| `1280 px` (`--bp-xl`) | Enriquecimientos de pantalla ancha: `page-header` a composición editorial de dos columnas (titular ‖ bajada); `about-intro` pasa a la asimetría 6.5/9 con corrimiento de imagen |
+| `1480 px` (`--bp-2xl`) | El hero abre su medida de texto a 64 rem; el contenido capea en `--max-width` con padding fluido en su máximo (64 px) |
 
-**Regla general.** Mobile-first: las reglas base son para móvil, y los breakpoints `min-width` añaden complejidad progresivamente.
+**Umbrales de contenedor** (`@container`, referencia en `tokens.css`): 560 px → 2 columnas · 860 px → 3 columnas / tarjetas horizontales · 960 px → 4 columnas en grids de banda · 1080 px → 4 columnas en grids de página.
+
+**Reglas duras.**
+
+- Mobile-first estricto: las reglas base son para móvil y los `min-width` añaden complejidad progresivamente. **`max-width` queda prohibido** fuera de `@media print` (las excepciones históricas de countdown, error-404 y seguimiento fueron absorbidas por `clamp()` o convertidas a `min-width` en S3).
+- Impresión: `assets/css/print.css` (S3), importada al final de la cadena de `main.css`. Oculta interfaz (nav, footer, CTA, loaders, countdown, filtros), fuerza tinta negra sobre papel blanco, expande las URL de los enlaces externos de recursos y controla los saltos de página en tarjetas y títulos.
 
 ---
 
@@ -1340,4 +1362,4 @@ Los pendientes de contenido (validación de valores, prose de Misión, contenido
 
 ---
 
-*AChETIQ — Documento técnico interno — Fase 1 — 2026-05-08 · actualizado 2026-06-10 (tokens v2)*
+*AChETIQ — Documento técnico interno — Fase 1 — 2026-05-08 · actualizado 2026-06-10 (tokens v2 · S3 responsive: container queries, espaciado fluido, contrato de breakpoints e impresión)*

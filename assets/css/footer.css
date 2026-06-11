@@ -61,8 +61,11 @@
   width: 100%;
   max-width: var(--max-width);
   margin-inline: auto;
-  padding-inline: var(--space-5);
-  padding-block: var(--space-12);
+  /* Espaciado fluido (S3): el padding lateral usa el token de
+     página (20 → 64 px) y el vertical interpola 48 → 64 px; ambos
+     saltos por @media quedaron absorbidos. */
+  padding-inline: var(--page-padding-x);
+  padding-block: clamp(48px, 42.86px + 1.43vw, 64px);
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-10);
@@ -79,8 +82,6 @@
   .footer__inner {
     grid-template-columns: 1.6fr 1fr 1.4fr 1fr;
     gap: var(--space-12) var(--space-10);
-    padding-inline: var(--page-padding-x);
-    padding-block: var(--space-16);
   }
 }
 
@@ -294,7 +295,7 @@
   width: 100%;
   max-width: var(--max-width);
   margin: 0 auto;
-  padding-inline: var(--space-5);
+  padding-inline: var(--page-padding-x);
   padding-block: var(--space-5);
   font-family: var(--font-mono);
   font-size: var(--text-caption);
@@ -306,7 +307,6 @@
 
 @media (min-width: 1024px) {
   .footer__legal {
-    padding-inline: var(--page-padding-x);
     text-align: left;
   }
 }
@@ -354,5 +354,5 @@
 .footer-fallback__inner {
   max-width: var(--max-width);
   margin-inline: auto;
-  padding-inline: var(--space-5);
+  padding-inline: var(--page-padding-x);
 }

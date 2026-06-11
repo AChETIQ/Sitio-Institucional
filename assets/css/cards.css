@@ -301,15 +301,36 @@
   color: var(--color-cta-text);
 }
 
-@media (min-width: 768px) {
-  .card-recurso {
-    flex-direction: row;
-    align-items: center;
-    gap: var(--space-4);
-  }
+/* Cambio vertical → horizontal dirigido por el ancho del
+   contenedor (container queries S3, ver lists.css §5.1): la fila
+   compacta se habilita cuando el contexto supera 560 px, sea cual
+   sea el viewport. Fallback por viewport para navegadores sin
+   soporte. */
+@supports (container-type: inline-size) and (selector(:has(*))) {
+  @container (min-width: 560px) {
+    .card-recurso {
+      flex-direction: row;
+      align-items: center;
+      gap: var(--space-4);
+    }
 
-  .card-recurso__action {
-    margin-left: auto;
+    .card-recurso__action {
+      margin-left: auto;
+    }
+  }
+}
+
+@supports not ((container-type: inline-size) and (selector(:has(*)))) {
+  @media (min-width: 768px) {
+    .card-recurso {
+      flex-direction: row;
+      align-items: center;
+      gap: var(--space-4);
+    }
+
+    .card-recurso__action {
+      margin-left: auto;
+    }
   }
 }
 

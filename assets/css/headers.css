@@ -41,7 +41,10 @@
   justify-content: flex-start;
   text-align: center;
   min-height: calc(100svh - var(--navbar-height));
-  padding: var(--space-16) var(--page-padding-x);
+  /* Respiración vertical fluida (S3): 64 → 96 px entre 360 y
+     1480 px de viewport (absorbe el escalón @media de 1024). El
+     padding lateral hereda el token fluido de página. */
+  padding: clamp(64px, 53.71px + 2.86vw, 96px) var(--page-padding-x);
   overflow: hidden;
   background: var(--color-surface-inverse);   /* base visible mientras carga la 1.ª imagen */
 }
@@ -166,9 +169,13 @@
   }
 }
 
-@media (min-width: 1024px) {
-  .hero {
-    padding-block: calc(var(--space-16) * 1.5);  /* 96 px */
+/* Pantallas anchas (≥ 1480 px = --bp-2xl): la composición del hero
+   se abre — el bloque de texto gana medida para que el titular
+   institucional largo caiga en dos líneas más anchas y el conjunto
+   no parezca un layout de laptop estirado. */
+@media (min-width: 1480px) {
+  .hero__content {
+    max-width: 64rem;
   }
 }
 
@@ -216,6 +223,38 @@
   line-height: var(--leading-relaxed);
   color: var(--color-text-soft);
   max-width: var(--measure-narrow);
+}
+
+/* Desktop ancho (≥ 1280 px = --bp-xl): composición editorial a dos
+   columnas — titular a la izquierda, bajada alineada a su base a
+   la derecha. Aprovecha el ancho real en vez de apilar dos bloques
+   angostos sobre un campo vacío (enriquecimiento S3; las ocho
+   páginas interiores comparten la estructura eyebrow + h1 + lead). */
+@media (min-width: 1280px) {
+  .page-header {
+    display: grid;
+    grid-template-columns: minmax(0, auto) minmax(0, var(--measure-narrow));
+    justify-content: space-between;
+    align-items: end;
+    column-gap: var(--space-16);
+    row-gap: var(--space-3);
+  }
+
+  .page-header > .eyebrow {
+    grid-column: 1 / -1;
+  }
+
+  .page-header__title {
+    grid-column: 1;
+  }
+
+  .page-header__lead {
+    grid-column: 2;
+    /* Compensación óptica: la caja del lead (línea 1.7) termina por
+       debajo de la base tipográfica del H1 (línea 1.08); un pelo de
+       aire inferior empareja las bases visuales. */
+    padding-bottom: var(--space-1);
+  }
 }
 
 

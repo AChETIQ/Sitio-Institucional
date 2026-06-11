@@ -18,7 +18,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--space-16) var(--space-4);
+  /* Caja fluida (S3): 48 → 64 px interpolado entre 360 y 1280 px.
+     Absorbe el bloque max-width-first que vivía en §RESPONSIVE
+     (contrato mobile-first del sitio: sin max-width fuera de
+     @media print). */
+  padding: clamp(48px, 41.74px + 1.74vw, 64px) var(--space-4);
   overflow: hidden;
 }
 
@@ -66,9 +70,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-12);
+  gap: clamp(40px, 36.87px + 0.87vw, 48px);
   text-align: center;
-  padding: var(--space-16) var(--space-12);
+  padding: clamp(48px, 41.74px + 1.74vw, 64px)
+           clamp(24px, 14.61px + 2.61vw, 48px);
   background: var(--color-surface-raised);
   border: var(--elevation-border);
   border-radius: var(--radius-xl);
@@ -162,7 +167,7 @@
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  gap: var(--space-3);
+  gap: clamp(8px, 6.43px + 0.43vw, 12px);
 }
 
 .countdown__unit {
@@ -177,8 +182,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 92px;
-  padding: var(--space-4) var(--space-5);
+  /* 54 px en 360 px de viewport → 92 px en 1280 px (absorbe los
+     escalones 54/64/92 de los antiguos max-width). */
+  min-width: clamp(54px, 39.13px + 4.13vw, 92px);
+  padding: clamp(12px, 10.43px + 0.43vw, 16px)
+           clamp(12px, 8.87px + 0.87vw, 20px);
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
@@ -218,7 +226,7 @@
 
 .countdown__sep {
   align-self: center;
-  margin-top: calc(-1 * var(--space-6));
+  margin-top: calc(-1 * clamp(20px, 18.43px + 0.43vw, 24px));
   font-family: var(--font-mono);
   font-size: calc(var(--text-digits) * 0.7);   /* subordinado a los dígitos */
   font-weight: var(--weight-regular);
@@ -268,22 +276,12 @@
 
 /* ─────────────────────────────────────────────────────────────
    RESPONSIVE
+   ─────────────────────────────────────────────────────────────
+   Sin @media (S3): la escala fluida de tokens.css absorbe los
+   escalones tipográficos (52→34→28 px) y los clamp() de caja de
+   las reglas base absorben los antiguos bloques max-width
+   (≤768 / ≤380). El componente escala de forma continua.
    ───────────────────────────────────────────────────────────── */
-
-/* La escala fluida de tokens.css absorbe los antiguos escalones
-   tipográficos por breakpoint (52→34→28 px); los @media conservan
-   solo los ajustes de caja. */
-@media (max-width: 768px) {
-  .countdown { padding: var(--space-12) var(--space-4); }
-  .countdown__panel { padding: var(--space-12) var(--space-6); gap: var(--space-10); }
-  .countdown__box { min-width: 64px; padding: var(--space-3) var(--space-3); }
-  .countdown__clock { gap: var(--space-2); }
-  .countdown__sep { margin-top: calc(-1 * var(--space-5)); }
-}
-
-@media (max-width: 380px) {
-  .countdown__box { min-width: 54px; }
-}
 
 /* ─────────────────────────────────────────────────────────────
    ACCESIBILIDAD — respeto a movimiento reducido

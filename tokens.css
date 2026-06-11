@@ -644,14 +644,33 @@
 
   /* ─────────────────────────────────────────────────────────────
      LAYOUT
+     ─────────────────────────────────────────────────────────────
+     ESPACIADO FLUIDO (S3). Los tokens de respiración de página ya
+     no saltan por breakpoint: interpolan linealmente con clamp()
+     entre los viewports 360 px y 1480 px (= --max-width), igual
+     que la escala tipográfica fluida. El ritmo escala de forma
+     continua y las pantallas anchas (≥1280 px) reciben su
+     respiración generosa sin un escalón visible.
+
+       token              360px → 1480px
+       --page-padding-x   20    → 64     (antes 20 → 52 con salto en 768)
+       --page-padding-y   24    → 44     (antes 24 → 44 con salto en 768)
+       --grid-gap         12    → 20     (antes 12 estático)
+       --section-gap      48    → 96     (antes 64 estático; en 768
+                                          rinde ≈65 px: el ritmo del
+                                          breakpoint de trabajo no cambia)
      ───────────────────────────────────────────────────────────── */
 
   --max-width:      1480px;  /* Ancho máximo del contenido. */
-  --page-padding-x:   52px;  /* Padding horizontal de página (desktop). */
-  --page-padding-y:   44px;  /* Padding vertical de página (desktop). */
+  --page-padding-x: clamp(20px, 5.86px + 3.93vw, 64px);
+  /* Padding horizontal de página (fluido 20 → 64 px). */
+  --page-padding-y: clamp(24px, 17.57px + 1.79vw, 44px);
+  /* Padding vertical de página (fluido 24 → 44 px). */
   --navbar-height:    56px;  /* Altura fija del navbar. */
-  --grid-gap:         12px;  /* Gap estándar de grids de tarjetas. */
-  --section-gap:      64px;  /* Separación entre secciones de página. */
+  --grid-gap: clamp(12px, 9.43px + 0.71vw, 20px);
+  /* Gap estándar de grids de tarjetas (fluido 12 → 20 px). */
+  --section-gap: clamp(48px, 32.57px + 4.29vw, 96px);
+  /* Separación entre secciones de página (fluido 48 → 96 px). */
 
   --breakpoint-seguimiento: 1024px;
   /* Breakpoint funcional de la herramienta Seguimiento de Carrera
@@ -669,6 +688,18 @@
      --bp-lg: 1024px   Laptops / tablets landscape
      --bp-xl: 1280px   Desktops
      --bp-2xl:1480px   Pantallas anchas (= --max-width)
+
+     UMBRALES DE CONTENEDOR (S3 — solo referencia, usar dentro de
+     @container). Los grids de tarjetas ya no consultan el
+     viewport sino el ancho de su contenedor (container queries,
+     lists.css §5.1). Como con los breakpoints, CSS no admite
+     var() en la condición @container: el literal escrito SIEMPRE
+     corresponde a uno de estos umbrales canónicos:
+
+     --cq-sm:   560px   2 columnas
+     --cq-md:   860px   3 columnas / tarjetas horizontales
+     --cq-lg:   960px   4 columnas en grids de banda (gabinetes-grid)
+     --cq-xl:  1080px   4 columnas en grids de página (--4)
      ───────────────────────────────────────────────────────────── */
 
 

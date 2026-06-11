@@ -34,8 +34,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-5);
-  margin-bottom: var(--space-10);
+  /* Caja fluida (S3): absorbe el bloque max-width-first que vivía
+     en §RESPONSIVE (gap 16→20 px, margen 32→40 px entre 360 y
+     1280 px de viewport). */
+  gap: clamp(16px, 14.43px + 0.43vw, 20px);
+  margin-bottom: clamp(32px, 28.87px + 0.87vw, 40px);
 }
 
 .error404__digit {
@@ -57,8 +60,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 120px;
-  height: 120px;
+  /* Fluido 80 → 120 px (360 → 1280 px de viewport). */
+  width: clamp(80px, 64.35px + 4.35vw, 120px);
+  height: clamp(80px, 64.35px + 4.35vw, 120px);
   animation: error404-float 2s ease-in-out infinite alternate;
   transition: transform var(--transition-normal);
   cursor: default;
@@ -210,14 +214,12 @@
 
 /* ─────────────────────────────────────────────────────────────
    RESPONSIVE
+   ─────────────────────────────────────────────────────────────
+   Sin @media (S3): la escala fluida absorbe los escalones
+   tipográficos (120→80 px del dígito; 32→24 px del título) y los
+   clamp() de las reglas base absorben el antiguo bloque
+   max-width (≤768).
    ───────────────────────────────────────────────────────────── */
-
-/* La escala fluida absorbe los escalones tipográficos (120→80 px del
-   dígito; 32→24 px del título); quedan los ajustes de caja. */
-@media (max-width: 768px) {
-  .error404__display { gap: var(--space-4); margin-bottom: var(--space-8); }
-  .error404__ghost { width: 80px; height: 80px; }
-}
 
 /* ─────────────────────────────────────────────────────────────
    ACCESIBILIDAD — movimiento reducido
