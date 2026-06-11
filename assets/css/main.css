@@ -129,6 +129,59 @@
 }
 
 
+/* ─── FALLBACKS CON MÉTRICAS AJUSTADAS (S6 — rendimiento) ─────
+   Alias locales de las fuentes del sistema con size-adjust y
+   overrides verticales calculados para calcar la caja de línea de
+   cada webfont. Durante el font-display: swap el texto provisional
+   ocupa EXACTAMENTE el mismo espacio que el definitivo → el swap
+   deja de provocar reflow (CLS por «Web font loaded» ≈ 0).
+
+   Cálculo (fórmula estándar de fallback metrics, datos de las
+   tablas hhea/OS² de los woff2 y métricas Capsize de las fuentes
+   del sistema):
+     size-adjust     = (xWidthAvg_web/upm_web) ÷ (xWidthAvg_local/upm_local)
+     ascent-override = (ascent_web/upm_web) ÷ size-adjust   (ídem descent/line-gap)
+
+   Si la fuente local no existe (p. ej. Arial en Android), el alias
+   no resuelve y la pila continúa con los fallbacks ya existentes:
+   comportamiento idéntico al actual. */
+
+/* Geist → Arial (ascent 1005/1000, descent 295/1000, xWidthAvg 467
+   vs Arial 913/2048). */
+@font-face {
+  font-family: 'Geist Fallback';
+  src: local('Arial');
+  size-adjust: 104.76%;
+  ascent-override: 95.94%;
+  descent-override: 28.16%;
+  line-gap-override: 0%;
+}
+
+/* Instrument Serif → Georgia (ascent 990/1000, descent 310/1000,
+   xWidthAvg 341 vs Georgia 913/2048). Cubre regular e itálica:
+   ambas comparten métricas verticales. */
+@font-face {
+  font-family: 'Instrument Serif Fallback';
+  src: local('Georgia');
+  size-adjust: 76.49%;
+  ascent-override: 129.43%;
+  descent-override: 40.53%;
+  line-gap-override: 0%;
+}
+
+/* Geist Mono → Courier New (avance 600/1000 vs 1229/2048: ancho ya
+   casi idéntico; el ajuste fino evita saltos en dígitos tabulares
+   del countdown y la tabla de seguimiento). */
+@font-face {
+  font-family: 'Geist Mono Fallback';
+  src: local('Courier New');
+  size-adjust: 99.98%;
+  ascent-override: 100.52%;
+  descent-override: 29.50%;
+  line-gap-override: 0%;
+}
+
+
 /* ─────────────────────────────────────────────────────────────
    2. RESET CSS MODERNO Y MÍNIMO
    ───────────────────────────────────────────────────────────── */

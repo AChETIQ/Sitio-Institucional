@@ -100,10 +100,26 @@ CONVENCIÓN DE NOMBRE
 
   <!-- ============================================================
        HOJAS DE ESTILO
-       tokens.css primero (define las variables); main.css después.
+       main.bundle.css es el ARTEFACTO GENERADO por `npm run build`
+       (scripts/build-css.mjs): tokens.css + la cadena @import de
+       main.css aplanada en una sola hoja, para eliminar la cascada
+       serializada de descargas render-blocking (S6). Las fuentes de
+       desarrollo siguen siendo tokens.css y assets/css/*.css.
        ============================================================ -->
-  <link rel="stylesheet" href="./tokens.css">
-  <link rel="stylesheet" href="./assets/css/main.css">
+  <link rel="stylesheet" href="./assets/css/main.bundle.css">
+
+  <!-- ============================================================
+       PRECARGA DEL CAMINO CRÍTICO DE FETCH (S6 — rendimiento)
+       navbar.js pide partial + config recién en DOMContentLoaded;
+       precargarlos arranca esas descargas junto con el HTML y el
+       chrome aparece antes (crossorigin = mismo modo de
+       credenciales que fetch(..., credentials: 'same-origin')).
+       REEMPLAZAR/AÑADIR: sumar el JSON de datos que la página
+       consuma sobre el primer viewport (p. ej. data/gabinetes.json
+       en las páginas de gabinete).
+       ============================================================ -->
+  <link rel="preload" href="./partials/navbar.html" as="fetch" crossorigin>
+  <link rel="preload" href="./data/navbar.json" as="fetch" crossorigin>
 
   <!-- ============================================================
        OPEN GRAPH / TWITTER CARD
@@ -229,9 +245,9 @@ CONVENCIÓN DE NOMBRE
     el resto de loaders [data-loader] del documento).
     No reemplazar: idéntico en todas las páginas.
   -->
-  <script src="./assets/js/loader.js"></script>
-  <script src="./assets/js/navbar.js"></script>
-  <script src="./assets/js/footer.js"></script>
+  <script src="./assets/js/loader.js" defer></script>
+  <script src="./assets/js/navbar.js" defer></script>
+  <script src="./assets/js/footer.js" defer></script>
   <script type="module" src="./assets/js/main.js"></script>
 
 </body>

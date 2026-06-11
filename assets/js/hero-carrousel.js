@@ -21,14 +21,18 @@
   /* Directorio de imágenes, relativo a index.html. */
   var HERO_BASE = 'assets/img/hero/';
 
-  /* Orden cronológico EXACTO — la extensión debe coincidir tal cual
-     con el archivo (sensible a mayúsculas/minúsculas en el servidor). */
+  /* Orden cronológico EXACTO — derivados WebP 1920px generados a
+     partir de los originales de assets/img/hero/ (S6 — rendimiento:
+     los JPG originales, 0,5–3,7 MB c/u, quedan fuera del peso de
+     página). El primer cuadro está precargado desde el <head> de
+     index.html con fetchpriority="high" (es el elemento LCP): si se
+     cambia aquí, actualizar también ese <link rel="preload">. */
   var HERO_IMAGES = [
-    '2014.JPG',
-    '2015-2.JPG',
-    '2018.JPG',
-    '2020.jpg',
-    '2024.JPG'
+    '2014-1920.webp',
+    '2015-2-1920.webp',
+    '2018-1920.webp',
+    '2020-1920.webp',
+    '2024-1920.webp'
   ];
 
   var HOLD_MS = 5000;   /* tiempo visible por imagen */
@@ -36,12 +40,24 @@
   var stage = document.querySelector('[data-hero-slideshow]');
   if (!stage || HERO_IMAGES.length === 0) return;
 
-  /* Construir las capas en orden e inyectarlas en el contenedor. */
+  function setBackground(slide, file) {
+    slide.style.backgroundImage = "url('" + HERO_BASE + file + "')";
+  }
+
+  /* Construir las capas en orden e inyectarlas en el contenedor.
+     Carga programada (S6): sólo el primer cuadro (visible, LCP)
+     recibe su background-image de inmediato. Los demás se cargan
+     UNO POR DELANTE de la rotación (ver prefetchNext): el cuadro
+     i+1 se pide al mostrarse el cuadro i, con HOLD_MS (5 s) de
+     margen de descarga. Así el primer render no compite por ancho
+     de banda y solo se descarga lo que se llega a ver. */
   var slides = HERO_IMAGES.map(function (file, i) {
     var slide = document.createElement('div');
     slide.className = 'hero__slide';
-    slide.style.backgroundImage = "url('" + HERO_BASE + file + "')";
-    if (i === 0) slide.classList.add('hero__slide--active');
+    if (i === 0) {
+      setBackground(slide, file);
+      slide.classList.add('hero__slide--active');
+    }
     stage.appendChild(slide);
     return slide;
   });
@@ -49,10 +65,33 @@
   /* Con una sola imagen no hay nada que rotar. */
   if (slides.length < 2) return;
 
-  /* Movimiento reducido: imagen fija, sin temporizador. */
+  /* Movimiento reducido: imagen fija, sin temporizador. Salir antes
+     de programar la carga diferida también evita descargar cuadros
+     que nunca se mostrarían. */
   var prefersReduced = window.matchMedia &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (prefersReduced) return;
+
+  /* Asigna el background del cuadro i si aún no lo tiene (la
+     asignación dispara la descarga). Idempotente. */
+  function prefetchSlide(i) {
+    if (slides[i] && !slides[i].style.backgroundImage) {
+      setBackground(slides[i], HERO_IMAGES[i]);
+    }
+  }
+
+  /* El siguiente cuadro de la rotación se pide con un ciclo entero
+     de anticipación. El primero (cuadro 2) espera a window.load
+     para no competir con los recursos críticos del primer render. */
+  function prefetchNext() {
+    prefetchSlide((current + 1) % slides.length);
+  }
+
+  if (document.readyState === 'complete') {
+    prefetchNext();
+  } else {
+    window.addEventListener('load', prefetchNext, { once: true });
+  }
 
   var current = 0;
   var timer = null;
@@ -61,6 +100,7 @@
     slides[current].classList.remove('hero__slide--active');
     slides[next].classList.add('hero__slide--active');
     current = next;
+    prefetchNext();
   }
 
   function advance() {

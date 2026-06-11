@@ -381,8 +381,11 @@ function buildIntegranteCard(person) {
   const photoBox = createElement('div', { class: 'card-integrante__photo' });
   const fotoUrl = typeof person.foto === 'string' ? safeHref(person.foto) : null;
   if (fotoUrl) {
+    /* La caja .card-integrante__photo fija aspect-ratio 1/1 en CSS:
+       el layout queda reservado sin atributos width/height (la foto
+       del JSON no declara dimensiones intrínsecas). */
     photoBox.appendChild(createElement('img', {
-      attrs: { src: fotoUrl, alt: '', loading: 'lazy' }
+      attrs: { src: fotoUrl, alt: '', loading: 'lazy', decoding: 'async' }
     }));
   } else {
     /* Placeholder con iniciales — spec §4.3, estado sin foto. */
@@ -544,9 +547,11 @@ function buildInstitucionCard(inst) {
     const src = safeHref(window.AChETIQBase.resolve(String(inst.logo)));
     if (src) {
       const alt = 'Logo ' + (inst.nombre_corto || inst.nombre || '');
+      /* Altura fijada por CSS (--logo-md); width:auto + object-fit
+         no dependen del tamaño intrínseco para reservar layout. */
       card.appendChild(createElement('img', {
         class: 'card-institucion__logo',
-        attrs: { src, alt, loading: 'lazy' }
+        attrs: { src, alt, loading: 'lazy', decoding: 'async' }
       }));
     }
   }
