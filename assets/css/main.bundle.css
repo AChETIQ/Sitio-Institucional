@@ -1499,8 +1499,9 @@ font-weight: var(--weight-medium);
 color: var(--color-cta-text);
 }
 .card-actividad {
+--fecha-col: 80px;
 display: grid;
-grid-template-columns: 80px 1fr;
+grid-template-columns: var(--fecha-col) 1fr;
 gap: var(--space-4);
 padding: 0;
 overflow: hidden;
@@ -2553,6 +2554,7 @@ color: var(--color-on-accent);
 border: 1px solid var(--color-on-accent);
 }
 .countdown {
+--countdown-panel-max: 880px;
 position: relative;
 width: 100%;
 display: flex;
@@ -2590,7 +2592,7 @@ background: color-mix(in oklab, var(--color-accent-soft) 6%, transparent);
 position: relative;
 z-index: var(--z-raised);
 width: 100%;
-max-width: 880px;
+max-width: var(--countdown-panel-max);
 margin: 0 auto;
 display: flex;
 flex-direction: column;

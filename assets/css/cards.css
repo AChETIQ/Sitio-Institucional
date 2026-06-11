@@ -202,8 +202,13 @@
    ───────────────────────────────────────────────────────────── */
 
 .card-actividad {
+  /* Columna fija del bloque de fecha: 80 px alojan el día en
+     --text-h2 (32 px) más el padding --space-3 a cada lado; valor
+     puntual del componente, intencionalmente local (no es un token
+     global). */
+  --fecha-col: 80px;
   display: grid;
-  grid-template-columns: 80px 1fr;
+  grid-template-columns: var(--fecha-col) 1fr;
   gap: var(--space-4);
   padding: 0;
   overflow: hidden;

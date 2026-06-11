@@ -13,6 +13,11 @@
    ───────────────────────────────────────────────────────────── */
 
 .countdown {
+  /* Ancho máximo del panel protagónico: el reloj completo (4 cajas
+     de hasta 92 px + separadores + padding lateral) cabe en una sola
+     fila sin envolver; valor puntual del componente, intencionalmente
+     local (no es un token global). */
+  --countdown-panel-max: 880px;
   position: relative;
   width: 100%;
   display: flex;
@@ -65,7 +70,7 @@
   position: relative;
   z-index: var(--z-raised);
   width: 100%;
-  max-width: 880px;
+  max-width: var(--countdown-panel-max);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
