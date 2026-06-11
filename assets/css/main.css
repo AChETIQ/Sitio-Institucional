@@ -329,6 +329,20 @@ h6 {
   color: var(--color-text);
 }
 
+/* Control de huérfanas en prosa. text-wrap: pretty pide al motor
+   evitar palabras sueltas en la última línea de un bloque de texto.
+   Mejora progresiva: los navegadores sin soporte ignoran la
+   declaración y conservan el corte de línea estándar. Los titulares
+   NO entran aquí: ya reciben text-wrap: balance en headers.css
+   (.hero__title, .hero__subtitle, .section-title--display h2),
+   por lo que esta regla se limita deliberadamente a la prosa. */
+p,
+li,
+figcaption,
+dd {
+  text-wrap: pretty;
+}
+
 /* Elementos monoespaciados (Geist Mono): código y datos técnicos.
    Las etiquetas mono de interfaz (.eyebrow, .caption) ya están
    definidas en tokens.css con esta misma familia. */
