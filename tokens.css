@@ -717,6 +717,40 @@
 
 
   /* ─────────────────────────────────────────────────────────────
+     FOCO VISIBLE (S4)
+     Tokens del sistema centralizado de foco. El tratamiento
+     :focus-visible vive en UN solo lugar (assets/css/focus.css);
+     ningún componente declara su propio outline.
+
+     Ratios WCAG 2.2 calculados (§1.4.11 exige ≥ 3:1 para
+     indicadores de interfaz contra colores adyacentes):
+       --focus-ring-color sobre --color-surface 8.1:1 ·
+         sobre raised 8.6:1 — supera 3:1 con margen.
+       --focus-ring-color-inverse sobre --color-accent
+         (cta-final, pill activa) 8.6:1 · sobre
+         --color-surface-inverse (footer) 13.2:1 · sobre
+         --patina-950 (peor caso del scrim del hero) 16.5:1.
+     El offset de 2 px separa el anillo del relleno del control:
+     el color adyacente al anillo es siempre la superficie del
+     contexto (no el relleno del botón), que es contra la que se
+     documentan los ratios.
+     ───────────────────────────────────────────────────────────── */
+
+  --focus-ring-width:  2px;
+  /* Grosor del anillo de foco (mínimo recomendado WCAG 2.4.13). */
+
+  --focus-ring-offset: 2px;
+  /* Separación entre el anillo y el borde del control. */
+
+  --focus-ring-color: var(--color-accent);
+  /* Anillo sobre superficies claras (surface / raised). 8.1:1. */
+
+  --focus-ring-color-inverse: var(--color-on-accent);
+  /* Anillo sobre superficies oscuras (footer, cta-final, hero).
+     Los contextos que lo consumen se declaran en focus.css. */
+
+
+  /* ─────────────────────────────────────────────────────────────
      TRANSICIONES
      ───────────────────────────────────────────────────────────── */
 

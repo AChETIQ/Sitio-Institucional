@@ -221,6 +221,25 @@ function wireYearFilter(gridContainer) {
   var pills = nav.querySelectorAll('.pill-nav__pill');
   if (!pills.length) return;
 
+  /* Región viva sr-only que anuncia el resultado del filtro (S4):
+     ocultar tarjetas con [hidden] es invisible para un lector de
+     pantalla si nadie lo verbaliza. Se inserta vacía en el setup
+     (queda registrada en el árbol de accesibilidad) y cada filtro
+     escribe el conteo resultante. aria-pressed en la pill ya
+     comunica el estado del control; esto comunica el EFECTO. */
+  var announcer = createElement('p', {
+    class: 'sr-only',
+    attrs: { role: 'status', 'aria-live': 'polite', 'aria-atomic': 'true' }
+  });
+  nav.insertAdjacentElement('afterend', announcer);
+
+  function announce(value, visibles) {
+    var label = (value === 'all')
+      ? 'Mostrando las ' + visibles + ' materias de todos los años.'
+      : 'Mostrando ' + visibles + ' materias de ' + (YEAR_LABEL[value] || value) + '.';
+    announcer.textContent = label;
+  }
+
   function setActive(pill) {
     for (var i = 0; i < pills.length; i++) {
       var p = pills[i];
@@ -232,16 +251,19 @@ function wireYearFilter(gridContainer) {
 
   function applyFilter(value) {
     var cards = grid.querySelectorAll('.card-materia');
+    var visibles = 0;
     for (var i = 0; i < cards.length; i++) {
       var card = cards[i];
       var anio = card.getAttribute('data-anio') || '';
       var visible = (value === 'all') || (anio === String(value));
       if (visible) {
         card.removeAttribute('hidden');
+        visibles++;
       } else {
         card.setAttribute('hidden', '');
       }
     }
+    return visibles;
   }
 
   nav.addEventListener('click', function (e) {
@@ -253,11 +275,13 @@ function wireYearFilter(gridContainer) {
 
     var value = target.getAttribute('data-anio') || 'all';
     setActive(target);
-    applyFilter(value);
+    var visibles = applyFilter(value);
+    announce(value, visibles);
   });
 
   var initial = nav.querySelector('.pill-nav__pill.is-active') || pills[0];
   if (initial) {
+    /* El estado inicial no se anuncia: no hubo interacción. */
     applyFilter(initial.getAttribute('data-anio') || 'all');
   }
 }

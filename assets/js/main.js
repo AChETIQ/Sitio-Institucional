@@ -128,6 +128,13 @@ export function processNode(node) {
 /* ─── Aplicación del renderer ──────────────────────────────── */
 
 function applyRender(node, name, data) {
+  /* Política de anuncios (S4): la llegada del contenido real NO se
+     anuncia — replaceChildren() retira el loader (región viva) y el
+     contenido entra sin aria-live, evitando que un lector de
+     pantalla reciba el render completo como ráfaga. Solo los
+     estados terminales excepcionales hablan: empty (role=status,
+     polite) y error (role=alert). */
+
   /* Empty-state: array sin elementos, objeto sin claves, o nulo. */
   if (isEmpty(data)) {
     renderEmpty(node);

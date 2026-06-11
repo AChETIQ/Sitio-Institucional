@@ -23,7 +23,11 @@
   var URL_PARTIAL = BASE.resolve('partials/navbar.html');
   var URL_CONFIG  = BASE.resolve('data/navbar.json');
   var LOCK_CLASS  = 'navbar-scroll-lock';
-  var BP_DESKTOP  = 768;
+  /* Umbral del patrón desktop. DEBE coincidir con el @media de
+     navbar.css §4/§8/§9 (1024 px = --bp-lg, corrección S3): si
+     divergen, el cierre por resize se dispara antes de tiempo o el
+     aria-expanded queda desincronizado cuando CSS oculta el panel. */
+  var BP_DESKTOP  = 1024;
 
   /* Chevron Lucide; hard-coded (no proviene del JSON). */
   var CHEVRON_SVG =
@@ -204,6 +208,33 @@
     var panel   = root.querySelector('[data-navbar-panel]');
     if (!toggle || !overlay || !panel) return;
 
+    /* Candidatos de foco visibles dentro del panel. Excluye los
+       enlaces de submenús colapsados (offsetParent null cuando un
+       ancestro tiene display:none). */
+    function focusables() {
+      var nodes = panel.querySelectorAll('a[href], button:not([disabled])');
+      return Array.prototype.filter.call(nodes, function (n) {
+        return n.offsetParent !== null;
+      });
+    }
+
+    /* Trampa de foco (WCAG 2.4.3): el panel es un overlay modal en
+       mobile; Tab y Shift+Tab ciclan dentro mientras está abierto.
+       Se registra solo al abrir y se retira al cerrar. */
+    function trapFocus(ev) {
+      if (ev.key !== 'Tab') return;
+      var list = focusables();
+      if (!list.length) return;
+      var first = list[0];
+      var last  = list[list.length - 1];
+      var active = document.activeElement;
+      if (ev.shiftKey && (active === first || !panel.contains(active))) {
+        ev.preventDefault(); last.focus();
+      } else if (!ev.shiftKey && active === last) {
+        ev.preventDefault(); first.focus();
+      }
+    }
+
     function open() {
       overlay.hidden = false; panel.hidden = false;
       void panel.offsetWidth;
@@ -212,16 +243,21 @@
       toggle.setAttribute('aria-expanded', 'true');
       toggle.setAttribute('aria-label', 'Cerrar menú principal');
       document.body.classList.add(LOCK_CLASS);
-      var first = panel.querySelector('a, button');
+      document.addEventListener('keydown', trapFocus, true);
+      var first = focusables()[0];
       if (first) first.focus();
     }
 
-    function close() {
+    /* restoreFocus: true devuelve el foco al botón hamburguesa
+       (cierre intencional: Esc, overlay, toggle). El cierre por
+       resize a desktop no roba el foco. */
+    function close(restoreFocus) {
       overlay.classList.remove('is-open');
       panel.classList.remove('is-open');
       toggle.setAttribute('aria-expanded', 'false');
       toggle.setAttribute('aria-label', 'Abrir menú principal');
       document.body.classList.remove(LOCK_CLASS);
+      document.removeEventListener('keydown', trapFocus, true);
       var done = function () {
         if (toggle.getAttribute('aria-expanded') !== 'true') {
           panel.hidden = true; overlay.hidden = true;
@@ -229,22 +265,23 @@
         panel.removeEventListener('transitionend', done);
       };
       panel.addEventListener('transitionend', done);
+      if (restoreFocus) toggle.focus();
     }
 
     toggle.addEventListener('click', function () {
-      if (toggle.getAttribute('aria-expanded') === 'true') { close(); toggle.focus(); }
+      if (toggle.getAttribute('aria-expanded') === 'true') { close(true); }
       else { open(); }
     });
-    overlay.addEventListener('click', close);
+    overlay.addEventListener('click', function () { close(true); });
     document.addEventListener('keydown', function (ev) {
       if (ev.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
-        ev.preventDefault(); close(); toggle.focus();
+        ev.preventDefault(); close(true);
       }
     });
 
     var mq = window.matchMedia('(min-width: ' + BP_DESKTOP + 'px)');
     var onMq = function (e) {
-      if (e.matches && toggle.getAttribute('aria-expanded') === 'true') close();
+      if (e.matches && toggle.getAttribute('aria-expanded') === 'true') close(false);
     };
     if (mq.addEventListener) mq.addEventListener('change', onMq);
     else if (mq.addListener) mq.addListener(onMq);

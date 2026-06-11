@@ -62,6 +62,11 @@
 @import url('cta.css');
 @import url('countdown-recursos.css');
 @import url('seguimiento.css');
+@import url('focus.css');
+/* focus.css centraliza TODO el tratamiento :focus-visible del
+   sitio (S4). Va después de las hojas de componente para que sus
+   reglas de contexto (anillo inverso sobre footer/cta/hero) ganen
+   por orden de aparición a igual especificidad. */
 @import url('print.css');
 /* print.css agrupa TODOS los estilos de impresión del sitio
    (@media print). Va al final de la cadena para que sus
@@ -165,18 +170,11 @@ select {
   color: inherit;
 }
 
-/* Foco visible solo para navegación por teclado.
-   Contraste del anillo: --color-accent sobre --color-surface ≈ 8.1:1
-   (supera el mínimo WCAG AA de 3:1 para componentes de interfaz). */
-:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
-}
-
-/* Sin anillo de foco para interacciones de puntero (mouse/touch). */
-:focus:not(:focus-visible) {
-  outline: none;
-}
+/* Foco visible: TODO el tratamiento :focus-visible del sitio
+   (anillo global, contextos oscuros, supresión para puntero) vive
+   centralizado en focus.css (importado en §1) sobre los tokens
+   --focus-ring-* de tokens.css §FOCO VISIBLE. No declarar outline
+   en ninguna otra hoja. */
 
 /* Respeta la preferencia del sistema de movimiento reducido:
    neutraliza animaciones, transiciones y desplazamiento suave.
