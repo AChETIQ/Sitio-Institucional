@@ -156,13 +156,17 @@ const MV_ORDER = [
 function buildMvColumn(item, iconName) {
   const col = createElement('article', { class: 'mission-vision__col' });
 
-  const label = createElement('p', { class: 'mission-vision__label' });
+  /* Jerarquía del PNG objetivo: ícono en placa suave sobre un
+     título en Instrument Serif (no el eyebrow mono original). */
+  const iconBox = createElement('span', { class: 'mission-vision__icon-box' });
   const icon = buildIcon(iconName, 'mission-vision__icon');
-  if (icon) label.appendChild(icon);
-  /* El texto va como nodo aparte para conservar el ícono inline:
-     createElement(... text) sobrescribiría los hijos por textContent. */
-  label.appendChild(document.createTextNode(item.label || ''));
-  col.appendChild(label);
+  if (icon) iconBox.appendChild(icon);
+  col.appendChild(iconBox);
+
+  col.appendChild(createElement('h3', {
+    class: 'mission-vision__title',
+    text: item.label || ''
+  }));
 
   col.appendChild(createElement('p', {
     class: 'mission-vision__prose',

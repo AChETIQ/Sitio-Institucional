@@ -415,24 +415,53 @@ function initials(name) {
 }
 
 
-/* ─── 4.4 historia / timeline (FASE_1 §5.5) ────────────────── */
+/* ─── 4.4 historia / timeline ramificado (FASE_1 §5.5 · rediseño) ─
+   Árbol de tubos en --color-accent: un tronco central del que
+   brotan ramas tubulares alternadas izq/der, cada una rematada en
+   un nodo-aro con el año. El tronco se «dibuja» con el scroll y
+   cada rama crece al entrar en viewport. Estado base = visible: sin
+   JS o con prefers-reduced-motion el árbol se ve completo y quieto.
+   El estilo vive en assets/css/sobre-asociacion.css §C. */
+
+const SVG_NS_TL = 'http://www.w3.org/2000/svg';
+
+/* viewBox y trazo del brazo, calibrados para la geometría de
+   escritorio (--tl-arm/--tl-band = 210, --tl-node = 116). El SVG
+   usa preserveAspectRatio="none" + non-scaling-stroke, de modo que
+   el mismo path se reescala con la banda en cada breakpoint. */
+const TL_ARM_VIEWBOX = '0 0 210 210';
+const TL_ARM_PATH = 'M0 188 C 36 169, 60 150, 90 150';
 
 function renderHistoria(container, data) {
   const list = (Array.isArray(data) ? data.slice() : [])
     .sort((a, b) => yearKey(a.anio) - yearKey(b.anio));
 
-  const ol = createElement('ol', { class: 'timeline' });
-  list.forEach((h) => ol.appendChild(buildTimelineEntry(h, false)));
+  /* Tronco central (pista atenuada + relleno que crece con scroll).
+     Va PRIMERO en el DOM para que quede en la capa de fondo: las
+     ramas y, sobre todo, los nodos-aro (con interior papel) pintan
+     por encima sin pelear por z-index. */
+  const axis = createElement('div', {
+    class: 'timeline__axis',
+    attrs: { 'aria-hidden': 'true' }
+  });
+  axis.appendChild(createElement('div', { class: 'timeline__axis-track' }));
+  axis.appendChild(createElement('div', { class: 'timeline__axis-fill' }));
+  container.appendChild(axis);
+
+  /* El contenedor ES el <ol class="timeline">: poblamos sus
+     entradas directamente y alternamos el lado por índice. */
+  list.forEach((h, i) => {
+    container.appendChild(buildTimelineEntry(h, i % 2 === 0 ? 'right' : 'left', false));
+  });
 
   /* Entrada ghost final — proyecta hacia el futuro sin cerrar
-     contenido (FASE_1 §5.5, decisión configurable: aquí se
-     renderiza desde el template, no desde el JSON). */
-  ol.appendChild(buildTimelineEntry({
-    anio: 'Próximamente',
+     contenido (FASE_1 §5.5). El lado continúa la alternancia. */
+  container.appendChild(buildTimelineEntry({
+    titulo: 'Próximamente',
     descripcion: 'La historia de AChETIQ continúa. Los próximos capítulos se escriben hoy.'
-  }, true));
+  }, list.length % 2 === 0 ? 'right' : 'left', true));
 
-  container.appendChild(ol);
+  setupTimelineMotion(container);
 }
 
 function yearKey(y) {
@@ -440,20 +469,50 @@ function yearKey(y) {
   return Number.isFinite(n) ? n : Number.POSITIVE_INFINITY;
 }
 
-function buildTimelineEntry(h, ghost) {
+function buildTimelineEntry(h, side, ghost) {
   const li = createElement('li', {
-    class: 'timeline__entry' + (ghost ? ' timeline__entry--ghost' : '')
+    class: 'timeline__entry timeline__entry--' + side +
+      (ghost ? ' timeline__entry--ghost' : '')
   });
-  li.appendChild(createElement('div', {
-    class: 'timeline__marker' + (ghost ? ' timeline__marker--ghost' : '')
-  }));
 
+  /* ── Rama: soldadura + brazo SVG + nodo-aro ── */
+  const branch = createElement('div', {
+    class: 'timeline__branch',
+    attrs: { 'aria-hidden': 'true' }
+  });
+
+  /* Orden en el DOM = orden de pintado: brazo (abajo) → soldadura
+     → nodo (arriba). El nodo lleva además z-index para asegurar su
+     interior papel por encima del tronco. */
+  const svg = document.createElementNS(SVG_NS_TL, 'svg');
+  svg.setAttribute('class', 'timeline__arm');
+  svg.setAttribute('viewBox', TL_ARM_VIEWBOX);
+  svg.setAttribute('preserveAspectRatio', 'none');
+  const path = document.createElementNS(SVG_NS_TL, 'path');
+  path.setAttribute('d', TL_ARM_PATH);
+  svg.appendChild(path);
+  branch.appendChild(svg);
+
+  branch.appendChild(createElement('span', { class: 'timeline__junction' }));
+
+  const marker = createElement('div', { class: 'timeline__marker' });
+  if (ghost) {
+    const glyph = createElement('div', { class: 'timeline__ghost-glyph' });
+    glyph.appendChild(createElement('span'));
+    glyph.appendChild(createElement('span'));
+    glyph.appendChild(createElement('span'));
+    marker.appendChild(glyph);
+  } else {
+    marker.appendChild(createElement('span', {
+      class: 'timeline__year',
+      text: h.anio == null ? '' : String(h.anio)
+    }));
+  }
+  branch.appendChild(marker);
+
+  /* ── Contenido (afuera del aro): título + descripción ── */
   const content = createElement('div', { class: 'timeline__content' });
-  content.appendChild(createElement('p', {
-    class: 'timeline__year',
-    text: h.anio == null ? '' : String(h.anio)
-  }));
-  if (h.titulo && !ghost) {
+  if (h.titulo) {
     content.appendChild(createElement('h3', {
       class: 'timeline__title',
       text: h.titulo
@@ -465,8 +524,88 @@ function buildTimelineEntry(h, ghost) {
       text: h.descripcion
     }));
   }
+
+  li.appendChild(branch);
   li.appendChild(content);
   return li;
+}
+
+/* MOVIMIENTO — IntersectionObserver (brota cada rama) + scroll
+   (rellena el tronco y marca el nodo activo). Con
+   prefers-reduced-motion → estado final, sin animación. */
+function setupTimelineMotion(ol) {
+  const entries = Array.prototype.slice.call(
+    ol.querySelectorAll('.timeline__entry')
+  );
+  const fill = ol.querySelector('.timeline__axis-fill');
+  const reduce = typeof window.matchMedia === 'function' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Prepara el «dibujo» de cada brazo: dasharray = longitud total;
+     offset = longitud (oculto) salvo en reduce-motion (visible). */
+  entries.forEach((li) => {
+    if (li.classList.contains('timeline__entry--ghost')) return;
+    const p = li.querySelector('.timeline__arm path');
+    if (!p || typeof p.getTotalLength !== 'function') return;
+    const len = p.getTotalLength();
+    p.style.strokeDasharray = String(len);
+    p.style.strokeDashoffset = reduce ? '0' : String(len);
+  });
+
+  if (reduce || !('IntersectionObserver' in window)) {
+    entries.forEach((li) => li.classList.add('is-visible'));
+    if (fill) fill.style.height = '100%';
+    return;
+  }
+
+  ol.classList.add('timeline--anim');
+
+  const io = new IntersectionObserver((records) => {
+    records.forEach((r) => {
+      if (!r.isIntersecting) return;
+      const li = r.target;
+      li.classList.add('is-visible');
+      const p = li.querySelector('.timeline__arm path');
+      if (p && !li.classList.contains('timeline__entry--ghost')) {
+        p.style.strokeDashoffset = '0';
+      }
+      io.unobserve(li);
+    });
+  }, { threshold: 0.2, rootMargin: '0px 0px -10% 0px' });
+  entries.forEach((li) => io.observe(li));
+
+  let ticking = false;
+  function update() {
+    ticking = false;
+    const rect = ol.getBoundingClientRect();
+    const vh = window.innerHeight || document.documentElement.clientHeight;
+    const anchor = vh * 0.5;
+    const filled = Math.max(0, Math.min(rect.height, anchor - rect.top));
+    if (fill) fill.style.height = filled + 'px';
+
+    let best = null;
+    let bestDist = Infinity;
+    entries.forEach((li) => {
+      if (li.classList.contains('timeline__entry--ghost')) return;
+      const m = li.querySelector('.timeline__marker');
+      if (!m) return;
+      const box = m.getBoundingClientRect();
+      const d = Math.abs((box.top + box.height / 2) - anchor);
+      if (d < bestDist) { bestDist = d; best = li; }
+    });
+    entries.forEach((li) => {
+      li.classList.toggle('is-active', li === best && bestDist < vh * 0.42);
+    });
+  }
+  function onScroll() {
+    if (!ticking) {
+      ticking = true;
+      window.requestAnimationFrame(update);
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  update();
 }
 
 

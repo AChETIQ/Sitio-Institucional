@@ -18,6 +18,10 @@
   <link rel="preload" href="../assets/fonts/instrument-serif-400.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
 
   <link rel="stylesheet" href="../assets/css/main.bundle.css">
+  <!-- Hoja específica de la página: refina las secciones rediseñadas
+       (timeline ramificado, misión/visión, valores). Se enlaza DESPUÉS
+       del bundle para que sus reglas ganen por orden de cascada. -->
+  <link rel="stylesheet" href="../assets/css/sobre-asociacion.css">
 
   <!-- Precarga del camino crítico de fetch (S6): navbar.js pide partial +
        config recién en DOMContentLoaded; precargarlos arranca esas descargas
@@ -103,7 +107,21 @@
         <p class="eyebrow">Trayectoria</p>
         <h2 id="historia-title">Nuestra <em>historia</em></h2>
       </header>
-      <ol class="timeline" data-loader="historia"></ol>
+      <!-- Raíz del tronco: de aquí «nace» el árbol de la línea de
+           tiempo. Decorativo; el eje y los nodos los renderiza
+           assets/js/loaders.js dentro del <ol>. -->
+      <div class="timeline-root" aria-hidden="true"></div>
+      <ol class="timeline" data-loader="historia">
+        <!-- Fallback sin JavaScript · resumen de data/historia.json
+             para crawlers y usuarios sin JS. Con JS, loaders.js
+             reemplaza este contenido por el árbol completo. -->
+        <noscript>
+          <li class="timeline__fallback">
+            <p class="timeline__year">2003 – 2026</p>
+            <p class="timeline__desc">Dos décadas de trayectoria, de los primeros pasos ante la FeNEIQ (2003) y la fundación formal de AChETIQ (2009) a las sedes del XIX y XXVII CoNEIQ en Resistencia (2014 y 2024) y las IV JoREIQ (2026).</p>
+          </li>
+        </noscript>
+      </ol>
     </section>
 
     <!-- ════════════════════════════════════════════════════════
@@ -131,7 +149,7 @@
            ⚠ Mantener sincronizado si cambia el JSON. -->
       <noscript>
         <article class="mission-vision__col">
-          <p class="mission-vision__label">
+          <span class="mission-vision__icon-box">
             <svg class="mission-vision__icon" viewBox="0 0 24 24" fill="none"
                  stroke="currentColor" stroke-width="1.5"
                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -139,12 +157,12 @@
               <circle cx="12" cy="12" r="6"/>
               <circle cx="12" cy="12" r="2"/>
             </svg>
-            Misión
-          </p>
+          </span>
+          <h3 class="mission-vision__title">Misión</h3>
           <p class="mission-vision__prose">Mejorar de manera continua la formación académica y la integración de los estudiantes de Ingeniería Química de la Universidad Tecnológica Nacional, Facultad Regional Resistencia, y promover en ellos los valores de la Asociación, con el propósito de proyectar una influencia positiva en la comunidad en la que se inserta. Para alcanzar este fin, la Asociación desarrolla actividades de carácter académico, recreativo y solidario.</p>
         </article>
         <article class="mission-vision__col">
-          <p class="mission-vision__label">
+          <span class="mission-vision__icon-box">
             <svg class="mission-vision__icon" viewBox="0 0 24 24" fill="none"
                  stroke="currentColor" stroke-width="1.5"
                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -156,8 +174,8 @@
               <path d="m8 21 3.105-6.21"/>
               <circle cx="12" cy="13" r="2"/>
             </svg>
-            Visión
-          </p>
+          </span>
+          <h3 class="mission-vision__title">Visión</h3>
           <p class="mission-vision__prose">Constituirse en una asociación cuyos valores identifiquen a los estudiantes de Ingeniería Química, que sirva de referencia para las asociaciones afines y que goce de respeto y reconocimiento en el ámbito institucional y empresarial de la disciplina.</p>
         </article>
       </noscript>
