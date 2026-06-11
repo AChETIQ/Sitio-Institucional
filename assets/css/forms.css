@@ -5,11 +5,13 @@
    Fundamento: FASE_1 §6 — Formularios (form de contacto)
                · tokens.css
 
-   [DIFERIDO A v1.1+] — La página Contacto v1.0 cerró sin
-   formulario (decisión 2026-05-14): sólo canales directos vía
-   .contact-card. Especificación adelantada para evitar
-   dependencia futura — CSS inactivo hasta que se renderice
-   un <form class="form">.
+   ACTIVO DESDE S4 — pages/contacto.html implementa el patrón
+   accesible del formulario (labels visibles, hint/error vía
+   aria-describedby, resumen de errores role="alert",
+   :user-invalid con señal no cromática). Sin backend: el envío
+   compone un mailto: hacia el correo institucional
+   (assets/js/contacto-form.js). La decisión 2026-05-14 («solo
+   canales») queda superada por el patrón S4.
 
    Mobile-first. Cero hex y cero familias literales.
    ============================================================ */
@@ -95,15 +97,10 @@
   border-color: var(--color-text-faint);
 }
 
-.form__input:focus,
-.form__input:focus-visible {
-  outline: none;                      /* el borde mismo actúa de
-                                         anillo de foco. */
-  border-color: var(--color-accent);
-  border-width: 2px;
-  /* Compensa el +1 px de borde para que el contenido no salte. */
-  padding: calc(var(--space-3) - 1px) calc(var(--space-4) - 1px);
-}
+/* Foco: resuelto por el sistema centralizado (focus.css §1 y §3).
+   El anillo de teclado es el global; el foco por puntero cambia el
+   borde a acento. Esta hoja ya no suprime el outline ni engrosa el
+   borde (contrato S4). */
 
 /* Variante textarea: resize vertical, alto mínimo cómodo. */
 .form__input--textarea {
@@ -129,14 +126,15 @@
 .form__input[aria-invalid="true"],
 .form__input:user-invalid {
   border-color: var(--color-negative);
+  /* Indicación NO cromática del error (WCAG 1.4.1): el borde
+     engrosado distingue al campo inválido también sin percepción
+     de color; el mensaje .form__error visible completa la señal. */
+  border-width: 2px;
+  padding: calc(var(--space-3) - 1px) calc(var(--space-4) - 1px);
 }
 
-.form__input[aria-invalid="true"]:focus,
-.form__input:user-invalid:focus {
-  border-color: var(--color-negative);     /* mantiene rojo en foco
-                                         para no diluir la señal
-                                         de error. */
-}
+/* El borde inválido en foco lo mantiene focus.css §3 (rojo, para
+   no diluir la señal de error mientras se corrige). */
 
 .form__input:disabled {
   color: var(--color-text-disabled);
@@ -151,20 +149,105 @@
 
 
 /* ─── Mensaje de error — .form__error ───────────────────────
-   Referenciado desde el input vía aria-describedby. */
+   Referenciado desde el input vía aria-describedby. Vive en el
+   markup desde el inicio (vacío y oculto): el JS solo escribe el
+   texto y quita [hidden], de modo que la asociación
+   aria-describedby ya existe cuando el error aparece. */
 
 .form__error {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-1);
   font-family: var(--font-body);
   font-size: var(--text-small);
+  font-weight: var(--weight-medium);
   color: var(--color-negative);
+}
+
+.form__error[hidden] {
+  display: none;
+}
+
+/* Indicación no cromática (WCAG 1.4.1): glifo de aviso antepuesto
+   por CSS. Decorativo — el texto del mensaje ya nombra el error y
+   los lectores de pantalla modernos ignoran content generado aquí
+   gracias a alt vacío en la sintaxis de doble barra. */
+.form__error::before {
+  content: "✕" / "";
+  flex: 0 0 auto;
+  font-weight: var(--weight-semibold);
 }
 
 
 /* ─── Mensaje de ayuda — .form__hint ────────────────────────
-   Texto de apoyo bajo el label (ej: "máximo 500 caracteres"). */
+   Texto de apoyo bajo el label (ej: "máximo 500 caracteres").
+   Referenciado desde el input vía aria-describedby. */
 
 .form__hint {
   font-family: var(--font-body);
   font-size: var(--text-small);
   color: var(--color-text-faint);
+}
+
+
+/* ─── Resumen de errores — .form__error-summary ─────────────
+   Bloque role="alert" al tope del formulario: aparece al enviar
+   con campos inválidos, enumera cada error como enlace al campo
+   (#id) y recibe el foco programáticamente (tabindex="-1").
+   Mismo registro visual que .loader-error (states.css §8.1bis)
+   pero compacto y con lista accionable. */
+
+.form__error-summary {
+  padding: var(--space-4) var(--space-5);
+  background: color-mix(in oklab, var(--color-negative) 4%, var(--color-surface-raised));
+  border: 1px solid color-mix(in oklab, var(--color-negative) 25%, var(--color-border));
+  border-radius: var(--radius-lg);
+}
+
+.form__error-summary[hidden] {
+  display: none;
+}
+
+.form__error-summary-title {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  font-weight: var(--weight-semibold);
+  color: var(--color-negative);
+  margin-block-end: var(--space-2);
+}
+
+.form__error-summary-list {
+  margin: 0;
+  padding-inline-start: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.form__error-summary-list a {
+  color: var(--color-negative);
+  font-size: var(--text-small);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+
+/* ─── Estado de envío — .form__status ───────────────────────
+   Región viva (role="status") presente en el markup desde el
+   inicio para anunciar el resultado del envío sin robar el foco. */
+
+.form__status {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-5);
+  font-size: var(--text-small);
+  color: var(--color-positive);
+  background: color-mix(in oklab, var(--color-positive) 5%, var(--color-surface-raised));
+  border: 1px solid color-mix(in oklab, var(--color-positive) 25%, var(--color-border));
+  border-radius: var(--radius-lg);
+}
+
+.form__status:empty {
+  display: none;
 }

@@ -173,6 +173,13 @@
   font-size: var(--text-small);
   transition: color var(--transition-fast);
   border-radius: var(--radius-md);
+  /* Objetivo táctil WCAG 2.5.8 (≥ 24 px): el texto de 14 px rinde
+     ≈ 24 px de caja de línea, al límite. El padding amplía el área
+     interactiva y el margen negativo lo compensa para que el ritmo
+     visual de la lista no cambie. */
+  display: inline-block;
+  padding-block: var(--space-1);
+  margin-block: calc(-1 * var(--space-1));
 }
 
 .footer__link:hover,
@@ -324,15 +331,10 @@
 
 /* ─────────────────────────────────────────────────────────────
    5. FOCUS RING — sobre fondo oscuro
-   El anillo global usa --color-accent, invisible aquí. Se
-   sustituye por el crema del propio footer.
+   Resuelto por el sistema centralizado (focus.css §2): .footer
+   redeclara --focus-ring-color al valor inverso. Esta hoja ya no
+   declara outline (contrato S4).
    ───────────────────────────────────────────────────────────── */
-
-.footer a:focus-visible,
-.footer button:focus-visible {
-  outline: 2px solid var(--footer-ink);
-  outline-offset: 2px;
-}
 
 
 /* ─────────────────────────────────────────────────────────────

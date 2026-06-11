@@ -167,6 +167,21 @@ function prettyUrl(href) {
    3. Estados visuales del fetch
    ───────────────────────────────────────────────────────────── */
 
+/* Escribe el texto de una región viva en dos fases (S4): el nodo
+   con role/aria-live entra al DOM vacío y el texto se asigna en el
+   siguiente frame. Los lectores de pantalla solo anuncian con
+   fiabilidad los CAMBIOS dentro de una región viva ya registrada
+   en el árbol de accesibilidad; una región insertada ya con texto
+   puede pasar en silencio (sobre todo con aria-live="polite").
+   Esto vale tanto para role="status" como para role="alert". */
+function setLiveText(node, text) {
+  if (typeof requestAnimationFrame === 'function') {
+    requestAnimationFrame(() => { node.textContent = text; });
+  } else {
+    setTimeout(() => { node.textContent = text; }, 0);
+  }
+}
+
 /* Loader inline «Bouncing Dots» (P3.3, variante sin overlay).
    Reutiliza las clases definidas en assets/css/loader.css. El
    atributo .safe-motion conserva la animación bajo
@@ -186,9 +201,11 @@ export function renderInlineLoader(container, message) {
   wrap.appendChild(dots);
 
   const text = (typeof message === 'string' && message) ? message : 'Cargando…';
-  wrap.appendChild(createElement('p', { class: 'loader__message', text }));
+  const msg = createElement('p', { class: 'loader__message' });
+  wrap.appendChild(msg);
 
   container.appendChild(wrap);
+  setLiveText(msg, text);
 }
 
 /* Empty-state (FASE_1 §8.1). Markup conforme al catálogo, el
@@ -210,16 +227,22 @@ export function renderEmpty(container, opts) {
     class: 'empty-state__title',
     text: o.title || 'Aún no hay contenido publicado'
   }));
-  block.appendChild(createElement('p', {
-    class: 'empty-state__desc',
-    text: o.desc || 'Estamos trabajando en esta sección. Pronto encontrarás aquí novedades de la asociación.'
-  }));
+  const desc = createElement('p', { class: 'empty-state__desc' });
+  block.appendChild(desc);
   container.appendChild(block);
+  /* Texto en dos fases (ver setLiveText): garantiza el anuncio de
+     la transición loading → empty. El título queda estático (no
+     anunciar dos veces el mismo estado). */
+  setLiveText(desc, o.desc || 'Estamos trabajando en esta sección. Pronto encontrarás aquí novedades de la asociación.');
 }
 
-/* Mensaje de error accesible. role="alert" lo anuncia a lectores
-   de pantalla apenas se inserta. El detalle técnico se loguea en
-   consola desde el motor (main.js); el usuario sólo ve el aviso. */
+/* Mensaje de error accesible. role="alert" (live assertive
+   implícito) lo anuncia a lectores de pantalla. El texto se asigna
+   en dos fases (setLiveText) DESPUÉS de insertar el bloque: la
+   inserción de un alert ya poblado no se anuncia en todas las
+   combinaciones navegador/lector, el cambio dentro de uno vacío
+   sí. El detalle técnico se loguea en consola desde el motor
+   (main.js); el usuario sólo ve el aviso. */
 export function renderError(container, opts) {
   const o = opts || {};
   container.replaceChildren();
@@ -229,11 +252,10 @@ export function renderError(container, opts) {
     class: 'loader-error',
     attrs: { role: 'alert' }
   });
-  block.appendChild(createElement('p', {
-    class: 'loader-error__message',
-    text: o.message || 'No se pudo cargar este bloque. Probá recargar la página.'
-  }));
+  const msg = createElement('p', { class: 'loader-error__message' });
+  block.appendChild(msg);
   container.appendChild(block);
+  setLiveText(msg, o.message || 'No se pudo cargar este bloque. Probá recargar la página.');
 }
 
 

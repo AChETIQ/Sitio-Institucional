@@ -113,6 +113,24 @@ Medidas asociadas: `--measure-title` (22ch, titulares display de `.page-header` 
 
 > **Nota de migración.** Equivalencias v1 → v2: `--color-surface`→`surface` · `--color-surface-raised`→`surface-raised` · `--color-text/-soft/-faint`→`text/-soft/-faint` · `--color-accent`→`accent` · `--color-accent-soft`→`accent-soft` · `--color-border/-soft`→`border/-soft` · `--color-negative/-pos`→`negative/positive` · `--color-scrim`→`scrim` · `--color-surface-overlay`→`overlay`. Las menciones de tamaños en px que persistan en las especificaciones de componentes de este catálogo son orientativas de la v1; el valor normativo es siempre el token indicado.
 
+### 0.4 Sistema centralizado de foco — contrato S4 (2026-06-11)
+
+La sesión S4 (accesibilidad WCAG 2.2 AA) centralizó el tratamiento de foco. **Un solo lugar declara `outline`: `assets/css/focus.css`**, sobre los tokens `--focus-ring-*` de tokens.css §FOCO VISIBLE.
+
+| Token | Valor | Nota |
+|---|---|---|
+| `--focus-ring-width` | `2px` | Mínimo recomendado WCAG 2.4.13. |
+| `--focus-ring-offset` | `2px` | El color adyacente al anillo es siempre la superficie del contexto, no el relleno del control. |
+| `--focus-ring-color` | `var(--color-accent)` | 8.1:1 sobre `surface` · 8.6:1 sobre `raised` (mínimo 1.4.11: 3:1). |
+| `--focus-ring-color-inverse` | `var(--color-on-accent)` | Superficies oscuras: 8.6:1 sobre `accent` (cta-final) · 13.2:1 sobre `surface-inverse` (footer) · 16.5:1 sobre el peor caso del scrim del hero. |
+
+**Reglas del contrato.**
+
+- El anillo aparece solo con foco por teclado (`:focus-visible`); el foco por puntero no lo dibuja.
+- Ningún componente declara ni suprime `outline`. Para adaptar el anillo a una superficie oscura, el contexto redeclara `--focus-ring-color: var(--focus-ring-color-inverse)` (hoy: `.footer`, `.cta-final`, `.hero` — declarado centralmente en focus.css §2).
+- Los componentes pueden añadir refuerzos cosméticos compartidos con `:hover` (cambio de fondo de `.nav-link`, de borde de `.form__input`), nunca el anillo en sí.
+- Los destinos de salto programático (`[tabindex="-1"]`: `<main>`, resumen de errores) no dibujan anillo: no son controles operables.
+
 ---
 
 ## 1. Componentes globales
@@ -168,6 +186,8 @@ El placeholder es reemplazado por `js/navbar.js`, que carga `partials/navbar.htm
 **Comportamiento de submenús (desktop ≥ 1024 px).** El label permanece como `<a>` clickeable a la página general; el panel desplegable se abre únicamente por hover del mouse o focus del teclado (`:hover` + `:focus-within`). Chevron Lucide a la derecha del label, decorativo, rota 180° al abrir.
 
 **Comportamiento mobile/tablet (< 1024 px).** Lista colapsa en botón hamburguesa; panel lateral con overlay. Submenús como acordeón anidado in-place, con botón independiente para el chevron (área táctil ≥ 44×44 px). Scroll del body bloqueado mientras el panel está visible.
+
+**Endurecimiento S4 (accesibilidad del panel mobile, 2026-06-11).** Mientras el panel está abierto, el foco queda **atrapado dentro** (Tab/Shift+Tab ciclan entre sus enlaces y botones visibles; los sublinks de acordeones colapsados se excluyen). `Esc`, el tap sobre el overlay y el toggle cierran el panel y **devuelven el foco al botón hamburguesa**; el cierre automático por resize a desktop no roba el foco. `aria-expanded` del toggle se mantiene en sincronía en todos los caminos de cierre; el umbral JS del patrón desktop coincide con el del CSS (1024 px, corrección S3 — antes el JS seguía en 768 y forzaba cierres prematuros en tablet).
 
 **Corrección S3 (auditoría responsive).** El cambio hamburguesa ↔ lista horizontal vivía en 768 px, pero la lista completa (brand + 5 ítems + CTA) mide ≈ 851 px: entre 768 y ~850 px desbordaba el viewport con scroll horizontal en todas las páginas. El umbral se retrasó al breakpoint canónico siguiente (`--bp-lg`, 1024 px): tablet portrait conserva el panel hamburguesa como estado diseñado. El contenedor interno además se alinea con `.page` (mismo `--max-width` y mismo padding fluido `--page-padding-x`).
 
@@ -244,6 +264,8 @@ El placeholder es reemplazado por `js/navbar.js`, que carga `partials/navbar.htm
 ```
 
 **Comportamiento visual.** Oculto fuera de pantalla por defecto (vía `position: absolute; left: -9999px`). Al recibir foco (Tab), salta a posición visible en la esquina superior izquierda con fondo `var(--color-accent)` y texto `var(--color-on-accent)` (8.6:1 — AAA). El `<main>` correspondiente debe tener `id="main-content"` y `tabindex="-1"`.
+
+**Unificación S4 (2026-06-11).** El destino es `#main-content` con markup idéntico en **las 9 páginas** (la portada usaba `#contenido`; corregido). El destino con `tabindex="-1"` no dibuja anillo de foco (focus.css §1): no es un control operable.
 
 ---
 
@@ -766,7 +788,7 @@ Ya definida en `tokens.css` (§COMPONENTE — TARJETA). Sirve como base de las v
 **Estados.**
 
 - Hover: borde se intensifica a `var(--color-accent)`; cover aumenta brillo levemente (`filter: brightness(1.05)`). Transición `var(--transition-fast)`.
-- Foco: contorno `2px solid var(--color-accent)` con offset 2 px.
+- Foco: anillo del sistema centralizado (§0.4, focus.css) — la tarjeta no declara outline propio.
 
 **Carga dinámica.** Poblada vía `data-loader="recursos"` desde `data/recursos.json` (41 materias). El loader debe agrupar visualmente por año y conectar con el filtro de `.pill-nav`.
 
@@ -1064,39 +1086,38 @@ Umbrales de contenedor canónicos (referencia en `tokens.css` §UMBRALES DE CONT
 
 ## 6. Formularios
 
-### 6.1 Form de contacto — `.form` [DIFERIDO A v1.1+]
+### 6.1 Form de contacto — `.form` [ACTIVO DESDE S4]
 
-*Estado.* El componente queda especificado para referencia futura. La página de Contacto v1.0 cerró sin formulario de envío por decisión registrada el 2026-05-14: solo se exponen canales directos (email, Instagram, LinkedIn, dirección física) mediante el componente `.contact-card` (§4.7). Reactivar este componente cuando se decida incorporar formulario de captura.
+*Estado (S4, 2026-06-11).* Implementado en `pages/contacto.html` como patrón accesible **sin backend**: la validación es client-side (`assets/js/contacto-form.js`) y el envío válido compone un `mailto:` hacia el correo institucional de `data/redes.json`. La decisión 2026-05-14 («solo canales») queda superada; el canal de fondo sigue siendo el correo institucional.
 
-**Propósito.** Formulario de contacto en la página `/contacto.html`.
+**Propósito.** Formulario de contacto en la página `/pages/contacto.html` y patrón normativo para todo formulario futuro del sitio.
 
-**Estructura HTML.**
+**Estructura HTML (patrón normativo).**
 
 ```html
-<form class="form" action="https://formspree.io/f/{ID}" method="POST" novalidate>
-  <div class="form__row">
-    <div class="form__field">
-      <label class="form__label" for="nombre">Nombre completo</label>
-      <input class="form__input" type="text" id="nombre" name="nombre" required>
-    </div>
-    <div class="form__field">
-      <label class="form__label" for="email">Correo electrónico</label>
-      <input class="form__input" type="email" id="email" name="email" required>
-    </div>
+<form class="form" data-contact-form novalidate>
+  <p class="form__hint">Los tres campos son obligatorios.</p>
+
+  <!-- Resumen de errores: PRE-EXISTENTE, vacío + hidden. Recibe el
+       foco tras un envío inválido; cada error es un enlace al campo. -->
+  <div class="form__error-summary" role="alert" tabindex="-1" hidden>
+    <p class="form__error-summary-title">Revisá estos campos antes de enviar:</p>
+    <ul class="form__error-summary-list"></ul>
   </div>
+
   <div class="form__field">
-    <label class="form__label" for="asunto">Asunto</label>
-    <select class="form__input" id="asunto" name="asunto" required>
-      <option value="">Seleccionar…</option>
-      <option>Consulta general</option>
-      <option>Sumarme a un gabinete</option>
-      <option>Propuesta de actividad</option>
-    </select>
+    <label class="form__label" for="contacto-email">Correo electrónico</label>
+    <input class="form__input" id="contacto-email" name="email" type="email"
+           autocomplete="email" required
+           aria-describedby="contacto-email-hint contacto-email-error">
+    <p class="form__hint" id="contacto-email-hint">Lo usamos únicamente para responderte.</p>
+    <!-- Error por campo: PRE-EXISTENTE, vacío + hidden, ya referenciado
+         por aria-describedby. El JS escribe el texto y quita hidden. -->
+    <p class="form__error" id="contacto-email-error" hidden></p>
   </div>
-  <div class="form__field">
-    <label class="form__label" for="mensaje">Mensaje</label>
-    <textarea class="form__input form__input--textarea" id="mensaje" name="mensaje" rows="6" required></textarea>
-  </div>
+  <!-- … resto de campos con el mismo patrón … -->
+
+  <p class="form__status" role="status" aria-live="polite"></p>
   <button class="btn btn-primary" type="submit">Enviar mensaje</button>
 </form>
 ```
@@ -1105,16 +1126,25 @@ Umbrales de contenedor canónicos (referencia en `tokens.css` §UMBRALES DE CONT
 
 - `.form__row`: layout grid de 2 columnas en desktop, 1 en mobile, gap `var(--space-4)`.
 - `.form__field`: layout vertical, gap `var(--space-2)` entre label e input.
-- `.form__label`: tipografía body, 13 px, peso medium, color `var(--color-text)`.
-- `.form__input`: padding `var(--space-3) var(--space-4)`, borde `1px solid var(--color-border)`, radio `var(--radius-md)`, fondo `var(--color-surface-raised)`. Foco: borde `2px solid var(--color-accent)`, sin shadow box.
+- `.form__label`: tipografía body, `--text-small`, peso medium, color `var(--color-text)`. Siempre visible (nunca placeholder como única etiqueta).
+- `.form__input`: padding `var(--space-3) var(--space-4)`, borde `1px solid var(--color-border)`, radio `var(--radius-md)`, fondo `var(--color-surface-raised)`.
 - `.form__input--textarea`: `resize: vertical; min-height: 120px`.
+- `.form__error-summary`: registro visual de `.loader-error` compacto; lista de enlaces en `--color-negative` subrayados.
+- `.form__status`: registro de confirmación en `--color-positive`; oculto mientras está vacío (`:empty`).
 
 **Estados.**
 
-- Inválido (post-submit, vía `:invalid` o atributo `aria-invalid`): borde `var(--color-negative)`, mensaje de error abajo del campo.
-- Disabled: opacity 0.5, cursor `not-allowed`.
+- **Foco**: anillo del sistema centralizado (§0.4). El foco por puntero cambia el borde a `--color-accent` (focus.css §3); esta hoja ya no suprime el outline ni engrosa el borde en foco.
+- **Inválido** (`aria-invalid="true"` aplicado por JS, o `:user-invalid` nativo): borde `var(--color-negative)` engrosado a 2 px (señal no cromática, con compensación de padding) + mensaje `.form__error` visible con glifo `✕` antepuesto por CSS (decorativo, `content` con texto alternativo vacío). En foco, el borde se mantiene rojo para no diluir la señal.
+- **Disabled**: `--color-text-disabled` + fondo `surface` + cursor `not-allowed` — sin `opacity` (contraste auditable).
 
-**Accesibilidad.** Cada input tiene `<label>` asociado por `for/id`. Mensajes de error referenciados vía `aria-describedby`. Los campos requeridos llevan `required` (validación nativa) y `aria-required="true"`.
+**Accesibilidad (WCAG 3.3.1 / 3.3.3 / 4.1.3).**
+
+- Cada input tiene `<label>` visible asociado por `for/id`; hints y errores referenciados vía `aria-describedby` **desde el markup inicial** (la asociación existe antes de que el error aparezca).
+- Validación al enviar (`novalidate` + submit handler): sin interrupciones mientras se escribe; al salir de un campo corregido su error se limpia.
+- Envío inválido → se puebla el resumen `role="alert"` y recibe foco (`tabindex="-1"`); cada ítem enlaza y focaliza su campo.
+- Envío válido → `.form__status` (`role="status"`, región viva pre-existente) anuncia el resultado sin robar el foco.
+- Los campos requeridos llevan `required` (estado expuesto a tecnologías de asistencia y habilita `:user-invalid`); `novalidate` suprime solo los globos nativos.
 
 ---
 
@@ -1161,9 +1191,11 @@ Umbrales de contenedor canónicos (referencia en `tokens.css` §UMBRALES DE CONT
 
 **Especificación visual.**
 
-- Cada pill: padding `var(--space-2) var(--space-4)`, borde `1px solid var(--color-border)`, radio `var(--radius-pill)` (999 px), tipografía body, `--text-small`.
-- Estado activo (`is-active`): fondo `var(--color-accent)`, texto `var(--color-on-accent)` (8.6:1 — AAA), borde acento.
+- Cada pill: padding `var(--space-3) var(--space-5)` (altura efectiva ≈ 41 px — supera el mínimo 24 px de WCAG 2.5.8 y roza el estándar 44 px), borde `1px solid var(--color-border)`, radio `var(--radius-pill)` (999 px), tipografía body, `--text-small`.
+- Estado activo (`is-active` + `aria-pressed="true"`): fondo `var(--color-accent)`, texto `var(--color-on-accent)` (8.6:1 — AAA), borde acento.
 - Hover (no activo): fondo `var(--color-surface-raised)`, borde `var(--color-accent)`.
+- Foco: anillo del sistema centralizado (§0.4); sobre la pill activa el offset deja el anillo sobre el fondo de página (8.1:1).
+- El efecto del filtro se anuncia en una región viva `sr-only` polite («Mostrando N materias…», ver §8.1bis).
 
 ---
 
@@ -1186,6 +1218,18 @@ Umbrales de contenedor canónicos (referencia en `tokens.css` §UMBRALES DE CONT
 ```
 
 **Especificación.** Padding generoso (64 px arriba y abajo), texto centrado, color de íconos y títulos en `var(--color-text-faint)` para que la sección se sienta "en pausa" pero no rota.
+
+**Anuncio a lectores de pantalla (S4).** Cuando el empty-state **sucede a un loader** (motor `data-loader`), `loaders.js` lo inserta con `role="status"` + `aria-live="polite"` y escribe la descripción en **dos fases** (nodo vivo primero, texto en el frame siguiente): una región viva insertada ya con texto puede pasar en silencio. Los empty-states estáticos del sitio usan el mismo markup **sin** estas ARIA (no representan un cambio dinámico).
+
+---
+
+### 8.1bis Error de carga — `.loader-error`
+
+**Propósito.** Tercer estado del patrón `data-loader`: el fetch o el renderer fallaron. Mismo registro visual que el empty-state, con tinta `--color-negative` y borde de aviso sutil (states.css §8.1bis).
+
+**Anuncio (S4).** `role="alert"` (assertive implícito), texto en dos fases igual que el empty-state. El detalle técnico va a consola; la persona ve solo el aviso accionable («Probá recargar la página»).
+
+**Política de anuncios del motor (`main.js`/`loaders.js`).** La llegada del **contenido real no se anuncia**: el loader (región viva) se retira con `replaceChildren()` y el contenido entra sin `aria-live`, evitando ráfagas. Hablan únicamente el estado de carga («Cargando…», polite), el empty (polite) y el error (alert). El filtro por año de Apuntes anuncia su **efecto** («Mostrando N materias…») en una región `sr-only` polite propia (apuntes.js).
 
 ---
 

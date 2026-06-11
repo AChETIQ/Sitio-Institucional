@@ -1,0 +1,96 @@
+/* ============================================================
+   AChETIQ — Sistema centralizado de foco (focus.css)
+   ------------------------------------------------------------
+   Versión: 1.0 · Fase S4 — Accesibilidad WCAG 2.2 AA
+   Fundamento: tokens.css §FOCO VISIBLE · FASE_1 §11 (Estados)
+
+   Importado desde assets/css/main.css §1, después de las hojas
+   de componente: las reglas de contexto de este archivo ganan
+   por orden de aparición a igual especificidad.
+
+   CONTRATO. Este archivo es el ÚNICO lugar del sitio que declara
+   `outline` para estados de foco. Los componentes pueden añadir
+   refuerzos cosméticos a :focus-visible (cambio de fondo o de
+   color, como hacen .nav-link o .pill-nav__pill vía sus reglas
+   compartidas con :hover), pero NUNCA declaran ni suprimen el
+   anillo. Para adaptar el anillo a una superficie oscura no se
+   reescribe la regla: se redeclara --focus-ring-color en el
+   contexto (ver §2).
+
+   Cobertura: enlaces, botones, pills, ítems de navegación,
+   controles de formulario, skip-link, tarjetas-enlace
+   (.card-materia, .contact-card, .gabinete-card__link), tabs y
+   badges de Seguimiento. Todos reciben el anillo de la regla
+   global §1 sin selector propio.
+   ============================================================ */
+
+
+/* ─────────────────────────────────────────────────────────────
+   1. ANILLO GLOBAL
+   Foco visible solo para navegación por teclado (:focus-visible).
+   Contraste del anillo documentado en tokens.css §FOCO VISIBLE:
+   8.1:1 sobre --color-surface · 8.6:1 sobre raised (mínimo
+   WCAG 1.4.11: 3:1). El offset de 2 px garantiza que el color
+   adyacente al anillo sea la superficie del contexto y no el
+   relleno del control.
+   ───────────────────────────────────────────────────────────── */
+
+:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* Sin anillo para interacciones de puntero (mouse/touch). */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Destinos de salto programático (main de cada página, anclas de
+   error de formulario): focalizables vía tabindex="-1" pero sin
+   anillo — el foco es producto de una navegación intencional ya
+   comunicada (skip-link, enlace del resumen de errores) y el
+   destino no es un control operable. */
+[tabindex="-1"]:focus-visible {
+  outline: none;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   2. CONTEXTOS SOBRE SUPERFICIE OSCURA
+   El anillo pátina (8.1:1 sobre papel) desaparecería sobre los
+   rellenos oscuros del sitio. Cada contexto redeclara la variable
+   — la regla §1 no se duplica jamás.
+     .footer     --color-surface-inverse   anillo 13.2:1
+     .cta-final  --color-accent            anillo  8.6:1
+     .hero       scrim sobre fotografía    anillo 16.5:1 (peor
+                 caso --patina-950 opaco; la foto real solo puede
+                 aclarar el fondo y el blanco ya domina)
+   ───────────────────────────────────────────────────────────── */
+
+.footer,
+.cta-final,
+.hero {
+  --focus-ring-color: var(--focus-ring-color-inverse);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   3. CONTROLES DE FORMULARIO — foco por puntero
+   El anillo global cubre el foco por teclado. Para el foco por
+   puntero (sin anillo, por diseño) el campo activo necesita una
+   señal propia: el borde pasa a acento. Antes forms.css suprimía
+   el outline y engrosaba el borde a 2 px (con compensación de
+   padding); ese patrón quedó retirado — el anillo es del sistema
+   y el borde solo cambia de color.
+   ───────────────────────────────────────────────────────────── */
+
+.form__input:focus {
+  border-color: var(--color-accent);
+}
+
+/* Un campo inválido conserva el borde en --color-negative también
+   con foco, para no diluir la señal de error mientras se corrige. */
+.form__input[aria-invalid="true"]:focus,
+.form__input:user-invalid:focus {
+  border-color: var(--color-negative);
+}

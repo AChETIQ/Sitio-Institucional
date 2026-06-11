@@ -355,6 +355,10 @@
   align-items: center;
   gap: var(--space-1);
   padding: var(--space-px-2) var(--space-2);
+  /* Objetivo táctil WCAG 2.5.8: el padding de pill compacta deja
+     la caja en ≈ 22 px; el mínimo garantizado sube a 24 px sin
+     alterar la métrica de la fila (la celda ya es más alta). */
+  min-height: var(--space-6);
   font-family: var(--font-body);
   font-size: var(--text-eyebrow-sm);
   font-weight: var(--weight-medium);
