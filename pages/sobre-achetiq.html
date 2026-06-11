@@ -17,8 +17,17 @@
   <link rel="preload" href="../assets/fonts/geist-400-600.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../assets/fonts/instrument-serif-400.woff2" as="font" type="font/woff2" crossorigin fetchpriority="high">
 
-  <link rel="stylesheet" href="../tokens.css">
-  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="stylesheet" href="../assets/css/main.bundle.css">
+
+  <!-- Precarga del camino crítico de fetch (S6): navbar.js pide partial +
+       config recién en DOMContentLoaded; precargarlos arranca esas descargas
+       junto con el HTML y el chrome aparece antes (crossorigin = mismo modo
+       de credenciales que fetch(..., credentials: 'same-origin')). Se suman
+       los JSON de datos que la página consume sobre el primer viewport. -->
+  <link rel="preload" href="../partials/navbar.html" as="fetch" crossorigin>
+  <link rel="preload" href="../data/navbar.json" as="fetch" crossorigin>
+  <link rel="preload" href="../data/site_copy.json" as="fetch" crossorigin>
+  <link rel="preload" href="../data/historia.json" as="fetch" crossorigin>
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="AChETIQ">
@@ -529,9 +538,9 @@
     <p class="loader__message">Cargando…</p>
   </div>
 
-  <script src="../assets/js/loader.js"></script>
-  <script src="../assets/js/navbar.js"></script>
-  <script src="../assets/js/footer.js"></script>
+  <script src="../assets/js/loader.js" defer></script>
+  <script src="../assets/js/navbar.js" defer></script>
+  <script src="../assets/js/footer.js" defer></script>
   <script type="module" src="../assets/js/sobre-achetiq.js"></script>
   <script type="module" src="../assets/js/main.js"></script>
 

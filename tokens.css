@@ -374,20 +374,29 @@
      font-display: swap — ver @font-face en main.css §1).
      ───────────────────────────────────────────────────────────── */
 
-  --font-display: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+  --font-display: 'Instrument Serif', 'Instrument Serif Fallback', Georgia, 'Times New Roman', serif;
   /* Voz editorial de la marca: H1, H2, valores KPI, wordmark.
      Familia de un solo peso (400) por diseño; el énfasis se
      construye con la itálica (h1 em / h2 em), nunca con bold. */
 
-  --font-body:    'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-body:    'Geist', 'Geist Fallback', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   /* Cuerpo, H3–H6, labels UI, botones, nav. Fuente VARIABLE
      400–600: los pesos medium y semibold son reales, no
      sintetizados por el navegador (defecto v1 corregido). */
 
-  --font-mono:    'Geist Mono', ui-monospace, 'Cascadia Mono', 'Courier New', monospace;
+  --font-mono:    'Geist Mono', 'Geist Mono Fallback', ui-monospace, 'Cascadia Mono', 'Courier New', monospace;
   /* Eyebrows, etiquetas técnicas, metadatos, dígitos tabulares,
      código. Fuente VARIABLE 400–500 autoalojada (en v1 el token
-     existía sin archivo y degradaba a Courier New: corregido). */
+     existía sin archivo y degradaba a Courier New: corregido).
+
+     Las familias «… Fallback» (S6 — rendimiento) son alias locales
+     con métricas ajustadas (size-adjust / ascent-override /
+     descent-override / line-gap-override) definidos junto a los
+     @font-face en main.css §1: durante el font-display: swap el
+     texto se dibuja con la fuente del sistema OCUPANDO el mismo
+     espacio que la webfont, de modo que el swap no reacomoda el
+     layout (CLS ≈ 0). No alteran el render final: una vez resuelta
+     la webfont, el resultado es idéntico al de la v1. */
 
 
   /* ─── TIPOGRAFÍA — PESOS ─────────────────────────────────────

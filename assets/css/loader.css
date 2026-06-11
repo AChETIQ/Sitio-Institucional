@@ -124,3 +124,93 @@
   0%, 100% { opacity: 1;   }
   50%      { opacity: 0.3; }
 }
+
+
+/* ─────────────────────────────────────────────────────────────
+   RESERVA DE ESPACIO — chrome inyectado (S6 — rendimiento)
+   ─────────────────────────────────────────────────────────────
+   navbar.js y footer.js reemplazan sus placeholders recién al
+   resolver fetch(partial) + fetch(json): hasta entonces el
+   placeholder mide 0 px y la inyección desplaza TODO el documento
+   (CLS medido: el shift de main#main-content en cada página).
+
+   · Navbar: altura determinista (--navbar-height, navbar sticky en
+     flujo) → la reserva es exacta y el shift desaparece. El
+     fallback de error (.navbar-fallback) ocupa esa misma altura.
+   · Footer: se inserta al FINAL del documento, no desplaza nada
+     por encima (contribución CLS ≈ 0); se reserva un piso modesto
+     para que las páginas cortas mantengan estable la barra de
+     scroll. No se reserva la altura completa (variable según
+     viewport) para no abrir un hueco si el fetch falla y queda el
+     fallback compacto dentro del placeholder.
+   Al reemplazarse el placeholder, las reglas dejan de aplicar.
+   ───────────────────────────────────────────────────────────── */
+
+[data-loader="navbar"] {
+  min-height: var(--navbar-height);
+}
+
+[data-loader="footer"] {
+  min-height: var(--space-16);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   RESERVA DE ESPACIO — regiones de datos (S6 — rendimiento)
+   ─────────────────────────────────────────────────────────────
+   El loader inline (~40 px) se reemplaza por contenido mucho más
+   alto (la grilla de 41 materias supera los 3600 px en cualquier
+   viewport): todo lo que está debajo se desploma tras el primer
+   pintado (los shifts de sección medidos en apuntes/contacto).
+
+   Estrategia: PISOS de altura medidos sobre el contenido real
+   renderizado (siempre ≤ a la altura real en todo viewport, para
+   que al llegar el contenido nunca haya shift ASCENDENTE). El piso
+   rige desde el primer pintado —antes de que main.js marque
+   data-loader-state— y empuja el contenido siguiente fuera del
+   primer viewport: su desplazamiento posterior ya no puntúa CLS.
+
+   · @media (scripting: enabled): sin JS estas regiones quedan
+     vacías para siempre; la reserva abriría huecos en blanco. En
+     navegadores sin soporte del media query no hay reserva:
+     exactamente el comportamiento actual.
+   · Los estados terminales compactos (empty / error) liberan el
+     piso: un aviso de error no flota en una región gigante.
+
+   Alturas reales medidas (360 / 768 / 1280 / 1920 px de viewport):
+     recursos (apuntes)      12880 / 6915 / 4950 / 3670
+     redes (contacto)          689 /  362 /  194 /  194
+     gabinetes (hub)          1126 /  600 /  438 /  439
+     gabinetes (detalle)    56–245 px según campo y viewport
+   ───────────────────────────────────────────────────────────── */
+
+@media (scripting: enabled) {
+  /* Apuntes: la grilla de materias siempre supera un viewport. */
+  [data-loader="recursos"]:not([data-loader-state="empty"]):not([data-loader-state="error"]) {
+    min-height: 100vh;
+    min-height: 100svh;
+  }
+
+  /* Contacto: tarjetas de canales. Piso por tramo (la grilla
+     colapsa de 2 columnas a 1 en contenedores angostos). */
+  [data-loader="redes"]:not([data-loader-state="empty"]):not([data-loader-state="error"]) {
+    min-height: 340px;
+  }
+
+  /* Hub de gabinetes: 8 tarjetas; mínimo global medido 438 px. */
+  [data-loader="gabinetes"]:not([data-gabinete-field]):not([data-loader-state="empty"]):not([data-loader-state="error"]) {
+    min-height: 420px;
+  }
+
+  /* Detalle de gabinete: regiones de prosa cortas; piso = mínimo
+     medido entre campos y viewports (56 px → token inferior). */
+  [data-loader="gabinetes"][data-gabinete-field]:not([data-loader-state="empty"]):not([data-loader-state="error"]) {
+    min-height: var(--space-12);
+  }
+}
+
+@media (scripting: enabled) and (min-width: 1024px) {
+  [data-loader="redes"]:not([data-loader-state="empty"]):not([data-loader-state="error"]) {
+    min-height: 180px;
+  }
+}
