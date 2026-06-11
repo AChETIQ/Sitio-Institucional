@@ -28,7 +28,7 @@
 
 .navbar {
   --navbar-bg-alpha: color-mix(in srgb, var(--color-surface) 92%, transparent);
-  --navbar-easing: cubic-bezier(0.22, 1, 0.36, 1);
+  --navbar-easing: var(--ease-out);
   --navbar-close-delay: 150ms;
 }
 
@@ -422,7 +422,7 @@
   z-index: calc(var(--z-modal) + 1);
   overflow-y: auto;
   transform: translateX(-100%);
-  transition: transform 240ms var(--navbar-easing);
+  transition: transform 220ms var(--navbar-easing);
 }
 
 @supports not ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {

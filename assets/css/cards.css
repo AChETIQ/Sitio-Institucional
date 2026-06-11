@@ -24,8 +24,8 @@
 .card-gabinete {
   padding: var(--card-pad-lg);
   transition: border-color var(--transition-fast),
-              transform var(--transition-fast),
-              box-shadow var(--transition-fast);
+              transform 150ms var(--ease-out),
+              box-shadow 150ms var(--ease-out);
 }
 
 /* Tarjeta interactiva (contiene su enlace de apertura): hover con
@@ -390,8 +390,8 @@
   text-align: center;
   gap: var(--space-4);
   transition: border-color var(--transition-fast),
-              transform var(--transition-fast),
-              box-shadow var(--transition-fast);
+              transform 150ms var(--ease-out),
+              box-shadow 150ms var(--ease-out);
 }
 
 /* Tarjeta con enlace externo propio: hover con elevación S2. */
@@ -443,8 +443,8 @@
   text-decoration: none;
   color: var(--color-text);
   transition: border-color var(--transition-fast),
-              transform var(--transition-fast),
-              box-shadow var(--transition-fast);
+              transform 150ms var(--ease-out),
+              box-shadow 150ms var(--ease-out);
   padding: 0;
 }
 
@@ -586,8 +586,8 @@
   color: var(--color-text);
   transition: border-color var(--transition-fast),
               color var(--transition-fast),
-              transform var(--transition-fast),
-              box-shadow var(--transition-fast);
+              transform 150ms var(--ease-out),
+              box-shadow 150ms var(--ease-out);
 }
 
 /* Sólo la variante activa (<a>) es interactiva: hover con

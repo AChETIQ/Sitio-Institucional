@@ -776,6 +776,10 @@
   --transition-slow:   400ms ease;
   /* Animaciones de entrada de secciones. */
 
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Curva de salida desacelerada para movimiento basado en
+     transform (paneles, lifts de tarjetas, dropdowns). */
+
   --transition-hero:   1000ms ease;
   /* Cross-fade (desvanecido) entre imágenes del slideshow del hero.
      Dentro del rango 0.8–1 s para una transición suave y notoria. */
