@@ -3434,6 +3434,12 @@ font-weight: var(--weight-medium);
 line-height: var(--leading-normal);
 color: var(--color-text);
 }
+p,
+li,
+figcaption,
+dd {
+text-wrap: pretty;
+}
 code,
 kbd,
 samp,
