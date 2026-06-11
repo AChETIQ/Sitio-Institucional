@@ -355,3 +355,488 @@
 .gabinetes-feature__more {
   margin-top: var(--space-8);
 }
+
+
+/* ═════════════════════════════════════════════════════════════
+   REDISEÑO «SOBRE AChETIQ» (página pages/sobre-achetiq.html)
+   ─────────────────────────────────────────────────────────────
+   Tres secciones rediseñadas que esta hoja, enlazada DESPUÉS del
+   bundle en el <head> de la página, refina sobre los componentes
+   base del sistema (.timeline en lists.css, .mission-vision en
+   headers.css, .card--valor en cards.css). Al compartir nombres
+   BEM y cargar después, estas reglas ganan por orden de cascada
+   sin tocar el bundle ni reconstruirlo.
+
+   Mapeo de la paleta del handoff («Océano & Areia») a los tokens
+   reales del repo («Pátina & Cobre»):
+     primary → --color-accent · primary-mid → --color-accent-soft
+     ink → --color-text · ink-soft → --color-text-soft
+     bg-panel → --color-surface-raised · rule → --color-border
+     rule-soft → --color-border-soft · disabled → --color-text-disabled
+   Velos y halos translúcidos se derivan con color-mix() sobre esos
+   tokens (misma técnica que headers.css / esta hoja arriba), nunca
+   con rgba() literal.
+   ═════════════════════════════════════════════════════════════ */
+
+
+/* ─────────────────────────────────────────────────────────────
+   C.  NUESTRA HISTORIA — timeline ramificado (.timeline)
+   ─────────────────────────────────────────────────────────────
+   Árbol de tubos en --color-accent: un tronco central del que
+   brotan ramas tubulares alternadas (izq/der), cada una rematada
+   en un nodo-aro (aro grueso + interior papel) que sostiene el
+   año. Tronco y ramas se «dibujan» al hacer scroll; bajo
+   prefers-reduced-motion el estado final se ve sin animar.
+
+   Geometría parametrizada en custom properties locales (--tl-*):
+   para reescalar el árbol se tocan sólo estas variables.
+   Nota: --tl-node ≈ 0.552 × --tl-band para que el tubo llegue
+   justo al borde superior del aro (centro del nodo en 71.5%).
+   ───────────────────────────────────────────────────────────── */
+
+.timeline {
+  --tl-tube: 10px;     /* grosor del tronco · ramas · aro            */
+  --tl-node: 116px;    /* diámetro exterior del nodo (aro incluido)  */
+  --tl-arm:  210px;    /* ancho de la banda de cada rama             */
+  --tl-band: 210px;    /* alto de la banda de cada rama              */
+  --tl-gap:  32px;     /* aire entre nodo y contenido                */
+  --tl-pull: 48px;     /* solape vertical entre bandas (zig-zag)     */
+
+  position: relative;
+  list-style: none;
+  margin: 0;
+  /* Anula el carril simple del componente base (lists.css §5.5). */
+  padding: 0;
+}
+
+/* Neutraliza la línea vertical de 1 px del timeline base. */
+.timeline::before {
+  display: none;
+}
+
+/* Raíz del tronco: tubo grueso que «nace» bajo el título de
+   sección y empalma con el eje. Es un hermano previo al <ol>. */
+.timeline-root {
+  position: relative;
+  height: 56px;
+  margin-top: var(--space-2);
+}
+
+.timeline-root::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 10px;                          /* = --tl-tube del eje */
+  transform: translateX(-50%);
+  background: var(--color-accent);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+/* Tronco central: pista atenuada + relleno que JS «dibuja». */
+.timeline__axis {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: var(--tl-tube);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.timeline__axis-track {
+  position: absolute;
+  inset: 0;
+  background: var(--color-border);
+  border-radius: var(--radius-pill);
+}
+
+.timeline__axis-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 0;                            /* JS escribe la altura */
+  background: var(--color-accent);
+  border-radius: var(--radius-pill);
+}
+
+/* ── Entrada / hito ──────────────────────────────────────────
+   Reemplaza el grid de dos columnas del timeline base por una
+   banda flex de media página que alterna lado. */
+.timeline__entry {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  width: 50%;
+  min-height: var(--tl-band);
+  /* solape → zig-zag denso */
+  margin: 0 0 calc(-1 * var(--tl-pull));
+  gap: 0;
+}
+
+.timeline__entry:last-child {
+  margin-bottom: 0;
+}
+
+.timeline__entry--right {
+  margin-left: 50%;
+  flex-direction: row;
+  text-align: left;
+}
+
+.timeline__entry--left {
+  margin-left: 0;
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+/* ── Rama (tubo + nodo) ──────────────────────────────────────
+   La rama izquierda se refleja en X para que el tubo brote hacia
+   el mismo lado que su columna (el texto se des-refleja aparte). */
+.timeline__branch {
+  position: relative;
+  flex: 0 0 var(--tl-arm);
+  width: var(--tl-arm);
+  height: var(--tl-band);
+}
+
+.timeline__entry--left .timeline__branch {
+  transform: scaleX(-1);
+}
+
+.timeline__arm {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.timeline__arm path {
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: var(--tl-tube);
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  transition: stroke var(--transition-normal);
+}
+
+/* Soldadura tubo ↔ tronco (enmascara la unión). */
+.timeline__junction {
+  position: absolute;
+  left: 0;
+  top: 89.5%;
+  width: var(--tl-tube);
+  height: var(--tl-tube);
+  border-radius: 50%;
+  background: var(--color-accent);
+  transform: translate(-50%, -50%);
+}
+
+/* Nodo = aro grueso + interior papel, centrado al final del tubo.
+   Redefine por completo el marker circular pequeño del base. */
+.timeline__marker {
+  position: absolute;
+  left: 71.5%;
+  top: 71.5%;
+  margin-left: calc(var(--tl-node) / -2);
+  margin-top: calc(var(--tl-node) / -2);
+  width: var(--tl-node);
+  height: var(--tl-node);
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--color-surface-raised);
+  border: var(--tl-tube) solid var(--color-accent);
+  box-shadow:
+    inset 0 0 0 1.5px var(--color-border-soft),
+    0 6px 18px -8px color-mix(in srgb, var(--color-accent) 35%, transparent);
+  z-index: var(--z-raised);
+  transition: box-shadow var(--transition-normal),
+              border-color var(--transition-fast),
+              transform var(--transition-normal);
+}
+
+/* Año: mono en acento, centrado en el aro. */
+.timeline__year {
+  font-family: var(--font-mono);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-wide);
+  line-height: 1;
+  color: var(--color-accent);
+  transition: color var(--transition-fast);
+}
+
+/* Des-refleja el texto del año en ramas izquierdas. */
+.timeline__entry--left .timeline__year {
+  transform: scaleX(-1);
+}
+
+/* ── Contenido (título + descripción), afuera del aro ───────── */
+.timeline__content {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: block;
+  /* alinea con el centro vertical del nodo */
+  padding-top: calc(var(--tl-band) * 0.5);
+  gap: 0;
+}
+
+.timeline__entry--right .timeline__content {
+  padding-left: var(--tl-gap);
+}
+
+.timeline__entry--left .timeline__content {
+  padding-right: var(--tl-gap);
+}
+
+.timeline__title {
+  font-family: var(--font-body);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-snug);
+  color: var(--color-text);
+  margin: 0 0 var(--space-2);
+  text-wrap: balance;
+  transition: color var(--transition-fast);
+}
+
+.timeline__desc {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-soft);
+  margin: 0;
+  max-width: var(--measure-narrow);
+}
+
+.timeline__entry--left .timeline__desc {
+  margin-left: auto;
+}
+
+/* ── Hover: la rama «respira» en el acento de apoyo ─────────── */
+@media (hover: hover) {
+  .timeline__entry:not(.timeline__entry--ghost):hover .timeline__marker {
+    border-color: var(--color-accent-soft);
+    box-shadow:
+      inset 0 0 0 1.5px var(--color-border-soft),
+      0 0 0 8px color-mix(in srgb, var(--color-accent-soft) 12%, transparent),
+      0 10px 24px -10px color-mix(in srgb, var(--color-accent) 40%, transparent);
+    transform: translateY(-3px);
+  }
+  .timeline__entry:not(.timeline__entry--ghost):hover .timeline__year {
+    color: var(--color-accent-soft);
+  }
+  .timeline__entry:not(.timeline__entry--ghost):hover .timeline__arm path {
+    stroke: var(--color-accent-soft);
+  }
+  .timeline__entry:not(.timeline__entry--ghost):hover .timeline__title {
+    color: var(--color-accent);
+  }
+}
+
+/* ── Rama activa: el nodo más cercano al centro del viewport ── */
+.timeline__entry.is-active .timeline__marker {
+  border-color: var(--color-accent-soft);
+  box-shadow:
+    inset 0 0 0 1.5px var(--color-border-soft),
+    0 0 0 9px color-mix(in srgb, var(--color-accent-soft) 14%, transparent),
+    0 10px 24px -10px color-mix(in srgb, var(--color-accent) 40%, transparent);
+}
+.timeline__entry.is-active .timeline__year {
+  color: var(--color-accent-soft);
+}
+.timeline__entry.is-active .timeline__arm path {
+  stroke: var(--color-accent-soft);
+}
+
+/* ── Entrada ghost — «Próximamente»: tubo punteado atenuado ─── */
+.timeline__entry--ghost .timeline__arm path {
+  stroke: var(--color-border);
+  stroke-width: calc(var(--tl-tube) - 4px);
+  stroke-dasharray: 2 12 !important;
+  stroke-dashoffset: 0 !important;
+}
+.timeline__entry--ghost .timeline__junction {
+  background: var(--color-border);
+}
+.timeline__entry--ghost .timeline__marker {
+  border-width: 3px;
+  border-style: dashed;
+  border-color: var(--color-border);
+  background: transparent;
+  box-shadow: none;
+}
+.timeline__ghost-glyph {
+  display: flex;
+  gap: 5px;
+}
+.timeline__ghost-glyph span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-border);
+}
+.timeline__entry--ghost .timeline__title {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: var(--weight-regular);
+  font-size: var(--text-kpi);
+  color: var(--color-text-disabled);
+}
+.timeline__entry--ghost .timeline__desc {
+  color: var(--color-text-disabled);
+  /* La itálica queda reservada al título ghost (display); anula la
+     itálica que el timeline base aplica a la descripción ghost. */
+  font-style: normal;
+}
+
+/* ── Animación de entrada (sólo sin reduce-motion) ───────────
+   Estado base = visible: sin JS o con reduce-motion todo se ve,
+   nada se mueve. El hook .timeline--anim lo añade el JS sólo
+   cuando va a animar. */
+@media (prefers-reduced-motion: no-preference) {
+  .timeline--anim .timeline__entry {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  .timeline--anim .timeline__entry.is-visible {
+    opacity: 1;
+    transform: none;
+    transition: opacity .55s ease,
+                transform .55s cubic-bezier(.22, .61, .36, 1);
+  }
+  /* La rama se «dibuja»: dashoffset → 0 (la longitud la fija JS). */
+  .timeline--anim .timeline__arm path {
+    transition: stroke-dashoffset .9s cubic-bezier(.33, 1, .68, 1),
+                stroke var(--transition-normal);
+  }
+  /* El nodo aterriza con un leve rebote, ya crecida la rama. */
+  .timeline--anim .timeline__marker {
+    transform: scale(.55);
+    opacity: 0;
+  }
+  .timeline--anim .timeline__entry.is-visible .timeline__marker {
+    transform: scale(1);
+    opacity: 1;
+    transition: transform .6s cubic-bezier(.34, 1.56, .64, 1) .4s,
+                opacity .4s ease .4s,
+                box-shadow var(--transition-normal),
+                border-color var(--transition-fast);
+  }
+  .timeline--anim .timeline__junction {
+    transform: translate(-50%, -50%) scale(0);
+  }
+  .timeline--anim .timeline__entry.is-visible .timeline__junction {
+    transform: translate(-50%, -50%) scale(1);
+    transition: transform .4s ease .1s;
+  }
+}
+
+/* ── Responsive < 880px: columna única (tronco izq., nodos der.) ── */
+@media (max-width: 880px) {
+  .timeline {
+    --tl-node: 78px;
+    --tl-arm:  120px;
+    --tl-band: 120px;
+    --tl-gap:  20px;
+    --tl-pull: 24px;
+    padding-left: 4px;
+  }
+  .timeline__axis {
+    left: 32px;
+  }
+  .timeline-root {
+    margin-top: var(--space-5);
+  }
+  .timeline-root::before {
+    left: 32px;
+  }
+  .timeline__entry,
+  .timeline__entry--left,
+  .timeline__entry--right {
+    width: 100%;
+    margin-left: 32px;
+    flex-direction: row;
+    text-align: left;
+  }
+  .timeline__entry--left .timeline__branch {
+    transform: none;
+  }
+  .timeline__entry--left .timeline__year {
+    transform: none;
+  }
+  .timeline__entry--left .timeline__content {
+    padding-right: 0;
+    padding-left: var(--tl-gap);
+  }
+  .timeline__entry--left .timeline__desc {
+    margin-left: 0;
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   D.  MISIÓN & VISIÓN — variante con título serif + ícono en placa
+   ─────────────────────────────────────────────────────────────
+   Refina el bloque base (.mission-vision, headers.css §2.4): la
+   columna conserva su fondo papel, borde lateral de acento y
+   radio, pero el eyebrow mono se sustituye por la jerarquía del
+   PNG objetivo — un ícono en placa suave sobre un título en
+   Instrument Serif. El JS (sobre-achetiq.js) emite la nueva
+   estructura .mission-vision__icon-box + .mission-vision__title.
+   ───────────────────────────────────────────────────────────── */
+
+/* Placa suave del ícono: cuadro con tinte de acento muy diluido
+   sobre el papel de la columna. */
+.mission-vision__icon-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-10);               /* 40 px */
+  height: var(--space-10);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--color-accent) 9%, transparent);
+  color: var(--color-accent);
+  margin-bottom: var(--space-1);
+}
+
+.mission-vision__icon-box svg {
+  width: var(--space-5);                /* 20 px */
+  height: var(--space-5);
+}
+
+/* Título institucional en voz editorial (display serif). */
+.mission-vision__title {
+  font-family: var(--font-display);
+  font-size: var(--text-kpi);           /* ≈ 28–33 px serif */
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   E.  VALORES INSTITUCIONALES — hover de marca en .card--valor
+   ─────────────────────────────────────────────────────────────
+   El panel de valor es plano en reposo (cards.css §4.7). El
+   rediseño añade el patrón de hover de la marca SÓLO en esta
+   página: el borde se intensifica a --color-accent, sin sombra
+   (las tarjetas de contenido no proyectan sombra). El override
+   queda acotado a la hoja de página para no alterar el contrato
+   de elevación global del componente.
+   ───────────────────────────────────────────────────────────── */
+
+.card--valor {
+  transition: border-color var(--transition-fast);
+}
+
+@media (hover: hover) {
+  .card--valor:hover {
+    border-color: var(--color-accent);
+  }
+}
