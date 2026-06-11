@@ -680,6 +680,10 @@
   /* Gap estándar de grids de tarjetas (fluido 12 → 20 px). */
   --section-gap: clamp(48px, 32.57px + 4.29vw, 96px);
   /* Separación entre secciones de página (fluido 48 → 96 px). */
+  --section-pad-y: clamp(48px, 42.86px + 1.43vw, 64px);
+  /* Respiración vertical estándar de sección (fluido 48 → 64 px). */
+  --section-pad-y-lg: clamp(64px, 53.71px + 2.86vw, 96px);
+  /* Respiración vertical amplia, nivel hero (fluido 64 → 96 px). */
 
   --breakpoint-seguimiento: 1024px;
   /* Breakpoint funcional de la herramienta Seguimiento de Carrera

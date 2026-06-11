@@ -41,10 +41,11 @@
   justify-content: flex-start;
   text-align: center;
   min-height: calc(100svh - var(--navbar-height));
-  /* Respiración vertical fluida (S3): 64 → 96 px entre 360 y
-     1480 px de viewport (absorbe el escalón @media de 1024). El
-     padding lateral hereda el token fluido de página. */
-  padding: clamp(64px, 53.71px + 2.86vw, 96px) var(--page-padding-x);
+  /* Respiración vertical fluida (S3): token amplio nivel hero
+     (64 → 96 px entre 360 y 1480 px de viewport; absorbe el
+     escalón @media de 1024). El padding lateral hereda el token
+     fluido de página. */
+  padding: var(--section-pad-y-lg) var(--page-padding-x);
   overflow: hidden;
   background: var(--color-surface-inverse);   /* base visible mientras carga la 1.ª imagen */
 }
