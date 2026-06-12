@@ -21,27 +21,46 @@
   /* Directorio de imágenes, relativo a index.html. */
   var HERO_BASE = 'assets/img/hero/';
 
-  /* Orden cronológico EXACTO — derivados WebP 1920px generados a
-     partir de los originales de assets/img/hero/ (S6 — rendimiento:
+  /* Orden cronológico EXACTO — bases de los derivados WebP generados
+     a partir de los originales de assets/img/hero/ (S6 — rendimiento:
      los JPG originales, 0,5–3,7 MB c/u, quedan fuera del peso de
-     página). El primer cuadro está precargado desde el <head> de
-     index.html con fetchpriority="high" (es el elemento LCP): si se
-     cambia aquí, actualizar también ese <link rel="preload">. */
+     página). Cada base existe en 800 / 1280 / 1920 px de ancho
+     (sufijo «-<ancho>.webp»). El primer cuadro está precargado desde
+     el <head> de index.html con fetchpriority="high" (es el elemento
+     LCP): si se cambia el orden o los anchos aquí, actualizar también
+     ese <link rel="preload"> (imagesrcset/imagesizes). */
   var HERO_IMAGES = [
-    '2014-1920.webp',
-    '2015-2-1920.webp',
-    '2018-1920.webp',
-    '2020-1920.webp',
-    '2024-1920.webp'
+    '2014',
+    '2015-2',
+    '2018',
+    '2020',
+    '2024'
   ];
 
   var HOLD_MS = 5000;   /* tiempo visible por imagen */
 
+  /* Variante responsive (S7): se elige UNA vez al iniciar, según el
+     viewport — 800w hasta 768 px, 1280w hasta 1280 px, 1920w el
+     resto. Debe coincidir con el imagesizes del <link rel="preload">
+     de index.html para que el cuadro precargado sea exactamente el
+     que se usa (sin doble descarga). No se re-evalúa en resize: un
+     cambio de variante a mitad de rotación re-descargaría cuadros ya
+     vistos sin beneficio visual (background-size: cover absorbe la
+     diferencia). */
+  var HERO_WIDTH = (function () {
+    if (window.matchMedia) {
+      if (window.matchMedia('(max-width: 768px)').matches) return '800';
+      if (window.matchMedia('(max-width: 1280px)').matches) return '1280';
+    }
+    return '1920';
+  })();
+
   var stage = document.querySelector('[data-hero-slideshow]');
   if (!stage || HERO_IMAGES.length === 0) return;
 
-  function setBackground(slide, file) {
-    slide.style.backgroundImage = "url('" + HERO_BASE + file + "')";
+  function setBackground(slide, base) {
+    slide.style.backgroundImage =
+      "url('" + HERO_BASE + base + '-' + HERO_WIDTH + ".webp')";
   }
 
   /* Construir las capas en orden e inyectarlas en el contenedor.
@@ -51,11 +70,11 @@
      i+1 se pide al mostrarse el cuadro i, con HOLD_MS (5 s) de
      margen de descarga. Así el primer render no compite por ancho
      de banda y solo se descarga lo que se llega a ver. */
-  var slides = HERO_IMAGES.map(function (file, i) {
+  var slides = HERO_IMAGES.map(function (base, i) {
     var slide = document.createElement('div');
     slide.className = 'hero__slide';
     if (i === 0) {
-      setBackground(slide, file);
+      setBackground(slide, base);
       slide.classList.add('hero__slide--active');
     }
     stage.appendChild(slide);
