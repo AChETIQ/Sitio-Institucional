@@ -322,12 +322,12 @@ letter-spacing: 0.02em;
 border-radius: var(--radius-md);
 padding: var(--space-2) var(--space-5);
 cursor: pointer;
-transition: opacity var(--transition-fast);
+transition: opacity var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
 border: none;
 text-decoration: none;
 }
-.btn:hover  { opacity: 0.88; }
-.btn:active { opacity: 0.75; }
+.btn:hover  { opacity: 0.92; transform: translateY(-1px); box-shadow: var(--shadow-xs); }
+.btn:active { opacity: 0.85; transform: translateY(0); box-shadow: none; }
 .btn-primary {
 background: var(--color-cta);
 color: var(--color-on-cta);
