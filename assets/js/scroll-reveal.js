@@ -23,7 +23,7 @@
    Mejora progresiva: el estado por defecto en CSS es REVELADO
    (sin clip, opacidad 1). Este script añade la clase
    .scroll-reveal--armed (estado inicial oculto, definida en
-   assets/css/sobre-asociacion.css) SÓLO cuando va a animar, y a
+   assets/css/states.css §10.3) SÓLO cuando va a animar, y a
    partir de ahí escribe clip-path/opacity inline. Así, sin JS, si
    el script falla, o bajo movimiento reducido, la imagen siempre
    se ve completa (nunca queda oculta). Como la sección vive bajo
