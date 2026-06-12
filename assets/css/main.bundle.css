@@ -2472,6 +2472,21 @@ border-radius: var(--radius-sm);
 background: var(--color-accent-soft);
 color: var(--color-on-accent);
 }
+.tag--positive {
+background: color-mix(in oklab, var(--color-positive) 8%, var(--color-surface-raised));
+color: var(--color-positive);
+border: 1px solid color-mix(in oklab, var(--color-positive) 25%, var(--color-border));
+}
+.tag--negative {
+background: color-mix(in oklab, var(--color-negative) 8%, var(--color-surface-raised));
+color: var(--color-negative);
+border: 1px solid color-mix(in oklab, var(--color-negative) 25%, var(--color-border));
+}
+.tag--warning {
+background: color-mix(in oklab, var(--color-warning) 8%, var(--color-surface-raised));
+color: var(--color-warning);
+border: 1px solid color-mix(in oklab, var(--color-warning) 25%, var(--color-border));
+}
 .skeleton {
 background: var(--color-border-soft);
 border-radius: var(--radius-md);
