@@ -328,6 +328,24 @@ text-decoration: none;
 }
 .btn:hover  { opacity: 0.92; transform: translateY(-1px); box-shadow: var(--shadow-xs); }
 .btn:active { opacity: 0.85; transform: translateY(0); box-shadow: none; }
+.btn:disabled,
+.btn[aria-disabled="true"] {
+background: var(--color-border-soft);
+color: var(--color-text-disabled);
+border-color: transparent;
+cursor: not-allowed;
+opacity: 1;
+transform: none;
+box-shadow: none;
+}
+.btn:disabled:hover,
+.btn:disabled:active,
+.btn[aria-disabled="true"]:hover,
+.btn[aria-disabled="true"]:active {
+opacity: 1;
+transform: none;
+box-shadow: none;
+}
 .btn-primary {
 background: var(--color-cta);
 color: var(--color-on-cta);
