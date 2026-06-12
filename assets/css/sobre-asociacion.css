@@ -144,8 +144,9 @@
    controlado por assets/js/scroll-reveal.js.
 
    Estado por defecto = REVELADO. El estado inicial oculto lo
-   aporta .scroll-reveal--armed, que el JS añade SÓLO si va a
-   animar (no bajo prefers-reduced-motion, no sin JS).
+   aporta .scroll-reveal--armed (states.css §10.3, hoja del
+   bundle), que el JS añade SÓLO si va a animar (no bajo
+   prefers-reduced-motion, no sin JS).
    ───────────────────────────────────────────────────────────── */
 
 .about-intro__figure {
@@ -205,13 +206,9 @@
   );
 }
 
-/* Estado inicial «armado» (lo añade scroll-reveal.js). */
-.scroll-reveal--armed {
-  clip-path: inset(0 100% 0 0);
-  -webkit-clip-path: inset(0 100% 0 0);
-  opacity: 0;
-  will-change: clip-path, opacity;
-}
+/* Estado «armado» del scroll-reveal: movido a states.css §10.3
+   (hoja compartida del bundle) al extender el efecto a páginas
+   que no cargan esta hoja por-página. */
 
 
 /* ─────────────────────────────────────────────────────────────

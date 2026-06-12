@@ -179,3 +179,23 @@
   0%, 100% { opacity: 0.6; }
   50%      { opacity: 1;   }
 }
+
+
+/* ─────────────────────────────────────────────────────────────
+   10.3  SCROLL-REVEAL — .scroll-reveal--armed
+   ─────────────────────────────────────────────────────────────
+   Estado inicial «armado» del revelado por scroll. Lo añade
+   assets/js/scroll-reveal.js a los [data-scroll-reveal] SÓLO
+   cuando va a animar (nunca bajo prefers-reduced-motion ni sin
+   JS): el estado por defecto es REVELADO — mejora progresiva.
+   Vive aquí (hoja compartida del bundle) porque el efecto se usa
+   en varias páginas (index, gabinetes, recursos, contacto);
+   antes residía en sobre-asociacion.css, hoja por-página.
+   ───────────────────────────────────────────────────────────── */
+
+.scroll-reveal--armed {
+  clip-path: inset(0 100% 0 0);
+  -webkit-clip-path: inset(0 100% 0 0);
+  opacity: 0;
+  will-change: clip-path, opacity;
+}
