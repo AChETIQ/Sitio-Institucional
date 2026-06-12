@@ -112,6 +112,30 @@
   color: var(--color-on-accent);
 }
 
+/* Variantes semánticas: misma receta de tinte suave que
+   .loader-error y .form__status (fondo al 8 % sobre superficie
+   elevada, borde al 25 % sobre --color-border). Las tres tintas
+   semánticas cumplen WCAG AA sobre la superficie elevada
+   (según tokens.css: positive 7.2:1 · negative 7.9:1 ·
+   warning 5.7:1). */
+.tag--positive {
+  background: color-mix(in oklab, var(--color-positive) 8%, var(--color-surface-raised));
+  color: var(--color-positive);
+  border: 1px solid color-mix(in oklab, var(--color-positive) 25%, var(--color-border));
+}
+
+.tag--negative {
+  background: color-mix(in oklab, var(--color-negative) 8%, var(--color-surface-raised));
+  color: var(--color-negative);
+  border: 1px solid color-mix(in oklab, var(--color-negative) 25%, var(--color-border));
+}
+
+.tag--warning {
+  background: color-mix(in oklab, var(--color-warning) 8%, var(--color-surface-raised));
+  color: var(--color-warning);
+  border: 1px solid color-mix(in oklab, var(--color-warning) 25%, var(--color-border));
+}
+
 
 /* ─────────────────────────────────────────────────────────────
    10.2  SKELETON LOADER — .skeleton
