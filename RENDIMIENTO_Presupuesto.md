@@ -1,7 +1,7 @@
 # AChETIQ — Presupuesto de rendimiento (S6)
 
-Versión: 1.0 · Sesión 6 — Rendimiento y entrega de activos
-Fundamento: auditoría Lighthouse 13.4 (Chrome 138) del 2026-06-11.
+Versión: 1.1 · Sesión 6 — Rendimiento y entrega de activos · Revisión S7 (hero responsive)
+Fundamento: auditoría Lighthouse 13.4 (Chrome 138) del 2026-06-11; re-medición 2026-06-12 tras servir variantes responsive del slideshow del hero.
 
 Este documento fija el **presupuesto de rendimiento** del sitio: los umbrales
 que toda página debe cumplir, las condiciones de medición que los hacen
@@ -29,14 +29,18 @@ Notas:
 - El CSS fuente (tokens.css + 18 hojas modulares) pesa ~200 KB con su
   documentación; el bundle generado queda en ~82 KB planos / **~14 KB gzip**.
 
-## 2. Estado actual (2026-06-11, después de S6)
+## 2. Estado actual (2026-06-12, después de S7 — hero responsive)
 
 | Página (mobile, gzip) | LCP | CLS | TBT | Transferencia |
 |---|---|---|---|---|
-| Inicio | 3,8 s ⚠ (excepción §4) | 0,000 | 0 ms | 441 KB |
-| Gabinete (eventos) | 2,3 s | 0,037 | 0 ms | 169 KB |
-| Apuntes | 2,1 s | 0,010 | 0 ms | 171 KB |
-| Contacto | 2,3 s | 0,000 | 0 ms | 172 KB |
+| Inicio | 2,8 s ⚠ (excepción §4) | 0,000 | 0 ms | 296 KB |
+| Gabinete (eventos) | 2,4 s | 0,037 | 0 ms | 172 KB |
+| Apuntes | 2,1 s | 0,008 | 0 ms | 173 KB |
+| Contacto | 2,3 s | 0,001 | 0 ms | 176 KB |
+
+LCP de Inicio: mediana de 3 corridas (2,9 / 2,8 / 2,7 s). Era 3,8 s antes de
+S7: servir el primer cuadro del hero en 800 px (32 KB) en vez de 1920 px
+(115 KB) a viewports mobile recortó ~1 s de LCP y 145 KB de transferencia.
 
 CSS transferido por página: **≈ 14 KB** (main.bundle.css gzip) + hoja de
 página cuando existe (≤ 4 KB gzip). Cumple < 75 KB con amplio margen.
@@ -81,16 +85,22 @@ curl -s -H 'Accept-Encoding: gzip' -o /dev/null \
 
 ## 4. Excepciones documentadas
 
-**LCP de Inicio en mobile (3,8 s > 2,5 s).** El elemento LCP es la fotografía
-de fondo del hero a pantalla completa (primer cuadro del slideshow,
-`2014-1920.webp`, 115 KB). En 4G lento simulado, la foto compite con CSS y
-tipografías por 1,6 Mbit/s de ancho de banda; ninguna compresión razonable de
-una fotografía full-viewport la baja de ~2,5 s en esas condiciones sin
-degradar la calidad visual del hero (decisión de diseño de S1–S5 que esta
-sesión no modifica). Mitigaciones ya aplicadas: WebP 1920 px (de 947 KB JPG a
-115 KB), `<link rel="preload" fetchpriority="high">`, cuadros restantes
-diferidos. En desktop el LCP de Inicio es 0,8 s. Posible mejora futura (v2):
-variante responsive del primer cuadro (~1280 px) servida por media query.
+**LCP de Inicio en mobile (2,8 s > 2,5 s).** El elemento LCP es la fotografía
+de fondo del hero a pantalla completa (primer cuadro del slideshow). Era
+3,8 s sirviendo `2014-1920.webp` (115 KB) a todos los viewports; en S7 cada
+cuadro existe en 800/1280/1920 px y `hero-carrousel.js` elige la variante al
+iniciar (≤768 px → 800w, ≤1280 px → 1280w, resto 1920w), con el preload de
+`index.html` (`imagesrcset`/`imagesizes`) apuntando al mismo archivo para no
+duplicar la descarga. El primer cuadro mobile pesa ahora 32 KB y el LCP bajó
+a 2,8 s. El excedente restante (~0,3 s) ya no es peso de imagen: en 4G lento
+simulado lo dominan la ruta crítica (CSS + tipografías, FCP 1,5 s) y el
+retraso de render del cuadro, cuyo `background-image` recién se inyecta al
+ejecutarse el script diferido. Mitigaciones aplicadas: WebP responsive
+800/1280/1920 px, `<link rel="preload" fetchpriority="high">` con
+`imagesrcset`, cuadros restantes diferidos hasta `window.load`. En desktop el
+LCP de Inicio es 0,8 s (camino 1920w sin cambios). Posible mejora futura
+(v2): pintar el primer cuadro desde CSS (media queries) en vez de JS para
+eliminar el retraso de render del script diferido.
 
 **Las páginas interiores no tienen excepciones**: todo umbral aplica.
 
@@ -102,7 +112,9 @@ variante responsive del primer cuadro (~1280 px) servida por media query.
    volver a introducir `@import` encadenados en producción. Hoja nueva =
    `@import` en `main.css` §1 + `npm run build`.
 2. **Imágenes**: toda imagen nueva de contenido se exporta a WebP al tamaño
-   máximo de render real (hero: 1920 px). Los originales pueden quedar en el
+   máximo de render real (hero: 1920 px, más variantes 800/1280 px por cuadro
+   — ver §4; un cuadro nuevo del slideshow necesita las TRES anchuras con el
+   patrón `<base>-<ancho>.webp`). Los originales pueden quedar en el
    repo pero NO se referencian desde páginas. `<img>` siempre con
    `width`/`height` (o caja dimensionada por CSS), `loading="lazy"` +
    `decoding="async"` si está bajo el pliegue; `fetchpriority="high"` solo
