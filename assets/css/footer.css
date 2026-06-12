@@ -36,10 +36,20 @@
 
 .footer {
   --footer-ink:        var(--color-on-accent);
+  /* Fallbacks literales para navegadores sin color-mix(): cada
+     tinta se declara primero como rgba derivada de
+     --color-on-accent (= --arena-50 = #FAF7F3 → 250, 247, 243).
+     Si --color-on-accent cambia alguna vez, estos literales deben
+     re-derivarse a mano. */
+  --footer-ink-soft:   rgba(250, 247, 243, 0.78);
   --footer-ink-soft:   color-mix(in srgb, var(--color-on-accent) 78%, transparent);
+  --footer-ink-faint:  rgba(250, 247, 243, 0.60);
   --footer-ink-faint:  color-mix(in srgb, var(--color-on-accent) 60%, transparent);
+  --footer-rule:       rgba(250, 247, 243, 0.18);
   --footer-rule:       color-mix(in srgb, var(--color-on-accent) 18%, transparent);
+  --footer-rule-soft:  rgba(250, 247, 243, 0.10);
   --footer-rule-soft:  color-mix(in srgb, var(--color-on-accent) 10%, transparent);
+  --footer-bg-hover:   rgba(250, 247, 243, 0.10);
   --footer-bg-hover:   color-mix(in srgb, var(--color-on-accent) 10%, transparent);
 }
 
