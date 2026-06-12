@@ -131,6 +131,8 @@
      de color; el mensaje .form__error visible completa la señal. */
   border-width: 2px;
   padding: calc(var(--space-3) - 1px) calc(var(--space-4) - 1px);
+  /* Tinte negativo al 4%: misma receta que .form__error-summary (§ resumen). */
+  background: color-mix(in oklab, var(--color-negative) 4%, var(--color-surface-raised));
 }
 
 /* El borde inválido en foco lo mantiene focus.css §3 (rojo, para
