@@ -2267,6 +2267,7 @@ opacity: 1;
 border-color: var(--color-negative);
 border-width: 2px;
 padding: calc(var(--space-3) - 1px) calc(var(--space-4) - 1px);
+background: color-mix(in oklab, var(--color-negative) 4%, var(--color-surface-raised));
 }
 .form__input:disabled {
 color: var(--color-text-disabled);
