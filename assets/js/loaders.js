@@ -336,6 +336,10 @@ function buildMateriaCard(m) {
 
   const card = createElement('a', { class: 'card card-materia', attrs });
 
+  /* La cubierta es un <div> decorativo (sin <img> en v1.0): el CSS
+     ya reserva su alto con aspect-ratio 16/9 (cards.css §4.9), de
+     modo que no aporta CLS. Si a futuro lleva imagen, fijarle
+     width/height explícitos (p. ej. 1280×720). */
   card.appendChild(createElement('div', {
     class: 'card-materia__cover',
     attrs: { 'aria-hidden': 'true' }
@@ -381,11 +385,16 @@ function buildIntegranteCard(person) {
   const photoBox = createElement('div', { class: 'card-integrante__photo' });
   const fotoUrl = typeof person.foto === 'string' ? safeHref(person.foto) : null;
   if (fotoUrl) {
-    /* La caja .card-integrante__photo fija aspect-ratio 1/1 en CSS:
-       el layout queda reservado sin atributos width/height (la foto
-       del JSON no declara dimensiones intrínsecas). */
+    /* Contrato de aspecto 1:1 (retrato cuadrado, FASE_1 §4.3).
+       width/height explícitos reservan el espacio ANTES de cargar
+       la imagen (CLS < 0,1 — RENDIMIENTO_Presupuesto.md); el valor
+       exacto no importa: la caja .card-integrante__photo fija
+       aspect-ratio 1/1 y el img se estira con object-fit: cover. */
     photoBox.appendChild(createElement('img', {
-      attrs: { src: fotoUrl, alt: '', loading: 'lazy', decoding: 'async' }
+      attrs: {
+        src: fotoUrl, alt: '', width: '800', height: '800',
+        loading: 'lazy', decoding: 'async'
+      }
     }));
   } else {
     /* Placeholder con iniciales — spec §4.3, estado sin foto. */
@@ -686,8 +695,11 @@ function buildInstitucionCard(inst) {
     const src = safeHref(window.AChETIQBase.resolve(String(inst.logo)));
     if (src) {
       const alt = 'Logo ' + (inst.nombre_corto || inst.nombre || '');
-      /* Altura fijada por CSS (--logo-md); width:auto + object-fit
-         no dependen del tamaño intrínseco para reservar layout. */
+      /* Aspecto genuinamente desconocido (cada logo tiene proporción
+         propia), por lo que no se fijan width/height. Sin riesgo de
+         CLS: el CSS fija height (--logo-md, 64 px) y la tarjeta es
+         una pila vertical centrada, así que el width:auto del logo
+         no desplaza a sus hermanos al cargar. */
       card.appendChild(createElement('img', {
         class: 'card-institucion__logo',
         attrs: { src, alt, loading: 'lazy', decoding: 'async' }
