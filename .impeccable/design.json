@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-06-15T00:00:00-03:00",
+  "title": "Design System: AChETIQ",
+  "extensions": {
+    "colorMeta": {
+      "cobalto-marca": {
+        "role": "primary",
+        "displayName": "Cobalto de marca",
+        "canonical": "oklch(0.420 0.165 262)",
+        "tonalRamp": ["oklch(0.235 0.075 262)", "oklch(0.300 0.110 262)", "oklch(0.420 0.165 262)", "oklch(0.515 0.150 262)", "oklch(0.740 0.095 262)", "oklch(0.920 0.035 262)", "oklch(0.965 0.012 262)", "oklch(0.985 0.006 262)"]
+      },
+      "mauveina-accion": {
+        "role": "secondary",
+        "displayName": "Mauveína de acción",
+        "canonical": "oklch(0.500 0.190 322)",
+        "tonalRamp": ["oklch(0.300 0.130 322)", "oklch(0.440 0.175 322)", "oklch(0.500 0.190 322)", "oklch(0.560 0.180 322)", "oklch(0.700 0.110 322)", "oklch(0.820 0.070 322)", "oklch(0.918 0.045 322)", "oklch(0.965 0.020 322)"]
+      },
+      "grafito-porcelana": {
+        "role": "neutral",
+        "displayName": "Porcelana fría",
+        "canonical": "oklch(0.967 0.005 265)",
+        "tonalRamp": ["oklch(0.205 0.018 265)", "oklch(0.404 0.018 265)", "oklch(0.486 0.017 265)", "oklch(0.620 0.014 265)", "oklch(0.862 0.011 265)", "oklch(0.918 0.008 265)", "oklch(0.967 0.005 265)", "oklch(0.985 0.003 265)"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display (Fraunces)", "purpose": "Solo H1 y titular del héroe. Serif de alto contraste." },
+      "headline": { "displayName": "Headline (Fraunces)", "purpose": "H2 de sección. La serif no baja de H2." },
+      "title": { "displayName": "Title (Hanken Grotesk)", "purpose": "H3/H4 en la grotesca de cuerpo, no en la serif." },
+      "body": { "displayName": "Body (Hanken Grotesk)", "purpose": "Prosa, medida 65–75ch, lh 1.7." },
+      "label": { "displayName": "Label/Eyebrow (Geist Mono)", "purpose": "Eyebrows y metadatos; tracking 0.12em. Usar con mesura, no por sección." }
+    },
+    "shadows": [
+      { "name": "xs", "value": "0 1px 2px color-mix(in srgb, oklch(0.235 0.075 262) 6%, transparent)", "purpose": "Cajas pequeñas en reposo." },
+      { "name": "sm", "value": "0 2px 8px color-mix(in srgb, oklch(0.235 0.075 262) 9%, transparent)", "purpose": "Hover de tarjeta (--elevation-hover). Sombra fría, no negra." },
+      { "name": "md", "value": "0 4px 6px -1px color-mix(in srgb, oklch(0.235 0.075 262) 9%, transparent), 0 10px 24px -6px color-mix(in srgb, oklch(0.235 0.075 262) 11%, transparent)", "purpose": "Dropdowns, popovers." },
+      { "name": "lg", "value": "0 6px 16px -2px color-mix(in srgb, oklch(0.235 0.075 262) 10%, transparent), 0 16px 40px -8px color-mix(in srgb, oklch(0.235 0.075 262) 16%, transparent)", "purpose": "Paneles protagónicos, modales." }
+    ],
+    "motion": [
+      { "name": "transition-fast", "value": "150ms ease", "purpose": "Estados de UI: hover/active de botones y enlaces." },
+      { "name": "transition-normal", "value": "250ms ease", "purpose": "Transiciones de componente." },
+      { "name": "transition-slow", "value": "400ms ease", "purpose": "Transiciones mayores; tope para microinteracciones." },
+      { "name": "ease-out", "value": "cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Curva de salida exponencial para entradas. Sin bounce." },
+      { "name": "transition-hero", "value": "1000ms ease", "purpose": "Crossfade del slideshow del héroe." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" },
+      { "name": "2xl", "value": "1480px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Botón primario",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Único botón que porta el color de acción (mauveína). CTA principal de cada superficie.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">Sumate</a>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 8px; font-family: 'Hanken Grotesk', sans-serif; font-weight: 500; font-size: 0.875rem; letter-spacing: 0.02em; background: #922FA1; color: #F9FAFC; border: none; border-radius: 6px; padding: 8px 20px; text-decoration: none; cursor: pointer; transition: opacity 150ms ease, transform 150ms ease, box-shadow 150ms ease; } .ds-btn-primary:hover { opacity: 0.92; transform: translateY(-1px); box-shadow: 0 1px 2px color-mix(in srgb, #091C41 6%, transparent); } .ds-btn-primary:active { opacity: 0.85; transform: translateY(0); box-shadow: none; } .ds-btn-primary:focus-visible { outline: 2px solid #1344A5; outline-offset: 2px; }"
+    },
+    {
+      "name": "Botón secundario",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Acción subordinada. Contorno cobalto, sin relleno.",
+      "html": "<a class=\"ds-btn-secondary\" href=\"#\">Ver gabinetes</a>",
+      "css": ".ds-btn-secondary { display: inline-flex; align-items: center; gap: 8px; font-family: 'Hanken Grotesk', sans-serif; font-weight: 500; font-size: 0.875rem; letter-spacing: 0.02em; background: transparent; color: #1344A5; border: 1px solid #1344A5; border-radius: 6px; padding: 8px 20px; text-decoration: none; cursor: pointer; transition: opacity 150ms ease, transform 150ms ease; } .ds-btn-secondary:hover { opacity: 0.92; transform: translateY(-1px); } .ds-btn-secondary:focus-visible { outline: 2px solid #1344A5; outline-offset: 2px; }"
+    },
+    {
+      "name": "Tarjeta",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Superficie plana en reposo: borde de 1 px, sin sombra. La sombra fría aparece solo al hover si es interactiva.",
+      "html": "<article class=\"ds-card\"><h3 class=\"ds-card__title\">Cursos y Conferencias</h3><p class=\"ds-card__desc\">Formación continua dictada por profesionales, más allá del aula.</p></article>",
+      "css": ".ds-card { display: flex; flex-direction: column; gap: 12px; background: #F9FAFC; border: 1px solid #CED2D9; border-radius: 10px; padding: 20px; } .ds-card__title { margin: 0; font-family: 'Hanken Grotesk', sans-serif; font-weight: 500; font-size: 1.1875rem; line-height: 1.3; color: #131720; } .ds-card__desc { margin: 0; font-family: 'Hanken Grotesk', sans-serif; font-size: 1rem; line-height: 1.7; color: #444953; } a.ds-card:hover { box-shadow: 0 2px 8px color-mix(in srgb, #091C41 9%, transparent); }"
+    },
+    {
+      "name": "Eyebrow + título de sección",
+      "kind": "custom",
+      "refersTo": "label",
+      "description": "Eyebrow en Geist Mono sobre un H2 en Fraunces. Usar con mesura: no en cada sección.",
+      "html": "<header class=\"ds-section-title\"><p class=\"ds-eyebrow\">Sobre la asociación</p><h2 class=\"ds-h2\">Quiénes <em>somos</em></h2></header>",
+      "css": ".ds-eyebrow { margin: 0 0 8px; font-family: 'Geist Mono', monospace; font-size: 0.6875rem; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; color: #5B5F69; } .ds-h2 { margin: 0; font-family: 'Fraunces', Georgia, serif; font-weight: 400; font-size: clamp(2.0625rem, 1.8668rem + 0.8696vw, 2.5625rem); line-height: 1.3; color: #131720; text-wrap: balance; } .ds-h2 em { font-style: italic; color: #1344A5; }"
+    },
+    {
+      "name": "Campo de formulario con error no cromático",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Etiqueta visible siempre; error señalado por borde engrosado + glifo + mensaje, no solo por color.",
+      "html": "<div class=\"ds-field\"><label class=\"ds-label\" for=\"ds-email\">Correo electrónico</label><input class=\"ds-input\" id=\"ds-email\" type=\"email\" aria-invalid=\"true\" aria-describedby=\"ds-email-err\"><p class=\"ds-error\" id=\"ds-email-err\"><svg viewBox=\"0 0 24 24\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><line x1=\"12\" y1=\"8\" x2=\"12\" y2=\"12\"/><line x1=\"12\" y1=\"16\" x2=\"12.01\" y2=\"16\"/></svg> Ingresá un correo válido.</p></div>",
+      "css": ".ds-field { display: flex; flex-direction: column; gap: 4px; } .ds-label { font-family: 'Hanken Grotesk', sans-serif; font-weight: 500; font-size: 0.875rem; color: #131720; } .ds-input { font-family: 'Hanken Grotesk', sans-serif; font-size: 1rem; padding: 10px 12px; background: #F9FAFC; border: 1px solid #CED2D9; border-radius: 6px; } .ds-input:focus-visible { outline: 2px solid #1344A5; outline-offset: 1px; } .ds-input[aria-invalid=\"true\"] { border-width: 2px; border-color: #9B171F; } .ds-error { display: inline-flex; align-items: center; gap: 6px; margin: 0; font-family: 'Hanken Grotesk', sans-serif; font-size: 0.875rem; color: #9B171F; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "El cuaderno de laboratorio",
+    "overview": "AChETIQ se ve como una libreta de laboratorio bien llevada: porcelana fría, tinta precisa, dos reactivos de color que solo aparecen cuando significan algo. El sistema «Cobalto & Mauveína» nace de una metáfora disciplinar (el cobalto inorgánico estructural; la mauveína de Perkin, 1856, como acción) y la lleva hasta los tokens, con cada par texto/fondo documentando su ratio WCAG calculado. Densidad editorial y respirada: Fraunces en titulares, Hanken Grotesk en cuerpo, Geist Mono en etiquetas. Fondo de porcelana fría, no crema cálido. Elevación plana con sombras frías reactivas al estado. Rechaza la plantilla comercial, el reflejo educación-infantil, la landing de SaaS y el beige por elegancia.",
+    "keyCharacteristics": [
+      "Porcelana fría + tinta grafito + dos acentos fríos comprometidos (cobalto / mauveína).",
+      "Tipografía de tres voces: serif display, grotesca de cuerpo, mono de etiqueta. Identidad congelada.",
+      "Color como argumento químico, no decoración; la acción (mauveína) es escasa por diseño.",
+      "Elevación plana; sombras frías mezcladas desde cobalto-950, reactivas al estado.",
+      "Accesibilidad documentada con ratios calculados; AA piso, AAA donde es posible; camino sin JS."
+    ],
+    "rules": [
+      { "name": "La Regla de la Mauveína Escasa", "body": "La mauveína es el único color de acción y aparece en ≤ 10 % de cualquier pantalla. Su escasez es el mensaje. Prohibido usarla como fondo amplio o adorno.", "section": "colors" },
+      { "name": "La Regla de la Porcelana Fría", "body": "El fondo es grafito frío (hue 265), nunca crema/arena cálido. La calidez la cargan la mauveína, la tipografía y la imagen.", "section": "colors" },
+      { "name": "La Regla de las Dos Voces Serif", "body": "Fraunces vive solo en H1 y H2. H3/H4 en Hanken Grotesk para no aplanar el contraste editorial.", "section": "typography" },
+      { "name": "La Regla del Eyebrow con Mesura", "body": "El eyebrow en Geist Mono es recurso de marca, no reflejo: no debe coronar cada sección. Deuda actual a saldar.", "section": "typography" },
+      { "name": "La Regla de la Sombra Fría", "body": "Ninguna sombra usa negro: todas se mezclan desde cobalto-950. Una sombra gris-neutra sobre porcelana está mal construida.", "section": "elevation" },
+      { "name": "La Regla del Reposo Plano", "body": "Las superficies son planas en reposo; la sombra solo aparece como respuesta a estado (hover, foco).", "section": "elevation" }
+    ],
+    "dos": [
+      "Do tratar Fraunces + Hanken Grotesk + Geist Mono y la paleta Cobalto & Mauveína como identidad congelada; P01–P22 las preservan.",
+      "Do mantener Fraunces en H1/H2 únicamente; H3/H4 en Hanken Grotesk.",
+      "Do reservar la mauveína al botón primario y a la acción (≤ 10 %).",
+      "Do conservar la porcelana fría como fondo; cargar la calidez en tipografía, imagen y mauveína.",
+      "Do mantener elevación plana en reposo y sombras frías desde cobalto-950.",
+      "Do documentar cada par texto/fondo con su ratio WCAG; señales de estado con glifo/texto, no color solo.",
+      "Do preservar el camino sin JavaScript (noscript espejo de cada bloque dinámico)."
+    ],
+    "donts": [
+      "Don't reemplazar las fuentes ni la paleta; la guía 'nuevo proyecto' de impeccable no aplica (gana la identidad comprometida).",
+      "Don't caer en el reflejo educación-infantil: clay, Baloo 2 / Comic Neue, azul-naranja saturado, mascota. Vetado.",
+      "Don't usar fondo crema/arena cálido por elegancia (tell de IA 2026).",
+      "Don't coronar cada sección con un eyebrow en mono.",
+      "Don't repetir grillas de tarjetas idénticas como recurso por defecto.",
+      "Don't usar border-left/right > 1 px como franja, texto en gradiente, glassmorfismo decorativo ni métrica-héroe.",
+      "Don't usar sombras negras; siempre frías desde cobalto-950.",
+      "Don't parecer una plantilla de Wix/constructor comercial."
+    ]
+  }
+}
