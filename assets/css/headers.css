@@ -298,10 +298,13 @@
 /* ─────────────────────────────────────────────────────────────
    2.4  MISSION-VISION — .mission-vision
    ─────────────────────────────────────────────────────────────
-   Dos columnas paralelas en desktop, una sola en mobile. Cada
-   columna lleva borde lateral izquierdo de 3 px en
-   `--color-accent` (decisión de simetría sin <h2> global —
-   FASE_1 §2.4: Misión y Visión sin jerarquía entre sí).
+   Dos columnas paralelas en desktop, una sola en mobile. Misión y
+   Visión sin jerarquía entre sí (FASE_1 §2.4: sin <h2> global).
+   Cada columna es un panel estático con la MISMA elevación plana
+   del resto del sistema: borde completo --elevation-border (igual
+   que .card--valor / .card-documento), no una franja lateral de
+   acento. El acento vive donde porta significado —el label/ícono—,
+   no en el contorno.
    ───────────────────────────────────────────────────────────── */
 
 .mission-vision {
@@ -314,12 +317,17 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-  /* Panel estático: elevación plana (borde de acento), sin sombra
-     ni hover — contrato de elevación S2. */
+  /* Panel estático: elevación plana UNIFORME (borde completo
+     --elevation-border), sin sombra ni hover — contrato de
+     elevación S2. Reemplaza la antigua franja lateral de 3 px en
+     --color-accent (side-stripe): un único lenguaje de elevación
+     plana en todos los paneles estáticos del sitio. Padding
+     simétrico --card-pad-lg en los cuatro lados (antes el lado
+     izquierdo compensaba la franja). */
   background: var(--color-surface-raised);
-  border-left: 3px solid var(--color-accent);
+  border: var(--elevation-border);
   border-radius: var(--radius-md);
-  padding: var(--card-pad-lg) var(--card-pad-lg) var(--card-pad-lg) var(--space-8);
+  padding: var(--card-pad-lg);
 }
 
 .mission-vision__label {

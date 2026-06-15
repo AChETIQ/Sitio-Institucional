@@ -2,7 +2,7 @@
 ## Sitio Web Oficial de AChETIQ
 
 *Documento elaborado: 2026-05-08 · Última actualización: 2026-06-15*
-*Estado: Referencia técnica para desarrollo front-end (Fase 2) · Tokens v3 «Cobalto & Mauveína» · Contratos S2 de elevación y ritmo (§0.3)*
+*Estado: Referencia técnica para desarrollo front-end (Fase 2) · Tokens v3 «Cobalto & Mauveína» · Contratos S2 de elevación y ritmo (§0.3) · Reconciliación P01 de jerarquía y elevación (§0.3)*
 
 ---
 
@@ -85,6 +85,12 @@ Reciben elevación al hover **sólo** las tarjetas interactivas (son `<a>` o con
 | Interior de tarjeta extensa | `--card-pad-lg` | 24 px | `.card-gabinete`, `.gabinete-card`, `.card-documento`, `.contact-card`, `.mission-vision__col`. |
 
 Medidas asociadas: `--measure-title` (22ch, titulares display de `.page-header` y `.cta-final`) y `--card-min` (17.5rem, pista mínima de `.grid-cards--fluid`).
+
+**Reconciliación P01 (2026-06-15) — jerarquía y elevación.** Auditoría componente a componente del catálogo contra la implementación viva. Resultado: los contratos de elevación y ritmo, el dedup de cabeceras (`.section-title--display` absorbe `.about-intro__title` / `.gabinetes-feature__title`), los breadcrumbs (§7.1, las seis páginas de detalle), las grillas `auto-fit` + subgrid con fallback (`lists.css` §5.1) y la medida de prosa ya estaban implementados y aplicados de forma deliberada — no se rehízo nada de eso. Aclaraciones y única corrección de deriva:
+
+- **Escala de sombras.** Los cuatro tiers son `--shadow-xs/-sm/-md/-lg` (no `--shadow-1..4`): es la escala de elevación de cuatro pasos del sistema, consumida vía los alias semánticos de la tabla anterior, más la alternativa de «elevación plana» basada en borde (`--elevation-border`). No se renombran (la identidad de tokens S1 está congelada y los valores no cambian).
+- **Corrección de deriva — `.mission-vision__col`.** La columna figuraba como «panel plano» en este contrato (arriba) pero el CSS aún portaba un `border-left: 3px solid var(--color-accent)` (side-stripe). Se reemplazó por `border: var(--elevation-border)` con padding simétrico: un único lenguaje de elevación plana en todos los paneles estáticos. El acento permanece en el label/ícono. Ver §2.4.
+- **Jerarquía de acción.** Una sola acción primaria por viewport en portada y hubs (hero, `.cta-final`: `btn-primary` único + `btn-secondary` subordinado; `.about-intro__cta` como enlace de acento subordinado). Sin nuevos colores: sólo tokens semánticos. Verificado, sin cambios.
 
 ### 0.2 Tipografía
 
@@ -396,7 +402,7 @@ El placeholder es reemplazado por `js/navbar.js`, que carga `partials/navbar.htm
 
 - Layout: `display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-8)` en desktop; colapsa a una columna (`1fr`) en mobile.
 - Sin `<h2>` global encabezando el bloque; las etiquetas `Misión` y `Visión` actúan como rótulos internos. Decisión deliberada de simetría visual (sin jerarquía entre Misión y Visión).
-- Cada columna: borde lateral izquierdo de `3px solid var(--color-accent)`, fondo `var(--color-surface-raised)`, padding `var(--space-6) var(--space-6) var(--space-6) var(--space-8)`, radio `var(--radius-md)`.
+- Cada columna: panel estático con elevación plana uniforme — `border: var(--elevation-border)` (borde completo, igual que `.card--valor` / `.card-documento`), fondo `var(--color-surface-raised)`, padding simétrico `var(--card-pad-lg)` en los cuatro lados, radio `var(--radius-md)`. *Actualización P01:* se eliminó la antigua franja lateral de `3px solid var(--color-accent)` (side-stripe — prohibición de oficio y única excepción al lenguaje de elevación plana del sistema); el acento se conserva donde porta significado, en el label/ícono. Reconcilia la columna con su entrada «panel plano» del contrato §0.3.
 - Etiqueta (`.mission-vision__label`): tipografía `Geist Mono`, uppercase, tracking-wider, `--text-caption`, color `var(--color-accent)`, con ícono Lucide inline a la izquierda (16×16 px, `currentColor`).
 - Prose (`.mission-vision__prose`): tipografía body, `--text-h4`, color `var(--color-text-soft)`, ancho máximo `--measure-narrow`.
 
@@ -503,7 +509,7 @@ El cuarto slot demuestra que el componente debe admitir valores no numéricos: e
 </blockquote>
 ```
 
-**Especificación visual.** Borde izquierdo de 3 px en `var(--color-accent)`, padding izquierdo `var(--space-5)`, tipografía `var(--font-display)` en cursiva para `.quote__text`, body normal para `.quote__attribution`.
+**Especificación visual.** Comilla de apertura colgante (`::before`, glifo `\201C` en `var(--font-display)`, `--text-h2`, `var(--color-accent)`) a la izquierda; padding izquierdo `var(--space-8)` para alojarla; tipografía `var(--font-display)` en cursiva para `.quote__text`, body normal para `.quote__attribution`. *Actualización P01:* se reemplazó el antiguo borde lateral izquierdo de 3 px en acento (side-stripe — prohibición de oficio, misma corrección que `.mission-vision__col` §2.4) por la comilla colgante; el acento pasa a un rótulo con significado (marca de cita), no un contorno decorativo.
 
 ---
 
