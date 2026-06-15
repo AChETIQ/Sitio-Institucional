@@ -28,6 +28,14 @@
    usa: todas las reglas son incondicionales dentro del bloque.
    ============================================================ */
 
+/* Caja de página: margen de encuadernación uniforme. @page vive
+   FUERA de @media print (es una at-rule de página, no de medio) pero
+   sólo aplica al imprimir. 1.6 cm da un margen cómodo en A4/Carta sin
+   desperdiciar superficie útil. */
+@page {
+  margin: 1.6cm;
+}
+
 @media print {
 
   /* ───────────────────────────────────────────────────────────
@@ -142,6 +150,13 @@
   h1, h2, h3, h4 {
     break-after: avoid;
     break-inside: avoid;
+  }
+
+  /* Sin líneas huérfanas/viudas: ningún párrafo deja una sola línea
+     suelta al pie o al inicio de una hoja. */
+  p, li, blockquote, figcaption {
+    orphans: 3;
+    widows: 3;
   }
 
   .card,

@@ -1371,7 +1371,30 @@ Tras la auditoría responsive S3, el sitio reparte responsabilidades en tres mec
 **Reglas duras.**
 
 - Mobile-first estricto: las reglas base son para móvil y los `min-width` añaden complejidad progresivamente. **`max-width` queda prohibido** fuera de `@media print` (las excepciones históricas de countdown, error-404 y seguimiento fueron absorbidas por `clamp()` o convertidas a `min-width` en S3).
-- Impresión: `assets/css/print.css` (S3), importada al final de la cadena de `main.css`. Oculta interfaz (nav, footer, CTA, loaders, countdown, filtros), fuerza tinta negra sobre papel blanco, expande las URL de los enlaces externos de recursos y controla los saltos de página en tarjetas y títulos.
+- Impresión: `assets/css/print.css` (S3), importada al final de la cadena de `main.css`. Oculta interfaz (nav, footer, CTA, loaders, countdown, filtros), fuerza tinta negra sobre papel blanco, expande las URL de los enlaces externos de recursos y controla los saltos de página en tarjetas y títulos. **Elevación P02:** caja de página con `@page { margin: 1.6cm }` (margen de encuadernación uniforme en A4/Carta) y `orphans/widows: 3` en prosa (ningún párrafo deja una línea suelta al pie o al inicio de hoja).
+
+### 12.1 Verificación responsive P02 (auditoría de matriz)
+
+El comportamiento S3 se reverificó sirviendo el sitio en local y midiendo con un
+navegador headless **cada página × {360, 640, 768, 1024, 1280, 1480}** (72 celdas):
+para cada celda se registró el scroll horizontal del documento, los elementos que
+exceden el viewport y el recorte de texto en titulares y controles.
+
+**Resultado:** el sistema S3 (container queries, espaciado fluido, transición de
+navbar en 1024 px, enriquecimientos de 1280/1480 px) se sostiene sin scroll
+horizontal de página en todo el rango. Los únicos elementos que rebasan el ancho
+del viewport están contenidos por diseño y **no** generan scroll de documento: el
+sangrado deliberado de `.about-intro__figure` (`overflow-x: clip` en ≥1280 px), los
+glows decorativos del countdown (`overflow: hidden` en `.countdown`) y la tabla del
+Seguimiento (scroll local en `.seg-table-scroll`).
+
+**Único defecto real corregido (P02):** el timeline rediseñado de «Sobre AChETIQ»
+(`sobre-asociacion.css` §C) producía ≈12 px de scroll horizontal en 360 px —la
+banda `width: 100%` no descontaba el offset de 32 px del eje— y dejaba la columna de
+descripción en ≈20 caracteres por línea (bajo el mínimo de §5 *line-length* 35–60).
+La banda pasa a `width: calc(100% - var(--tl-rail))` (sin desborde) y el brazo/nodo
+móviles se compactan (`--tl-arm` 120→92 px, `--tl-node` 78→68 px) para devolverle
+medida de lectura al texto. La hoja es por-página (no entra al bundle).
 
 ---
 
