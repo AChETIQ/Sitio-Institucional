@@ -20,6 +20,8 @@ Estas reglas **sustituyen** a las instrucciones equivalentes de los archivos ori
 6. **Commits en español, modo imperativo** (se mantiene el mensaje de commit sugerido de cada prompt original).
 7. **`prefers-reduced-motion`.** El reset global con escape `.safe-motion` (`assets/css/main.css`) se preserva exactamente; toda animación nueva debe comportarse bien bajo él.
 8. **Documentación sincronizada.** Todo cambio de componente o token actualiza `FASE_1_Catalogo_Componentes.md`.
+9. **Reconciliar el estado real ANTES de actuar (regla crítica).** Las secciones *"Current state / verified findings"* de los prompts originales (Ronda 1 y 2) describen el repo **antes** de ejecutar esas rondas. **Hoy ambas rondas ya están aplicadas** (existen `main.bundle.css`, `assets/css/focus.css`, `assets/css/print.css`, los breadcrumbs en páginas de detalle, los tokens de sombra/elevación, los skip-links unificados, etc.). Por eso, **esos hallazgos son históricos, no la verdad presente**: cada prompt debe **re-verificar el estado actual del repo** (leer el archivo/selector concreto, hacer el grep correspondiente) antes de tocar nada. Si una tarea ya está hecha, **no se rehace**: el objetivo de esta batería es **elevar la calidad de lo existente con criterio de diseño**, no reconstruir desde cero. Donde un hallazgo original ya no aplique, registrarlo en el cuerpo del commit como "ya resuelto en ronda previa, verificado".
+10. **Fuera de alcance explícito (ninguna skill los propone).** (a) La integración **shadcn/ui MCP** de `ui-ux-pro-max` es N/A: el sitio es HTML/CSS/JS vanilla sin framework ni componentes shadcn; no buscar ni sugerir componentes shadcn. (b) **Dark mode** no se aborda en esta batería: la identidad/paleta está congelada y la S1 de tipografía/color quedó excluida; si una skill lo sugiere, se ignora y se anota, no se implementa.
 
 ---
 
@@ -29,8 +31,9 @@ Cada prompt se copia **completo** en una sesión nueva de Claude Code. El cuerpo
 
 1. **Consultar `ui-ux-pro-max`** para el dominio del prompt → obtener reglas, anti-patrones y la sección de checklist de prioridad relevante. (Aterriza la decisión en evidencia, no en intuición.)
 2. **Ejecutar con `impeccable`** el sub-comando indicado → hace el trabajo de diseño con criterio y craft de producción, tomando como restricciones las reglas del paso 1 y las reglas de oro de §0.
-3. **Validar con el checklist de `ui-ux-pro-max`** (Quick Reference, prioridades 1–10 según dominio) como puerta de pre-entrega.
-4. **Verificar en navegador** a 375 px y 1280 px, `npm run build:css`, commit, push de la rama nueva, **sin PR**.
+3. **Iterar visualmente con `/impeccable live`** (paso clave en prompts de alta carga visual — marcados abajo). No basta con "verificar": `live` levanta el sitio en el navegador, permite seleccionar elementos y generar/comparar variantes hasta que el resultado se ve bien. Es precisamente la capacidad que faltó en las rondas sin skills. Usarlo en P01 (jerarquía), P16 (botones) y, si aporta, P04 (movimiento). En el resto de prompts (cambios pequeños/tokenización) basta con verificación por captura.
+4. **Validar con el checklist de `ui-ux-pro-max`** (Quick Reference, prioridades 1–10 según dominio) como puerta de pre-entrega.
+5. **Verificar en navegador** a 375 px y 1280 px, `npm run build:css`, commit, push de la rama nueva, **sin PR**.
 
 > ⚠️ `ui-ux-pro-max` está sesgada a mobile/React Native. **Este es un sitio web estático**: usar siempre `--design-system` y `--domain ux|color|typography|landing|web`, y **nunca** `--stack react-native`. Tomar de sus checklists las reglas aplicables a web (contraste, foco, CLS, jerarquía, formularios, navegación, animación) e ignorar las específicas de iOS/Android (safe-area, haptics, tab-bar, gestos del sistema).
 
@@ -87,10 +90,10 @@ GOLDEN RULES (apply to every step): the existing fonts and palette are FROZEN an
 Steps:
 1. Run `/impeccable init`. Register is `brand` (this is an institutional/association marketing site — design IS part of the product). Produce `PRODUCT.md` and `DESIGN.md` capturing the EXISTING visual system (read `tokens.css`, `assets/css/main.css`, `FASE_1_Catalogo_Componentes.md`, `INSTRUCCION_PROYECTO.md`). DESIGN.md must record the current font pairing and palette as fixed identity, so later sessions preserve it.
 2. Run `/impeccable document` to fully capture the design system from existing code.
-3. Ground the register with ui-ux-pro-max: `python3 .claude/skills/ui-ux-pro-max/scripts/search.py "education association nonprofit institutional website" --design-system`. Reconcile its recommendations with the FROZEN identity — keep what aligns, note (do not apply) anything that would change fonts/colors.
+3. Ground the register with ui-ux-pro-max AND persist it for the 22 downstream sessions: `python3 .claude/skills/ui-ux-pro-max/scripts/search.py "education association nonprofit institutional website" --design-system --persist -p "AChETIQ"`. This writes `design-system/MASTER.md` (a cross-session source of truth that complements impeccable's DESIGN.md). Reconcile its recommendations with the FROZEN identity — keep what aligns, and in MASTER.md explicitly mark the existing font pairing and palette as fixed (note, do not apply, anything that would change them). Commit `design-system/MASTER.md` so P01–P22 can read it.
 4. Run `/impeccable critique` on the homepage and the key surfaces (`index.html`, `pages/sobre-achetiq.html`, `pages/gabinetes.html`, one gabinete detail, `pages/recursos/apuntes.html`, `pages/contacto.html`). This produces the measurable BEFORE score (Nielsen 0–40, P0–P3 backlog) that P22 will re-run to prove improvement.
 
-Deliverables: `PRODUCT.md`, `DESIGN.md`, the `.impeccable/critique/` snapshots, and a short Spanish summary in the commit body mapping each P0/P1 finding to the downstream prompt (P01–P21) that will fix it. Commit `feat(diseño): fijar contexto de marca y crítica base con skills`, push `git push -u origin design/p00-contexto-critica`. Do NOT create a pull request.
+Deliverables: `PRODUCT.md`, `DESIGN.md`, `design-system/MASTER.md`, the `.impeccable/critique/` snapshots, and a short Spanish summary in the commit body mapping each P0/P1 finding to the downstream prompt (P01–P21) that will fix it. Commit `feat(diseño): fijar contexto de marca y crítica base con skills`, push `git push -u origin design/p00-contexto-critica`. Do NOT create a pull request.
 ```
 
 ---
@@ -103,9 +106,10 @@ You are a senior design engineer refactoring the component hierarchy and layout 
 SKILL PROTOCOL:
 1. Reference: `python3 .claude/skills/ui-ux-pro-max/scripts/search.py "layout visual hierarchy elevation spacing" --domain ux` and `… "breadcrumb navigation web" --domain ux`. Note the relevant rules (visual-hierarchy, elevation-consistent, primary-action, breadcrumb-web, spacing-scale) and §4–§5 of its Quick Reference.
 2. Execute with `/impeccable layout` (feed it the P00 critique findings about hierarchy/structure and the ui-ux-pro-max rules as constraints). Use impeccable's design judgment for the elevation system and rhythm; respect its bans (no side-stripe borders, no identical card-grid reflex, cards only when truly the best affordance).
-3. Validate against ui-ux-pro-max §5 (Layout) before committing.
+3. **Iterate visually with `/impeccable live`** on the homepage and a hub page: this is a high-visual-craft prompt — select the hierarchy/card elements in the browser and refine variants until the structure reads clearly, instead of committing the first pass (this is what the skill-less rounds lacked).
+4. Validate against ui-ux-pro-max §5 (Layout) before committing.
 
-TASK BODY: execute the numbered Tasks 1–8 of "Sesión 2 — Component Hierarchy & Layout" in `AUDITORIA_UIUX_Prompts.md` (elevation tokens, vertical-rhythm contract, hierarchy on home/hub pages, deploy breadcrumbs on all detail pages via `assets/css/nav-secondary.css`, modernize grids, prose measure, update the catalog).
+TASK BODY: before acting, RECONCILE against the live repo (golden rule 9) — breadcrumbs, shadow/elevation tokens and the rhythm contract may already exist from the prior round; verify what is actually present and ELEVATE it rather than redoing it. Then execute the numbered Tasks 1–8 of "Sesión 2 — Component Hierarchy & Layout" in `AUDITORIA_UIUX_Prompts.md` (elevation tokens, vertical-rhythm contract, hierarchy on home/hub pages, breadcrumbs on all detail pages via `assets/css/nav-secondary.css`, modernize grids, prose measure, update the catalog) — treating its "current state" notes as historical.
 
 OVERRIDES to that body (golden rules win): S1 is considered DONE/frozen — consume the existing color/type tokens, never change their VALUES, and never propose new fonts or palette. Regenerate `assets/css/main.bundle.css` with `npm run build:css` and commit it with the sources.
 
@@ -160,7 +164,8 @@ You are a senior motion-design engineer adding a restrained motion system to a p
 SKILL PROTOCOL:
 1. Reference: `python3 .claude/skills/ui-ux-pro-max/scripts/search.py "animation easing duration reduced-motion stagger" --domain ux`. Note §7 (Animation): duration-timing 150–300ms, transform-performance (transform/opacity only), motion-meaning, easing, stagger-sequence, motion-consistency, reduced-motion.
 2. Execute with `/impeccable animate` — it owns the motion craft. Follow impeccable's motion rules: ease-out exponential curves (no bounce/elastic), reveals must enhance already-visible content (never gate visibility on a class), staggering a list is legitimate but avoid the uniform-reflex on every section. Premium materials (blur/clip-path/glow) only where they materially help.
-3. Validate against ui-ux-pro-max §7 and the reduced-motion reset.
+3. Optional but recommended for the tricky transitions (data-loader swap, View Transitions): use `/impeccable live` to watch the motion in the real browser and tune timing/easing instead of guessing.
+4. Validate against ui-ux-pro-max §7 and the reduced-motion reset.
 
 TASK BODY: execute Tasks 1–8 of "Sesión 5 — Animations & Micro-interactions" in `AUDITORIA_UIUX_Prompts.md` (motion inventory + principles, tokenize easing + duration ramp, micro-interactions on buttons/cards/nav/pills, content-entry choreography on data-loader swap with `--index` stagger, upgrade scroll-reveal with stagger, cross-document View Transitions as progressive enhancement, reduced-motion safety, update catalog).
 
@@ -335,11 +340,11 @@ OVERRIDES: branch + no-PR. Regenerate and commit the bundle; confirm placeholder
 ```text
 You are a senior design engineer polishing button micro-interactions of a production static website. Branch from `design/p15-campos-invalidos` into a NEW branch `design/p16-botones-elevacion`.
 
-SKILL PROTOCOL: consult ui-ux-pro-max §2 (`press-feedback`, `state-clarity`) and §7 (`scale-feedback`); execute with `/impeccable delight` (memorable but restrained press/hover) honoring impeccable's motion rules (transform/opacity only, ease-out, reduced-motion neutralizes it).
+SKILL PROTOCOL: consult ui-ux-pro-max §2 (`press-feedback`, `state-clarity`) and §7 (`scale-feedback`); execute with `/impeccable delight` (memorable but restrained press/hover) honoring impeccable's motion rules (transform/opacity only, ease-out, reduced-motion neutralizes it). **Use `/impeccable live`** to tune the hover-lift and active-compression in the browser across the dark (hero) and light (cta-final) button contexts — feel matters more than numbers here.
 
 TASK BODY: execute PROMPT M1 of `AUDITORIA_UIUX_Prompts_Ronda2.md` (extend `.btn` transition; hover lift -1px + `--shadow-xs`; active compression; Spanish comment about subordination to cards and reduced-motion).
 
-OVERRIDES: branch + no-PR. Regenerate and commit the bundle; test on dark (hero) and light (cta-final) contexts and confirm focus rings unaffected and no motion under reduced-motion. Commit `añadir(buttons): elevación sutil en hover y active`, push `git push -u origin design/p16-botones-elevacion`. Do NOT create a pull request.
+OVERRIDES: branch + no-PR. Do not regress the P05 performance budget (no new render-blocking assets). Regenerate and commit the bundle; test on dark (hero) and light (cta-final) contexts and confirm focus rings unaffected and no motion under reduced-motion. Commit `añadir(buttons): elevación sutil en hover y active`, push `git push -u origin design/p16-botones-elevacion`. Do NOT create a pull request.
 ```
 
 ---
@@ -353,7 +358,7 @@ SKILL PROTOCOL: consult ui-ux-pro-max §8 (`disabled-states`: reduced emphasis +
 
 TASK BODY: execute PROMPT M2 of `AUDITORIA_UIUX_Prompts_Ronda2.md` (`.btn:disabled` / `[aria-disabled="true"]` styling + hover/active-neutralizing rule that composes correctly whether or not M1/P16 ran).
 
-OVERRIDES: branch + no-PR. Regenerate and commit the bundle. Commit `añadir(buttons): estado disabled coherente con los controles de formulario`, push `git push -u origin design/p17-botones-disabled`. Do NOT create a pull request.
+OVERRIDES: branch + no-PR. Do not regress the P05 performance budget. Regenerate and commit the bundle. Commit `añadir(buttons): estado disabled coherente con los controles de formulario`, push `git push -u origin design/p17-botones-disabled`. Do NOT create a pull request.
 ```
 
 ---
@@ -367,7 +372,7 @@ SKILL PROTOCOL: consult ui-ux-pro-max §7 (`motion-consistency`: unify duration/
 
 TASK BODY: execute PROMPT M3 of `AUDITORIA_UIUX_Prompts_Ronda2.md` (add `--ease-out` token; redefine `--navbar-easing` to it; fix the 240ms→220ms desync; apply the curve to interactive-card transform/box-shadow transitions).
 
-OVERRIDES: branch + no-PR. Regenerate and commit the bundle; verify mobile panel + overlay finish together and reduced-motion still neutralizes. Commit `refactar(motion): unificar curva ease-out global y sincronizar cierre del panel móvil`, push `git push -u origin design/p18-ease-out-global`. Do NOT create a pull request.
+OVERRIDES: branch + no-PR. Do not regress the P05 performance budget. Regenerate and commit the bundle; verify mobile panel + overlay finish together and reduced-motion still neutralizes. Commit `refactar(motion): unificar curva ease-out global y sincronizar cierre del panel móvil`, push `git push -u origin design/p18-ease-out-global`. Do NOT create a pull request.
 ```
 
 ---
@@ -381,7 +386,7 @@ SKILL PROTOCOL: consult ui-ux-pro-max §7 (`stagger-sequence` 30–50ms/item, `r
 
 TASK BODY: execute PROMPT M4 of `AUDITORIA_UIUX_Prompts_Ronda2.md` (preserve scroll-reveal.js reduced-motion contract; MOVE `.scroll-reveal--armed` into a bundled sheet; add `data-scroll-reveal` + script include to gabinetes/recursos/contacto grids).
 
-OVERRIDES: branch + no-PR. Regenerate and commit the bundle; confirm content fully visible without JS and static under reduced motion. Commit `añadir(motion): extender scroll-reveal a las grillas de gabinetes, recursos y contacto`, push `git push -u origin design/p19-scroll-reveal-grillas`. Do NOT create a pull request.
+OVERRIDES: branch + no-PR. Do not regress the P05 performance budget (the moved sheet must not bloat the bundle materially). Regenerate and commit the bundle; confirm content fully visible without JS and static under reduced motion. Commit `añadir(motion): extender scroll-reveal a las grillas de gabinetes, recursos y contacto`, push `git push -u origin design/p19-scroll-reveal-grillas`. Do NOT create a pull request.
 ```
 
 ---
@@ -422,7 +427,8 @@ You are a senior design director running the final quality gate of a production 
 SKILL PROTOCOL:
 1. Run `/impeccable polish` site-wide (it reads the P00 critique snapshot as its backlog) — final cohesion pass across the surfaces touched in P01–P21. Honor the AI-slop test and absolute bans; identity (fonts/palette) stays frozen.
 2. Run the ui-ux-pro-max Pre-Delivery Checklist: `python3 .claude/skills/ui-ux-pro-max/scripts/search.py "accessibility animation z-index loading" --domain ux` plus a full pass of its Quick Reference §1–§3 (CRITICAL + HIGH) as the objective gate. Web rules only.
-3. Re-run `/impeccable critique` on the same surfaces as P00 and report the BEFORE→AFTER Nielsen score (trend line) to prove the elevation. Map any remaining P0/P1 to a short follow-up note.
+3. **Performance budget guard (re-verify after the mid-sequence additions):** P05 set the budget early, but P06–P21 added CSS to the bundle, motion, and image logic afterward. Re-run the Lighthouse matrix from P05 and check the current `assets/css/main.bundle.css` size against the limits in `RENDIMIENTO_Presupuesto.md` (LCP < 2.5s mobile, CLS < 0.1, total CSS < 75KB, per-page transfer < 500KB). If any metric regressed versus P05's "after" column, fix it here (or, if out of scope, record it as a finding in the commit body).
+4. Re-run `/impeccable critique` on the same surfaces as P00 and report the BEFORE→AFTER Nielsen score (trend line) to prove the elevation. Map any remaining P0/P1 to a short follow-up note.
 
 OVERRIDES: branch + no-PR. Regenerate and commit the bundle if any CSS changed. Update `FASE_1_Catalogo_Componentes.md` for anything still stale. Commit `pulir(diseño): pase final de cohesión y crítica de cierre`, push `git push -u origin design/p22-pulido-final`. Do NOT create a pull request.
 ```
