@@ -1,6 +1,6 @@
 # AUDITORÍA UI/UX — Batería unificada de prompts (con skills `impeccable` + `ui-ux-pro-max`)
 
-> **Qué es esto.** La lista única, ordenada y autocontenida que unifica los prompts de **Ronda 1** (`AUDITORIA_UIUX_Prompts.md`, las sesiones S1–S6) y **Ronda 2** (`AUDITORIA_UIUX_Prompts_Ronda2.md`, los 15 prompts de pulido) en **una sola secuencia** que se corre en orden. Cada prompt está reescrito para ejecutarse **apoyándose en las dos skills cargadas en el proyecto** (`.claude/skills/impeccable` y `.claude/skills/ui-ux-pro-max`), porque las dos rondas ya se ejecutaron **sin skills** y el resultado no fue bueno.
+> **Qué es esto.** La lista **única, ordenada y autocontenida** que unifica los prompts de la **Ronda 1** (las sesiones S1–S6 del plan maestro) y la **Ronda 2** (los 15 prompts de pulido) en **una sola secuencia** que se corre en orden. Los cuerpos de tareas de ambas rondas están **incorporados aquí (inline)**: este documento es la única fuente: los archivos originales `AUDITORIA_UIUX_Prompts.md`, `AUDITORIA_UIUX_Prompts_Ronda2.md` y `AUDITORIA_UIUX_Plan.md` fueron consolidados en esta batería y eliminados. Cada prompt está reescrito para ejecutarse **apoyándose en las dos skills cargadas en el proyecto** (`.claude/skills/impeccable` y `.claude/skills/ui-ux-pro-max`), porque las dos rondas ya se ejecutaron **sin skills** y el resultado no fue bueno.
 >
 > **Por qué con skills.** Las skills no son decoración: cada una se invoca **donde está optimizada**. `ui-ux-pro-max` aporta la *inteligencia de referencia* (reglas, paletas, emparejamientos, guías UX y checklists de prioridad 1–10); `impeccable` aporta la *ejecución con criterio de director de diseño* (anti-slop, registro de marca, craft de producción, iteración en navegador). Una decide y valida; la otra ejecuta con gusto. El detalle del reparto está en §2.
 >
@@ -20,14 +20,14 @@ Estas reglas **sustituyen** a las instrucciones equivalentes de los archivos ori
 6. **Commits en español, modo imperativo** (se mantiene el mensaje de commit sugerido de cada prompt original).
 7. **`prefers-reduced-motion`.** El reset global con escape `.safe-motion` (`assets/css/main.css`) se preserva exactamente; toda animación nueva debe comportarse bien bajo él.
 8. **Documentación sincronizada.** Todo cambio de componente o token actualiza `FASE_1_Catalogo_Componentes.md`.
-9. **Reconciliar el estado real ANTES de actuar (regla crítica).** Las secciones *"Current state / verified findings"* de los prompts originales (Ronda 1 y 2) describen el repo **antes** de ejecutar esas rondas. **Hoy ambas rondas ya están aplicadas** (existen `main.bundle.css`, `assets/css/focus.css`, `assets/css/print.css`, los breadcrumbs en páginas de detalle, los tokens de sombra/elevación, los skip-links unificados, etc.). Por eso, **esos hallazgos son históricos, no la verdad presente**: cada prompt debe **re-verificar el estado actual del repo** (leer el archivo/selector concreto, hacer el grep correspondiente) antes de tocar nada. Si una tarea ya está hecha, **no se rehace**: el objetivo de esta batería es **elevar la calidad de lo existente con criterio de diseño**, no reconstruir desde cero. Donde un hallazgo original ya no aplique, registrarlo en el cuerpo del commit como "ya resuelto en ronda previa, verificado".
+9. **Reconciliar el estado real ANTES de actuar (regla crítica).** Donde un «TASK BODY» reproduce hallazgos de estado heredados de las rondas previas, esos hallazgos describen el repo **antes** de ejecutar esas rondas. **Hoy ambas rondas ya están aplicadas** (existen `main.bundle.css`, `assets/css/focus.css`, `assets/css/print.css`, los breadcrumbs en páginas de detalle, los tokens de sombra/elevación, los skip-links unificados, etc.). Por eso, **esos hallazgos son históricos, no la verdad presente**: cada prompt debe **re-verificar el estado actual del repo** (leer el archivo/selector concreto, hacer el grep correspondiente) antes de tocar nada. Si una tarea ya está hecha, **no se rehace**: el objetivo de esta batería es **elevar la calidad de lo existente con criterio de diseño**, no reconstruir desde cero. Donde un hallazgo original ya no aplique, registrarlo en el cuerpo del commit como "ya resuelto en ronda previa, verificado".
 10. **Fuera de alcance explícito (ninguna skill los propone).** (a) La integración **shadcn/ui MCP** de `ui-ux-pro-max` es N/A: el sitio es HTML/CSS/JS vanilla sin framework ni componentes shadcn; no buscar ni sugerir componentes shadcn. (b) **Dark mode** no se aborda en esta batería: la identidad/paleta está congelada y la S1 de tipografía/color quedó excluida; si una skill lo sugiere, se ignora y se anota, no se implementa.
 
 ---
 
 ## 1. Cómo ejecutar (protocolo de cada sesión)
 
-Cada prompt se copia **completo** en una sesión nueva de Claude Code. El cuerpo de tareas de dominio **se reutiliza por referencia** de los archivos de las rondas previas (siguen en el repo), y este documento añade encima la **capa de skills** y las **reglas de oro**. Flujo invariable dentro de cada prompt:
+Cada prompt se copia **completo** en una sesión nueva de Claude Code. El cuerpo de tareas de dominio está **incorporado (inline)** en cada prompt (sección «TASK BODY»), sobre el **contexto común de repositorio** de §3.0 y la **capa de skills** + **reglas de oro**. La batería es autocontenida; no depende de ningún otro archivo del repo salvo el código y la documentación que cada tarea nombra. Flujo invariable dentro de cada prompt:
 
 1. **Consultar `ui-ux-pro-max`** para el dominio del prompt → obtener reglas, anti-patrones y la sección de checklist de prioridad relevante. (Aterriza la decisión en evidencia, no en intuición.)
 2. **Ejecutar con `impeccable`** el sub-comando indicado → hace el trabajo de diseño con criterio y craft de producción, tomando como restricciones las reglas del paso 1 y las reglas de oro de §0.
@@ -80,6 +80,20 @@ Cada prompt se copia **completo** en una sesión nueva de Claude Code. El cuerpo
 
 ## 3. La batería
 
+### 3.0 Contexto común de repositorio (vale para todos los prompts; no repetir)
+
+- **Stack:** sitio estático en español (es-AR), GitHub Pages. HTML5 semántico, CSS puro con tokens + BEM, JS vanilla en ES-modules. Sin frameworks, sin preprocesadores, sin CDN.
+- **`tokens.css`** (raíz del repo) es la única fuente de verdad de valores visuales (color, tipografía, espaciado en escala de 4px, radios, z-index, duraciones). Prohibido hexadecimales/tamaños/fuentes fuera de él (excepción histórica: paleta local de `assets/css/seguimiento.css`).
+- **CSS:** 18 hojas BEM en `assets/css/` (entre ellas `cards.css`, `lists.css`, `headers.css`, `navbar.css`, `footer.css`, `cta.css`, `forms.css`, `states.css`, `focus.css`, `print.css`, `nav-secondary.css`, `sobre-asociacion.css`, `countdown-recursos.css`, `seguimiento.css`). Se compilan a `assets/css/main.bundle.css` con `npm run build:css`; las páginas enlazan el bundle.
+- **Las 9 páginas:** `index.html`, `pages/sobre-achetiq.html`, `pages/gabinetes.html`, `pages/gabinetes/*.html` (4 detalles), `pages/recursos.html`, `pages/recursos/apuntes.html`, `pages/recursos/seguimiento.html`, `pages/contacto.html`, `404.html`.
+- **Datos/JS:** motor data-loader (`assets/js/main.js` escanea `[data-loader]`; `assets/js/loaders.js` renderiza con helpers seguros `createElement`/`safeHref`, nunca `innerHTML` sobre datos) que lee `data/*.json`; navbar/footer son parciales inyectados (`assets/js/navbar.js`, `assets/js/footer.js` + `partials/*.html`). No se modifica el motor, los helpers ni los esquemas JSON.
+- **Documentación viva:** `FASE_1_Catalogo_Componentes.md` (catálogo de 23+ componentes) e `INSTRUCCION_PROYECTO.md`. `RENDIMIENTO_Presupuesto.md` guarda el presupuesto de rendimiento.
+- **Invariante de movimiento:** reset global `prefers-reduced-motion: reduce` con escape `.safe-motion` en `assets/css/main.css` — preservar exactamente.
+
+> Cada «TASK BODY» nombra los archivos/selectores concretos; las líneas citadas (p. ej. `cards.css:554`) son orientativas de las rondas previas: **verificar la ubicación real** antes de editar (regla de oro 9).
+
+---
+
 ### P00 — Contexto de proyecto y crítica base (habilitador de skills)
 
 ```text
@@ -109,7 +123,15 @@ SKILL PROTOCOL:
 3. **Iterate visually with `/impeccable live`** on the homepage and a hub page: this is a high-visual-craft prompt — select the hierarchy/card elements in the browser and refine variants until the structure reads clearly, instead of committing the first pass (this is what the skill-less rounds lacked).
 4. Validate against ui-ux-pro-max §5 (Layout) before committing.
 
-TASK BODY: before acting, RECONCILE against the live repo (golden rule 9) — breadcrumbs, shadow/elevation tokens and the rhythm contract may already exist from the prior round; verify what is actually present and ELEVATE it rather than redoing it. Then execute the numbered Tasks 1–8 of "Sesión 2 — Component Hierarchy & Layout" in `AUDITORIA_UIUX_Prompts.md` (elevation tokens, vertical-rhythm contract, hierarchy on home/hub pages, breadcrumbs on all detail pages via `assets/css/nav-secondary.css`, modernize grids, prose measure, update the catalog) — treating its "current state" notes as historical.
+TASK BODY (reconcile against the live repo first — golden rule 9: elevation tokens, breadcrumbs and the rhythm contract may already exist from the prior round; verify and ELEVATE, don't redo):
+1. Read `FASE_1_Catalogo_Componentes.md` and audit every page against it; produce a reconciliation table (component spec'd vs implemented vs drifted) in the commit body.
+2. Tokenize an elevation system in `tokens.css` (`--shadow-1..4` plus a border-based "flat elevation" alternative consistent with the palette) and apply it deliberately: interactive cards get hover elevation, static panels stay flat.
+3. Establish vertical rhythm: a documented spacing contract (section padding, header-to-content gap, card internal padding) on the existing 4px-scale tokens, applied across `headers.css`, `cards.css`, `lists.css`, `cta.css`, `sobre-asociacion.css`; deduplicate the header patterns shared by `headers.css` and `sobre-asociacion.css`.
+4. Strengthen hierarchy on the homepage and hub pages: one clear primary action per viewport, secondary actions visually subordinate (semantic tokens only — no new colors).
+5. Deploy breadcrumbs per the catalog spec on all detail pages (`pages/gabinetes/*.html`, `pages/recursos/apuntes.html`, `pages/recursos/seguimiento.html`) with `<nav aria-label>` + `<ol>` markup and BEM classes in `assets/css/nav-secondary.css`.
+6. Modernize the grid layer where it pays off: `gap`, `repeat(auto-fit, minmax(...))` where fixed counts aren't required, CSS subgrid for card internals (title/body/footer) with graceful fallback.
+7. Apply the prose-measure token to any long-form text block still lacking it.
+8. Update `FASE_1_Catalogo_Componentes.md` (elevation tokens, spacing contract, breadcrumb status, changed components).
 
 OVERRIDES to that body (golden rules win): S1 is considered DONE/frozen — consume the existing color/type tokens, never change their VALUES, and never propose new fonts or palette. Regenerate `assets/css/main.bundle.css` with `npm run build:css` and commit it with the sources.
 
@@ -128,7 +150,15 @@ SKILL PROTOCOL:
 2. Execute with `/impeccable adapt` — it owns multi-width adaptation; use its judgment to make wide screens feel designed (not stretched) and to kill abrupt column jumps. Test heading copy at every breakpoint (impeccable ban: no text overflow).
 3. Validate against ui-ux-pro-max §5.
 
-TASK BODY: execute Tasks 1–8 of "Sesión 3 — Responsive Behavior" in `AUDITORIA_UIUX_Prompts.md` (responsive audit matrix, container queries for card grids with viewport fallback, fluid spacing via clamp(), wide-screen enrichment, tablet-landscape refinement, `assets/css/print.css`, navbar transition audit, update catalog).
+TASK BODY (reconcile first — `print.css` and some fluid spacing may already exist; verify and ELEVATE):
+1. Build a responsive audit matrix: every page × {360, 640, 768, 1024, 1280, 1480} by serving locally; record breakages, abrupt jumps, wasted space (include it in the commit body).
+2. Convert card grids to container queries (`container-type: inline-size` + `@container` rules) so components adapt to their context; keep viewport media queries as progressive-enhancement fallback.
+3. Make spacing fluid: replace per-breakpoint jumps of `--page-padding-x/y`, `--section-gap` and grid gaps with `clamp()` in `tokens.css`.
+4. Exploit wide screens at 1280/1480px with deliberate enrichment (wider hero composition, 4-column resource grids, generous whitespace) instead of stretching the 1024px layout.
+5. Refine tablet landscape (~1024px): nav, card grids and the seguimiento tool must feel designed, not interpolated.
+6. Add `@media print` (`assets/css/print.css` in the build): hide nav/footer/CTA/loaders, black-on-white text, expanded URLs for external links, page-break control on cards/headings.
+7. Audit the navbar's responsive transition (hamburger ↔ desktop) for awkward intermediate widths in `assets/css/navbar.css` (visual/layout only).
+8. Update `FASE_1_Catalogo_Componentes.md` with the container-query strategy and the breakpoint usage contract.
 
 OVERRIDES: color/type token VALUES are frozen (S1 done) — make spacing fluid, never redefine identity. Regenerate and commit `assets/css/main.bundle.css`.
 
@@ -147,7 +177,16 @@ SKILL PROTOCOL:
 2. Execute with `/impeccable audit` first (technical a11y/responsive/perf checks), then `/impeccable harden` for the form pattern and edge/error states. impeccable owns the centralized focus treatment with design taste.
 3. Validate: re-run an automated pass (axe-core/Lighthouse a11y) on all 9 pages — zero serious/critical — and the ui-ux-pro-max §1 checklist.
 
-TASK BODY: execute Tasks 1–9 of "Sesión 4 — Accessibility" in `AUDITORIA_UIUX_Prompts.md` (unify skip links to `#main-content`, centralized `:focus-visible` in `assets/css/focus.css`, dynamic announcements `role="alert"`/`aria-live`, harden mobile nav focus trap + Esc, 24×24 target sizes, accessible contact-form pattern, contrast verification, update catalog).
+TASK BODY (reconcile first — `assets/css/focus.css` and unified skip-links may already exist from the prior round; verify and ELEVATE):
+1. Full audit: keyboard-only walkthrough of every page (tab order, focus visibility, Esc, focus return), landmark/heading review, and an automated pass (axe-core/Lighthouse a11y) on all 9 pages; summarize in a table for the commit body.
+2. Unify skip links: same target id `#main-content` and identical markup on every page; ensure the target is focusable (`tabindex="-1"` if needed).
+3. Centralized focus system: a tokens-based `:focus-visible` treatment (≥2px outline with offset, AA against every surface it can appear on) defined once in `assets/css/focus.css`; remove scattered per-component focus rules. Cover links, buttons, pills, nav items, form controls, skip links, link-wrapped cards.
+4. Fix dynamic announcements: errors inserted by `main.js`/`loaders.js` use `role="alert"`; status updates go into an existing `aria-live` region; the loader→content swap is announced sanely without spamming.
+5. Harden the mobile nav: Esc closes the panel and returns focus to the hamburger; focus trapped inside the open panel; `aria-expanded` stays in sync (extend `assets/js/navbar.js`).
+6. Target sizes: all interactive targets ≥24×24 CSS px (aim 44×44 on primary controls); fix via padding, not magic numbers.
+7. Forms groundwork in `assets/css/forms.css` + `pages/contacto.html`: visible `<label>`s, `aria-describedby` hint/error wiring, error-summary pattern, `:user-invalid` styling with non-color error indication. Markup/CSS/JS pattern only, no backend.
+8. Verify contrast of every text/surface pair introduced since the redesign (incl. focus outlines, seguimiento palette) and document ratios in `tokens.css` comments.
+9. Update `FASE_1_Catalogo_Componentes.md` (states, focus, forms sections).
 
 OVERRIDES: palette/type token VALUES frozen — if a pair fails contrast, raise it as a finding in the commit body rather than changing the brand tokens (focus-outline tokens are the only ones you may add). Regenerate and commit `assets/css/main.bundle.css` if CSS changed.
 
@@ -167,7 +206,15 @@ SKILL PROTOCOL:
 3. Optional but recommended for the tricky transitions (data-loader swap, View Transitions): use `/impeccable live` to watch the motion in the real browser and tune timing/easing instead of guessing.
 4. Validate against ui-ux-pro-max §7 and the reduced-motion reset.
 
-TASK BODY: execute Tasks 1–8 of "Sesión 5 — Animations & Micro-interactions" in `AUDITORIA_UIUX_Prompts.md` (motion inventory + principles, tokenize easing + duration ramp, micro-interactions on buttons/cards/nav/pills, content-entry choreography on data-loader swap with `--index` stagger, upgrade scroll-reveal with stagger, cross-document View Transitions as progressive enhancement, reduced-motion safety, update catalog).
+TASK BODY (reconcile first — duration tokens and a scroll-reveal system already exist; verify and ELEVATE):
+1. Inventory every existing animation/transition (file, trigger, duration, easing, reduced-motion behavior) into a table for the commit body; define your motion principles (what moves, why, how far, how long).
+2. Tokenize the motion system in `tokens.css`: easing tokens (`--ease-out`, `--ease-in-out`, `--ease-emphasized` ≈ cubic-bezier(0.2,0,0,1), a spring-like `linear()` with documented fallback) and a duration ramp consistent with the existing tokens; migrate all existing transitions/keyframes to use them.
+3. Micro-interactions (CSS-only where possible): buttons (hover lift/press compression ≤2px, using the elevation tokens), cards (hover elevation + subtle image scale within `overflow:hidden`), nav links (underline/indicator transitions), pills (selection). Subtle and fast (≤ `--transition-normal`); transform/opacity only, never layout properties.
+4. Choreograph content entry: when the data-loader swaps loader → rendered content, fade/translate it in (one class added by JS, animated in CSS) with stagger via an `--index` custom property set on grid children during render in `assets/js/loaders.js`.
+5. Upgrade scroll-reveal (`assets/js/scroll-reveal.js` + CSS): add stagger and a translate-distance token; apply deliberately to homepage/hub sections (never above-the-fold) and only as enhancement of already-visible content.
+6. Cross-document View Transitions as progressive enhancement: `@view-transition { navigation: auto; }` + tasteful `::view-transition-*` rules (persistent navbar, soft root cross-fade ≤250ms); degrade to instant navigation and disable under reduced motion.
+7. Every new animation respects the global reduced-motion reset (or provides a `.safe-motion` alternative); nothing flashes, loops indefinitely (except existing loaders), or exceeds ~500ms for UI feedback.
+8. Update `FASE_1_Catalogo_Componentes.md` with motion principles, tokens, and per-component motion specs.
 
 OVERRIDES: token VALUES for color/type/spacing/elevation frozen — add only motion (easing/duration) tokens. Preserve the global `prefers-reduced-motion` reset and `.safe-motion` exactly. Regenerate and commit `assets/css/main.bundle.css`.
 
@@ -186,7 +233,15 @@ SKILL PROTOCOL:
 2. Execute with `/impeccable optimize` — it diagnoses and fixes UI performance with zero visual regression as the goal.
 3. Validate: before/after Lighthouse matrix and the ui-ux-pro-max §3 checklist.
 
-TASK BODY: execute Tasks 1–8 of "Sesión 6 — Performance & Asset Delivery" in `AUDITORIA_UIUX_Prompts.md` (Lighthouse baseline, kill the @import waterfall / keep the build:css bundle, font preload + size-adjust fallback metrics, image width/height + lazy + fetchpriority + WebP, tame the fetch waterfall, JS scheduling, write/update `RENDIMIENTO_Presupuesto.md`, re-run the matrix).
+TASK BODY (reconcile first — the `build:css` bundle and `RENDIMIENTO_Presupuesto.md` already exist; the @import waterfall is likely already solved — verify and ELEVATE, re-measuring rather than redoing):
+1. Lighthouse baseline (mobile + desktop, against a local server) on `index.html`, one gabinete detail, `pages/recursos/apuntes.html`, `pages/contacto.html`; record LCP, CLS, INP/TBT, transfer size per page in a table ("before" column).
+2. CSS delivery: confirm the render-blocking `@import` chain is gone and the `npm run build:css` bundle is the single delivered stylesheet; keep the 18-file modular source for development.
+3. Font loading: `<link rel="preload" as="font" crossorigin>` for the 1–2 above-the-fold fonts; add `size-adjust`/`ascent-override` fallback metrics to each @font-face fallback so the swap is visually quiet (measure CLS before/after).
+4. Image strategy: explicit `width`/`height` (or CSS `aspect-ratio`) on every `<img>` and image-emitting renderer in `assets/js/loaders.js`; `loading="lazy"` + `decoding="async"` below the fold; `fetchpriority="high"` on the LCP hero and eager-load only the first slideshow frame; convert oversized rasters to right-sized WebP.
+5. Tame the fetch waterfall: preload the critical path (navbar partial + `data/navbar.json`); reserve space for injected navbar/footer via CSS min-height to remove their CLS.
+6. JS scheduling: verify all scripts are `type="module"` (deferred) and page-specific scripts stay page-scoped.
+7. Define/refresh the performance budget in `RENDIMIENTO_Presupuesto.md` (LCP < 2.5s mobile, CLS < 0.1, total CSS < 75KB, per-page transfer < 500KB) with re-checkable measurement commands.
+8. Re-run the full Lighthouse matrix ("after" column); every metric must improve or hold — explain any that don't.
 
 OVERRIDES: pixel-identical rendering is mandatory (compare screenshots at 375/1280). Token values, component CSS, motion (P04), and a11y (P03) behavior are not to change — only delivery. The CSS bundle already exists via `npm run build:css`; keep it as the delivery mechanism and regenerate/commit it.
 
@@ -202,7 +257,10 @@ You are a senior design engineer polishing typography tokens of a production sta
 
 SKILL PROTOCOL: consult `python3 .claude/skills/ui-ux-pro-max/scripts/search.py "typography spacing tokens" --domain typography` for confirmation that underline-offset and text-shadow belong in a token tier; execute the change with `/impeccable typeset` (typography craft) and finish with `/impeccable polish`. Fonts and type scale are FROZEN — this is pure tokenization of existing rendered values, zero visual change.
 
-TASK BODY: execute PROMPT T1 of `AUDITORIA_UIUX_Prompts_Ronda2.md` (add `--underline-offset` and `--text-shadow-media` tokens; consume them in cards/footer/forms/error-404 and headers).
+TASK BODY (verify line numbers against the live files first):
+1. In `tokens.css` (radii/transitions region) add, with Spanish doc comments: `--underline-offset: 2px;` and `--text-shadow-media: 0 4px 16px color-mix(in srgb, var(--color-text) 60%, transparent), 0 2px 4px color-mix(in srgb, var(--color-text) 80%, transparent);`.
+2. Replace hardcoded `text-underline-offset` with `var(--underline-offset)` in `cards.css`, `footer.css`, `forms.css`, `error-404.css`. If any uses 3px, keep its rendered value via a documented local override instead of changing it.
+3. Replace the duplicated two-layer `text-shadow` blocks in `headers.css` (the hero title rules) with `text-shadow: var(--text-shadow-media);`. Strictly zero visual change.
 
 OVERRIDES: branch name and "no PR" per golden rules (ignore Ronda 2's single-branch instruction). Regenerate and commit `assets/css/main.bundle.css`. Commit `refactar(tokens): tokenizar offset de subrayado y sombra de texto sobre media`, push `git push -u origin design/p06-tokens-tipograficos`. Do NOT create a pull request.
 ```
@@ -216,7 +274,7 @@ You are a senior design engineer polishing prose typography of a production stat
 
 SKILL PROTOCOL: consult `python3 .claude/skills/ui-ux-pro-max/scripts/search.py "line length readable prose" --domain typography`; execute with `/impeccable typeset` (it explicitly recommends `text-wrap: pretty` on long prose and `balance` on headings — confirm the split). Identity frozen.
 
-TASK BODY: execute PROMPT T2 of `AUDITORIA_UIUX_Prompts_Ronda2.md` (`p, li, figcaption, dd { text-wrap: pretty; }` in the global typography section, with the documented progressive-enhancement note).
+TASK BODY: in `assets/css/main.css` global typography section (near the body/heading baseline) add `p, li, figcaption, dd { text-wrap: pretty; }` with a Spanish comment noting (a) it is progressive enhancement — unsupported browsers ignore it — and (b) headings already use `text-wrap: balance` in `headers.css`, so this rule deliberately targets prose only.
 
 OVERRIDES: branch + no-PR per golden rules. Regenerate and commit the bundle. Commit `mejorar(tipografía): controlar huérfanas en prosa con text-wrap pretty`, push `git push -u origin design/p07-huerfanas-prosa`. Do NOT create a pull request.
 ```
@@ -230,7 +288,7 @@ You are a senior design engineer adding branded text selection to a production s
 
 SKILL PROTOCOL: consult `python3 .claude/skills/ui-ux-pro-max/scripts/search.py "selection color contrast accessible pairs" --domain color` to confirm both selection pairs meet AA; execute with `/impeccable colorize` then `/impeccable polish`. Uses ONLY the existing frozen palette tokens (patina/arena) — no new colors.
 
-TASK BODY: execute PROMPT T3 of `AUDITORIA_UIUX_Prompts_Ronda2.md` (`::selection` and context-specific footer/cta/hero selection rules, with computed contrast ratios documented in Spanish).
+TASK BODY: in `tokens.css`, after the global element baseline (the `body`/`a` rules), add branded selection styling using ONLY existing palette tokens: `::selection { background: var(--patina-100); color: var(--arena-950); }` and `.footer ::selection, .cta-final ::selection, .hero ::selection { background: var(--patina-300); color: var(--patina-950); }`. Compute the real contrast ratio of both pairs and state them in the Spanish comment, matching the file's documentation style. (Reference literals: --patina-100 #CFEAF2, --arena-950 #1C1914, --patina-300 #81BCCD, --patina-950 #072229.)
 
 OVERRIDES: branch + no-PR. Regenerate and commit the bundle. Commit `mejorar(color): marcar la selección de texto con la paleta pátina`, push `git push -u origin design/p08-seleccion-texto`. Do NOT create a pull request.
 ```
@@ -244,7 +302,7 @@ You are a senior design engineer enforcing reading measure on a production stati
 
 SKILL PROTOCOL: consult `python3 .claude/skills/ui-ux-pro-max/scripts/search.py "line length control 65 characters" --domain ux` (line-length-control 60–75 desktop); execute with `/impeccable typeset` (cap body line length 65–75ch — its core typography rule). HTML-only via the existing `.prose` class, no new CSS.
 
-TASK BODY: execute PROMPT T4 of `AUDITORIA_UIUX_Prompts_Ronda2.md` (audit `sobre-achetiq`, the four gabinete details, `recursos`; apply `.prose` to unconstrained long-form blocks; list changed blocks in the commit body).
+TASK BODY: the reading-measure constraint `max-width: var(--measure-prose)` (65ch) exists only contextually (`.prose` in `text.css`, `.page-header__lead` in `headers.css`). Audit `pages/sobre-achetiq.html`, the four `pages/gabinetes/*.html` details and `pages/recursos.html` for paragraph runs NOT constrained to the prose measure; for each, apply the existing `.prose` class IN THE HTML (no new CSS). Don't touch cards, captions, in-component list items, or single-line text. For content injected by `loaders.js`, the class goes on the container in HTML, not on injected nodes — do not modify the JS. List the blocks changed (page + section) in the commit body.
 
 OVERRIDES: branch + no-PR. No CSS changed → no bundle rebuild needed (confirm). Commit `corregir(tipografía): limitar medida de lectura a 65ch en bloques de prosa largos`, push `git push -u origin design/p09-medida-lectura`. Do NOT create a pull request.
 ```
@@ -258,7 +316,7 @@ You are a senior design engineer centralizing vertical rhythm of a production st
 
 SKILL PROTOCOL: consult ui-ux-pro-max §5 (`spacing-scale`, section spacing hierarchy via `python3 .claude/skills/ui-ux-pro-max/scripts/search.py "spacing scale section rhythm" --domain ux`); execute with `/impeccable layout` (it owns spacing rhythm and varying spacing for hierarchy). Strictly zero rendered change — pure centralization.
 
-TASK BODY: execute PROMPT S1 of `AUDITORIA_UIUX_Prompts_Ronda2.md` (add `--section-pad-y` / `--section-pad-y-lg` clamps; consume the vertical component in cta/footer/hero/countdown).
+TASK BODY: several components carry their own literal vertical padding clamps encoding the same two rhythm tiers. (1) In `tokens.css` (fluid layout section) add, with Spanish comments, `--section-pad-y: clamp(48px, 42.86px + 1.43vw, 64px);` (standard section breathing) and `--section-pad-y-lg: clamp(64px, 53.71px + 2.86vw, 96px);` (hero-grade). (2) Consume them, replacing ONLY the vertical component of each literal clamp (keep the distinct horizontal clamps): `.cta-final` (`cta.css`), footer padding (`footer.css`), hero padding (`headers.css` → the `-lg` token), the countdown panel (`countdown-recursos.css`). Confirm computed vertical padding is identical at 360/768/1480px.
 
 OVERRIDES: branch + no-PR. Regenerate and commit the bundle; verify computed padding is identical at 360/768/1480. Commit `refactar(tokens): centralizar ritmo vertical de secciones en alias de padding`, push `git push -u origin design/p10-ritmo-vertical`. Do NOT create a pull request.
 ```
@@ -272,7 +330,7 @@ You are a senior design engineer fixing sticky-navbar anchor offsets on a produc
 
 SKILL PROTOCOL: consult ui-ux-pro-max §5 (`fixed-element-offset` — fixed navbar must reserve safe space for underlying content); execute with `/impeccable adapt` (layout/viewport behavior).
 
-TASK BODY: execute PROMPT S2 of `AUDITORIA_UIUX_Prompts_Ronda2.md` (`[id] { scroll-margin-top: calc(var(--navbar-height) + var(--space-4)); }` in the global reset, with Spanish comment; confirm reduced-motion override still respected).
+TASK BODY: the navbar is sticky (`--navbar-height`) and the site uses hash navigation (e.g. `#asociacion`/`#galeria` on `pages/sobre-achetiq.html`), but no `scroll-margin-top` exists, so anchored targets can land under the bar. In `assets/css/main.css` (global reset) add `[id] { scroll-margin-top: calc(var(--navbar-height) + var(--space-4)); }` with a Spanish comment explaining the sticky-navbar compensation (covers current hash panels and future heading anchors). Confirm `scroll-behavior: smooth` still respects the reduced-motion override in `main.css`.
 
 OVERRIDES: branch + no-PR. Regenerate and commit the bundle. Commit `corregir(layout): compensar navbar sticky en destinos de anclas con scroll-margin-top`, push `git push -u origin design/p11-scroll-margin`. Do NOT create a pull request.
 ```
@@ -286,7 +344,7 @@ You are a senior design engineer documenting one-off literal dimensions on a pro
 
 SKILL PROTOCOL: execute with `/impeccable polish` (final-quality hygiene pass). ui-ux-pro-max not strictly needed; optionally confirm token discipline. Strictly zero visual change.
 
-TASK BODY: execute PROMPT S3 of `AUDITORIA_UIUX_Prompts_Ronda2.md` (turn the 560px error-panel, 880px countdown-panel, and `80px 1fr` card-actividad grid into documented LOCAL custom properties).
+TASK BODY: convert three one-off literal dimensions into documented LOCAL custom properties, defined at the top of each component's root selector with a Spanish comment explaining the derivation (intentionally local, not global tokens): (1) `error-404.css` `max-width: 560px` → `--error-panel-max: 560px;`; (2) `countdown-recursos.css` `max-width: 880px` → `--countdown-panel-max: 880px;`; (3) `cards.css` `.card-actividad` `grid-template-columns: 80px 1fr` → `--fecha-col: 80px;` and `grid-template-columns: var(--fecha-col) 1fr;`. Strictly zero visual change; diff the bundle to confirm only the expected declarations changed.
 
 OVERRIDES: branch + no-PR. Regenerate and commit the bundle; diff it to confirm only the expected declarations changed. Commit `refactar(css): documentar anchos fijos puntuales como custom properties locales`, push `git push -u origin design/p12-numeros-magicos`. Do NOT create a pull request.
 ```
@@ -300,7 +358,7 @@ You are a senior design engineer hardening color robustness of a production stat
 
 SKILL PROTOCOL: consult `python3 .claude/skills/ui-ux-pro-max/scripts/search.py "accessible color pairs fallback" --domain color`; execute with `/impeccable harden` (production robustness, graceful degradation). Uses only existing palette — no new colors.
 
-TASK BODY: execute PROMPT C1 of `AUDITORIA_UIUX_Prompts_Ronda2.md` (literal `rgba()` fallbacks before each `color-mix()` footer tint, with the re-derivation note).
+TASK BODY: in `assets/css/footer.css`, five local custom properties derive footer tints via `color-mix()` with no fallback (`--footer-ink-soft` 78%, `--footer-ink-faint` 60%, `--footer-rule` 18%, `--footer-rule-soft` 10%, `--footer-bg-hover` 10%, all of `--color-on-accent` into transparent). Before each `color-mix()` declaration add a literal fallback declaration of the SAME property using `rgba(250, 247, 243, A)` (from `--color-on-accent` = --arena-50 = #FAF7F3) with alphas 0.78 / 0.60 / 0.18 / 0.10 / 0.10, so the cascade keeps the modern value where supported and degrades gracefully. Add a Spanish comment noting these literals must be re-derived if `--color-on-accent` changes.
 
 OVERRIDES: branch + no-PR. Regenerate and commit the bundle; verify the footer renders identically. Commit `corregir(footer): añadir fallbacks literales a las tintas color-mix`, push `git push -u origin design/p13-fallbacks-footer`. Do NOT create a pull request.
 ```
@@ -314,7 +372,9 @@ You are a senior design engineer extending the design system of a production sta
 
 SKILL PROTOCOL: consult `python3 .claude/skills/ui-ux-pro-max/scripts/search.py "semantic color tokens states" --domain color` (color-semantic: define semantic tokens, not raw hex); execute with `/impeccable colorize` (strategic color, reusing the established soft-tint recipe). Derive from existing semantic tokens — no new brand colors.
 
-TASK BODY: execute PROMPT C2 of `AUDITORIA_UIUX_Prompts_Ronda2.md` (add `.tag--positive/negative/warning` following the loader-error/form-status recipe, documenting AA ratios).
+TASK BODY: `assets/css/states.css` defines `.tag` with a single `.tag--primary` variant; the codebase has an established soft-tint recipe for semantic surfaces (`.loader-error`, `.form__status`). After `.tag--primary`, add three state variants following exactly that recipe, with `<estado>` = positive / negative / warning:
+`.tag--<estado> { background: color-mix(in oklab, var(--color-<estado>) 8%, var(--color-surface-raised)); color: var(--color-<estado>); border: 1px solid color-mix(in oklab, var(--color-<estado>) 25%, var(--color-border)); }`
+Document in a Spanish comment that all three semantic inks meet AA on the raised surface (positive 7.2:1, negative 7.9:1, warning 5.7:1).
 
 OVERRIDES: branch + no-PR. Regenerate and commit the bundle. Commit `añadir(states): variantes semánticas de tag (positive, negative, warning)`, push `git push -u origin design/p14-tags-semanticos`. Do NOT create a pull request.
 ```
@@ -328,7 +388,7 @@ You are a senior design engineer polishing form-error accessibility of a product
 
 SKILL PROTOCOL: consult ui-ux-pro-max §1/§8 (`color-not-only` — don't convey info by color/border alone; `contrast-feedback` — error states ≥4.5:1) via `python3 .claude/skills/ui-ux-pro-max/scripts/search.py "error not color only contrast feedback" --domain ux`; execute with `/impeccable harden` plus `/impeccable clarify` for any error-affordance copy.
 
-TASK BODY: execute PROMPT C3 of `AUDITORIA_UIUX_Prompts_Ronda2.md` (add the 4% negative tint background to the invalid-field block, mirroring `.form__error-summary`).
+TASK BODY: in `assets/css/forms.css`, the invalid-field block (`.form__input[aria-invalid="true"], .form__input:user-invalid`) signals errors via a 2px `--color-negative` border + padding compensation; the error summary additionally uses a 4% negative tint. Add to that invalid-field block (keeping the existing border and padding compensation): `background: color-mix(in oklab, var(--color-negative) 4%, var(--color-surface-raised));` — mirroring `.form__error-summary` so the field reads as part of the same error system. Add one Spanish comment referencing the shared recipe; confirm placeholder/typed text stays ≥AA on the tint.
 
 OVERRIDES: branch + no-PR. Regenerate and commit the bundle; confirm placeholder/typed text remains ≥AA on the tint. Commit `añadir(forms): teñir fondo de campos inválidos con la receta del error-summary`, push `git push -u origin design/p15-campos-invalidos`. Do NOT create a pull request.
 ```
@@ -342,7 +402,7 @@ You are a senior design engineer polishing button micro-interactions of a produc
 
 SKILL PROTOCOL: consult ui-ux-pro-max §2 (`press-feedback`, `state-clarity`) and §7 (`scale-feedback`); execute with `/impeccable delight` (memorable but restrained press/hover) honoring impeccable's motion rules (transform/opacity only, ease-out, reduced-motion neutralizes it). **Use `/impeccable live`** to tune the hover-lift and active-compression in the browser across the dark (hero) and light (cta-final) button contexts — feel matters more than numbers here.
 
-TASK BODY: execute PROMPT M1 of `AUDITORIA_UIUX_Prompts_Ronda2.md` (extend `.btn` transition; hover lift -1px + `--shadow-xs`; active compression; Spanish comment about subordination to cards and reduced-motion).
+TASK BODY: in `tokens.css` §COMPONENTE — BOTÓN, `.btn` signals hover/active with opacity alone, which reads as unresponsive next to the cards' lift. (1) Extend the transition: `transition: opacity var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);`. (2) `.btn:hover { opacity: 0.92; transform: translateY(-1px); box-shadow: var(--shadow-xs); }`. (3) `.btn:active { opacity: 0.85; transform: translateY(0); box-shadow: none; }`. (4) Spanish comment noting the lift is -1px (half of `--elevation-lift`) to keep buttons subordinate to cards, and that the global reduced-motion block already neutralizes the motion.
 
 OVERRIDES: branch + no-PR. Do not regress the P05 performance budget (no new render-blocking assets). Regenerate and commit the bundle; test on dark (hero) and light (cta-final) contexts and confirm focus rings unaffected and no motion under reduced-motion. Commit `añadir(buttons): elevación sutil en hover y active`, push `git push -u origin design/p16-botones-elevacion`. Do NOT create a pull request.
 ```
@@ -356,7 +416,9 @@ You are a senior design engineer completing button state coverage of a productio
 
 SKILL PROTOCOL: consult ui-ux-pro-max §8 (`disabled-states`: reduced emphasis + cursor change + semantic attribute) via `… "disabled state buttons" --domain ux`; execute with `/impeccable harden` (state coverage / edge cases). Follow the project's existing disabled convention (semantic `--color-text-disabled`, no opacity dimming).
 
-TASK BODY: execute PROMPT M2 of `AUDITORIA_UIUX_Prompts_Ronda2.md` (`.btn:disabled` / `[aria-disabled="true"]` styling + hover/active-neutralizing rule that composes correctly whether or not M1/P16 ran).
+TASK BODY: `.btn` has no disabled styling; the form controls already define the project convention (`forms.css`: semantic `--color-text-disabled`, no opacity dimming, `cursor: not-allowed`). In `tokens.css`, immediately after `.btn:active`, add:
+`.btn:disabled, .btn[aria-disabled="true"] { background: var(--color-border-soft); color: var(--color-text-disabled); border-color: transparent; cursor: not-allowed; opacity: 1; transform: none; box-shadow: none; }`
+plus a hover/active-neutralizing rule for the same selectors (re-assert opacity/transform/box-shadow so disabled buttons never lift — written to compose correctly whether or not P16 ran). Spanish comment referencing the `forms.css` disabled convention.
 
 OVERRIDES: branch + no-PR. Do not regress the P05 performance budget. Regenerate and commit the bundle. Commit `añadir(buttons): estado disabled coherente con los controles de formulario`, push `git push -u origin design/p17-botones-disabled`. Do NOT create a pull request.
 ```
@@ -370,7 +432,7 @@ You are a senior design engineer unifying the motion language of a production st
 
 SKILL PROTOCOL: consult ui-ux-pro-max §7 (`motion-consistency`: unify duration/easing tokens globally; `easing`); execute with `/impeccable animate` (motion craft, single ease-out vocabulary). Aligns with P04's tokenized system — extend it, don't fork it.
 
-TASK BODY: execute PROMPT M3 of `AUDITORIA_UIUX_Prompts_Ronda2.md` (add `--ease-out` token; redefine `--navbar-easing` to it; fix the 240ms→220ms desync; apply the curve to interactive-card transform/box-shadow transitions).
+TASK BODY: the only refined easing is the navbar-local `--navbar-easing: cubic-bezier(0.22, 1, 0.36, 1)`; everything else uses plain `ease`, and the mobile panel closes with a 240ms transform while its overlay fades 220ms (visible desync). (a) In `tokens.css` §transitions add `--ease-out: cubic-bezier(0.22, 1, 0.36, 1);` (Spanish comment: decelerated exit curve for transform-based motion). (b) In `navbar.css` redefine `--navbar-easing: var(--ease-out);` (keep the alias). (c) Fix the desync: change the panel `transform 240ms` → `220ms` to match the overlay. (d) Apply the curve to the transform/box-shadow entries of the interactive-card transitions in `cards.css`: `transform var(--transition-fast)` → `transform 150ms var(--ease-out)` and `box-shadow var(--transition-fast)` → `box-shadow 150ms var(--ease-out)`, keeping border-color/color on `var(--transition-fast)`. If P04 already tokenized easing, EXTEND that system instead of forking it.
 
 OVERRIDES: branch + no-PR. Do not regress the P05 performance budget. Regenerate and commit the bundle; verify mobile panel + overlay finish together and reduced-motion still neutralizes. Commit `refactar(motion): unificar curva ease-out global y sincronizar cierre del panel móvil`, push `git push -u origin design/p18-ease-out-global`. Do NOT create a pull request.
 ```
@@ -384,7 +446,7 @@ You are a senior design engineer extending entrance-motion of a production stati
 
 SKILL PROTOCOL: consult ui-ux-pro-max §7 (`stagger-sequence` 30–50ms/item, `reduced-motion`); execute with `/impeccable animate`. Heed impeccable's rules: reveals must enhance already-visible content (progressive enhancement, never gate visibility), avoid the uniform-reflex.
 
-TASK BODY: execute PROMPT M4 of `AUDITORIA_UIUX_Prompts_Ronda2.md` (preserve scroll-reveal.js reduced-motion contract; MOVE `.scroll-reveal--armed` into a bundled sheet; add `data-scroll-reveal` + script include to gabinetes/recursos/contacto grids).
+TASK BODY: `assets/js/scroll-reveal.js` (IntersectionObserver) currently animates only the index about-intro figure and the sobre-asociacion gallery; its armed-state styles live in `assets/css/sobre-asociacion.css` (`.scroll-reveal--armed`), a per-page sheet NOT in the bundle. (1) Read `scroll-reveal.js` first and confirm its contract: it arms arbitrary `[data-scroll-reveal]` elements and adds the armed class ONLY when `prefers-reduced-motion` allows motion — preserve that logic. (2) MOVE (not duplicate) the `.scroll-reveal--armed` rules from `sobre-asociacion.css` into a bundled shared sheet (`assets/css/states.css` is the natural home) so non-index pages get them via the bundle. (3) Add `data-scroll-reveal` to the main `.grid-cards` sections in `pages/gabinetes.html` and `pages/recursos.html` and the contact grid in `pages/contacto.html`, plus the `<script src="…/assets/js/scroll-reveal.js" defer>` include (mind relative-path depth). (4) Reuse the existing reveal styling as-is; no new keyframes; content fully visible without JS.
 
 OVERRIDES: branch + no-PR. Do not regress the P05 performance budget (the moved sheet must not bloat the bundle materially). Regenerate and commit the bundle; confirm content fully visible without JS and static under reduced motion. Commit `añadir(motion): extender scroll-reveal a las grillas de gabinetes, recursos y contacto`, push `git push -u origin design/p19-scroll-reveal-grillas`. Do NOT create a pull request.
 ```
@@ -398,7 +460,7 @@ You are a senior design engineer eliminating layout-shift risk on a production s
 
 SKILL PROTOCOL: consult ui-ux-pro-max §3 (`image-dimension` declare width/height or aspect-ratio; `content-jumping` reserve space) via `… "image dimension layout shift CLS" --domain ux`; execute with `/impeccable optimize` (UI performance / CLS). Do not modify the data-loader engine, security helpers, or JSON schema.
 
-TASK BODY: execute PROMPT X1 of `AUDITORIA_UIUX_Prompts_Ronda2.md` (set explicit width/height on `<img>` created by `loaders.js`/`gabinete-detalle.js`, or confirm CSS aspect-ratio; list each renderer touched).
+TASK BODY: audit every renderer in `assets/js/loaders.js` and `assets/js/gabinete-detalle.js` that creates `<img>` elements (member photos, gallery images, materia covers, noticia covers). For each: if the aspect contract is known (1:1 for integrantes, 16:9 for covers) set explicit `width`/`height` attributes on the created element (e.g. 800×800, 1280×720 — the CSS `object-fit: cover` containers make exact numbers safe) so the browser reserves space before load; if dimensions are genuinely unknowable, confirm the CSS container already enforces `aspect-ratio` (as `.card-materia__cover` does in `cards.css`) and note it in a short code comment. Do NOT modify the data-loader control flow, the security helpers, or any JSON schema. List each renderer touched in the commit body.
 
 OVERRIDES: branch + no-PR. No CSS changed → no bundle rebuild (confirm). Verify zero shift on Slow 3G and CLS < 0.1. Commit `corregir(js): reservar espacio de imágenes inyectadas para evitar CLS`, push `git push -u origin design/p20-cls-imagenes`. Do NOT create a pull request.
 ```
@@ -412,7 +474,7 @@ You are a senior design engineer attacking the documented LCP budget exception o
 
 SKILL PROTOCOL: consult ui-ux-pro-max §3 (`image-optimization` responsive srcset; `lazy-load-below-fold`) via `… "responsive images srcset LCP hero" --domain ux`; execute with `/impeccable optimize`. Pixel/visual result unchanged — only resolution served per viewport.
 
-TASK BODY: execute PROMPT X2 of `AUDITORIA_UIUX_Prompts_Ronda2.md` (generate 800w/1280w WebP hero variants; select by matchMedia in `hero-carrousel.js`; update the `<link rel=preload>` with `imagesrcset`/`imagesizes`; re-measure and update `RENDIMIENTO_Presupuesto.md`).
+TASK BODY: `RENDIMIENTO_Presupuesto.md` records Inicio's mobile LCP at 3.8s (budget < 2.5s) caused by serving `assets/img/hero/*-1920.webp` (~115KB first frame) to ALL viewports. (1) Generate 800w and 1280w WebP variants of every hero frame into `assets/img/hero/` (use `cwebp` or `sharp` via npx; keep the 1920w originals; match the existing naming, e.g. `2014-800.webp`, `2014-1280.webp`). (2) Update `assets/js/hero-carrousel.js` to select the variant at init via `matchMedia('(max-width: 768px)')`→800w, `(max-width: 1280px)`→1280w, else 1920w; keep the existing preload/defer strategy (first frame eager with priority, the rest after `window.load`). (3) Update the first-frame `<link rel="preload">` in `index.html` to use `imagesrcset` + `imagesizes` so the preloaded resource matches what the JS picks (avoid double-download). (4) Re-measure with the commands documented in `RENDIMIENTO_Presupuesto.md` and update its baseline table and the exception note with the new mobile LCP.
 
 OVERRIDES: branch + no-PR. Verify at 375px the 800w file is preloaded and used with no duplicate request, slideshow rotation and reduced-motion intact. Commit `optimizar(hero): servir variantes responsive del slideshow y actualizar presupuesto`, push `git push -u origin design/p21-hero-lcp`. Do NOT create a pull request.
 ```
