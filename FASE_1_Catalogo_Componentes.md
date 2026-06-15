@@ -129,8 +129,8 @@ La sesión S4 (accesibilidad WCAG 2.2 AA) centralizó el tratamiento de foco. **
 |---|---|---|
 | `--focus-ring-width` | `2px` | Mínimo recomendado WCAG 2.4.13. |
 | `--focus-ring-offset` | `2px` | El color adyacente al anillo es siempre la superficie del contexto, no el relleno del control. |
-| `--focus-ring-color` | `var(--color-accent)` | 8.1:1 sobre `surface` · 8.6:1 sobre `raised` (mínimo 1.4.11: 3:1). |
-| `--focus-ring-color-inverse` | `var(--color-on-accent)` | Superficies oscuras: 8.6:1 sobre `accent` (cta-final) · 13.2:1 sobre `surface-inverse` (footer) · 16.5:1 sobre el peor caso del scrim del hero. |
+| `--focus-ring-color` | `var(--color-accent)` | 7.95:1 sobre `surface` · 8.39:1 sobre `raised` (mínimo 1.4.11: 3:1). |
+| `--focus-ring-color-inverse` | `var(--color-on-accent)` | Superficies oscuras: 8.39:1 sobre `accent` (cta-final) · 13.27:1 sobre `surface-inverse` (footer) · 16.03:1 sobre el peor caso del scrim del hero. |
 
 **Reglas del contrato.**
 
@@ -138,6 +138,8 @@ La sesión S4 (accesibilidad WCAG 2.2 AA) centralizó el tratamiento de foco. **
 - Ningún componente declara ni suprime `outline`. Para adaptar el anillo a una superficie oscura, el contexto redeclara `--focus-ring-color: var(--focus-ring-color-inverse)` (hoy: `.footer`, `.cta-final`, `.hero` — declarado centralmente en focus.css §2).
 - Los componentes pueden añadir refuerzos cosméticos compartidos con `:hover` (cambio de fondo de `.nav-link`, de borde de `.form__input`), nunca el anillo en sí.
 - Los destinos de salto programático (`[tabindex="-1"]`: `<main>`, resumen de errores) no dibujan anillo: no son controles operables.
+
+**Verificación p03 (2026-06-15).** Pase de auditoría WCAG 2.2 AA dedicado. Se re-ejecutó axe-core sobre las 12 páginas HTML (estructura, ARIA, etiquetas, landmarks, orden de encabezados): **0 incidencias serias/críticas**. Se recalcularon los ratios de contraste de cada par texto/superficie introducido desde el rediseño (método WCAG 2.x sobre los hex sRGB, valores cerrados): los anteriores `8.1:1 / 8.6:1` citados para el anillo eran estimaciones; los **verificados** son `7.95:1 (surface)` y `8.39:1 (raised)` — la tabla y los comentarios de `focus.css`, `tokens.css`, `main.css` (`.skip-link`) y `nav-secondary.css` (pill activa) quedaron unificados a esos valores. Se añadió `scroll-padding-top` en el contenedor de scroll raíz (`html`) cubriendo **WCAG 2.2 §2.4.11 (Foco no oscurecido)**: antes `scroll-margin-top` solo protegía los `[id]` (anclas por hash); ahora todo control que recibe el foco por teclado cerca del borde superior se desplaza por debajo de la barra fija, tenga id o no.
 
 ---
 
@@ -271,7 +273,7 @@ El placeholder es reemplazado por `js/navbar.js`, que carga `partials/navbar.htm
 <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
 ```
 
-**Comportamiento visual.** Oculto fuera de pantalla por defecto (vía `position: absolute; left: -9999px`). Al recibir foco (Tab), salta a posición visible en la esquina superior izquierda con fondo `var(--color-accent)` y texto `var(--color-on-accent)` (8.6:1 — AAA). El `<main>` correspondiente debe tener `id="main-content"` y `tabindex="-1"`.
+**Comportamiento visual.** Oculto fuera de pantalla por defecto (vía `position: absolute; left: -9999px`). Al recibir foco (Tab), salta a posición visible en la esquina superior izquierda con fondo `var(--color-accent)` y texto `var(--color-on-accent)` (8.39:1 — AAA). El `<main>` correspondiente debe tener `id="main-content"` y `tabindex="-1"`.
 
 **Unificación S4 (2026-06-11).** El destino es `#main-content` con markup idéntico en **las 9 páginas** (la portada usaba `#contenido`; corregido). El destino con `tabindex="-1"` no dibuja anillo de foco (focus.css §1): no es un control operable.
 
@@ -1154,6 +1156,8 @@ Umbrales de contenedor canónicos (referencia en `tokens.css` §UMBRALES DE CONT
 - Envío válido → `.form__status` (`role="status"`, región viva pre-existente) anuncia el resultado sin robar el foco.
 - Los campos requeridos llevan `required` (estado expuesto a tecnologías de asistencia y habilita `:user-invalid`); `novalidate` suprime solo los globos nativos.
 
+**Verificación p03 (2026-06-15).** El patrón pasó axe-core sin incidencias serias/críticas. Revisión de endurecimiento (`/impeccable harden`): la fuente del correo destino (`data/redes.json`) puede fallar por red — el handler degrada con un mensaje de estado que reenvía a los canales directos en lugar de romper el envío; `status.textContent` se limpia al inicio de cada submit para no dejar un éxito previo desactualizado; el `mailto` escapa asunto y cuerpo con `encodeURIComponent`; `maxlength="1000"` acota el textarea; el `<noscript>` espeja la vía sin JavaScript. Sin defectos abiertos.
+
 ---
 
 ## 7. Navegación secundaria
@@ -1200,9 +1204,9 @@ Umbrales de contenedor canónicos (referencia en `tokens.css` §UMBRALES DE CONT
 **Especificación visual.**
 
 - Cada pill: padding `var(--space-3) var(--space-5)` (altura efectiva ≈ 41 px — supera el mínimo 24 px de WCAG 2.5.8 y roza el estándar 44 px), borde `1px solid var(--color-border)`, radio `var(--radius-pill)` (999 px), tipografía body, `--text-small`.
-- Estado activo (`is-active` + `aria-pressed="true"`): fondo `var(--color-accent)`, texto `var(--color-on-accent)` (8.6:1 — AAA), borde acento.
+- Estado activo (`is-active` + `aria-pressed="true"`): fondo `var(--color-accent)`, texto `var(--color-on-accent)` (8.39:1 — AAA), borde acento.
 - Hover (no activo): fondo `var(--color-surface-raised)`, borde `var(--color-accent)`.
-- Foco: anillo del sistema centralizado (§0.4); sobre la pill activa el offset deja el anillo sobre el fondo de página (8.1:1).
+- Foco: anillo del sistema centralizado (§0.4); sobre la pill activa el offset deja el anillo sobre el fondo de página (7.95:1).
 - El efecto del filtro se anuncia en una región viva `sr-only` polite («Mostrando N materias…», ver §8.1bis).
 
 ---
@@ -1238,6 +1242,8 @@ Umbrales de contenedor canónicos (referencia en `tokens.css` §UMBRALES DE CONT
 **Anuncio (S4).** `role="alert"` (assertive implícito), texto en dos fases igual que el empty-state. El detalle técnico va a consola; la persona ve solo el aviso accionable («Probá recargar la página»).
 
 **Política de anuncios del motor (`main.js`/`loaders.js`).** La llegada del **contenido real no se anuncia**: el loader (región viva) se retira con `replaceChildren()` y el contenido entra sin `aria-live`, evitando ráfagas. Hablan únicamente el estado de carga («Cargando…», polite), el empty (polite) y el error (alert). El filtro por año de Apuntes anuncia su **efecto** («Mostrando N materias…») en una región `sr-only` polite propia (apuntes.js).
+
+**Verificación p03 (2026-06-15).** Política revisada y ratificada: el swap loader→contenido es silencioso (sin spam) y solo los estados terminales excepcionales (empty/error) y el progreso de carga emiten a la región viva. La inserción en dos fases (`setLiveText`) se conserva como garantía del anuncio del cambio. Sin cambios de comportamiento; queda documentado como patrón verificado.
 
 ---
 

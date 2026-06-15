@@ -233,17 +233,25 @@ select {
    --focus-ring-* de tokens.css §FOCO VISIBLE. No declarar outline
    en ninguna otra hoja. */
 
-/* Compensación del navbar sticky en destinos de ancla. Al navegar
-   por hash (p. ej. #asociacion / #galeria en sobre-achetiq.html, o
-   cualquier futuro encabezado con id), el navegador alinea el
-   destino con el borde superior del viewport y la barra fija
-   (--navbar-height, navbar.css) lo taparía. scroll-margin-top
-   reserva esa altura más una respiración (--space-4) para que el
-   destino quede completamente visible bajo la barra. Se aplica a
-   todo [id]: cubre los paneles por hash actuales y cualquier ancla
-   que se incorpore después, sin reglas por componente. */
-[id] {
-  scroll-margin-top: calc(var(--navbar-height) + var(--space-4));
+/* Compensación del navbar sticky para TODO desplazamiento-hasta-ver.
+   La barra está fija arriba (--navbar-height, navbar.css); cualquier
+   elemento que el navegador traiga al borde superior del viewport
+   quedaría tapado por ella. scroll-padding-top en el contenedor de
+   scroll raíz (html) reserva esa altura más una respiración
+   (--space-4) y se aplica a CUALQUIER scrollIntoView del documento:
+
+     · navegación por hash (#asociacion / #galeria en
+       sobre-achetiq.html, resumen de errores → #campo del
+       formulario, o cualquier id futuro), y —lo que scroll-margin
+       sobre [id] no cubría—
+     · el desplazamiento que el navegador dispara al mover el FOCO
+       por teclado a un control SIN id (botón, enlace, campo). Sin
+       esto, tabular hacia un control en el borde superior lo dejaba
+       semioculto bajo la barra → WCAG 2.2 §2.4.11 (Foco no oscurecido,
+       mínimo). Centralizar el offset en el scroller cubre ambos casos
+       con una sola regla, sin selectores por componente. */
+html {
+  scroll-padding-top: calc(var(--navbar-height) + var(--space-4));
 }
 
 /* Respeta la preferencia del sistema de movimiento reducido:
@@ -474,7 +482,7 @@ pre {
 /* .skip-link — salto de accesibilidad al contenido principal
    (FASE_1 §1.4). Oculto fuera de pantalla; al recibir foco por
    teclado salta visible a la esquina superior izquierda.
-   Contraste --color-on-accent sobre --color-accent ≈ 8.6:1 — WCAG AAA. */
+   Contraste --color-on-accent sobre --color-accent 8.39:1 — WCAG AAA. */
 .skip-link {
   position: absolute;
   top: 0;

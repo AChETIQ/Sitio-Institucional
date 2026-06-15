@@ -28,11 +28,11 @@
 /* ─────────────────────────────────────────────────────────────
    1. ANILLO GLOBAL
    Foco visible solo para navegación por teclado (:focus-visible).
-   Contraste del anillo documentado en tokens.css §FOCO VISIBLE:
-   8.1:1 sobre --color-surface · 8.6:1 sobre raised (mínimo
-   WCAG 1.4.11: 3:1). El offset de 2 px garantiza que el color
-   adyacente al anillo sea la superficie del contexto y no el
-   relleno del control.
+   Contraste del anillo (recalculado y verificado en p03, método WCAG
+   2.x sRGB; ver tokens.css §FOCO VISIBLE): 7.95:1 sobre
+   --color-surface · 8.39:1 sobre raised (mínimo WCAG 1.4.11: 3:1).
+   El offset de 2 px garantiza que el color adyacente al anillo sea la
+   superficie del contexto y no el relleno del control.
    ───────────────────────────────────────────────────────────── */
 
 :focus-visible {
