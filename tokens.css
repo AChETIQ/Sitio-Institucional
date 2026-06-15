@@ -753,13 +753,15 @@
      ningún componente declara su propio outline.
 
      Ratios WCAG 2.2 calculados (§1.4.11 exige ≥ 3:1 para
-     indicadores de interfaz contra colores adyacentes):
-       --focus-ring-color sobre --color-surface 7.9:1 ·
-         sobre raised 8.4:1 — supera 3:1 con margen.
+     indicadores de interfaz contra colores adyacentes).
+     Recalculados y verificados en p03 (método WCAG 2.x sobre los
+     hex sRGB; valores cerrados, no estimados):
+       --focus-ring-color sobre --color-surface 7.95:1 ·
+         sobre raised 8.39:1 — supera 3:1 con margen.
        --focus-ring-color-inverse sobre --color-accent
-         (cta-final, pill activa) 8.4:1 · sobre
-         --color-surface-inverse (footer) 13.3:1 · sobre
-         --cobalto-950 (peor caso del scrim del hero) 16.0:1.
+         (cta-final, pill activa) 8.39:1 · sobre
+         --color-surface-inverse (footer) 13.27:1 · sobre
+         --cobalto-950 (peor caso del scrim del hero) 16.03:1.
      El offset de 2 px separa el anillo del relleno del control:
      el color adyacente al anillo es siempre la superficie del
      contexto (no el relleno del botón), que es contra la que se
@@ -773,7 +775,7 @@
   /* Separación entre el anillo y el borde del control. */
 
   --focus-ring-color: var(--color-accent);
-  /* Anillo sobre superficies claras (surface / raised). 8.1:1. */
+  /* Anillo sobre superficies claras: 7.95:1 (surface) · 8.39:1 (raised). */
 
   --focus-ring-color-inverse: var(--color-on-accent);
   /* Anillo sobre superficies oscuras (footer, cta-final, hero).

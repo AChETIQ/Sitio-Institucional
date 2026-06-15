@@ -138,7 +138,7 @@
 }
 
 /* Estado activo. Fondo en acento, texto en --color-on-accent
-   (contraste ≈ 8.6:1, WCAG AAA). El borde pasa también a acento
+   (contraste 8.39:1, WCAG AAA). El borde pasa también a acento
    para evitar el "halo" del borde estándar visible sobre el
    fondo coloreado. */
 .pill-nav__pill.is-active {
@@ -150,7 +150,7 @@
 /* Foco visible: heredado del sistema centralizado (focus.css §1,
    tokens --focus-ring-*). Sobre la pill activa el outline queda
    sobre el fondo de página gracias al offset, por lo que sigue
-   siendo perceptible (8.1:1). No requiere override. */
+   siendo perceptible (7.95:1). No requiere override. */
 
 
 /* ─────────────────────────────────────────────────────────────

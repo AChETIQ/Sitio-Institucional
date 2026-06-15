@@ -3430,8 +3430,8 @@ select {
 font: inherit;
 color: inherit;
 }
-[id] {
-scroll-margin-top: calc(var(--navbar-height) + var(--space-4));
+html {
+scroll-padding-top: calc(var(--navbar-height) + var(--space-4));
 }
 @media (prefers-reduced-motion: reduce) {
 html {
