@@ -733,30 +733,41 @@
   }
 }
 
-/* ── Responsive < 880px: columna única (tronco izq., nodos der.) ── */
+/* ── Responsive < 880px: columna única (tronco izq., nodos der.) ──
+   AJUSTE P02 (auditoría responsive). El offset del eje se expone como
+   variable local (--tl-rail) para que el ancho de la entrada lo
+   descuente exactamente: con `width: 100%` + `margin-left: 32px` la
+   entrada desbordaba su contenedor en 32 px → ≈12 px de scroll
+   horizontal en 360 px (viola §5 horizontal-scroll). Además, a 360 px
+   el brazo de 120 px dejaba la columna de texto en ≈20 caracteres por
+   línea (bajo el mínimo de §5 line-length 35–60): el brazo y el nodo
+   se compactan para devolverle medida de lectura al contenido. */
 @media (max-width: 880px) {
   .timeline {
-    --tl-node: 78px;
-    --tl-arm:  120px;
+    --tl-rail: 32px;     /* offset del eje respecto del borde izquierdo */
+    --tl-node: 68px;
+    --tl-arm:  92px;
     --tl-band: 120px;
-    --tl-gap:  20px;
+    --tl-gap:  16px;
     --tl-pull: 24px;
     padding-left: 4px;
   }
   .timeline__axis {
-    left: 32px;
+    left: var(--tl-rail);
   }
   .timeline-root {
     margin-top: var(--space-5);
   }
   .timeline-root::before {
-    left: 32px;
+    left: var(--tl-rail);
   }
+  /* width descuenta el offset del eje → la banda nunca excede su
+     contenedor (sin scroll horizontal en 360 px). */
   .timeline__entry,
   .timeline__entry--left,
   .timeline__entry--right {
-    width: 100%;
-    margin-left: 32px;
+    width: calc(100% - var(--tl-rail));
+    margin-left: var(--tl-rail);
     flex-direction: row;
     text-align: left;
   }

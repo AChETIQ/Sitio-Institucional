@@ -3226,6 +3226,9 @@ border-color: var(--color-accent);
 .form__input:user-invalid:focus {
 border-color: var(--color-negative);
 }
+@page {
+margin: 1.6cm;
+}
 @media print {
 *,
 *::before,
@@ -3294,6 +3297,10 @@ word-break: break-all;
 h1, h2, h3, h4 {
 break-after: avoid;
 break-inside: avoid;
+}
+p, li, blockquote, figcaption {
+orphans: 3;
+widows: 3;
 }
 .card,
 .card-materia,
