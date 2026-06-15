@@ -18,3 +18,7 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+
+# Python caches dentro de skills
+.claude/skills/**/__pycache__/
+*.pyc
