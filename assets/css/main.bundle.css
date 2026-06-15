@@ -5,126 +5,126 @@
      tokens.css → navbar.css → footer.css → loader.css → headers.css → text.css → cards.css → lists.css → forms.css → nav-secondary.css → states.css → figure.css → cta.css → countdown-recursos.css → seguimiento.css → focus.css → print.css → main.css
    ============================================================ */
 :root {
---arena-50:  #FAF7F3;
---arena-100: #F4F0E9;
---arena-200: #E5E0D6;
---arena-300: #D2CCC0;
---arena-600: #655F58;
---arena-700: #514C44;
---arena-950: #1C1914;
---patina-50:  #EBF6F9;
---patina-100: #CFEAF2;
---patina-300: #81BCCD;
---patina-500: #1A6E82;
---patina-700: #084F5F;
---patina-900: #02303A;
---patina-950: #072229;
---cobre-100: #F7E0CE;
---cobre-500: #B35713;
---cobre-600: #9E4502;
---cobre-700: #863709;
---verde-700: #225A35;
---rojo-700:  #822D1D;
---ambar-600: #895709;
+--grafito-50:  #F9FAFC;
+--grafito-100: #F2F4F8;
+--grafito-200: #E1E4E9;
+--grafito-300: #CED2D9;
+--grafito-600: #5B5F69;
+--grafito-700: #444953;
+--grafito-950: #131720;
+--cobalto-50:  #EFF4FC;
+--cobalto-100: #D8E5FD;
+--cobalto-300: #8AABE7;
+--cobalto-500: #3463BC;
+--cobalto-700: #1344A5;
+--cobalto-900: #0B2964;
+--cobalto-950: #091C41;
+--mauveina-100: #F3DBF6;
+--mauveina-500: #A347B2;
+--mauveina-600: #922FA1;
+--mauveina-700: #7C228A;
+--verde-700: #165E2E;
+--rojo-700:  #9B171F;
+--ambar-600: #915900;
 }
 @supports (color: oklch(40% 0 0)) {
 :root {
---arena-50:  oklch(0.978 0.006 84);
---arena-100: oklch(0.957 0.010 84);
---arena-200: oklch(0.908 0.014 84);
---arena-300: oklch(0.846 0.018 84);
---arena-600: oklch(0.490 0.014 76);
---arena-700: oklch(0.418 0.014 76);
---arena-950: oklch(0.215 0.010 76);
---patina-50:  oklch(0.965 0.012 218);
---patina-100: oklch(0.920 0.030 218);
---patina-300: oklch(0.760 0.065 218);
---patina-500: oklch(0.500 0.082 218);
---patina-700: oklch(0.395 0.068 218);
---patina-900: oklch(0.285 0.050 218);
---patina-950: oklch(0.235 0.035 220);
---cobre-100: oklch(0.920 0.035 60);
---cobre-500: oklch(0.560 0.140 50);
---cobre-600: oklch(0.500 0.135 48);
---cobre-700: oklch(0.440 0.120 45);
---verde-700: oklch(0.420 0.085 152);
---rojo-700:  oklch(0.420 0.120 33);
---ambar-600: oklch(0.500 0.105 70);
+--grafito-50:  oklch(0.985 0.003 265);
+--grafito-100: oklch(0.967 0.005 265);
+--grafito-200: oklch(0.918 0.008 265);
+--grafito-300: oklch(0.862 0.011 265);
+--grafito-600: oklch(0.486 0.017 265);
+--grafito-700: oklch(0.404 0.018 265);
+--grafito-950: oklch(0.205 0.018 265);
+--cobalto-50:  oklch(0.965 0.012 262);
+--cobalto-100: oklch(0.920 0.035 262);
+--cobalto-300: oklch(0.740 0.095 262);
+--cobalto-500: oklch(0.515 0.150 262);
+--cobalto-700: oklch(0.420 0.165 262);
+--cobalto-900: oklch(0.300 0.110 262);
+--cobalto-950: oklch(0.235 0.075 262);
+--mauveina-100: oklch(0.918 0.045 322);
+--mauveina-500: oklch(0.560 0.180 322);
+--mauveina-600: oklch(0.500 0.190 322);
+--mauveina-700: oklch(0.440 0.175 322);
+--verde-700: oklch(0.427 0.105 150);
+--rojo-700:  oklch(0.445 0.165 25);
+--ambar-600: oklch(0.515 0.115 70);
 }
 }
 :root {
---color-surface:        var(--arena-100);
---color-surface-raised: var(--arena-50);
---color-surface-inverse: var(--patina-900);
---color-overlay: rgba(28, 25, 20, 0.45);
---color-scrim: rgba(7, 34, 41, 0.66);
+--color-surface:        var(--grafito-100);
+--color-surface-raised: var(--grafito-50);
+--color-surface-inverse: var(--cobalto-900);
+--color-overlay: rgba(19, 23, 32, 0.45);
+--color-scrim: rgba(9, 28, 65, 0.66);
 --color-on-media:      #FFFFFF;
 --color-on-media-soft: rgba(255, 255, 255, 0.88);
---color-text:       var(--arena-950);
---color-text-soft:  var(--arena-700);
---color-text-faint: var(--arena-600);
---color-text-disabled: var(--arena-600);
---color-accent:      var(--patina-700);
---color-accent-soft: var(--patina-500);
---color-on-accent:   var(--arena-50);
---color-cta:    var(--cobre-600);
---color-cta-text: var(--cobre-700);
---color-on-cta: var(--arena-50);
+--color-text:       var(--grafito-950);
+--color-text-soft:  var(--grafito-700);
+--color-text-faint: var(--grafito-600);
+--color-text-disabled: var(--grafito-600);
+--color-accent:      var(--cobalto-700);
+--color-accent-soft: var(--cobalto-500);
+--color-on-accent:   var(--grafito-50);
+--color-cta:    var(--mauveina-600);
+--color-cta-text: var(--mauveina-700);
+--color-on-cta: var(--grafito-50);
 --color-negative: var(--rojo-700);
 --color-positive: var(--verde-700);
 --color-warning:  var(--ambar-600);
---color-border:      var(--arena-300);
---color-border-soft: var(--arena-200);
+--color-border:      var(--grafito-300);
+--color-border-soft: var(--grafito-200);
 }
 :root {
---color-materia-anio-1: #E7D6AF;
---color-materia-anio-2: #DBAD81;
---color-materia-anio-3: #97B39C;
---color-materia-anio-4: #6694A3;
---color-materia-anio-5: #245E6E;
---nivel-i-accent:   #507ED3;  --nivel-i-fondo-alt:   #EEF4FD;  --nivel-i-texto:   #325392;
---nivel-ii-accent:  #8E6AC7;  --nivel-ii-fondo-alt:  #F5F2FC;  --nivel-ii-texto:  #5F4589;
---nivel-iii-accent: #039585;  --nivel-iii-fondo-alt: #EAF7F4;  --nivel-iii-texto: #00635A;
---nivel-iv-accent:  #AA7323;  --nivel-iv-fondo-alt:  #F9F2E9;  --nivel-iv-texto:  #754B10;
---nivel-v-accent:   #C65A4F;  --nivel-v-fondo-alt:   #FDF0EE;  --nivel-v-texto:   #883931;
---nivel-x-accent:   #7473D1;  --nivel-x-fondo-alt:   #F2F3FD;  --nivel-x-texto:   #4D4B90;
+--color-materia-anio-1: #E7CDAA;
+--color-materia-anio-2: #D1A6D8;
+--color-materia-anio-3: #89AFD6;
+--color-materia-anio-4: #537ABB;
+--color-materia-anio-5: #264A8E;
+--nivel-i-accent:   #507ED3;  --nivel-i-fondo-alt:   #EEF4FD;  --nivel-i-texto:   #315393;
+--nivel-ii-accent:  #8E6AC7;  --nivel-ii-fondo-alt:  #F5F2FC;  --nivel-ii-texto:  #5F4489;
+--nivel-iii-accent: #039585;  --nivel-iii-fondo-alt: #EAF7F4;  --nivel-iii-texto: #006459;
+--nivel-iv-accent:  #AA7323;  --nivel-iv-fondo-alt:  #FAF2E9;  --nivel-iv-texto:  #744B0A;
+--nivel-v-accent:   #C65A4F;  --nivel-v-fondo-alt:   #FDF0EE;  --nivel-v-texto:   #893830;
+--nivel-x-accent:   #7473D1;  --nivel-x-fondo-alt:   #F2F3FD;  --nivel-x-texto:   #4D4B91;
 }
 @supports (color: oklch(40% 0 0)) {
 :root {
---color-overlay: oklch(0.215 0.010 76 / 0.45);
---color-scrim:   oklch(0.235 0.035 220 / 0.66);
---color-materia-anio-1: oklch(0.880 0.055 88);
---color-materia-anio-2: oklch(0.780 0.080 65);
---color-materia-anio-3: oklch(0.740 0.045 150);
---color-materia-anio-4: oklch(0.640 0.055 220);
---color-materia-anio-5: oklch(0.450 0.065 220);
---nivel-i-accent:   oklch(0.600 0.140 262);  --nivel-i-fondo-alt:   oklch(0.965 0.014 262);  --nivel-i-texto:   oklch(0.450 0.110 262);
---nivel-ii-accent:  oklch(0.600 0.140 300);  --nivel-ii-fondo-alt:  oklch(0.965 0.014 300);  --nivel-ii-texto:  oklch(0.450 0.110 300);
---nivel-iii-accent: oklch(0.600 0.107 182);  --nivel-iii-fondo-alt: oklch(0.965 0.014 182);  --nivel-iii-texto: oklch(0.450 0.080 182);
---nivel-iv-accent:  oklch(0.600 0.115 72);   --nivel-iv-fondo-alt:  oklch(0.965 0.014 75);   --nivel-iv-texto:  oklch(0.450 0.090 70);
---nivel-v-accent:   oklch(0.600 0.140 28);   --nivel-v-fondo-alt:   oklch(0.965 0.014 28);   --nivel-v-texto:   oklch(0.450 0.110 28);
---nivel-x-accent:   oklch(0.600 0.140 282);  --nivel-x-fondo-alt:   oklch(0.965 0.014 282);  --nivel-x-texto:   oklch(0.450 0.110 282);
+--color-overlay: oklch(0.205 0.018 265 / 0.45);
+--color-scrim:   oklch(0.235 0.075 262 / 0.66);
+--color-materia-anio-1: oklch(0.860 0.055 75);
+--color-materia-anio-2: oklch(0.780 0.085 322);
+--color-materia-anio-3: oklch(0.740 0.070 250);
+--color-materia-anio-4: oklch(0.580 0.110 260);
+--color-materia-anio-5: oklch(0.420 0.120 262);
+--nivel-i-accent:   oklch(0.600 0.140 262);  --nivel-i-fondo-alt:   oklch(0.965 0.014 262);  --nivel-i-texto:   oklch(0.450 0.112 262);
+--nivel-ii-accent:  oklch(0.600 0.140 300);  --nivel-ii-fondo-alt:  oklch(0.965 0.014 300);  --nivel-ii-texto:  oklch(0.450 0.112 300);
+--nivel-iii-accent: oklch(0.600 0.107 182);  --nivel-iii-fondo-alt: oklch(0.965 0.014 182);  --nivel-iii-texto: oklch(0.450 0.086 182);
+--nivel-iv-accent:  oklch(0.600 0.115 72);   --nivel-iv-fondo-alt:  oklch(0.965 0.014 75);   --nivel-iv-texto:  oklch(0.450 0.092 70);
+--nivel-v-accent:   oklch(0.600 0.140 28);   --nivel-v-fondo-alt:   oklch(0.965 0.014 28);   --nivel-v-texto:   oklch(0.450 0.112 28);
+--nivel-x-accent:   oklch(0.600 0.140 282);  --nivel-x-fondo-alt:   oklch(0.965 0.014 282);  --nivel-x-texto:   oklch(0.450 0.112 282);
 }
 }
 :root {
 --shadow-xs:
-0 1px 2px color-mix(in srgb, var(--patina-950) 6%, transparent);
+0 1px 2px color-mix(in srgb, var(--cobalto-950) 6%, transparent);
 --shadow-sm:
-0 2px 8px color-mix(in srgb, var(--patina-950) 9%, transparent);
+0 2px 8px color-mix(in srgb, var(--cobalto-950) 9%, transparent);
 --shadow-md:
-0 4px 6px -1px color-mix(in srgb, var(--patina-950) 9%, transparent),
-0 10px 24px -6px color-mix(in srgb, var(--patina-950) 11%, transparent);
+0 4px 6px -1px color-mix(in srgb, var(--cobalto-950) 9%, transparent),
+0 10px 24px -6px color-mix(in srgb, var(--cobalto-950) 11%, transparent);
 --shadow-lg:
-0 6px 16px -2px color-mix(in srgb, var(--patina-950) 10%, transparent),
-0 16px 40px -8px color-mix(in srgb, var(--patina-950) 16%, transparent);
+0 6px 16px -2px color-mix(in srgb, var(--cobalto-950) 10%, transparent),
+0 16px 40px -8px color-mix(in srgb, var(--cobalto-950) 16%, transparent);
 --elevation-border: 1px solid var(--color-border);
 --elevation-border-soft: 1px solid var(--color-border-soft);
 --elevation-hover: var(--shadow-sm);
 --elevation-overlay: var(--shadow-md);
 --elevation-modal: var(--shadow-lg);
 --elevation-lift: -2px;
---font-display: 'Instrument Serif', 'Instrument Serif Fallback', Georgia, 'Times New Roman', serif;
---font-body:    'Geist', 'Geist Fallback', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+--font-display: 'Fraunces', 'Fraunces Fallback', Georgia, 'Times New Roman', serif;
+--font-body:    'Hanken Grotesk', 'Hanken Grotesk Fallback', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 --font-mono:    'Geist Mono', 'Geist Mono Fallback', ui-monospace, 'Cascadia Mono', 'Courier New', monospace;
 --weight-regular:  400;
 --weight-medium:   500;
@@ -813,15 +813,15 @@ text-decoration: none;
 }
 .footer {
 --footer-ink:        var(--color-on-accent);
---footer-ink-soft:   rgba(250, 247, 243, 0.78);
+--footer-ink-soft:   rgba(249, 250, 252, 0.78);
 --footer-ink-soft:   color-mix(in srgb, var(--color-on-accent) 78%, transparent);
---footer-ink-faint:  rgba(250, 247, 243, 0.60);
+--footer-ink-faint:  rgba(249, 250, 252, 0.60);
 --footer-ink-faint:  color-mix(in srgb, var(--color-on-accent) 60%, transparent);
---footer-rule:       rgba(250, 247, 243, 0.18);
+--footer-rule:       rgba(249, 250, 252, 0.18);
 --footer-rule:       color-mix(in srgb, var(--color-on-accent) 18%, transparent);
---footer-rule-soft:  rgba(250, 247, 243, 0.10);
+--footer-rule-soft:  rgba(249, 250, 252, 0.10);
 --footer-rule-soft:  color-mix(in srgb, var(--color-on-accent) 10%, transparent);
---footer-bg-hover:   rgba(250, 247, 243, 0.10);
+--footer-bg-hover:   rgba(249, 250, 252, 0.10);
 --footer-bg-hover:   color-mix(in srgb, var(--color-on-accent) 10%, transparent);
 }
 .footer {
@@ -3336,11 +3336,25 @@ position: static;
 }
 }
 @font-face {
-font-family: 'Geist';
+font-family: 'Fraunces';
 font-style: normal;
 font-weight: 400 600;
 font-display: swap;
-src: url('../fonts/geist-400-600.woff2') format('woff2');
+src: url('../fonts/fraunces-400-600.woff2') format('woff2');
+}
+@font-face {
+font-family: 'Fraunces';
+font-style: italic;
+font-weight: 400 600;
+font-display: swap;
+src: url('../fonts/fraunces-400-600-italic.woff2') format('woff2');
+}
+@font-face {
+font-family: 'Hanken Grotesk';
+font-style: normal;
+font-weight: 400 600;
+font-display: swap;
+src: url('../fonts/hanken-grotesk-400-600.woff2') format('woff2');
 }
 @font-face {
 font-family: 'Geist Mono';
@@ -3350,33 +3364,19 @@ font-display: swap;
 src: url('../fonts/geist-mono-400-500.woff2') format('woff2');
 }
 @font-face {
-font-family: 'Instrument Serif';
-font-style: normal;
-font-weight: 400;
-font-display: swap;
-src: url('../fonts/instrument-serif-400.woff2') format('woff2');
-}
-@font-face {
-font-family: 'Instrument Serif';
-font-style: italic;
-font-weight: 400;
-font-display: swap;
-src: url('../fonts/instrument-serif-400-italic.woff2') format('woff2');
-}
-@font-face {
-font-family: 'Geist Fallback';
+font-family: 'Hanken Grotesk Fallback';
 src: local('Arial');
-size-adjust: 104.76%;
-ascent-override: 95.94%;
-descent-override: 28.16%;
+size-adjust: 100.04%;
+ascent-override: 99.96%;
+descent-override: 30.29%;
 line-gap-override: 0%;
 }
 @font-face {
-font-family: 'Instrument Serif Fallback';
+font-family: 'Fraunces Fallback';
 src: local('Georgia');
-size-adjust: 76.49%;
-ascent-override: 129.43%;
-descent-override: 40.53%;
+size-adjust: 97.47%;
+ascent-override: 100.34%;
+descent-override: 26.16%;
 line-gap-override: 0%;
 }
 @font-face {

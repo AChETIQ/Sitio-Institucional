@@ -4,7 +4,7 @@
    Versión: 1.0 · Fase 2 — Desarrollo front-end
    Fundamento: FASE_1 §4 — Tarjetas (todas variantes de .card,
                cuya base vive en tokens.css §COMPONENTE — TARJETA)
-   · tokens.css v2 «Pátina & Cobre»
+   · tokens.css v3 «Cobalto & Mauveína»
 
    Mobile-first. Cero hex y cero familias literales: todo deriva
    de tokens.css. Las dimensiones de íconos, logos y eyebrows
@@ -17,7 +17,7 @@
    4.2  CARD GABINETE — .card-gabinete
    ─────────────────────────────────────────────────────────────
    Extiende .card. Padding interno 24 px, ícono 32×32 px en
-   primario, link de footer en cobre tipográfico (uso permitido —
+   primario, link de footer en mauveína tipográfica (uso permitido —
    enlace de apertura directa). Hover: borde a acento.
    ───────────────────────────────────────────────────────────── */
 

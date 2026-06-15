@@ -57,13 +57,13 @@
 
 /* ─────────────────────────────────────────────────────────────
    2. CONTEXTOS SOBRE SUPERFICIE OSCURA
-   El anillo pátina (8.1:1 sobre papel) desaparecería sobre los
+   El anillo cobalto (7.9:1 sobre porcelana) desaparecería sobre los
    rellenos oscuros del sitio. Cada contexto redeclara la variable
    — la regla §1 no se duplica jamás.
-     .footer     --color-surface-inverse   anillo 13.2:1
-     .cta-final  --color-accent            anillo  8.6:1
-     .hero       scrim sobre fotografía    anillo 16.5:1 (peor
-                 caso --patina-950 opaco; la foto real solo puede
+     .footer     --color-surface-inverse   anillo 13.3:1
+     .cta-final  --color-accent            anillo  8.4:1
+     .hero       scrim sobre fotografía    anillo 16.0:1 (peor
+                 caso --cobalto-950 opaco; la foto real solo puede
                  aclarar el fondo y el blanco ya domina)
    ───────────────────────────────────────────────────────────── */
 

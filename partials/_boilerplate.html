@@ -69,7 +69,7 @@ CONVENCIÓN DE NOMBRE
   <link rel="icon" href="./favicon.ico" sizes="32x32">
   <link rel="apple-touch-icon" href="./apple-touch-icon.png"><!-- 180x180 -->
   <link rel="manifest" href="./site.webmanifest">
-  <meta name="theme-color" content="#084F5F"><!-- = var(--color-accent) (patina-700, tokens v2) -->
+  <meta name="theme-color" content="#1344A5"><!-- = var(--color-accent) (cobalto-700, tokens v3) -->
 
   <!-- ============================================================
        TIPOGRAFÍAS — AUTOALOJADAS (assets/fonts/)
@@ -77,26 +77,24 @@ CONVENCIÓN DE NOMBRE
        privacidad, rendimiento y cero dependencias de terceros.
 
        Las declaraciones @font-face viven en assets/css/main.css,
-       NO en este HTML. Cada @font-face debe incluir
-       «font-display: swap;». Archivos .woff2 esperados en
-       assets/fonts/ (pendiente: agregarlos al repositorio):
+       NO en este HTML. Cada @font-face incluye
+       «font-display: swap;». Archivos .woff2 en assets/fonts/
+       (variables, subset latin):
 
-         instrument-serif-400.woff2         (display, normal)
-         instrument-serif-400-italic.woff2  (display, itálica)
-         geist-400-600.woff2                (cuerpo / UI, variable 400–600)
-         geist-500.woff2                    (cuerpo / UI, medium)
-         geist-mono-400.woff2               (mono, regular)
-         geist-mono-500.woff2               (mono, medium)
+         fraunces-400-600.woff2            (display, normal, var. 400–600)
+         fraunces-400-600-italic.woff2     (display, itálica, var. 400–600)
+         hanken-grotesk-400-600.woff2      (cuerpo / UI, var. 400–600)
+         geist-mono-400-500.woff2          (mono, var. 400–500)
 
        Familias y pesos definidos en tokens.css
-       (--font-display / --font-body / --font-mono; pesos 400 y 500).
+       (--font-display / --font-body / --font-mono; pesos 400–600).
 
        PRECARGA: se precargan solo las dos fuentes críticas para el
        primer render (cuerpo de texto y títulos display). Las demás
        las resuelve el @font-face bajo demanda.
        ============================================================ -->
-  <link rel="preload" href="./assets/fonts/geist-400-600.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="./assets/fonts/instrument-serif-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./assets/fonts/hanken-grotesk-400-600.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="./assets/fonts/fraunces-400-600.woff2" as="font" type="font/woff2" crossorigin>
 
   <!-- ============================================================
        HOJAS DE ESTILO

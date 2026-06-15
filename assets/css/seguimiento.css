@@ -18,8 +18,8 @@
    condición @media).
 
    DECISIÓN DE MARCA (tokens.css): los datos numéricos NUNCA usan
-   cobre (--color-cta), reservado a CTA. Los valores de KPI usan
-   --color-text; el cobre sólo aparece en botones de acción
+   mauveína (--color-cta), reservada a CTA. Los valores de KPI usan
+   --color-text; la mauveína sólo aparece en botones de acción
    (.btn-primary). Los avisos usan --color-warning (ámbar).
    ============================================================ */
 
@@ -215,8 +215,8 @@
   gap: var(--space-1);
 }
 
-/* Valor numérico del KPI. Tinta neutra — NUNCA cobre
-   (decisión de marca, tokens.css §Acción (cobre)). */
+/* Valor numérico del KPI. Tinta neutra — NUNCA mauveína
+   (decisión de marca, tokens.css §Acción (mauveína)). */
 .seg-kpi__value {
   font-family: var(--font-display);
   font-size: var(--text-kpi);

@@ -25,8 +25,8 @@
    centrado, botones con paleta invertida para mantener contraste
    y jerarquía contra el fondo oscuro.
 
-   CONTRASTE WCAG (paleta Pátina & Cobre, documentada en tokens):
-     · --color-on-accent sobre --color-accent ≈ 8.6 : 1 — AAA para
+   CONTRASTE WCAG (paleta Cobalto & Mauveína, documentada en tokens):
+     · --color-on-accent sobre --color-accent ≈ 8.4 : 1 — AAA para
        texto normal y grande.
      · .btn-primary invertido (texto --color-accent sobre
        --color-on-accent) mantiene el mismo ratio.
@@ -100,9 +100,9 @@
 
 /* Inversión de botones sobre fondo de acento. Los .btn globales
    (tokens.css §COMPONENTE — BOTÓN) están pensados para fondo
-   claro: .btn-primary usa --color-cta (cobre) y .btn-secondary
-   borde --color-accent. Sobre fondo --color-accent, el cobre
-   resulta cromáticamente ruidoso y el outline pátina desaparece;
+   claro: .btn-primary usa --color-cta (mauveína) y .btn-secondary
+   borde --color-accent. Sobre fondo --color-accent, la mauveína
+   resulta cromáticamente ruidosa y el outline cobalto desaparece;
    por eso aquí cambiamos a paleta clara (--color-on-accent). */
 .cta-final .btn-primary {
   background: var(--color-on-accent);
