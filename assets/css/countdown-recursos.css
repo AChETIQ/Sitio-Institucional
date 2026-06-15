@@ -2,7 +2,7 @@
    AChETIQ — Componente: Cuenta regresiva de Recursos Académicos
    Bloque BEM: .countdown
    Fase: 2 — Desarrollo front-end
-   Depende de: tokens.css (paleta «Pátina & Cobre»)
+   Depende de: tokens.css (paleta «Cobalto & Mauveína»)
    ------------------------------------------------------------
    Todos los valores referencian var(--token). No se introducen
    colores hexadecimales ni tamaños hardcodeados.
@@ -31,7 +31,7 @@
   overflow: hidden;
 }
 
-/* Glows decorativos de fondo — tintes muy bajos de primario y arena,
+/* Glows decorativos de fondo — tintes muy bajos de cobalto y grafito,
    coherentes con la paleta. No interactivos. */
 .countdown__backdrop {
   position: absolute;

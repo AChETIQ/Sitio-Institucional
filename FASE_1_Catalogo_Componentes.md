@@ -1,8 +1,8 @@
 # Fase 1 — Catálogo de Componentes Visuales
 ## Sitio Web Oficial de AChETIQ
 
-*Documento elaborado: 2026-05-08 · Última actualización: 2026-06-10*
-*Estado: Referencia técnica para desarrollo front-end (Fase 2) · Tokens v2 «Pátina & Cobre» · Contratos S2 de elevación y ritmo (§0.3)*
+*Documento elaborado: 2026-05-08 · Última actualización: 2026-06-15*
+*Estado: Referencia técnica para desarrollo front-end (Fase 2) · Tokens v3 «Cobalto & Mauveína» · Contratos S2 de elevación y ritmo (§0.3)*
 
 ---
 
@@ -19,41 +19,43 @@ Este documento traduce los design tokens definidos en `tokens.css` a un conjunto
 
 ---
 
-## 0. Sistema de tokens v2 — «Pátina & Cobre» (S1, 2026-06-10)
+## 0. Sistema de tokens v3 — «Cobalto & Mauveína» (S1, 2026-06-15)
 
-La sesión S1 del rediseño reemplazó por completo los sistemas de color y tipografía de `tokens.css` (v1 «Océano & Areia»). Esta sección es la referencia normativa del sistema vigente; toda mención de tokens en los componentes de este catálogo remite a ella.
+La sesión S1 (rediseño fundacional) reemplazó por completo los sistemas de color y tipografía de `tokens.css`. La identidad de doble linaje químico opone el **cobalto** (azul, pigmento inorgánico) como color estructural de marca y la **mauveína** (magenta, el primer tinte sintético orgánico — Perkin, 1856) como color exclusivo de acción, sobre un neutro **grafito** frío (porcelana → tinta azulada) de registro editorial y mayor contraste que el papel cálido de la v2 («Pátina & Cobre»). Esta sección es la referencia normativa del sistema vigente; toda mención de tokens en los componentes de este catálogo remite a ella.
 
 ### 0.1 Color — arquitectura en tres capas
 
-1. **Primitivas** (`--arena-*`, `--patina-*`, `--cobre-*`, `--verde-700`, `--rojo-700`, `--ambar-600`): escalas crudas definidas en OKLCH con fallback hex sRGB (bloque `@supports`). No se consumen desde componentes.
+1. **Primitivas** (`--grafito-*`, `--cobalto-*`, `--mauveina-*`, `--verde-700`, `--rojo-700`, `--ambar-600`): escalas crudas definidas en OKLCH con fallback hex sRGB (bloque `@supports`). No se consumen desde componentes.
 2. **Semánticas** (capa de consumo):
 
 | Token | Valor | Rol | Contraste (sobre surface / raised) |
 |---|---|---|---|
-| `--color-surface` | arena-100 `#F4F0E9` | Fondo de página | — |
-| `--color-surface-raised` | arena-50 `#FAF7F3` | Tarjetas, paneles, modales | — |
-| `--color-surface-inverse` | patina-900 `#02303A` | Footer, base del hero | — |
-| `--color-text` | arena-950 `#1C1914` | Texto principal | 15.4 / 16.4 — AAA |
-| `--color-text-soft` | arena-700 `#514C44` | Cuerpo de prosa | 7.5 / 8.0 — AAA |
-| `--color-text-faint` | arena-600 `#655F58` | Eyebrows, captions | 5.6 / 5.9 — AA |
-| `--color-text-disabled` | arena-600 | Estados inactivos declarados | 5.6 — AA |
-| `--color-accent` | patina-700 `#084F5F` | Enlaces, énfasis, itálicas de titular | 8.1 / 8.6 — AAA |
-| `--color-accent-soft` | patina-500 `#1A6E82` | Hover de enlaces, eyebrows de categoría, íconos | 5.1 / 5.5 — AA |
-| `--color-on-accent` | arena-50 | Texto sobre rellenos accent/inverse | 8.6 / 13.2 — AAA |
-| `--color-cta` | cobre-600 `#9E4502` | SOLO botones de acción primaria (relleno) | 6.0 con on-cta — AA |
-| `--color-cta-text` | cobre-700 `#863709` | Cobre como texto («Abrir →», «Descargar →») | 7.2 / 7.7 — AAA |
-| `--color-on-cta` | arena-50 | Texto sobre relleno CTA | 6.0 — AA |
-| `--color-positive` | verde-700 `#225A35` | Confirmaciones, datos positivos | 7.2 — AAA |
-| `--color-negativeative` | rojo-700 `#822D1D` | Errores, datos negativos | 7.9 — AAA |
-| `--color-warning` | ambar-600 `#895709` | Avisos no destructivos | 5.7 — AA |
-| `--color-border` | arena-300 `#D2CCC0` | Bordes de tarjeta y separadores | decorativo |
-| `--color-border-soft` | arena-200 `#E5E0D6` | Separadores internos | decorativo |
+| `--color-surface` | grafito-100 `#F2F4F8` | Fondo de página | — |
+| `--color-surface-raised` | grafito-50 `#F9FAFC` | Tarjetas, paneles, modales | — |
+| `--color-surface-inverse` | cobalto-900 `#0B2964` | Footer, base del hero | — |
+| `--color-text` | grafito-950 `#131720` | Texto principal | 16.3 / 17.2 — AAA |
+| `--color-text-soft` | grafito-700 `#444953` | Cuerpo de prosa | 8.2 / 8.6 — AAA |
+| `--color-text-faint` | grafito-600 `#5B5F69` | Eyebrows, captions | 5.8 / 6.1 — AA |
+| `--color-text-disabled` | grafito-600 | Estados inactivos declarados | 5.8 — AA |
+| `--color-accent` | cobalto-700 `#1344A5` | Enlaces, énfasis, itálicas de titular | 7.9 / 8.4 — AAA |
+| `--color-accent-soft` | cobalto-500 `#3463BC` | Hover de enlaces, eyebrows de categoría, íconos | 5.2 / 5.5 — AA |
+| `--color-on-accent` | grafito-50 | Texto sobre rellenos accent/inverse | 8.4 / 13.3 — AAA |
+| `--color-cta` | mauveina-600 `#922FA1` | SOLO botones de acción primaria (relleno) | 6.4 con on-cta — AA |
+| `--color-cta-text` | mauveina-700 `#7C228A` | Mauveína como texto («Abrir →», «Descargar →») | 7.8 / 8.2 — AAA |
+| `--color-on-cta` | grafito-50 | Texto sobre relleno CTA | 6.4 — AA |
+| `--color-positive` | verde-700 `#165E2E` | Confirmaciones, datos positivos | 7.1 / 7.5 — AAA |
+| `--color-negative` | rojo-700 `#9B171F` | Errores, datos negativos | 7.5 / 7.9 — AAA |
+| `--color-warning` | ambar-600 `#915900` | Avisos no destructivos | 5.5 / 5.3 — AA |
+| `--color-border` | grafito-300 `#CED2D9` | Bordes de tarjeta y separadores | decorativo |
+| `--color-border-soft` | grafito-200 `#E1E4E9` | Separadores internos | decorativo |
 | `--color-overlay` / `--color-scrim` | derivados con alfa | Velo de modales / velo del hero | scrim: ≥ 5.4 con blanco |
 | `--color-on-media` / `--color-on-media-soft` | blanco / blanco 88 % | Texto sobre fotografía | ≥ 4.6 sobre scrim |
 
-3. **Alias de componente**: `--color-materia-anio-1…5` (narrativa arena → pátina profunda) y la paleta por nivel del Seguimiento (`--nivel-*-accent/-fondo-alt/-texto`, antes excepción local de `seguimiento.css`, hoy centralizada y re-derivada en OKLCH con contraste verificado 6.4–7.4:1).
+Los dos polos de marca (cobalto, matiz 262 · mauveína, matiz 322) y los colores de estado (rojo 25 · verde 150 · ámbar 70) ocupan matices separados ≥ 50°: no se confunden entre sí. Todo par texto/fondo cumple WCAG 2.2 AA; el cuerpo de prosa (`--color-text-soft`) y los acentos alcanzan AAA.
 
-Sombras: tiers globales `--shadow-xs/-sm/-md/-lg` derivados de `--patina-950` vía `color-mix()`. Ninguna hoja declara sombras propias. Los componentes no consumen los tiers crudos sino los alias del contrato de elevación (§0.3).
+3. **Alias de componente**: `--color-materia-anio-1…5` (narrativa arena dorada → cobalto profundo) y la paleta por nivel del Seguimiento (`--nivel-*-accent/-fondo-alt/-texto`, antes excepción local de `seguimiento.css`, hoy centralizada y re-derivada en OKLCH con contraste verificado 6.4–7.5:1).
+
+Sombras: tiers globales `--shadow-xs/-sm/-md/-lg` derivados de `--cobalto-950` vía `color-mix()` (sombra fría y azulada, integrada con la porcelana). Ninguna hoja declara sombras propias. Los componentes no consumen los tiers crudos sino los alias del contrato de elevación (§0.3).
 
 ### 0.3 Elevación y ritmo vertical — contratos S2 (2026-06-10)
 
@@ -86,7 +88,7 @@ Medidas asociadas: `--measure-title` (22ch, titulares display de `.page-header` 
 
 ### 0.2 Tipografía
 
-- **Familias** (autoalojadas, woff2 subset latin, `font-display: swap`): Instrument Serif 400 + itálica (display); **Geist variable 400–600** (cuerpo/UI — el peso 500/600 es real, ya no sintetizado); **Geist Mono variable 400–500** (eyebrows, metadatos, dígitos — en v1 el token no tenía archivo y degradaba a Courier New).
+- **Familias** (autoalojadas, woff2 variable subset latin, `font-display: swap`): **Fraunces variable 400–600** + itálica (display — serif Old Style de alto contraste, óptica de display fija `opsz 72`; reemplaza a Instrument Serif de la v2 y, a diferencia de aquella, ofrece peso real, aunque el énfasis se mantiene en la itálica, no en bold); **Hanken Grotesk variable 400–600** (cuerpo/UI — grotesca humanista de alta legibilidad; reemplaza a Geist; pesos medium/semibold reales, no sintetizados); **Geist Mono variable 400–500** (eyebrows, metadatos, dígitos tabulares — voz técnica neutra retenida de la v2). Cada webfont tiene un fallback con métricas ajustadas (`size-adjust`/overrides verticales; Fraunces→Georgia, Hanken→Arial, Geist Mono→Courier New) para CLS ≈ 0 durante el `swap`.
 - **Pesos**: `--weight-regular` 400 · `--weight-medium` 500 · `--weight-semibold` 600 (reservado a `<strong>`).
 - **Escala fluida** (rem + `clamp()`, interpolada entre 360 px y 1280 px; ratio tercera menor 1.2 → tercera mayor 1.25, niveles display ampliados):
 
@@ -308,7 +310,7 @@ El placeholder es reemplazado por `js/navbar.js`, que carga `partials/navbar.htm
 
 **Tipografía.**
 
-- `.hero__title`: hereda de `<h1>` global (Instrument Serif) y sube al rol `--text-display-xl` (fluido 40→65 px), en `--color-on-media` sobre el scrim. El `<em>` interno aplica el color de la regla global de `h1 em`.
+- `.hero__title`: hereda de `<h1>` global (Fraunces) y sube al rol `--text-display-xl` (fluido 40→65 px), en `--color-on-media` sobre el scrim. El `<em>` interno aplica el color de la regla global de `h1 em`.
 - `.hero__lead` / `.hero__subtitle`: rol `--text-lead` (fluido 22→26 px), body font, `--color-on-media-soft`, ancho máximo `--measure-narrow`.
 
 **Decoración (opcional, recomendada).** Usar la grilla 3×3 del logo como patrón geométrico de fondo en la columna visual: cuadrados de `var(--color-border)` sobre `var(--color-surface)`, dispuestos como una grilla decorativa que evoca el isotipo sin replicarlo.
@@ -451,7 +453,7 @@ El cuarto slot demuestra que el componente debe admitir valores no numéricos: e
 - Padding vertical: `var(--space-10)` (40 px); padding horizontal según `.page`.
 - Separadores verticales entre ítems en desktop: `border-right: 1px solid var(--color-border)` excepto el último.
 - Item (`.kpi-strip__item`): alineación centrada, padding `0 var(--space-6)`.
-- Valor numérico (`.kpi-strip__value`): tipografía `Instrument Serif`, rol `--text-display` (fluido 40→52 px), color `var(--color-accent)`, peso normal. Permite prefijos como "+" y sufijos como "k", "%".
+- Valor numérico (`.kpi-strip__value`): tipografía `Fraunces`, rol `--text-display` (fluido 40→52 px), color `var(--color-accent)`, peso normal. Permite prefijos como "+" y sufijos como "k", "%".
 - Modificador `.kpi-strip__item--text` para slots de valor textual (caso 4): reducir el valor al rol `--text-lead` y mantener la misma tipografía y color, para preservar coherencia tipográfica sin generar disonancia visual con los slots numéricos.
 - Label (`.kpi-strip__label`): tipografía body, `--text-small`, color `var(--color-text-soft)`, alineación centrada.
 
@@ -543,7 +545,7 @@ Ya definida en `tokens.css` (§COMPONENTE — TARJETA). Sirve como base de las v
 - Padding interno: `var(--space-6)` (24 px).
 - Icono: 32×32 px, color `var(--color-accent)`.
 - Título: usa `<h3>` con tipografía global.
-- Link de footer: color `var(--color-cta-text)` (cobre tipográfico, 7.2:1 — uso permitido por ser enlace de apertura directa).
+- Link de footer: color `var(--color-cta-text)` (mauveína tipográfica, 7.8:1 — uso permitido por ser enlace de apertura directa).
 - Hover: borde se intensifica a `var(--color-accent)` con `transition: border-color var(--transition-fast)`.
 
 *Nota (2026-05-16).* El patrón de plantilla única parametrizada por query string fue descartado. Cada gabinete tiene su propia página dedicada bajo `pages/gabinetes/`. El listado completo de URLs hijas está fijado en `data/navbar.json`.
@@ -666,7 +668,7 @@ Ya definida en `tokens.css` (§COMPONENTE — TARJETA). Sirve como base de las v
 </article>
 ```
 
-**Especificación visual.** Layout horizontal en desktop, vertical en mobile. Icono: 24×24 px, color `var(--color-accent-soft)`. Acción: `var(--color-cta-text)` (cobre tipográfico; uso permitido por ser enlace de apertura/descarga directa).
+**Especificación visual.** Layout horizontal en desktop, vertical en mobile. Icono: 24×24 px, color `var(--color-accent-soft)`. Acción: `var(--color-cta-text)` (mauveína tipográfica; uso permitido por ser enlace de apertura/descarga directa).
 
 ---
 
@@ -781,7 +783,7 @@ Ya definida en `tokens.css` (§COMPONENTE — TARJETA). Sirve como base de las v
   /* idem 2–5 */
   ```
 
-  Los cinco colores `--color-materia-anio-1` a `--color-materia-anio-5` están **definidos en tokens v2** (capa de alias de componente): narrativa arena dorada (1.°) → cobre claro → salvia → pátina niebla → pátina profunda (5.°), derivados de las primitivas «Pátina & Cobre», distintos entre sí y sin solapamiento con los colores reservados al isotipo.
+  Los cinco colores `--color-materia-anio-1` a `--color-materia-anio-5` están **definidos en tokens v3** (capa de alias de componente): narrativa arena dorada (1.°) → mauveína clara → cobalto niebla → cobalto medio → cobalto profundo (5.°), derivados de las primitivas «Cobalto & Mauveína», distintos entre sí y sin solapamiento con los colores reservados al isotipo.
 - Año (`.card-materia__year`): mono `--text-eyebrow-sm`, color `var(--color-text-faint)`, uppercase, tracking-wider.
 - Nombre (`.card-materia__name`): `<h3>`, tipografía body, `--text-h4`, peso medium, color `var(--color-text)`.
 
@@ -1386,7 +1388,7 @@ Tras la auditoría responsive S3, el sitio reparte responsabilidades en tres mec
 
 **Pendientes técnicos identificados (no bloquean Fase 2, sí v1.0):**
 
-- ~~Cinco colores `--color-materia-anio-1` a `--color-materia-anio-5` para `.card-materia`~~ — resuelto en tokens v2 (§0.1, capa de alias de componente).
+- ~~Cinco colores `--color-materia-anio-1` a `--color-materia-anio-5` para `.card-materia`~~ — resuelto en tokens v3 (§0.1, capa de alias de componente).
 - Verificación en `https://lucide.dev/icons/` de la disponibilidad de `presentation`, `telescope` y `heart-handshake`; aplicación de fallbacks si corresponde.
 - Selección de íconos Lucide por hito de la timeline.
 
@@ -1399,11 +1401,11 @@ Con este catálogo cerrado (incluidas las nueve altas y las cuatro correcciones 
 **Antes de generar el primer archivo HTML de Fase 2 conviene resolver, en este orden:**
 
 1. **Esqueleto base HTML (boilerplate)** reutilizable para todas las páginas y para las páginas hijas de `pages/gabinetes/` y `pages/recursos/`. Reemplaza a las plantillas parametrizadas descartadas el 2026-05-16.
-2. ~~**Paleta placeholder por año** para `.card-materia`~~ — resuelta en tokens v2 (§0.1).
+2. ~~**Paleta placeholder por año** para `.card-materia`~~ — resuelta en tokens v3 (§0.1).
 3. **Verificación de íconos Lucide** críticos (`presentation`, `telescope`, `heart-handshake`).
 
 Los pendientes de contenido (validación de valores, prose de Misión, contenido de gabinetes, fotos de directiva, logos transparentes, compresión del Estatuto) no bloquean el desarrollo técnico inicial, pero sí el despliegue público de v1.0.
 
 ---
 
-*AChETIQ — Documento técnico interno — Fase 1 — 2026-05-08 · actualizado 2026-06-10 (tokens v2 · S3 responsive: container queries, espaciado fluido, contrato de breakpoints e impresión)*
+*AChETIQ — Documento técnico interno — Fase 1 — 2026-05-08 · actualizado 2026-06-15 (tokens v3 «Cobalto & Mauveína» — rediseño fundacional S1 de tipografía y color: paleta OKLCH de tres capas, tipografías Fraunces + Hanken Grotesk, escala fluida heredada de la v2)*

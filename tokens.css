@@ -1,9 +1,9 @@
 /* ============================================================
    AChETIQ — Design Tokens
-   Versión: 2.0
-   Fase: S1 — Rediseño de tipografía y color
-   Sistema: Paleta «Pátina & Cobre»
-   Última revisión: 2026-06-10
+   Versión: 3.0
+   Fase: S1 — Rediseño fundacional de tipografía y color
+   Sistema: Paleta «Cobalto & Mauveína»
+   Última revisión: 2026-06-15
    ============================================================
 
    INSTRUCCIONES DE USO
@@ -14,7 +14,7 @@
    siempre usar var(--token).
 
    ARQUITECTURA DE COLOR EN TRES CAPAS
-     1. Primitivas  (--arena-*, --patina-*, --cobre-*, …)
+     1. Primitivas  (--grafito-*, --cobalto-*, --mauveina-*, …)
         Escalas crudas de color. Definidas en hex sRGB como
         fallback y redeclaradas en OKLCH dentro de un bloque
         @supports para navegadores modernos. NO consumir
@@ -25,13 +25,20 @@
         Valores con nombre propio para casos puntuales, derivados
         de la misma metodología cromática.
 
-   CONCEPTO DE PALETA — «Pátina & Cobre»
-   Identidad enraizada en la química: el cobre (intercambiadores,
-   alambiques, conductores) y su producto de oxidación, la pátina
-   o verdín (azul-verde petróleo). Pátina como color estructural
-   de marca; cobre como color exclusivo de acción (CTA); papel
-   cálido como soporte. Todos los pares texto/fondo documentan su
-   ratio de contraste WCAG 2.2 calculado (no estimado).
+   CONCEPTO DE PALETA — «Cobalto & Mauveína»
+   Identidad de doble linaje químico, una por cada rama de la
+   ingeniería: el COBALTO (azul-cobalto, pigmento inorgánico
+   histórico) como color estructural de marca, y la MAUVEÍNA (el
+   primer tinte sintético —Perkin, 1856—, partida de nacimiento de
+   la industria química orgánica) como color exclusivo de acción.
+   Ambos protagonistas, de la banda fría del espectro, contrastan
+   sobre un GRAFITO neutro y frío (porcelana → tinta azulada) que
+   reemplaza el papel cálido de la v2: una identidad más editorial,
+   de precisión instrumental y mayor contraste. Cobalto (acción
+   estructural, azul) y mauveína (acción primaria, magenta) ocupan
+   matices separados ~60° entre sí y de los colores de estado
+   (rojo/verde/ámbar): no se confunden. Todos los pares texto/fondo
+   documentan su ratio de contraste WCAG 2.2 calculado (no estimado).
 
    ============================================================ */
 
@@ -45,38 +52,38 @@
 
 :root {
 
-  /* ── ARENA — neutros cálidos (matiz 76–84) ────────────────── */
+  /* ── GRAFITO — neutros fríos (matiz 265) ──────────────────── */
 
-  --arena-50:  #FAF7F3;   /* oklch(0.978 0.006 84) — papel elevado */
-  --arena-100: #F4F0E9;   /* oklch(0.957 0.010 84) — papel base    */
-  --arena-200: #E5E0D6;   /* oklch(0.908 0.014 84) — borde suave   */
-  --arena-300: #D2CCC0;   /* oklch(0.846 0.018 84) — borde         */
-  --arena-600: #655F58;   /* oklch(0.490 0.014 76) — tinta terciaria */
-  --arena-700: #514C44;   /* oklch(0.418 0.014 76) — tinta secundaria */
-  --arena-950: #1C1914;   /* oklch(0.215 0.010 76) — tinta principal */
+  --grafito-50:  #F9FAFC;   /* oklch(0.985 0.003 265) — porcelana elevada */
+  --grafito-100: #F2F4F8;   /* oklch(0.967 0.005 265) — porcelana base    */
+  --grafito-200: #E1E4E9;   /* oklch(0.918 0.008 265) — borde suave       */
+  --grafito-300: #CED2D9;   /* oklch(0.862 0.011 265) — borde             */
+  --grafito-600: #5B5F69;   /* oklch(0.486 0.017 265) — tinta terciaria   */
+  --grafito-700: #444953;   /* oklch(0.404 0.018 265) — tinta secundaria  */
+  --grafito-950: #131720;   /* oklch(0.205 0.018 265) — tinta principal   */
 
-  /* ── PÁTINA — azul-verde petróleo, color de marca (matiz 218) ── */
+  /* ── COBALTO — azul-cobalto, color de marca (matiz 262) ───── */
 
-  --patina-50:  #EBF6F9;  /* oklch(0.965 0.012 218) — tinte mínimo  */
-  --patina-100: #CFEAF2;  /* oklch(0.920 0.030 218) — tinte claro   */
-  --patina-300: #81BCCD;  /* oklch(0.760 0.065 218) — pátina clara  */
-  --patina-500: #1A6E82;  /* oklch(0.500 0.082 218) — pátina media  */
-  --patina-700: #084F5F;  /* oklch(0.395 0.068 218) — pátina (marca) */
-  --patina-900: #02303A;  /* oklch(0.285 0.050 218) — pátina profunda */
-  --patina-950: #072229;  /* oklch(0.235 0.035 220) — base de velos y sombras */
+  --cobalto-50:  #EFF4FC;  /* oklch(0.965 0.012 262) — tinte mínimo   */
+  --cobalto-100: #D8E5FD;  /* oklch(0.920 0.035 262) — tinte claro    */
+  --cobalto-300: #8AABE7;  /* oklch(0.740 0.095 262) — cobalto claro  */
+  --cobalto-500: #3463BC;  /* oklch(0.515 0.150 262) — cobalto medio  */
+  --cobalto-700: #1344A5;  /* oklch(0.420 0.165 262) — cobalto (marca) */
+  --cobalto-900: #0B2964;  /* oklch(0.300 0.110 262) — cobalto profundo */
+  --cobalto-950: #091C41;  /* oklch(0.235 0.075 262) — base de velos y sombras */
 
-  /* ── COBRE — acento de acción (matiz 45–60) ───────────────── */
+  /* ── MAUVEÍNA — magenta de acción (matiz 322) ─────────────── */
 
-  --cobre-100: #F7E0CE;   /* oklch(0.920 0.035 60) — tinte (reservado) */
-  --cobre-500: #B35713;   /* oklch(0.560 0.140 50) — cobre vivo (reservado a superficies grandes ≥ 24 px) */
-  --cobre-600: #9E4502;   /* oklch(0.500 0.135 48) — cobre de acción */
-  --cobre-700: #863709;   /* oklch(0.440 0.120 45) — cobre como texto */
+  --mauveina-100: #F3DBF6;   /* oklch(0.918 0.045 322) — tinte (reservado) */
+  --mauveina-500: #A347B2;   /* oklch(0.560 0.180 322) — mauveína viva (reservada a superficies grandes ≥ 24 px) */
+  --mauveina-600: #922FA1;   /* oklch(0.500 0.190 322) — mauveína de acción */
+  --mauveina-700: #7C228A;   /* oklch(0.440 0.175 322) — mauveína como texto */
 
-  /* ── ESTADO — verde, rojo y ámbar (L≈0.42–0.50 emparejados) ── */
+  /* ── ESTADO — verde, rojo y ámbar (L≈0.43–0.52 emparejados) ── */
 
-  --verde-700: #225A35;   /* oklch(0.420 0.085 152) */
-  --rojo-700:  #822D1D;   /* oklch(0.420 0.120  33) */
-  --ambar-600: #895709;   /* oklch(0.500 0.105  70) */
+  --verde-700: #165E2E;   /* oklch(0.427 0.105 150) */
+  --rojo-700:  #9B171F;   /* oklch(0.445 0.165  25) */
+  --ambar-600: #915900;   /* oklch(0.515 0.115  70) */
 
 }
 
@@ -86,30 +93,30 @@
    relación perceptual (L/C/H emparejados) entre escalones. */
 @supports (color: oklch(40% 0 0)) {
   :root {
-    --arena-50:  oklch(0.978 0.006 84);
-    --arena-100: oklch(0.957 0.010 84);
-    --arena-200: oklch(0.908 0.014 84);
-    --arena-300: oklch(0.846 0.018 84);
-    --arena-600: oklch(0.490 0.014 76);
-    --arena-700: oklch(0.418 0.014 76);
-    --arena-950: oklch(0.215 0.010 76);
+    --grafito-50:  oklch(0.985 0.003 265);
+    --grafito-100: oklch(0.967 0.005 265);
+    --grafito-200: oklch(0.918 0.008 265);
+    --grafito-300: oklch(0.862 0.011 265);
+    --grafito-600: oklch(0.486 0.017 265);
+    --grafito-700: oklch(0.404 0.018 265);
+    --grafito-950: oklch(0.205 0.018 265);
 
-    --patina-50:  oklch(0.965 0.012 218);
-    --patina-100: oklch(0.920 0.030 218);
-    --patina-300: oklch(0.760 0.065 218);
-    --patina-500: oklch(0.500 0.082 218);
-    --patina-700: oklch(0.395 0.068 218);
-    --patina-900: oklch(0.285 0.050 218);
-    --patina-950: oklch(0.235 0.035 220);
+    --cobalto-50:  oklch(0.965 0.012 262);
+    --cobalto-100: oklch(0.920 0.035 262);
+    --cobalto-300: oklch(0.740 0.095 262);
+    --cobalto-500: oklch(0.515 0.150 262);
+    --cobalto-700: oklch(0.420 0.165 262);
+    --cobalto-900: oklch(0.300 0.110 262);
+    --cobalto-950: oklch(0.235 0.075 262);
 
-    --cobre-100: oklch(0.920 0.035 60);
-    --cobre-500: oklch(0.560 0.140 50);
-    --cobre-600: oklch(0.500 0.135 48);
-    --cobre-700: oklch(0.440 0.120 45);
+    --mauveina-100: oklch(0.918 0.045 322);
+    --mauveina-500: oklch(0.560 0.180 322);
+    --mauveina-600: oklch(0.500 0.190 322);
+    --mauveina-700: oklch(0.440 0.175 322);
 
-    --verde-700: oklch(0.420 0.085 152);
-    --rojo-700:  oklch(0.420 0.120 33);
-    --ambar-600: oklch(0.500 0.105 70);
+    --verde-700: oklch(0.427 0.105 150);
+    --rojo-700:  oklch(0.445 0.165 25);
+    --ambar-600: oklch(0.515 0.115 70);
   }
 }
 
@@ -124,22 +131,22 @@
 
   /* ── Superficies ──────────────────────────────────────────── */
 
-  --color-surface:        var(--arena-100);
-  /* Fondo principal de página. Papel cálido. */
+  --color-surface:        var(--grafito-100);
+  /* Fondo principal de página. Porcelana fría. */
 
-  --color-surface-raised: var(--arena-50);
+  --color-surface-raised: var(--grafito-50);
   /* Superficies elevadas: tarjetas, paneles, modales, dropdowns. */
 
-  --color-surface-inverse: var(--patina-900);
+  --color-surface-inverse: var(--cobalto-900);
   /* Superficie institucional oscura: footer, base del hero
      mientras carga la fotografía. */
 
-  --color-overlay: rgba(28, 25, 20, 0.45);
-  /* Velo de modales y drawers. Derivado de --arena-950. */
+  --color-overlay: rgba(19, 23, 32, 0.45);
+  /* Velo de modales y drawers. Derivado de --grafito-950. */
 
-  --color-scrim: rgba(7, 34, 41, 0.66);
+  --color-scrim: rgba(9, 28, 65, 0.66);
   /* Velo de legibilidad entre el slideshow del hero y el texto.
-     Derivado de --patina-950 (el velo lleva la marca, ya no negro
+     Derivado de --cobalto-950 (el velo lleva la marca, ya no negro
      puro). Peor caso medido (fotografía blanca pura detrás):
      blanco sobre scrim+foto ≈ 5.4:1 — AA para texto normal,
      reforzado además por text-shadow en el componente. */
@@ -149,87 +156,86 @@
 
   --color-on-media-soft: rgba(255, 255, 255, 0.88);
   /* Texto secundario sobre fotografía. Sobre scrim+foto blanca
-     ≈ 4.6:1 — AA (antes 0.82, reforzado en este rediseño). */
+     ≈ 4.6:1 — AA. */
 
   /* ── Tinta ────────────────────────────────────────────────── */
 
-  --color-text:       var(--arena-950);
-  /* Texto principal. Negro cálido.
-     Sobre --color-surface 15.4:1 · sobre raised 16.4:1 — AAA. */
+  --color-text:       var(--grafito-950);
+  /* Texto principal. Negro azulado frío.
+     Sobre --color-surface 16.3:1 · sobre raised 17.2:1 — AAA. */
 
-  --color-text-soft:  var(--arena-700);
+  --color-text-soft:  var(--grafito-700);
   /* Texto secundario y CUERPO DE PROSA.
-     Sobre --color-surface 7.5:1 · sobre raised 8.0:1 — AAA
+     Sobre --color-surface 8.2:1 · sobre raised 8.6:1 — AAA
      (el cuerpo de lectura del sitio apunta a AAA, no a AA). */
 
-  --color-text-faint: var(--arena-600);
+  --color-text-faint: var(--grafito-600);
   /* Texto terciario: eyebrows, captions, metadatos.
-     Sobre --color-surface 5.6:1 · sobre raised 5.9:1 — AA
-     con margen (la v1 operaba al límite de 4.5:1). */
+     Sobre --color-surface 5.8:1 · sobre raised 6.1:1 — AA
+     con margen. */
 
-  --color-text-disabled: var(--arena-600);
+  --color-text-disabled: var(--grafito-600);
   /* Estado inactivo/deshabilitado declarado explícitamente
      (ej.: .contact-card--proximamente). Comparte valor con
      --color-text-faint pero se expone aparte para que el
      componente declare la intención sin depender de opacity
-     (que reduce contraste de forma no auditable). 5.6:1 — AA. */
+     (que reduce contraste de forma no auditable). 5.8:1 — AA. */
 
-  /* ── Acento estructural (pátina) ──────────────────────────── */
+  /* ── Acento estructural (cobalto) ─────────────────────────── */
 
-  --color-accent:      var(--patina-700);
-  /* Pátina de marca. Uso: enlaces, énfasis estructural, bordes
+  --color-accent:      var(--cobalto-700);
+  /* Cobalto de marca. Uso: enlaces, énfasis estructural, bordes
      destacados, itálicas de titular (h1/h2 em), rellenos
      institucionales (CTA final).
-     Como texto sobre --color-surface 8.1:1 · raised 8.6:1 — AAA. */
+     Como texto sobre --color-surface 7.9:1 · raised 8.4:1 — AAA. */
 
-  --color-accent-soft: var(--patina-500);
-  /* Pátina media. Uso: hover de enlaces, eyebrows de categoría,
+  --color-accent-soft: var(--cobalto-500);
+  /* Cobalto medio. Uso: hover de enlaces, eyebrows de categoría,
      íconos de soporte.
-     Como texto sobre --color-surface 5.1:1 · raised 5.5:1 — AA. */
+     Como texto sobre --color-surface 5.2:1 · raised 5.5:1 — AA. */
 
-  --color-on-accent:   var(--arena-50);
+  --color-on-accent:   var(--grafito-50);
   /* Texto/íconos sobre rellenos --color-accent o inverse.
-     Sobre accent 8.6:1 — AAA · sobre inverse 13.2:1 — AAA. */
+     Sobre accent 8.4:1 — AAA · sobre inverse 13.3:1 — AAA. */
 
-  /* ── Acción (cobre) ───────────────────────────────────────── */
+  /* ── Acción (mauveína) ────────────────────────────────────── */
 
-  --color-cta:    var(--cobre-600);
-  /* Cobre de acción.
+  --color-cta:    var(--mauveina-600);
+  /* Mauveína de acción.
      ⚠ ROL ÚNICO: exclusivamente botones de acción primaria y
      enlaces de apertura directa («Abrir →», «Descargar →»).
      NO usar para datos, métricas, decoración ni énfasis.
-     Como relleno con --color-on-cta encima: 6.0:1 — AA.
-     Para cobre como TEXTO usar --color-cta-text. */
+     Como relleno con --color-on-cta encima: 6.4:1 — AA.
+     Para mauveína como TEXTO usar --color-cta-text. */
 
-  --color-cta-text: var(--cobre-700);
-  /* Cobre tipográfico (enlaces de apertura directa).
-     Sobre --color-surface 7.2:1 · raised 7.7:1 — AAA.
-     (En v1 el cobre-texto daba ≈ 3.5:1: defecto corregido.) */
+  --color-cta-text: var(--mauveina-700);
+  /* Mauveína tipográfica (enlaces de apertura directa).
+     Sobre --color-surface 7.8:1 · raised 8.2:1 — AAA. */
 
-  --color-on-cta: var(--arena-50);
-  /* Texto sobre relleno --color-cta. 6.0:1 — AA. */
+  --color-on-cta: var(--grafito-50);
+  /* Texto sobre relleno --color-cta. 6.4:1 — AA. */
 
   /* ── Estado semántico ─────────────────────────────────────── */
 
   --color-negative: var(--rojo-700);
   /* Datos negativos, pérdidas, alertas, errores.
-     Sobre --color-surface 7.9:1 · raised 8.4:1 — AAA. */
+     Sobre --color-surface 7.5:1 · raised 7.9:1 — AAA. */
 
   --color-positive: var(--verde-700);
   /* Datos positivos, confirmaciones, éxito.
-     Sobre --color-surface 7.2:1 · raised 7.6:1 — AAA. */
+     Sobre --color-surface 7.1:1 · raised 7.5:1 — AAA. */
 
   --color-warning:  var(--ambar-600);
   /* Avisos no destructivos (divergencia de versión, discrepancia
-     de nota en Seguimiento). Sobre raised 5.7:1 — AA. */
+     de nota en Seguimiento). Sobre raised 5.5:1 · surface 5.3:1 — AA. */
 
   /* ── Bordes y separadores ─────────────────────────────────── */
 
-  --color-border:      var(--arena-300);
+  --color-border:      var(--grafito-300);
   /* Borde estándar: contornos de tarjeta, separadores de sección.
      Sobre --color-surface 1.4:1 (decorativo, sin requisito). */
 
-  --color-border-soft: var(--arena-200);
+  --color-border-soft: var(--grafito-200);
   /* Separadores internos de componente (pie de tarjeta, filas). */
 
 }
@@ -242,16 +248,17 @@
 :root {
 
   /* ── Placeholder por año (card-materia, FASE_1 §4.9) ─────────
-     Narrativa visual: arena (1.°) → pátina profunda (5.°), ahora
-     pasando por el cobre y la salvia de la nueva paleta.
+     Narrativa visual: arena dorada (1.°) → cobalto profundo (5.°),
+     puenteando lo cálido hacia la marca a través de la mauveína y
+     el cobalto niebla de la nueva paleta.
      Decorativos: no llevan texto encima en v1.0, por lo que no
      se verifica contraste de texto. */
 
-  --color-materia-anio-1: #E7D6AF;   /* oklch(0.880 0.055  88) arena dorada   */
-  --color-materia-anio-2: #DBAD81;   /* oklch(0.780 0.080  65) cobre claro    */
-  --color-materia-anio-3: #97B39C;   /* oklch(0.740 0.045 150) salvia         */
-  --color-materia-anio-4: #6694A3;   /* oklch(0.640 0.055 220) pátina niebla  */
-  --color-materia-anio-5: #245E6E;   /* oklch(0.450 0.065 220) pátina profunda */
+  --color-materia-anio-1: #E7CDAA;   /* oklch(0.860 0.055  75) arena dorada    */
+  --color-materia-anio-2: #D1A6D8;   /* oklch(0.780 0.085 322) mauveína clara  */
+  --color-materia-anio-3: #89AFD6;   /* oklch(0.740 0.070 250) cobalto niebla  */
+  --color-materia-anio-4: #537ABB;   /* oklch(0.580 0.110 260) cobalto medio   */
+  --color-materia-anio-5: #264A8E;   /* oklch(0.420 0.120 262) cobalto profundo */
 
   /* ── Paleta por nivel — Seguimiento de Carrera ───────────────
      (spec_seguimiento.md §8.1). Réplica funcional del Excel
@@ -259,65 +266,68 @@
      accent L 0.60 / fondo-alt L 0.965 / texto L 0.45 con matiz
      constante por nivel. Antes vivía como excepción local en
      seguimiento.css; centralizada aquí elimina la excepción.
+     Seis matices distinguibles para codificación de nivel (sistema
+     de datos, independiente de los dos polos de marca).
      Contraste texto sobre fondo-alt / sobre raised:
-       I 6.8 / 7.1 · II 7.0 / 7.3 · III 6.4 / 6.6 · IV 6.8 / 7.1
-       V 7.1 / 7.4 · X 7.0 / 7.2 — todos AA, mayoría AAA. */
+       I 6.8 / 7.2 · II 7.1 / 7.5 · III 6.4 / 6.8 · IV 6.9 / 7.3
+       V 7.1 / 7.5 · X 7.0 / 7.4 — todos AA, mayoría AAA. */
 
-  --nivel-i-accent:   #507ED3;  --nivel-i-fondo-alt:   #EEF4FD;  --nivel-i-texto:   #325392;
-  --nivel-ii-accent:  #8E6AC7;  --nivel-ii-fondo-alt:  #F5F2FC;  --nivel-ii-texto:  #5F4589;
-  --nivel-iii-accent: #039585;  --nivel-iii-fondo-alt: #EAF7F4;  --nivel-iii-texto: #00635A;
-  --nivel-iv-accent:  #AA7323;  --nivel-iv-fondo-alt:  #F9F2E9;  --nivel-iv-texto:  #754B10;
-  --nivel-v-accent:   #C65A4F;  --nivel-v-fondo-alt:   #FDF0EE;  --nivel-v-texto:   #883931;
-  --nivel-x-accent:   #7473D1;  --nivel-x-fondo-alt:   #F2F3FD;  --nivel-x-texto:   #4D4B90;
+  --nivel-i-accent:   #507ED3;  --nivel-i-fondo-alt:   #EEF4FD;  --nivel-i-texto:   #315393;
+  --nivel-ii-accent:  #8E6AC7;  --nivel-ii-fondo-alt:  #F5F2FC;  --nivel-ii-texto:  #5F4489;
+  --nivel-iii-accent: #039585;  --nivel-iii-fondo-alt: #EAF7F4;  --nivel-iii-texto: #006459;
+  --nivel-iv-accent:  #AA7323;  --nivel-iv-fondo-alt:  #FAF2E9;  --nivel-iv-texto:  #744B0A;
+  --nivel-v-accent:   #C65A4F;  --nivel-v-fondo-alt:   #FDF0EE;  --nivel-v-texto:   #893830;
+  --nivel-x-accent:   #7473D1;  --nivel-x-fondo-alt:   #F2F3FD;  --nivel-x-texto:   #4D4B91;
 
 }
 
 @supports (color: oklch(40% 0 0)) {
   :root {
-    --color-overlay: oklch(0.215 0.010 76 / 0.45);
-    --color-scrim:   oklch(0.235 0.035 220 / 0.66);
+    --color-overlay: oklch(0.205 0.018 265 / 0.45);
+    --color-scrim:   oklch(0.235 0.075 262 / 0.66);
 
-    --color-materia-anio-1: oklch(0.880 0.055 88);
-    --color-materia-anio-2: oklch(0.780 0.080 65);
-    --color-materia-anio-3: oklch(0.740 0.045 150);
-    --color-materia-anio-4: oklch(0.640 0.055 220);
-    --color-materia-anio-5: oklch(0.450 0.065 220);
+    --color-materia-anio-1: oklch(0.860 0.055 75);
+    --color-materia-anio-2: oklch(0.780 0.085 322);
+    --color-materia-anio-3: oklch(0.740 0.070 250);
+    --color-materia-anio-4: oklch(0.580 0.110 260);
+    --color-materia-anio-5: oklch(0.420 0.120 262);
 
-    --nivel-i-accent:   oklch(0.600 0.140 262);  --nivel-i-fondo-alt:   oklch(0.965 0.014 262);  --nivel-i-texto:   oklch(0.450 0.110 262);
-    --nivel-ii-accent:  oklch(0.600 0.140 300);  --nivel-ii-fondo-alt:  oklch(0.965 0.014 300);  --nivel-ii-texto:  oklch(0.450 0.110 300);
-    --nivel-iii-accent: oklch(0.600 0.107 182);  --nivel-iii-fondo-alt: oklch(0.965 0.014 182);  --nivel-iii-texto: oklch(0.450 0.080 182);
-    --nivel-iv-accent:  oklch(0.600 0.115 72);   --nivel-iv-fondo-alt:  oklch(0.965 0.014 75);   --nivel-iv-texto:  oklch(0.450 0.090 70);
-    --nivel-v-accent:   oklch(0.600 0.140 28);   --nivel-v-fondo-alt:   oklch(0.965 0.014 28);   --nivel-v-texto:   oklch(0.450 0.110 28);
-    --nivel-x-accent:   oklch(0.600 0.140 282);  --nivel-x-fondo-alt:   oklch(0.965 0.014 282);  --nivel-x-texto:   oklch(0.450 0.110 282);
+    --nivel-i-accent:   oklch(0.600 0.140 262);  --nivel-i-fondo-alt:   oklch(0.965 0.014 262);  --nivel-i-texto:   oklch(0.450 0.112 262);
+    --nivel-ii-accent:  oklch(0.600 0.140 300);  --nivel-ii-fondo-alt:  oklch(0.965 0.014 300);  --nivel-ii-texto:  oklch(0.450 0.112 300);
+    --nivel-iii-accent: oklch(0.600 0.107 182);  --nivel-iii-fondo-alt: oklch(0.965 0.014 182);  --nivel-iii-texto: oklch(0.450 0.086 182);
+    --nivel-iv-accent:  oklch(0.600 0.115 72);   --nivel-iv-fondo-alt:  oklch(0.965 0.014 75);   --nivel-iv-texto:  oklch(0.450 0.092 70);
+    --nivel-v-accent:   oklch(0.600 0.140 28);   --nivel-v-fondo-alt:   oklch(0.965 0.014 28);   --nivel-v-texto:   oklch(0.450 0.112 28);
+    --nivel-x-accent:   oklch(0.600 0.140 282);  --nivel-x-fondo-alt:   oklch(0.965 0.014 282);  --nivel-x-texto:   oklch(0.450 0.112 282);
   }
 }
 
 
 /* ─────────────────────────────────────────────────────────────
    SOMBRAS
-   Derivadas de --patina-950 vía color-mix: la sombra fría sobre
-   papel cálido evita el efecto «mancha gris». Tiers únicos para
-   todo el sitio (antes cada hoja improvisaba su rgba local).
+   Derivadas de --cobalto-950 vía color-mix: la sombra fría y azulada
+   se integra con la porcelana fría y evita el efecto «mancha gris».
+   Tiers únicos para todo el sitio (antes cada hoja improvisaba su
+   rgba local).
    ───────────────────────────────────────────────────────────── */
 
 :root {
 
   --shadow-xs:
-    0 1px 2px color-mix(in srgb, var(--patina-950) 6%, transparent);
+    0 1px 2px color-mix(in srgb, var(--cobalto-950) 6%, transparent);
   /* Cajas pequeñas en reposo (unidades del countdown). */
 
   --shadow-sm:
-    0 2px 8px color-mix(in srgb, var(--patina-950) 9%, transparent);
+    0 2px 8px color-mix(in srgb, var(--cobalto-950) 9%, transparent);
   /* Elevación leve al hover de tarjetas. */
 
   --shadow-md:
-    0 4px 6px -1px color-mix(in srgb, var(--patina-950) 9%, transparent),
-    0 10px 24px -6px color-mix(in srgb, var(--patina-950) 11%, transparent);
+    0 4px 6px -1px color-mix(in srgb, var(--cobalto-950) 9%, transparent),
+    0 10px 24px -6px color-mix(in srgb, var(--cobalto-950) 11%, transparent);
   /* Dropdowns, popovers. */
 
   --shadow-lg:
-    0 6px 16px -2px color-mix(in srgb, var(--patina-950) 10%, transparent),
-    0 16px 40px -8px color-mix(in srgb, var(--patina-950) 16%, transparent);
+    0 6px 16px -2px color-mix(in srgb, var(--cobalto-950) 10%, transparent),
+    0 16px 40px -8px color-mix(in srgb, var(--cobalto-950) 16%, transparent);
   /* Paneles protagónicos, modales. */
 
 
@@ -374,20 +384,27 @@
      font-display: swap — ver @font-face en main.css §1).
      ───────────────────────────────────────────────────────────── */
 
-  --font-display: 'Instrument Serif', 'Instrument Serif Fallback', Georgia, 'Times New Roman', serif;
+  --font-display: 'Fraunces', 'Fraunces Fallback', Georgia, 'Times New Roman', serif;
   /* Voz editorial de la marca: H1, H2, valores KPI, wordmark.
-     Familia de un solo peso (400) por diseño; el énfasis se
-     construye con la itálica (h1 em / h2 em), nunca con bold. */
+     Serif Old Style de alto contraste y óptica de display
+     (opsz fija a 72) — reemplaza a Instrument Serif (v2). Fuente
+     VARIABLE 400–600: a diferencia de Instrument (un solo peso),
+     ahora el peso es real, pero la disciplina se mantiene: el
+     énfasis se construye con la ITÁLICA (h1 em / h2 em), no con
+     bold; el cuerpo de los titulares es regular. */
 
-  --font-body:    'Geist', 'Geist Fallback', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  /* Cuerpo, H3–H6, labels UI, botones, nav. Fuente VARIABLE
+  --font-body:    'Hanken Grotesk', 'Hanken Grotesk Fallback', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  /* Cuerpo, H3–H6, labels UI, botones, nav. Grotesca humanista de
+     alta legibilidad — reemplaza a Geist (v2). Fuente VARIABLE
      400–600: los pesos medium y semibold son reales, no
-     sintetizados por el navegador (defecto v1 corregido). */
+     sintetizados por el navegador. */
 
   --font-mono:    'Geist Mono', 'Geist Mono Fallback', ui-monospace, 'Cascadia Mono', 'Courier New', monospace;
   /* Eyebrows, etiquetas técnicas, metadatos, dígitos tabulares,
-     código. Fuente VARIABLE 400–500 autoalojada (en v1 el token
-     existía sin archivo y degradaba a Courier New: corregido).
+     código. Fuente VARIABLE 400–500 autoalojada. Voz técnica
+     neutra retenida del sistema v2 (pareja con la serif editorial
+     y la grotesca de cuerpo); cifras tabulares para el countdown
+     y la tabla de Seguimiento.
 
      Las familias «… Fallback» (S6 — rendimiento) son alias locales
      con métricas ajustadas (size-adjust / ascent-override /
@@ -396,7 +413,7 @@
      texto se dibuja con la fuente del sistema OCUPANDO el mismo
      espacio que la webfont, de modo que el swap no reacomoda el
      layout (CLS ≈ 0). No alteran el render final: una vez resuelta
-     la webfont, el resultado es idéntico al de la v1. */
+     la webfont, el resultado es idéntico. */
 
 
   /* ─── TIPOGRAFÍA — PESOS ─────────────────────────────────────
@@ -527,8 +544,8 @@
   /* ─── TIPOGRAFÍA — ESPACIADO DE LETRA ───────────────────── */
 
   --tracking-tight:  -0.015em;
-  /* Titulares display — compensa el aire de Instrument Serif
-     en los cuerpos grandes de la nueva escala. */
+  /* Titulares display — ajusta el set de Fraunces (opsz 72) en los
+     cuerpos grandes de la escala para un color tipográfico parejo. */
 
   --tracking-normal:  0em;
   /* Cuerpo y UI. */
@@ -737,12 +754,12 @@
 
      Ratios WCAG 2.2 calculados (§1.4.11 exige ≥ 3:1 para
      indicadores de interfaz contra colores adyacentes):
-       --focus-ring-color sobre --color-surface 8.1:1 ·
-         sobre raised 8.6:1 — supera 3:1 con margen.
+       --focus-ring-color sobre --color-surface 7.9:1 ·
+         sobre raised 8.4:1 — supera 3:1 con margen.
        --focus-ring-color-inverse sobre --color-accent
-         (cta-final, pill activa) 8.6:1 · sobre
-         --color-surface-inverse (footer) 13.2:1 · sobre
-         --patina-950 (peor caso del scrim del hero) 16.5:1.
+         (cta-final, pill activa) 8.4:1 · sobre
+         --color-surface-inverse (footer) 13.3:1 · sobre
+         --cobalto-950 (peor caso del scrim del hero) 16.0:1.
      El offset de 2 px separa el anillo del relleno del control:
      el color adyacente al anillo es siempre la superficie del
      contexto (no el relleno del botón), que es contra la que se
@@ -895,8 +912,8 @@ a:hover {
 }
 
 strong, b {
-  /* Peso semibold REAL servido por la variable Geist 400–600;
-     evita el bold 700 sintetizado por el navegador. */
+  /* Peso semibold REAL servido por la variable Hanken Grotesk
+     400–600; evita el bold 700 sintetizado por el navegador. */
   font-weight: var(--weight-semibold);
 }
 

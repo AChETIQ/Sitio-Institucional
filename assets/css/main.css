@@ -84,19 +84,40 @@
    la carga: muestra el fallback declarado en tokens.css y cambia
    al resolverse la fuente.
 
-   Geist y Geist Mono se sirven como FUENTES VARIABLES con rango
-   de peso declarado: todo peso intermedio (400/500/600) es real,
-   interpolado por la propia fuente. Quedan corregidos los dos
-   defectos de la v1: el peso 500 sintetizado por el navegador y
-   el token --font-mono sin archivo (degradaba a Courier New). */
+   Las tres familias se sirven como FUENTES VARIABLES con rango de
+   peso declarado: todo peso intermedio (400/500/600) es real,
+   interpolado por la propia fuente, nunca sintetizado por el
+   navegador. Fraunces se instancia con la óptica de display fija
+   (opsz 72) y el rango de peso 400–600 para acotar el tamaño del
+   archivo conservando los pesos reales. */
 
-/* Geist — cuerpo de texto y UI. Variable, pesos 400–600. */
+/* Fraunces — títulos y display (Old Style de alto contraste,
+   opsz 72). Variable, pesos 400–600. */
 @font-face {
-  font-family: 'Geist';
+  font-family: 'Fraunces';
   font-style: normal;
   font-weight: 400 600;
   font-display: swap;
-  src: url('../fonts/geist-400-600.woff2') format('woff2');
+  src: url('../fonts/fraunces-400-600.woff2') format('woff2');
+}
+
+/* Fraunces — itálica. Usada por `h1 em` y `h2 em` en tokens.css
+   para el énfasis editorial de los titulares. Variable 400–600. */
+@font-face {
+  font-family: 'Fraunces';
+  font-style: italic;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url('../fonts/fraunces-400-600-italic.woff2') format('woff2');
+}
+
+/* Hanken Grotesk — cuerpo de texto y UI. Variable, pesos 400–600. */
+@font-face {
+  font-family: 'Hanken Grotesk';
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url('../fonts/hanken-grotesk-400-600.woff2') format('woff2');
 }
 
 /* Geist Mono — eyebrows, metadatos, dígitos tabulares, código.
@@ -107,25 +128,6 @@
   font-weight: 400 500;
   font-display: swap;
   src: url('../fonts/geist-mono-400-500.woff2') format('woff2');
-}
-
-/* Instrument Serif — títulos y display (regular). */
-@font-face {
-  font-family: 'Instrument Serif';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../fonts/instrument-serif-400.woff2') format('woff2');
-}
-
-/* Instrument Serif — itálica. Usada por `h1 em` y `h2 em` en
-   tokens.css para el énfasis de los titulares. */
-@font-face {
-  font-family: 'Instrument Serif';
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: url('../fonts/instrument-serif-400-italic.woff2') format('woff2');
 }
 
 
@@ -146,26 +148,28 @@
    no resuelve y la pila continúa con los fallbacks ya existentes:
    comportamiento idéntico al actual. */
 
-/* Geist → Arial (ascent 1005/1000, descent 295/1000, xWidthAvg 467
-   vs Arial 913/2048). */
+/* Hanken Grotesk → Arial (ascent 1000/1000, descent 303/1000,
+   xWidthAvg 446 vs Arial 913/2048). */
 @font-face {
-  font-family: 'Geist Fallback';
+  font-family: 'Hanken Grotesk Fallback';
   src: local('Arial');
-  size-adjust: 104.76%;
-  ascent-override: 95.94%;
-  descent-override: 28.16%;
+  size-adjust: 100.04%;
+  ascent-override: 99.96%;
+  descent-override: 30.29%;
   line-gap-override: 0%;
 }
 
-/* Instrument Serif → Georgia (ascent 990/1000, descent 310/1000,
-   xWidthAvg 341 vs Georgia 913/2048). Cubre regular e itálica:
-   ambas comparten métricas verticales. */
+/* Fraunces → Georgia (ascent 1956/2000, descent 510/2000,
+   xWidthAvg 869 vs Georgia 913/2048). Cubre regular e itálica:
+   ambas comparten métricas verticales (la pequeña diferencia de
+   ancho de la itálica es imperceptible en el texto breve de
+   énfasis). */
 @font-face {
-  font-family: 'Instrument Serif Fallback';
+  font-family: 'Fraunces Fallback';
   src: local('Georgia');
-  size-adjust: 76.49%;
-  ascent-override: 129.43%;
-  descent-override: 40.53%;
+  size-adjust: 97.47%;
+  ascent-override: 100.34%;
+  descent-override: 26.16%;
   line-gap-override: 0%;
 }
 
@@ -270,8 +274,8 @@ select {
    3. ESTILOS BASE DEL DOCUMENTO
    ───────────────────────────────────────────────────────────── */
 
-/* Documento: tipografía de cuerpo (Geist), tinta y fondo cálidos.
-   Contraste --color-text sobre --color-surface ≈ 15.4:1 — supera WCAG AAA.
+/* Documento: tipografía de cuerpo (Hanken Grotesk), tinta y fondo
+   fríos. Contraste --color-text sobre --color-surface ≈ 16.3:1 — supera WCAG AAA.
    line-height relajado (1.7) para máxima legibilidad en prosa. */
 body {
   font-family: var(--font-body);
@@ -286,7 +290,7 @@ body {
 }
 
 /* Jerarquía tipográfica — escala definida en tokens.css.
-   H1 y H2 usan la familia display (Instrument Serif); H3 y H4 usan
+   H1 y H2 usan la familia display (Fraunces); H3 y H4 usan
    la familia de cuerpo en peso medio, según indican los comentarios
    de la escala en tokens.css (--text-h3 / --text-h4: «Font: body, 500»).
    H5 y H6 no figuran en la escala formal del catálogo: se resuelven

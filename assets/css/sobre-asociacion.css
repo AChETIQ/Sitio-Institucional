@@ -109,7 +109,7 @@
 }
 
 /* CTA con flecha. Color de acento (rol «texto de enlace» del
-   sistema), no el cobre --color-cta (reservado a botones de
+   sistema), no la mauveína --color-cta (reservada a botones de
    acción primaria). */
 .about-intro__cta {
   display: inline-flex;
@@ -365,7 +365,7 @@
    sin tocar el bundle ni reconstruirlo.
 
    Mapeo de la paleta del handoff («Océano & Areia») a los tokens
-   reales del repo («Pátina & Cobre»):
+   reales del repo («Cobalto & Mauveína»):
      primary → --color-accent · primary-mid → --color-accent-soft
      ink → --color-text · ink-soft → --color-text-soft
      bg-panel → --color-surface-raised · rule → --color-border
@@ -783,7 +783,7 @@
    columna conserva su fondo papel, borde lateral de acento y
    radio, pero el eyebrow mono se sustituye por la jerarquía del
    PNG objetivo — un ícono en placa suave sobre un título en
-   Instrument Serif. El JS (sobre-achetiq.js) emite la nueva
+   Fraunces. El JS (sobre-achetiq.js) emite la nueva
    estructura .mission-vision__icon-box + .mission-vision__title.
    ───────────────────────────────────────────────────────────── */
 
