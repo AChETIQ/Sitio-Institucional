@@ -1,9 +1,20 @@
 /* ============================================================
    AChETIQ — Design Tokens
-   Versión: 3.0
-   Fase: S1 — Rediseño fundacional de tipografía y color
+   Versión: 3.1
+   Fase: E01 — Sistema editorial de portada (evoluciona S1, no lo reinicia)
    Sistema: Paleta «Cobalto & Mauveína»
-   Última revisión: 2026-06-15
+   Última revisión: 2026-06-16
+
+   EVOLUCIÓN E01 (fundación editorial, heredan E02–E07):
+     · Rampa de papel frío extendida: --grafito-150 →
+       --color-surface-sunken (plancha tonal hundida) y realce
+       derivado del cobalto --color-surface-accent (lavado frío).
+     · Reglas hairline compuestas --rule / --rule-ink: el lenguaje
+       de separación por línea+aire que reemplaza a las cajas.
+     · Cierre tipográfico editorial --tracking-display para el
+       display grande del hero.
+   Todo valor nuevo documentado en es-AR con su contraste calculado;
+   ninguna familia ni ancla de marca (Cobalto/Mauveína) se reemplaza.
    ============================================================
 
    INSTRUCCIONES DE USO
@@ -56,6 +67,7 @@
 
   --grafito-50:  #F9FAFC;   /* oklch(0.985 0.003 265) — porcelana elevada */
   --grafito-100: #F2F4F8;   /* oklch(0.967 0.005 265) — porcelana base    */
+  --grafito-150: #EAEDF2;   /* oklch(0.945 0.006 265) — papel frío hundido (E01) */
   --grafito-200: #E1E4E9;   /* oklch(0.918 0.008 265) — borde suave       */
   --grafito-300: #CED2D9;   /* oklch(0.862 0.011 265) — borde             */
   --grafito-600: #5B5F69;   /* oklch(0.486 0.017 265) — tinta terciaria   */
@@ -95,6 +107,7 @@
   :root {
     --grafito-50:  oklch(0.985 0.003 265);
     --grafito-100: oklch(0.967 0.005 265);
+    --grafito-150: oklch(0.945 0.006 265);
     --grafito-200: oklch(0.918 0.008 265);
     --grafito-300: oklch(0.862 0.011 265);
     --grafito-600: oklch(0.486 0.017 265);
@@ -136,6 +149,23 @@
 
   --color-surface-raised: var(--grafito-50);
   /* Superficies elevadas: tarjetas, paneles, modales, dropdowns. */
+
+  --color-surface-sunken: var(--grafito-150);
+  /* Papel frío HUNDIDO (E01): un peldaño por debajo de la porcelana
+     base, para diferenciar zonas por tono —no por caja— en el ritmo
+     editorial (planchas tonales a sangre dentro de la columna, sin
+     borde ni sombra). Banda fría (grafito hue 265), nunca cálida.
+     Sobre este fondo: --color-text 15.4:1 · --color-text-soft 7.8:1
+     — AAA · --color-text-faint 5.5:1 — AA con margen. */
+
+  --color-surface-accent: var(--cobalto-50);
+  /* Realce de marca DERIVADO del cobalto (lavado frío, matiz 262):
+     plancha tonal que porta la firma cobalto apenas teñida, para la
+     sección protagónica del cuerpo (índice de gabinetes en la
+     portada). Tinte editorial sobrio, fríamente azulado —jamás un
+     neutro tibio. Sobre este fondo (#EFF4FC): --color-text 15.2:1 ·
+     --color-text-soft 7.6:1 — AAA · --color-accent (cobalto-700)
+     como texto 7.4:1 — AAA · --color-text-faint 5.4:1 — AA. */
 
   --color-surface-inverse: var(--cobalto-900);
   /* Superficie institucional oscura: footer, base del hero
@@ -237,6 +267,18 @@
 
   --color-border-soft: var(--grafito-200);
   /* Separadores internos de componente (pie de tarjeta, filas). */
+
+  --color-rule: var(--color-border);
+  /* Color de las REGLAS HAIRLINE editoriales (E01): el filete fino
+     que separa secciones por aire+línea en vez de por caja. Alias
+     semántico sobre --color-border para que «regla editorial» y
+     «contorno de tarjeta» se ajusten por separado en el futuro sin
+     tocar componentes. */
+
+  --color-rule-ink: var(--color-text);
+  /* Regla de tinta enfática: el filete grueso de cabecera tipo
+     «masthead» (una sola vez por página, bajo el hero). Tinta fría
+     grafito-950 — sobre --color-surface contrasta 16.3:1. */
 
 }
 
@@ -376,6 +418,27 @@
   --elevation-lift: -2px;
   /* Desplazamiento vertical que acompaña a --elevation-hover:
      transform: translateY(var(--elevation-lift)). */
+
+
+  /* ─────────────────────────────────────────────────────────────
+     REGLAS HAIRLINE — CONTRATO EDITORIAL (E01)
+     Filetes finos compuestos (paralelos a --elevation-border) que
+     son el LENGUAJE DE SEPARACIÓN del sistema editorial: la sección
+     se separa de la anterior con aire + una línea de 1px, no con un
+     marco ni una sombra (principio editorial «hairline y blanco
+     antes que cajas pesadas»). Los componentes consumen estos alias,
+     nunca un `border-top: 1px solid …` literal.
+     ───────────────────────────────────────────────────────────── */
+
+  --rule: 1px solid var(--color-rule);
+  /* Filete editorial estándar: abre cada sección de contenido.
+     Repetible sin volverse andamiaje porque es estructura silenciosa
+     (1px gris), no un rótulo. */
+
+  --rule-ink: 1.5px solid var(--color-rule-ink);
+  /* Filete de tinta enfático tipo «masthead»: UNA sola vez por
+     página (transición hero → cuerpo). Marca el arranque editorial
+     con una línea decidida; no se repite por sección. */
 
 
   /* ─────────────────────────────────────────────────────────────
@@ -546,6 +609,12 @@
   --tracking-tight:  -0.015em;
   /* Titulares display — ajusta el set de Fraunces (opsz 72) en los
      cuerpos grandes de la escala para un color tipográfico parejo. */
+
+  --tracking-display: -0.021em;
+  /* Cierre editorial para el display MÁS grande (titular del hero,
+     pasos 5–6 de la escala): un punto más cerrado que --tracking-tight
+     para un color denso de portada. Dentro del piso de -0.04em (las
+     letras no se tocan); reservado a cuerpos ≥ ~40px de Fraunces. */
 
   --tracking-normal:  0em;
   /* Cuerpo y UI. */

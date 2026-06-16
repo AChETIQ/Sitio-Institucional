@@ -14,6 +14,8 @@ colors:
   mauveina-texto: "oklch(0.440 0.175 322)"       # #7C228A — --color-cta-text
   grafito-porcelana: "oklch(0.967 0.005 265)"    # #F2F4F8 — --color-surface (fondo)
   grafito-porcelana-alta: "oklch(0.985 0.003 265)" # #F9FAFC — --color-surface-raised
+  grafito-papel-hundido: "oklch(0.945 0.006 265)" # #EAEDF2 — --color-surface-sunken (plancha tonal, E01)
+  cobalto-lavado: "oklch(0.965 0.012 262)"       # #EFF4FC — --color-surface-accent (realce frío derivado, E01)
   grafito-tinta: "oklch(0.205 0.018 265)"        # #131720 — --color-text
   grafito-tinta-secundaria: "oklch(0.404 0.018 265)" # #444953 — --color-text-soft
   grafito-tinta-terciaria: "oklch(0.486 0.017 265)"  # #5B5F69 — --color-text-faint
@@ -151,6 +153,12 @@ mauveína— separados ~60° en matiz, que no se confunden entre sí ni con los 
 - **Porcelana** (oklch(0.967 0.005 265) / #F2F4F8): fondo principal de página (`--color-surface`).
 - **Porcelana elevada** (oklch(0.985 0.003 265) / #F9FAFC): superficies elevadas y tarjetas
   (`--color-surface-raised`).
+- **Papel hundido** (oklch(0.945 0.006 265) / #EAEDF2): plancha tonal fría *un peldaño por debajo*
+  de la porcelana (`--color-surface-sunken`, E01). Diferencia zonas por TONO —no por caja— en el
+  ritmo editorial; texto 15.4:1, texto-soft 7.8:1 (AAA), texto-faint 5.5:1 (AA).
+- **Lavado cobalto** (oklch(0.965 0.012 262) / #EFF4FC): realce de marca DERIVADO del cobalto
+  (`--color-surface-accent`, E01), banda fría apenas teñida para la sección protagónica del cuerpo
+  (índice de gabinetes en la portada). Texto 15.2:1, texto-soft 7.6:1, cobalto-texto 7.4:1 (AAA).
 - **Tinta** (oklch(0.205 0.018 265) / #131720): texto principal (`--color-text`). 16.3:1 sobre
   superficie (AAA).
 - **Tinta secundaria** (oklch(0.404 0.018 265) / #444953): texto de apoyo (`--color-text-soft`,
@@ -190,7 +198,8 @@ congelada** (ver Do's and Don'ts).
 ### Hierarchy
 - **Display / Display-xl** (Fraunces 400, clamp ~2.5→3.25rem / hero ~2.5→4.06rem, lh 1.08,
   tracking -0.015em): solo H1 y titular del héroe. El paso 6 converge con el 5 en móvil para no
-  desbordar (defecto v1 corregido).
+  desbordar (defecto v1 corregido). **E01:** el titular del héroe cierra un punto más
+  (`--tracking-display` -0.021em, dentro del piso -0.04em) para el color denso de portada.
 - **Headline** (Fraunces 400, clamp ~2.06→2.56rem, lh 1.3): H2 de sección.
 - **Title** (Hanken Grotesk 500, clamp ~1.19→1.31rem, lh 1.3): H3. Nota: H3/H4 usan la **grotesca de
   cuerpo**, no la serif; la serif se reserva a H1/H2 para que el contraste display siga siendo
@@ -205,7 +214,11 @@ contraste editorial; ahí manda Hanken Grotesk.
 
 **La Regla del Eyebrow con Mesura.** El *eyebrow* en Geist Mono es un recurso de marca, no un reflejo:
 no debe coronar **cada** sección. Un kicker fuerte y deliberado es voz; un eyebrow sobre cada bloque
-es gramática automática de IA. (Hoy el sitio abusa de él: es deuda a saldar, no patrón a imitar.)
+es gramática automática de IA. **Cadencia nacida en E01 (la portada la estrena, E02–E07 la heredan):**
+un ÚNICO kicker deliberado por vista —el *dateline* institucional del héroe (`.hero__dateline`: mono,
+tracking abierto, NO mayúsculas tracked; lugar + año de fundación, porta información real)— y CERO
+eyebrows bajo el pliegue. Las secciones se abren con titular display + *standfirst* en Hanken
+(`.section-title__standfirst`), no con etiqueta mono.
 
 ## 4. Elevation
 
@@ -221,6 +234,15 @@ tarjeta, popovers, modales), no una atmósfera permanente. Todas las sombras der
 - **sm** (`0 2px 8px` cobalto-950 9 %): elevación leve al *hover* de tarjetas (`--elevation-hover`).
 - **md** (`0 4px 6px / 0 10px 24px` cobalto-950): *dropdowns*, *popovers* (`--elevation-overlay`).
 - **lg** (`0 6px 16px / 0 16px 40px` cobalto-950): paneles protagónicos y modales (`--elevation-modal`).
+
+### Reglas hairline — separación editorial (E01)
+La separación entre secciones la hace **aire + un filete de 1 px**, no una caja con sombra. Tokens
+compuestos (paralelos a `--elevation-border`), consumidos por los componentes —nunca un
+`border-top: 1px solid …` literal:
+- **`--rule`** (1 px `--color-rule`): filete editorial estándar que abre cada sección de contenido
+  (`.section-ruled`). Repetible sin volverse andamiaje: es estructura silenciosa, no un rótulo.
+- **`--rule-ink`** (1.5 px `--color-rule-ink` = tinta): filete enfático tipo *masthead*, **una sola
+  vez por página** (transición héroe → cuerpo, `.section-ruled--mast`).
 
 ### Named Rules
 **La Regla de la Sombra Fría.** Ninguna sombra usa negro: todas se mezclan desde cobalto-950. Si una
@@ -263,6 +285,24 @@ respuesta a estado (hover, elevación, foco). Sombras ambientales permanentes es
   filtros (botones con `aria-pressed`). Navbar fijo con *skip-link* previo y fallback `<noscript>`.
   El estado activo se marca por color + peso, no por color solo.
 
+### Signature — Apertura de sección editorial (E01)
+**Patrón de firma que nace en la portada y heredan E02–E07.** Una sección se abre con:
+1. un **filete hairline** a todo el ancho (`.section-ruled`, o `--mast` una vez por página),
+2. el **titular display** (Fraunces, con su itálica cobalto de énfasis),
+3. un **standfirst** en Hanken (`.section-title__standfirst`) —no un eyebrow mono—, que en ≥1024 px
+   se compone a dos columnas sobre una línea de base común con el titular (`:has()`).
+
+Reemplaza el viejo `eyebrow + h2` por sección. La jerarquía la carga la **tipografía y el aire**,
+no una etiqueta tracked ni una caja.
+
+### Signature — Índice editorial de gabinetes (E01)
+La home lista sus cuatro frentes de trabajo como un **sumario** (`.gabinetes-index`), no como una
+grilla de tarjetas idénticas: entradas con el nombre en Fraunces, descripción en Hanken y flecha
+cobalto, separadas por **filetes hairline** (filas + filete central en ≥768 px) sobre una **plancha
+tonal** de lavado cobalto (`--color-surface-accent`) que sangra a los bordes de la columna, plana
+(sin borde, radio ni sombra). La fila entera es el destino (`<a>` en bloque). Es la respuesta
+canónica del sistema a «la grilla de tarjetas es el recurso perezoso».
+
 ### Signature — Tarjeta de materia (apuntes)
 Cada materia del Plan 2023 se pinta como `.card-materia` con una cubierta coloreada por año
 (`--color-materia-anio-1..5`, una rampa de arena → cobalto profundo). Es el componente más
@@ -282,6 +322,11 @@ distintivo del registro utilitario: convierte un índice de 41 materias en una g
 - **Do** documentar cada par texto/fondo nuevo con su ratio WCAG calculado; AA piso, AAA donde se
   pueda. Señales de estado siempre con glifo/texto, no color solo.
 - **Do** preservar el camino sin JavaScript (`<noscript>` espejo de cada bloque dinámico).
+- **Do** dar control de **pausa** a todo contenido en movimiento que arranque solo y dure > 5 s
+  (WCAG 2.2.2): el slideshow del héroe expone `.hero__pause` (revelado por JS sólo cuando corre;
+  oculto bajo `prefers-reduced-motion`, donde la imagen ya queda fija).
+- **Do**, cuando una grilla de tarjetas sería el reflejo, evaluar el **índice editorial** (sumario
+  con filetes hairline, `.gabinetes-index`) como alternativa que «se gana la retícula».
 
 ### Don't:
 - **Don't** reemplazar las fuentes ni la paleta. La guía "nuevo proyecto / palette.mjs /
