@@ -81,6 +81,15 @@
     return slide;
   });
 
+  /* El primer cuadro lo pinta el CSS sobre [data-hero-slideshow] para que
+     sea el elemento LCP sin esperar a este script diferido (headers.css
+     §HERO). Ya construido el slide[0] idéntico ENCIMA (mismo archivo,
+     opacity 1), se limpia ese fondo del contenedor para que los
+     cross-fades posteriores compongan sobre la base oscura del .hero, no
+     sobre el cuadro 1. slide[0] cubre el contenedor con el mismo pixel:
+     la limpieza es invisible. */
+  stage.style.backgroundImage = 'none';
+
   /* Con una sola imagen no hay nada que rotar. */
   if (slides.length < 2) return;
 

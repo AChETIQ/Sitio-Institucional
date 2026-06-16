@@ -202,10 +202,43 @@
     min-height: 420px;
   }
 
-  /* Detalle de gabinete: regiones de prosa cortas; piso = mínimo
-     medido entre campos y viewports (56 px → token inferior). */
+  /* Detalle de gabinete: regiones de prosa. Pisos POR CAMPO, medidos como
+     el MÍNIMO de su altura renderizada entre los 4 gabinetes y todos los
+     viewports (scripts/shoot.mjs). Cada piso queda ≤ al contenido real en
+     todo ancho → nunca abre hueco ni provoca shift ascendente; sólo
+     recorta el shift descendente que produce la inyección post-fetch.
+     El campo es el mismo selector en las 4 páginas (copia variable por
+     gabinete), por eso el piso usa el mínimo CRUZADO, no el de una página.
+     Re-medir si cambia la copia de data/gabinetes.json (regla §5 del
+     presupuesto):
+       node scripts/shoot.mjs <url> - <ancho> \
+         '[data-gabinete-field="proposito"],[data-gabinete-field="actividades"],[data-gabinete-field="historia"]'
+     Mínimos observados (px): proposito 112 · actividades 140 (móvil) /
+     116 (desktop) · historia 56. */
+
+  /* Fallback genérico (historia y cualquier campo futuro): campo más
+     corto, 1 línea en desktop. */
   [data-loader="gabinetes"][data-gabinete-field]:not([data-loader-state="empty"]):not([data-loader-state="error"]) {
-    min-height: var(--space-12);
+    min-height: var(--space-12);   /* 48 px */
+  }
+
+  /* Propósito: ≥112 px en todo viewport. */
+  [data-loader="gabinetes"][data-gabinete-field="proposito"]:not([data-loader-state="empty"]):not([data-loader-state="error"]) {
+    min-height: 104px;
+  }
+
+  /* Actividades: el campo más alto. En móvil/tablet (<1024) no baja de
+     140 px; el piso desktop se reduce abajo. */
+  [data-loader="gabinetes"][data-gabinete-field="actividades"]:not([data-loader-state="empty"]):not([data-loader-state="error"]) {
+    min-height: 132px;
+  }
+}
+
+@media (scripting: enabled) and (min-width: 1024px) {
+  /* Desktop: la prosa se acorta (menos saltos de línea). Pisos desktop ≤
+     mínimo medido a ≥1024 px para no abrir hueco en pantallas anchas. */
+  [data-loader="gabinetes"][data-gabinete-field="actividades"]:not([data-loader-state="empty"]):not([data-loader-state="error"]) {
+    min-height: 108px;
   }
 }
 
