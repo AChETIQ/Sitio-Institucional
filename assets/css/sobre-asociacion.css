@@ -417,14 +417,28 @@
    borde superior del aro (centro del nodo en 71.5%).
    ───────────────────────────────────────────────────────────── */
 
-.timeline {
-  --tl-tube: 2px;      /* trazo fino: tronco · ramas · aro — armoniza con --rule-ink */
-  --tl-node: 116px;    /* diámetro exterior del nodo (aro incluido)  */
-  --tl-arm:  210px;    /* ancho de la banda de cada rama             */
-  --tl-band: 210px;    /* alto de la banda de cada rama              */
-  --tl-gap:  32px;     /* aire entre nodo y contenido                */
-  --tl-pull: 48px;     /* solape vertical entre bandas (zig-zag)     */
+/* Geometría del árbol: vive en el CONTENEDOR DE SECCIÓN para que la
+   raíz/tronco (.timeline-root, hermano del <ol>) y el <ol> lean las
+   MISMAS medidas. --tl-rail es la posición horizontal del tronco:
+   centrado (50%) en escritorio; en < 880 px pasa a un carril de 32 px. */
+[aria-labelledby="historia-title"] {
+  --tl-tube: 3px;      /* trazo de ramas · aro · soldadura — presencia estructural */
+  --tl-trunk: 4px;     /* tronco central: un punto más que las ramas   */
+  --tl-node: 116px;    /* diámetro exterior del nodo (aro incluido)    */
+  --tl-arm:  210px;    /* ancho de la banda de cada rama               */
+  --tl-band: 210px;    /* alto de la banda de cada rama                */
+  --tl-gap:  32px;     /* aire entre nodo y contenido                  */
+  --tl-pull: 48px;     /* solape vertical entre bandas (zig-zag)       */
+  --tl-rail: 50%;      /* posición horizontal del tronco (centrado)    */
+}
 
+/* El tronco nace anclado al título: éste cede casi toda su separación
+   inferior para que la línea «caiga» desde él (anchor al origen). */
+[aria-labelledby="historia-title"] > .section-title {
+  margin-bottom: var(--space-4);
+}
+
+.timeline {
   position: relative;
   list-style: none;
   margin: 0;
@@ -437,33 +451,49 @@
   display: none;
 }
 
-/* Raíz del tronco: línea fina que «nace» bajo el título de sección
-   y empalma con el eje. Es un hermano previo al <ol>. */
+/* Raíz del tronco: la línea nace en el NODO DE ORIGEN (::after),
+   anclado justo bajo el título, y cae hasta empalmar con el eje del
+   <ol>. Es un hermano previo al <ol>. */
 .timeline-root {
   position: relative;
   height: 56px;
-  margin-top: var(--space-2);
+  margin-top: 0;
 }
 
 .timeline-root::before {
   content: "";
   position: absolute;
-  left: 50%;
+  left: var(--tl-rail);
   top: 0;
   bottom: 0;
-  width: 2px;                           /* = --tl-tube del eje */
+  width: var(--tl-trunk);
   transform: translateX(-50%);
   background: var(--color-accent);
   border-radius: var(--radius-md) var(--radius-md) 0 0;
 }
 
+/* Nodo de origen: disco cobalto en la base del título, del que
+   «brota» el tronco. Un cerco de superficie lo despega de la línea. */
+.timeline-root::after {
+  content: "";
+  position: absolute;
+  left: var(--tl-rail);
+  top: 0;
+  width: 14px;
+  height: 14px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 0 0 4px var(--color-surface);
+}
+
 /* Tronco central: pista atenuada + relleno cobalto que JS «dibuja». */
 .timeline__axis {
   position: absolute;
-  left: 50%;
+  left: var(--tl-rail);
   top: 0;
   bottom: 0;
-  width: var(--tl-tube);
+  width: var(--tl-trunk);
   transform: translateX(-50%);
   pointer-events: none;
 }
@@ -629,9 +659,12 @@
   transition: color var(--transition-fast);
 }
 
+/* Relato del hito: tamaño de cuerpo (≥ 1 rem) con interlínea relajada
+   (1.7) para lectura cómoda junto a cada nodo — sube desde el antiguo
+   --text-small. */
 .timeline__desc {
   font-family: var(--font-body);
-  font-size: var(--text-small);
+  font-size: var(--text-body);
   line-height: var(--leading-relaxed);
   color: var(--color-text-soft);
   margin: 0;
@@ -681,7 +714,7 @@
 /* ── Entrada ghost — «Próximamente»: rama punteada atenuada ─── */
 .timeline__entry--ghost .timeline__arm path {
   stroke: var(--color-border);
-  stroke-width: 1.5px;                  /* eco del --rule-ink */
+  stroke-width: 2px;                    /* punteado atenuado, bajo las ramas activas */
   stroke-dasharray: 2 12 !important;
   stroke-dashoffset: 0 !important;
 }
@@ -719,30 +752,39 @@
   font-style: normal;
 }
 
-/* ── Animación de entrada (sólo sin reduce-motion) ───────────
-   Estado base = visible: sin JS o con reduce-motion todo se ve,
-   nada se mueve. El hook .timeline--anim lo añade el JS sólo
-   cuando va a animar. */
+/* ── Animación de entrada/salida BIDIRECCIONAL (sólo sin reduce-motion) ──
+   Estado base = visible: sin JS o con reduce-motion todo se ve, nada se
+   mueve. El hook .timeline--anim lo añade el JS sólo cuando va a animar.
+   Las transiciones viven en el ESTADO BASE (no sólo en .is-visible), de
+   modo que la rama y el nodo animan en AMBOS sentidos: el motor agrega
+   .is-visible al entrar en viewport (revela) y la quita al salir
+   (oculta), tanto bajando como subiendo. El relleno del tronco lo
+   recalcula el scroll en cada cuadro, por lo que se borra al subir. */
 @media (prefers-reduced-motion: no-preference) {
   .timeline--anim .timeline__entry {
     opacity: 0;
     transform: translateY(22px);
+    transition: opacity .55s var(--ease-out),
+                transform .55s var(--ease-out);
   }
   .timeline--anim .timeline__entry.is-visible {
     opacity: 1;
     transform: none;
-    transition: opacity .55s var(--ease-out),
-                transform .55s var(--ease-out);
   }
-  /* La rama se «dibuja»: dashoffset → 0 (la longitud la fija JS). */
+  /* La rama se «dibuja»/«borra»: dashoffset 0 ↔ longitud (la fija JS). */
   .timeline--anim .timeline__arm path {
     transition: stroke-dashoffset .9s var(--ease-out),
                 stroke var(--transition-normal);
   }
-  /* El nodo «aterriza» ya crecida la rama (--ease-spring, sin rebote). */
+  /* El nodo crece al revelar y se repliega al ocultar (--ease-spring,
+     sin rebote). */
   .timeline--anim .timeline__marker {
     transform: scale(.55);
     opacity: 0;
+    transition: transform .6s var(--ease-spring),
+                opacity .4s var(--ease-out),
+                box-shadow var(--transition-normal),
+                border-color var(--transition-fast);
   }
   .timeline--anim .timeline__entry.is-visible .timeline__marker {
     transform: scale(1);
@@ -754,6 +796,7 @@
   }
   .timeline--anim .timeline__junction {
     transform: translate(-50%, -50%) scale(0);
+    transition: transform .4s var(--ease-out);
   }
   .timeline--anim .timeline__entry.is-visible .timeline__junction {
     transform: translate(-50%, -50%) scale(1);
@@ -767,23 +810,22 @@
    horizontal en 360 px); el brazo y el nodo se compactan para
    conservar medida de lectura en el contenido. */
 @media (max-width: 880px) {
-  .timeline {
-    --tl-rail: 32px;     /* offset del eje respecto del borde izquierdo */
+  /* El tronco pasa a un carril lateral de 32 px; al vivir --tl-rail en
+     la sección, el eje, la raíz y el nodo de origen se reubican juntos
+     (sin desalineaciones). */
+  [aria-labelledby="historia-title"] {
+    --tl-rail: 32px;
     --tl-node: 68px;
     --tl-arm:  92px;
     --tl-band: 120px;
     --tl-gap:  16px;
     --tl-pull: 24px;
-    padding-left: 4px;
   }
-  .timeline__axis {
-    left: var(--tl-rail);
+  .timeline {
+    padding-left: 4px;
   }
   .timeline-root {
     margin-top: var(--space-5);
-  }
-  .timeline-root::before {
-    left: var(--tl-rail);
   }
   /* width descuenta el offset del eje → la banda nunca excede su
      contenedor (sin scroll horizontal en 360 px). */

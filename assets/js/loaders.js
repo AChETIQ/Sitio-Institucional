@@ -565,12 +565,16 @@ function setupTimelineMotion(ol) {
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* Prepara el «dibujo» de cada brazo: dasharray = longitud total;
-     offset = longitud (oculto) salvo en reduce-motion (visible). */
+     offset = longitud (oculto) salvo en reduce-motion (visible). La
+     longitud se memoriza por entrada para poder REPLEGAR el trazo al
+     salir de viewport (animación bidireccional). */
+  const armLen = new Map();
   entries.forEach((li) => {
     if (li.classList.contains('timeline__entry--ghost')) return;
     const p = li.querySelector('.timeline__arm path');
     if (!p || typeof p.getTotalLength !== 'function') return;
     const len = p.getTotalLength();
+    armLen.set(li, len);
     p.style.strokeDasharray = String(len);
     p.style.strokeDashoffset = reduce ? '0' : String(len);
   });
@@ -583,16 +587,23 @@ function setupTimelineMotion(ol) {
 
   ol.classList.add('timeline--anim');
 
+  /* Bidireccional: NO se hace unobserve. Al entrar en viewport la
+     entrada se revela (rama dibujada, nodo crecido); al salir —tanto
+     bajando como subiendo— se oculta de nuevo (rama replegada al valor
+     de longitud memorizado). Las transiciones en ambos sentidos las
+     aporta el CSS (estado base + .is-visible). */
   const io = new IntersectionObserver((records) => {
     records.forEach((r) => {
-      if (!r.isIntersecting) return;
       const li = r.target;
-      li.classList.add('is-visible');
+      const isGhost = li.classList.contains('timeline__entry--ghost');
       const p = li.querySelector('.timeline__arm path');
-      if (p && !li.classList.contains('timeline__entry--ghost')) {
-        p.style.strokeDashoffset = '0';
+      if (r.isIntersecting) {
+        li.classList.add('is-visible');
+        if (p && !isGhost) p.style.strokeDashoffset = '0';
+      } else {
+        li.classList.remove('is-visible');
+        if (p && !isGhost) p.style.strokeDashoffset = String(armLen.get(li) || 0);
       }
-      io.unobserve(li);
     });
   }, { threshold: 0.2, rootMargin: '0px 0px -10% 0px' });
   entries.forEach((li) => io.observe(li));
