@@ -309,6 +309,16 @@ color: var(--color-accent-soft);
 strong, b {
 font-weight: var(--weight-semibold);
 }
+::selection {
+background: var(--cobalto-100);
+color: var(--grafito-950);
+}
+.footer ::selection,
+.cta-final ::selection,
+.hero ::selection {
+background: var(--cobalto-300);
+color: var(--cobalto-950);
+}
 .eyebrow {
 font-family: var(--font-mono);
 font-size: var(--text-eyebrow);

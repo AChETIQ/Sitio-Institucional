@@ -1005,6 +1005,28 @@ strong, b {
   font-weight: var(--weight-semibold);
 }
 
+/* ─────────────────────────────────────────────────────────────
+   SELECCIÓN DE TEXTO — marca con la paleta cobalto
+   Reutiliza SOLO tokens de la paleta congelada (sin colores nuevos).
+   Contraste WCAG calculado para ambos pares (texto normal: AA ≥ 4.5:1):
+     · Global  — fondo cobalto-100 (#D8E5FD) / texto grafito-950 (#131720) → 14.13:1 (AAA).
+     · Énfasis — fondo cobalto-300 (#8AABE7) / texto cobalto-950 (#091C41) →  7.22:1 (AAA).
+   En footer, CTA final y hero el fondo es más saturado para mantener la
+   marca visible sobre superficies oscuras o de acento.
+   ───────────────────────────────────────────────────────────── */
+
+::selection {
+  background: var(--cobalto-100);
+  color: var(--grafito-950);
+}
+
+.footer ::selection,
+.cta-final ::selection,
+.hero ::selection {
+  background: var(--cobalto-300);
+  color: var(--cobalto-950);
+}
+
 
 /* ─────────────────────────────────────────────────────────────
    CLASES UTILITARIAS DE TIPOGRAFÍA
