@@ -392,28 +392,53 @@
 
 
 /* ─────────────────────────────────────────────────────────────
-   C.  NUESTRA HISTORIA — timeline ramificado (.timeline)
+   C.  NUESTRA HISTORIA — árbol ramificado editorial (.timeline)
    ─────────────────────────────────────────────────────────────
-   Árbol de tubos en --color-accent: un tronco central del que
-   brotan ramas tubulares alternadas (izq/der), cada una rematada
-   en un nodo-aro (aro grueso + interior papel) que sostiene el
-   año. Tronco y ramas se «dibujan» al hacer scroll; bajo
-   prefers-reduced-motion el estado final se ve sin animar.
+   E03 (revisión). Se CONSERVA la estructura del árbol ramificado:
+   un tronco central del que brotan ramas tubulares con curva Bézier
+   alternadas (izq/der), cada una rematada en un nodo-aro circular
+   que sostiene el año. Lo que cambia es el ACABADO, llevado al
+   estándar editorial E03:
+     · el trazo abandona el «tubo» de 10 px y se AFINA a una línea
+       fina (--tl-tube 2 px) que armoniza con el sistema de filetes
+       (--rule / --rule-ink);
+     · el nodo-aro descansa PLANO en reposo (sólo un filete interior),
+       reservando el halo cobalto para los estados (hover / activo),
+       coherente con el contrato de elevación plana del sistema;
+     · el año va en Geist Mono con dígitos tabulares, en cobalto.
+   Tronco y ramas se «dibujan» con el scroll; bajo
+   prefers-reduced-motion el estado final se ve sin animar y, sin
+   JavaScript, el <ol> muestra su <noscript> (resumen 2003–2026).
+   No se toca el motor ni el renderer de loaders.js.
 
    Geometría parametrizada en custom properties locales (--tl-*):
-   para reescalar el árbol se tocan sólo estas variables.
-   Nota: --tl-node ≈ 0.552 × --tl-band para que el tubo llegue
-   justo al borde superior del aro (centro del nodo en 71.5%).
+   para reescalar el árbol se tocan sólo estas variables. Nota:
+   --tl-node ≈ 0.552 × --tl-band para que la rama llegue justo al
+   borde superior del aro (centro del nodo en 71.5%).
    ───────────────────────────────────────────────────────────── */
 
-.timeline {
-  --tl-tube: 10px;     /* grosor del tronco · ramas · aro            */
-  --tl-node: 116px;    /* diámetro exterior del nodo (aro incluido)  */
-  --tl-arm:  210px;    /* ancho de la banda de cada rama             */
-  --tl-band: 210px;    /* alto de la banda de cada rama              */
-  --tl-gap:  32px;     /* aire entre nodo y contenido                */
-  --tl-pull: 48px;     /* solape vertical entre bandas (zig-zag)     */
+/* Geometría del árbol: vive en el CONTENEDOR DE SECCIÓN para que la
+   raíz/tronco (.timeline-root, hermano del <ol>) y el <ol> lean las
+   MISMAS medidas. --tl-rail es la posición horizontal del tronco:
+   centrado (50%) en escritorio; en < 880 px pasa a un carril de 32 px. */
+[aria-labelledby="historia-title"] {
+  --tl-tube: 8px;      /* trazo de ramas y aro — peso estructural sólido */
+  --tl-trunk: 10px;    /* tronco central: el eje más grueso del árbol    */
+  --tl-node: 116px;    /* diámetro exterior del nodo (aro incluido)    */
+  --tl-arm:  210px;    /* ancho de la banda de cada rama               */
+  --tl-band: 210px;    /* alto de la banda de cada rama                */
+  --tl-gap:  32px;     /* aire entre nodo y contenido                  */
+  --tl-pull: 48px;     /* solape vertical entre bandas (zig-zag)       */
+  --tl-rail: 50%;      /* posición horizontal del tronco (centrado)    */
+}
 
+/* El tronco nace anclado al título: éste cede casi toda su separación
+   inferior para que la línea «caiga» desde él (anchor al origen). */
+[aria-labelledby="historia-title"] > .section-title {
+  margin-bottom: var(--space-4);
+}
+
+.timeline {
   position: relative;
   list-style: none;
   margin: 0;
@@ -426,33 +451,51 @@
   display: none;
 }
 
-/* Raíz del tronco: tubo grueso que «nace» bajo el título de
-   sección y empalma con el eje. Es un hermano previo al <ol>. */
+/* Raíz del tronco: la línea nace en el NODO DE ORIGEN (::after),
+   anclado justo bajo el título, y cae hasta empalmar con el eje del
+   <ol>. Es un hermano previo al <ol>. */
 .timeline-root {
   position: relative;
   height: 56px;
-  margin-top: var(--space-2);
+  margin-top: 0;
 }
 
 .timeline-root::before {
   content: "";
   position: absolute;
-  left: 50%;
+  left: var(--tl-rail);
   top: 0;
   bottom: 0;
-  width: 10px;                          /* = --tl-tube del eje */
+  width: var(--tl-trunk);
   transform: translateX(-50%);
   background: var(--color-accent);
   border-radius: var(--radius-md) var(--radius-md) 0 0;
 }
 
-/* Tronco central: pista atenuada + relleno que JS «dibuja». */
+/* Nodo de origen: disco cobalto en la base del título, del que
+   «brota» el tronco. Escalado a 22 px para destacar claramente sobre
+   el tronco de 10 px (no leerse como una simple tapa redonda); un cerco
+   de superficie lo despega de la línea. */
+.timeline-root::after {
+  content: "";
+  position: absolute;
+  left: var(--tl-rail);
+  top: 0;
+  width: 22px;
+  height: 22px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 0 0 4px var(--color-surface);
+}
+
+/* Tronco central: pista atenuada + relleno cobalto que JS «dibuja». */
 .timeline__axis {
   position: absolute;
-  left: 50%;
+  left: var(--tl-rail);
   top: 0;
   bottom: 0;
-  width: var(--tl-tube);
+  width: var(--tl-trunk);
   transform: translateX(-50%);
   pointer-events: none;
 }
@@ -475,8 +518,7 @@
 }
 
 /* ── Entrada / hito ──────────────────────────────────────────
-   Reemplaza el grid de dos columnas del timeline base por una
-   banda flex de media página que alterna lado. */
+   Banda flex de media página que alterna lado (zig-zag). */
 .timeline__entry {
   position: relative;
   display: flex;
@@ -526,6 +568,8 @@
   overflow: visible;
 }
 
+/* Rama Bézier: línea fina cobalto, grosor constante a cualquier
+   escala (non-scaling-stroke). */
 .timeline__arm path {
   fill: none;
   stroke: var(--color-accent);
@@ -535,20 +579,22 @@
   transition: stroke var(--transition-normal);
 }
 
-/* Soldadura tubo ↔ tronco (enmascara la unión). */
+/* Soldadura rama ↔ tronco: cubre el empalme. Dimensionada al tronco
+   (10 px), el elemento más grueso, para enmascararlo limpiamente. */
 .timeline__junction {
   position: absolute;
   left: 0;
   top: 89.5%;
-  width: var(--tl-tube);
-  height: var(--tl-tube);
+  width: var(--tl-trunk);
+  height: var(--tl-trunk);
   border-radius: 50%;
   background: var(--color-accent);
   transform: translate(-50%, -50%);
 }
 
-/* Nodo = aro grueso + interior papel, centrado al final del tubo.
-   Redefine por completo el marker circular pequeño del base. */
+/* Nodo = aro fino + interior papel, centrado al final del tubo.
+   Reposo PLANO (sólo filete interior); el halo cobalto vive en los
+   estados (hover / activo), no como sombra ambiental. */
 .timeline__marker {
   position: absolute;
   left: 71.5%;
@@ -562,20 +608,20 @@
   border-radius: 50%;
   background: var(--color-surface-raised);
   border: var(--tl-tube) solid var(--color-accent);
-  box-shadow:
-    inset 0 0 0 1.5px var(--color-border-soft),
-    0 6px 18px -8px color-mix(in srgb, var(--color-accent) 35%, transparent);
+  box-shadow: inset 0 0 0 1.5px var(--color-border-soft);
   z-index: var(--z-raised);
   transition: box-shadow var(--transition-normal),
               border-color var(--transition-fast),
               transform var(--transition-normal);
 }
 
-/* Año: mono en acento, centrado en el aro. */
+/* Año: Geist Mono instrumental con dígitos tabulares, en cobalto,
+   centrado en el aro. */
 .timeline__year {
   font-family: var(--font-mono);
   font-size: var(--text-h3);
   font-weight: var(--weight-medium);
+  font-variant-numeric: tabular-nums;
   letter-spacing: var(--tracking-wide);
   line-height: 1;
   color: var(--color-accent);
@@ -616,9 +662,12 @@
   transition: color var(--transition-fast);
 }
 
+/* Relato del hito: tamaño de cuerpo (≥ 1 rem) con interlínea relajada
+   (1.7) para lectura cómoda junto a cada nodo — sube desde el antiguo
+   --text-small. */
 .timeline__desc {
   font-family: var(--font-body);
-  font-size: var(--text-small);
+  font-size: var(--text-body);
   line-height: var(--leading-relaxed);
   color: var(--color-text-soft);
   margin: 0;
@@ -665,11 +714,11 @@
   stroke: var(--color-accent-soft);
 }
 
-/* ── Entrada ghost — «Próximamente»: tubo punteado atenuado ─── */
+/* ── Entrada ghost — «Próximamente»: rama punteada atenuada ─── */
 .timeline__entry--ghost .timeline__arm path {
   stroke: var(--color-border);
-  stroke-width: calc(var(--tl-tube) - 4px);
-  stroke-dasharray: 2 12 !important;
+  stroke-width: 4px;                    /* punteado atenuado, proporcional al nuevo peso */
+  stroke-dasharray: 4 14 !important;
   stroke-dashoffset: 0 !important;
 }
 .timeline__entry--ghost .timeline__junction {
@@ -706,33 +755,39 @@
   font-style: normal;
 }
 
-/* ── Animación de entrada (sólo sin reduce-motion) ───────────
-   Estado base = visible: sin JS o con reduce-motion todo se ve,
-   nada se mueve. El hook .timeline--anim lo añade el JS sólo
-   cuando va a animar. */
+/* ── Animación de entrada/salida BIDIRECCIONAL (sólo sin reduce-motion) ──
+   Estado base = visible: sin JS o con reduce-motion todo se ve, nada se
+   mueve. El hook .timeline--anim lo añade el JS sólo cuando va a animar.
+   Las transiciones viven en el ESTADO BASE (no sólo en .is-visible), de
+   modo que la rama y el nodo animan en AMBOS sentidos: el motor agrega
+   .is-visible al entrar en viewport (revela) y la quita al salir
+   (oculta), tanto bajando como subiendo. El relleno del tronco lo
+   recalcula el scroll en cada cuadro, por lo que se borra al subir. */
 @media (prefers-reduced-motion: no-preference) {
   .timeline--anim .timeline__entry {
     opacity: 0;
     transform: translateY(22px);
+    transition: opacity .55s var(--ease-out),
+                transform .55s var(--ease-out);
   }
   .timeline--anim .timeline__entry.is-visible {
     opacity: 1;
     transform: none;
-    transition: opacity .55s var(--ease-out),
-                transform .55s var(--ease-out);
   }
-  /* La rama se «dibuja»: dashoffset → 0 (la longitud la fija JS). */
+  /* La rama se «dibuja»/«borra»: dashoffset 0 ↔ longitud (la fija JS). */
   .timeline--anim .timeline__arm path {
     transition: stroke-dashoffset .9s var(--ease-out),
                 stroke var(--transition-normal);
   }
-  /* El nodo «aterriza» ya crecida la rama. P04: el asentamiento usa
-     --ease-spring (resorte críticamente amortiguado, SIN overshoot)
-     en lugar del antiguo cubic-bezier(.34,1.56,.64,1), que rebotaba
-     —prohibido por la regla de no-rebote del sistema de movimiento. */
+  /* El nodo crece al revelar y se repliega al ocultar (--ease-spring,
+     sin rebote). */
   .timeline--anim .timeline__marker {
     transform: scale(.55);
     opacity: 0;
+    transition: transform .6s var(--ease-spring),
+                opacity .4s var(--ease-out),
+                box-shadow var(--transition-normal),
+                border-color var(--transition-fast);
   }
   .timeline--anim .timeline__entry.is-visible .timeline__marker {
     transform: scale(1);
@@ -744,6 +799,7 @@
   }
   .timeline--anim .timeline__junction {
     transform: translate(-50%, -50%) scale(0);
+    transition: transform .4s var(--ease-out);
   }
   .timeline--anim .timeline__entry.is-visible .timeline__junction {
     transform: translate(-50%, -50%) scale(1);
@@ -752,32 +808,27 @@
 }
 
 /* ── Responsive < 880px: columna única (tronco izq., nodos der.) ──
-   AJUSTE P02 (auditoría responsive). El offset del eje se expone como
-   variable local (--tl-rail) para que el ancho de la entrada lo
-   descuente exactamente: con `width: 100%` + `margin-left: 32px` la
-   entrada desbordaba su contenedor en 32 px → ≈12 px de scroll
-   horizontal en 360 px (viola §5 horizontal-scroll). Además, a 360 px
-   el brazo de 120 px dejaba la columna de texto en ≈20 caracteres por
-   línea (bajo el mínimo de §5 line-length 35–60): el brazo y el nodo
-   se compactan para devolverle medida de lectura al contenido. */
+   El offset del eje se expone como variable local (--tl-rail) para
+   que el ancho de la entrada lo descuente exactamente (sin scroll
+   horizontal en 360 px); el brazo y el nodo se compactan para
+   conservar medida de lectura en el contenido. */
 @media (max-width: 880px) {
-  .timeline {
-    --tl-rail: 32px;     /* offset del eje respecto del borde izquierdo */
+  /* El tronco pasa a un carril lateral de 32 px; al vivir --tl-rail en
+     la sección, el eje, la raíz y el nodo de origen se reubican juntos
+     (sin desalineaciones). */
+  [aria-labelledby="historia-title"] {
+    --tl-rail: 32px;
     --tl-node: 68px;
     --tl-arm:  92px;
     --tl-band: 120px;
     --tl-gap:  16px;
     --tl-pull: 24px;
-    padding-left: 4px;
   }
-  .timeline__axis {
-    left: var(--tl-rail);
+  .timeline {
+    padding-left: 4px;
   }
   .timeline-root {
     margin-top: var(--space-5);
-  }
-  .timeline-root::before {
-    left: var(--tl-rail);
   }
   /* width descuenta el offset del eje → la banda nunca excede su
      contenedor (sin scroll horizontal en 360 px). */
@@ -865,4 +916,96 @@
   .card--valor:hover {
     border-color: var(--color-accent);
   }
+}
+
+
+/* ═════════════════════════════════════════════════════════════
+   F.  PESTAÑAS «ASOCIACIÓN / GALERÍA» (.about-tabs) — E03
+   ─────────────────────────────────────────────────────────────
+   Conmutador EN PÁGINA de los dos paneles enrutados por hash
+   (#asociacion · #galeria). Son enlaces de ancla: al activarse
+   cambian el hash y el motor de paneles (sobre-achetiq.js) muestra
+   el panel correspondiente — el enrutado no se toca. El estado
+   activo lo marca sobre-achetiq.js con aria-current="page". Lengua
+   editorial: filete base hairline + indicador cobalto bajo la
+   pestaña activa (color + peso + subrayado, nunca color solo →
+   accesible sin depender del color).
+   ───────────────────────────────────────────────────────────── */
+
+.about-tabs {
+  display: flex;
+  gap: var(--space-8);
+  margin-bottom: var(--space-10);
+  border-bottom: var(--rule);
+}
+
+.about-tabs__tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  /* Área táctil cómoda (≥ 44 px de alto con el line-height del rol). */
+  padding: var(--space-3) 0;
+  font-family: var(--font-body);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-snug);
+  color: var(--color-text-faint);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+/* Indicador: filete cobalto al ras del borde inferior del strip. Se
+   revela con scaleX para no animar el layout. */
+.about-tabs__tab::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;                         /* cubre el filete base */
+  height: 2px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--transition-fast);
+}
+
+@media (hover: hover) {
+  .about-tabs__tab:hover {
+    color: var(--color-text);
+  }
+  .about-tabs__tab:hover::after {
+    transform: scaleX(1);
+  }
+}
+
+.about-tabs__tab[aria-current="page"] {
+  color: var(--color-accent);
+  font-weight: var(--weight-medium);
+}
+
+.about-tabs__tab[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+
+/* ═════════════════════════════════════════════════════════════
+   G.  CABECERA Y RITMO EDITORIAL (page-scoped) — E03
+   ─────────────────────────────────────────────────────────────
+   Esta hoja sólo la enlaza pages/sobre-achetiq.html, de modo que
+   estos ajustes a componentes compartidos quedan acotados a la
+   página, sin tocar el bundle ni reescribir su medida (la prosa
+   recibe .prose en el HTML).
+   ───────────────────────────────────────────────────────────── */
+
+/* La cabecera cede su separación inferior a la tira de pestañas, que
+   funciona como sub-navegación del masthead. */
+.page-header {
+  margin-bottom: var(--space-6);
+}
+
+/* Roster de la comisión directiva: la lista de tarjetas .card-integrante
+   (refinadas en cards.css) respira como una nómina editorial; el grid
+   compartido --4 ya colapsa por contenedor en viewports angostos. */
+.about-panel [data-loader="directiva"] {
+  margin-top: var(--space-2);
 }

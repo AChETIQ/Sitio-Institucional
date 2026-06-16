@@ -81,8 +81,8 @@ Reciben elevación al hover **sólo** las tarjetas interactivas (son `<a>` o con
 | Sección ↔ sección | `--section-gap` | 64 px | Regla genérica `:where(.page) > section + section` en `main.css` §4 (especificidad 0-0-2: cualquier componente con ritmo propio la sobreescribe; los márgenes colapsan, no se duplican). |
 | page-header → contenido | `--space-12` | 48 px | `margin-bottom` de `.page-header`. |
 | section-title → bloque | `--header-gap` | 32 px | `margin-bottom` de `.section-title`; también `.pill-nav + *`. |
-| Interior de tarjeta estándar | `--card-pad` | 20 px | `.card` base, `.card--valor`, body de `.card-noticia`. |
-| Interior de tarjeta extensa | `--card-pad-lg` | 24 px | `.card-gabinete`, `.gabinete-card`, `.card-documento`, `.contact-card`, `.mission-vision__col`. |
+| Interior de tarjeta estándar | `--card-pad` | 20 px | `.card` base, body de `.card-noticia`. |
+| Interior de tarjeta extensa | `--card-pad-lg` | 24 px | `.card-gabinete`, `.gabinete-card`, `.card-documento`, `.contact-card`, `.mission-vision__col`, `.card--valor`. |
 
 Medidas asociadas: `--measure-title` (22ch, titulares display de `.page-header` y `.cta-final`) y `--card-min` (17.5rem, pista mínima de `.grid-cards--fluid`).
 
@@ -587,6 +587,8 @@ El cuarto slot demuestra que el componente debe admitir valores no numéricos: e
 
 **Accesibilidad.** El filete es decorativo (`border`, fuera del árbol de accesibilidad); la jerarquía la carga la tipografía y el aire, no la línea.
 
+**Adopción E03 — «Sobre AChETIQ» (lectura de largo aliento).** La página institucional consume este sistema en TODAS sus secciones de cuerpo (historia, misión/visión, valores, comisión directiva, instituciones, documentos): cada una abre con `.section-title--display` + filete `.section-ruled` (la primera, historia, sin filete propio: la precede el aire del título y la tira de pestañas). Se eliminaron los eyebrows mono por sección (queda **un** kicker: el de la cabecera de página). La medida de lectura de 65ch se impone aplicando la clase existente `.prose` a las corridas de prosa estáticas del HTML (resumen `<noscript>` del timeline, espejos de misión/visión, bajada de la galería); las corridas dinámicas conservan su medida de componente (`--measure-narrow` 56ch). No se introdujo CSS de medida nuevo.
+
 ---
 
 ## 3. Componentes de contenido textual
@@ -712,9 +714,9 @@ Ya definida en `tokens.css` (§COMPONENTE — TARJETA). Sirve como base de las v
 
 ### 4.3 Card de integrante de directiva — `.card-integrante`
 
-**Propósito.** Representa a un miembro de la comisión directiva en la página "Sobre AChETIQ".
+**Propósito.** Representa a un miembro de la comisión directiva.
 
-**Aparición.** Grid de 4 columnas en desktop, 2 en tablet, 1 en mobile.
+**Aparición.** Nómina de la comisión directiva en **Sobre AChETIQ** (E03 — retrato institucional: quiénes conducen la asociación) y en **Gabinetes** (cómo se organiza), desde una única fuente `data/directiva.json`. Grid `--4` que colapsa por contenedor (4 col → 3 en 860 px → 2 en 560 px → 1).
 
 **Estructura HTML.**
 
@@ -729,13 +731,13 @@ Ya definida en `tokens.css` (§COMPONENTE — TARJETA). Sirve como base de las v
 </article>
 ```
 
-**Especificación visual.**
+**Especificación visual (E03).**
 
-- Foto: aspecto cuadrado 1:1, `border-radius: var(--radius-lg)` (10 px), `object-fit: cover`.
-- Sin borde de tarjeta — es un "tarjeta sin caja", visualmente más liviana.
-- Nombre: `<h3>` con tipografía body (`--text-h3`), peso medium.
-- Cargo: `<p>` con tipografía body, `--text-small`, color `var(--color-text-soft)`.
-- Estado sin foto (`foto: null`): placeholder con iniciales del nombre sobre fondo `var(--color-border-soft)` y color `var(--color-accent)`.
+- Foto: aspecto cuadrado 1:1, `border-radius: var(--radius-lg)` (10 px), `object-fit: cover`, con **marco hairline** de 1 px `--color-border-soft` (borde completo, nunca franja lateral) para que el retrato se lea enmarcado y no como caja suelta.
+- "Tarjeta sin caja": el contorno vive en el retrato, no en un panel; elevación plana.
+- Nombre: `<h3>` body (`--text-h3`), peso medium, `--color-text`.
+- Cargo (metadato institucional): `Geist Mono` `--text-caption`, `--tracking-wide`, color `--color-text-faint` — registro de dato del sistema, no body.
+- Estado sin foto (`foto: null`, estado actual de toda la nómina): **monograma editorial** — iniciales en `Fraunces` `--color-accent` sobre un lavado cobalto frío `--color-surface-accent` (7.4:1 — AAA), en reemplazo del relleno gris plano que se leía como hueco sin diseñar.
 
 ---
 
@@ -853,11 +855,11 @@ Ya definida en `tokens.css` (§COMPONENTE — TARJETA). Sirve como base de las v
 **Especificación visual.**
 
 - Borde `1px solid var(--color-border)`; radio `var(--radius-md)`; sin fondo (`background: transparent`, hereda `var(--color-surface)`).
-- Padding interno: `var(--space-5)` (20 px).
-- `min-height` uniforme entre tarjetas del grid (≈ 180 px) para evitar discrepancia visual cuando las descripciones varían en longitud. Valor exacto a ajustar en Fase 2 contra el texto definitivo.
+- Padding interno: `var(--card-pad-lg)` (24 px) — holgado para acompañar el cuerpo en tamaño estándar (E03+).
+- `min-height` uniforme entre tarjetas del grid (≈ 200 px) para evitar discrepancia visual cuando las descripciones varían en longitud.
 - Ícono: 28×28 px, color `var(--color-accent)`. Margen inferior `var(--space-3)`.
-- Título: `<h3>`, tipografía body (`--text-h3`), peso medium, color `var(--color-text)`.
-- Descripción: tipografía body, `--text-small`, color `var(--color-text-soft)`.
+- Título: `<h3>`, tipografía body (`--text-h3`), peso **semibold** (sostiene la jerarquía contra el cuerpo más grande), color `var(--color-text)`.
+- Descripción: tipografía body, **`--text-body`** (≥ 1 rem) con interlínea **`--leading-relaxed`** (1.7), color `var(--color-text-soft)`.
 
 **Estados.** No interactivo. Sin hover.
 
@@ -1145,51 +1147,58 @@ Umbrales de contenedor canónicos (referencia en `tokens.css` §UMBRALES DE CONT
 
 **Propósito.** Componente de línea de tiempo institucional que enumera hitos cronológicos de la historia de AChETIQ. Extensible a medida que se incorporan hitos. Soporta una "entrada ghost" al final que proyecta hacia el futuro sin contenido cerrado.
 
-**Aparición.** Sobre AChETIQ — Bloque 2 (Nuestra historia). Único bloque del sitio que utiliza este componente en v1.0.
+**Aparición.** Sobre AChETIQ — Bloque "Nuestra historia". **Componente de firma de la página** (E03). Único bloque del sitio que utiliza este componente.
 
-**Estructura HTML.**
+**Estructura HTML (la emite `loaders.js §4.4 renderHistoria`; el `<ol>` trae además un `<noscript>` de resumen).**
 
 ```html
 <ol class="timeline" data-loader="historia">
-  <li class="timeline__entry">
-    <div class="timeline__marker">
-      <svg class="timeline__icon" aria-hidden="true"><!-- ícono Lucide --></svg>
+  <div class="timeline__axis" aria-hidden="true">
+    <div class="timeline__axis-track"></div>
+    <div class="timeline__axis-fill"></div>   <!-- altura escrita por el scroll -->
+  </div>
+  <li class="timeline__entry timeline__entry--right">
+    <div class="timeline__branch" aria-hidden="true">
+      <svg class="timeline__arm"><path/></svg>  <!-- legado E-previo, oculto en E03 -->
+      <span class="timeline__junction"></span>  <!-- legado, oculto -->
+      <div class="timeline__marker"><span class="timeline__year">2003</span></div>
     </div>
     <div class="timeline__content">
-      <p class="timeline__year">2003</p>
       <h3 class="timeline__title">Primeros pasos ante la FeNEIQ</h3>
-      <p class="timeline__desc">Descripción del hito, en prose.</p>
+      <p class="timeline__desc">Descripción del hito.</p>
     </div>
   </li>
-  <!-- ... más entradas ... -->
-  <li class="timeline__entry timeline__entry--ghost">
-    <div class="timeline__marker timeline__marker--ghost"></div>
+  <!-- ... más entradas (el lado alterna por índice) ... -->
+  <li class="timeline__entry timeline__entry--left timeline__entry--ghost">
+    <div class="timeline__branch" aria-hidden="true">
+      <div class="timeline__marker"><div class="timeline__ghost-glyph"><span></span><span></span><span></span></div></div>
+    </div>
     <div class="timeline__content">
-      <p class="timeline__year">Próximamente</p>
+      <h3 class="timeline__title">Próximamente</h3>
       <p class="timeline__desc">La historia de AChETIQ continúa. Los próximos capítulos se escriben hoy.</p>
     </div>
   </li>
 </ol>
 ```
 
-**Especificación visual.**
+**Especificación visual (E03 — árbol ramificado editorial).** Se conserva la ESTRUCTURA del árbol ramificado (tronco central + ramas con curva Bézier alternadas izq/der + nodos-aro circulares con el año); el ACABADO se lleva al estándar editorial E03, refinado en `assets/css/sobre-asociacion.css` §C sobre el mismo markup (el renderer NO cambia):
 
-- Línea vertical continua `1px solid var(--color-border)` recorre el eje izquierdo del bloque (en desktop). Decisión de eje centrado vs lateral en mobile a confirmar en Fase 2.
-- Cada entrada: `display: grid; grid-template-columns: 48px 1fr; gap: var(--space-5)`.
-- Marker: círculo de 32×32 px, fondo `var(--color-surface)`, borde `2px solid var(--color-accent)`, posicionado sobre la línea vertical para taparla. Ícono Lucide centrado, 16×16 px, color `var(--color-accent)`.
-- Entrada ghost (`--ghost`): marker con `border-style: dashed` y `opacity: 0.6`; contenido con color `var(--color-text-faint)` y `font-style: italic` en `__desc`.
-- Año (`.timeline__year`): tipografía `Geist Mono`, `--text-small`, peso medium, color `var(--color-accent)`.
-- Título (`.timeline__title`): `<h3>`, tipografía body (`--text-h3`), peso medium.
-- Descripción (`.timeline__desc`): tipografía body, `--text-small`, color `var(--color-text-soft)`, ancho máximo `var(--measure-prose)`.
-- Separación vertical entre entradas: `margin-bottom: var(--space-8)`.
+- **Trazo con presencia.** Las ramas y el borde del aro usan `--tl-tube` **8 px**; el tronco central sube a `--tl-trunk` **10 px** (el eje más grueso, para leerse como estructura sólida en pantallas de alta densidad). La rama usa `vector-effect: non-scaling-stroke` para conservar el grosor a cualquier escala. La soldadura (`.timeline__junction`) se dimensiona al tronco (10 px) para enmascarar el empalme.
+- **Anclaje al título.** El título de la sección cede su separación inferior (`margin-bottom: --space-4`) y el tronco arranca en un **nodo de origen** (`.timeline-root::after`, disco cobalto de 22 px, escalado para destacar sobre el tronco de 10 px) situado justo debajo: la línea «cae» desde el título. La geometría (`--tl-*`, incl. `--tl-rail` = posición del tronco) vive en el **contenedor de sección** para que la raíz (`.timeline-root`) y el eje del `<ol>` compartan medidas y posición (centrado en desktop, carril de 32 px en < 880 px).
+- **Paleta cobalto.** Tronco, ramas, soldadura, aro y nodo de origen en `--color-accent`; hover y rama activa pasan a `--color-accent-soft`. El relleno del tronco (`.timeline__axis-fill`) es cobalto y su altura la escribe el scroll = progreso de lectura.
+- **Nodo-aro plano en reposo.** Aro (`border: var(--tl-tube)`) con interior papel (`--color-surface-raised`) y un filete interior (`inset 0 0 0 1.5px`); **sin sombra ambiental** — el halo cobalto se reserva a hover/activo (contrato de elevación plana).
+- **Año en el aro:** `Geist Mono`, dígitos tabulares (`font-variant-numeric: tabular-nums`), `--text-h3`, color `--color-accent`.
+- **Relato legible.** `.timeline__desc` en `--text-body` (≥ 1 rem) con `--leading-relaxed` (1.7) y medida `--measure-narrow` — sube desde el antiguo `--text-small` para lectura cómoda junto a cada nodo.
+- **Entrada ghost (`--ghost`):** rama punteada (4 px) y aro dashed (3 px) en `--color-border` con glifo de tres puntos; título "Próximamente" en `Fraunces` itálica `--color-text-disabled`.
+- **Responsive < 880 px:** columna única (tronco a la izquierda, nodos a la derecha); brazo, banda y nodo se compactan vía `--tl-*` para no generar scroll horizontal ni perder medida de lectura.
 
-**Carga dinámica.** Poblada vía `data-loader="historia"` desde `data/historia.json`. La entrada ghost se incluye al final del array como objeto con `anio: "Próximamente"` o se renderiza estáticamente desde el template (decisión menor de Fase 2; mantener configurable).
+**Carga dinámica.** Poblada vía `data-loader="historia"` desde `data/historia.json` (`renderHistoria`): ordena los hitos por año, alterna el lado por índice y AGREGA la entrada ghost "Próximamente" automáticamente. El motor (`main.js`), el renderer y el markup NO se modifican; el cambio es de presentación (CSS) y de lógica de movimiento (`setupTimelineMotion`).
 
-**Accesibilidad.** Lista ordenada `<ol>` para reflejar la secuencia cronológica. Íconos decorativos (`aria-hidden="true"`); el año está siempre en el contenido textual, no en el marker.
+**Movimiento BIDIRECCIONAL y mejora progresiva.** El revelado lo gobierna `setupTimelineMotion`: un IntersectionObserver que **no hace unobserve** — al entrar en viewport revela la entrada (rama dibujada, nodo crecido) y al salir, bajando o **subiendo**, la repliega (rama al valor de longitud memorizado en un `Map`, nodo a escala 0). El relleno del tronco se recalcula con el scroll, de modo que también se borra al subir. Las transiciones viven en el ESTADO BASE (no sólo en `.is-visible`) para animar en ambos sentidos. Estado base = visible: **sin JavaScript** el `<ol>` muestra su `<noscript>` (resumen 2003–2026, con `.prose`) y **bajo `prefers-reduced-motion`** las entradas se ven completas, el eje al 100 % y nada se mueve.
 
-**Estado de datos.** `data/historia.json` contiene 14 hitos cubriendo 2003–2026 (verificado 2026-05-20). La entrada ghost final no está incluida en el JSON; debe definirse el patrón en Fase 2.
+**Accesibilidad.** Lista ordenada `<ol>` para la secuencia cronológica. La rama (`.timeline__branch`: brazo SVG + aro + año) es `aria-hidden` (decorativa); el contenido textual (título + relato) porta el significado. Foco visible heredado de `focus.css`. Contraste: año cobalto 7.9:1, relato `--color-text-soft` 8.2:1 (AAA).
 
-**Pendiente.** Selección definitiva de íconos Lucide por hito.
+**Estado de datos.** `data/historia.json` contiene 14 hitos cubriendo 2003–2026 (verificado 2026-05-20). La entrada ghost final no está en el JSON: la agrega el renderer.
 
 ---
 
@@ -1360,6 +1369,34 @@ Umbrales de contenedor canónicos (referencia en `tokens.css` §UMBRALES DE CONT
 - Hover (no activo): fondo `var(--color-surface-raised)`, borde `var(--color-accent)`.
 - Foco: anillo del sistema centralizado (§0.4); sobre la pill activa el offset deja el anillo sobre el fondo de página (7.95:1).
 - El efecto del filtro se anuncia en una región viva `sr-only` polite («Mostrando N materias…», ver §8.1bis).
+
+---
+
+### 7.3 Pestañas en página — `.about-tabs` (E03)
+
+**Propósito.** Conmutador EN PÁGINA de los dos paneles de «Sobre AChETIQ» (`#asociacion` · `#galeria`), enrutados por hash. Hasta E03 la única vía de conmutación era el desplegable «Sobre AChETIQ» del navbar; las pestañas dan un punto de cambio visible y un indicador de ubicación en la propia página (guía UX «Active State»).
+
+**Aparición.** `pages/sobre-achetiq.html`, bajo la cabecera, fuera de los paneles `[data-about-panel]` (siempre visibles). Estilo en `assets/css/sobre-asociacion.css` §F.
+
+**HTML.**
+
+```html
+<nav class="about-tabs" aria-label="Secciones de Sobre AChETIQ">
+  <a class="about-tabs__tab" href="#asociacion" data-about-tab="asociacion">Asociación</a>
+  <a class="about-tabs__tab" href="#galeria" data-about-tab="galeria">Galería</a>
+</nav>
+```
+
+**Comportamiento.** Son **enlaces de ancla**: al activarse cambian el hash y el motor de paneles ya existente (`sobre-achetiq.js initPanels`) muestra el panel correspondiente — el enrutado no se duplica ni se modifica. El módulo, además de alternar los paneles, refleja el panel activo en la pestaña con `aria-current="page"`.
+
+**Especificación visual.**
+
+- Tira flex con filete base hairline (`border-bottom: var(--rule)`); cada pestaña en body `--text-h3`, padding vertical `--space-3` (área táctil cómoda).
+- Indicador: filete cobalto de 2 px al ras del borde inferior, revelado con `transform: scaleX()` (no anima layout). Aparece en hover y, fijo, bajo `[aria-current="page"]`.
+- Estado activo: color `--color-accent` + peso medium + subrayado — señal **no cromática** (color + peso + filete), nunca color solo.
+- Foco visible heredado de `focus.css` (son `<a>` enfocables por teclado).
+
+**Mejora progresiva.** El estado activo y la conmutación dependen de JS (igual que el desplegable del navbar y el enrutado por hash preexistentes); sin JS, el panel Asociación —vista por defecto— queda completo y legible.
 
 ---
 

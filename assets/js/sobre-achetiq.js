@@ -267,11 +267,27 @@ function initPanels() {
   );
   if (panels.length === 0) return;
 
-  /* Muestra el panel objetivo y oculta el resto con [hidden]. */
+  /* Pestañas en página (E03): enlaces de ancla que comparten el mapa
+     hash → panel. Reflejan el panel activo con aria-current="page"
+     (señal NO cromática; el CSS la traduce a color + peso + subrayado).
+     Si la página no las trae, el bucle queda vacío y no pasa nada. */
+  const tabs = Array.prototype.slice.call(
+    document.querySelectorAll('[data-about-tab]')
+  );
+
+  /* Muestra el panel objetivo y oculta el resto con [hidden]; marca la
+     pestaña correspondiente. */
   function activate(name) {
     const target = PANEL_NAMES.indexOf(name) !== -1 ? name : PANEL_DEFAULT;
     panels.forEach((panel) => {
       panel.hidden = panel.getAttribute('data-about-panel') !== target;
+    });
+    tabs.forEach((tab) => {
+      if (tab.getAttribute('data-about-tab') === target) {
+        tab.setAttribute('aria-current', 'page');
+      } else {
+        tab.removeAttribute('aria-current');
+      }
     });
   }
 

@@ -81,7 +81,11 @@
   width: 100%;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  background: var(--color-border-soft);
+  background: var(--color-surface-raised);
+  /* Marco hairline (E03): el retrato/monograma se lee como una pieza
+     enmarcada y no como una caja suelta. Borde completo de 1 px (no
+     una franja lateral), elevación plana del sistema. */
+  border: 1px solid var(--color-border-soft);
 }
 
 .card-integrante__photo img {
@@ -90,7 +94,11 @@
   object-fit: cover;
 }
 
-/* Placeholder con iniciales cuando no hay foto. */
+/* Placeholder con iniciales cuando no hay foto (estado actual de toda
+   la directiva). E03: monograma editorial sobre un lavado cobalto frío
+   (--color-surface-accent) con las iniciales en Fraunces cobalto, en
+   reemplazo del relleno gris plano que se leía como hueco sin diseñar.
+   Texto cobalto sobre lavado 7.4:1 — AAA (DESIGN.md §2). */
 .card-integrante__placeholder {
   display: flex;
   align-items: center;
@@ -99,8 +107,9 @@
   height: 100%;
   font-family: var(--font-display);
   font-size: var(--text-h2);
+  letter-spacing: var(--tracking-tight);
   color: var(--color-accent);
-  background: var(--color-border-soft);
+  background: var(--color-surface-accent);
 }
 
 .card-integrante__name {
@@ -110,10 +119,14 @@
   color: var(--color-text);
 }
 
+/* Cargo: metadato institucional. Geist Mono en caption (registro de
+   dato del sistema), tinta terciaria, separado del nombre. */
 .card-integrante__role {
-  font-family: var(--font-body);
-  font-size: var(--text-small);
-  color: var(--color-text-soft);
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  letter-spacing: var(--tracking-wide);
+  line-height: var(--leading-snug);
+  color: var(--color-text-faint);
 }
 
 
@@ -356,12 +369,13 @@
 
 .card--valor {
   /* Panel estático: elevación plana (sólo borde), sin sombra ni
-     hover — contrato de elevación S2. */
+     hover — contrato de elevación S2. Padding holgado (--card-pad-lg)
+     para que el cuerpo más grande no quede apretado contra el borde. */
   background: transparent;
   border: var(--elevation-border);
   border-radius: var(--radius-md);
-  padding: var(--card-pad);
-  min-height: 180px;
+  padding: var(--card-pad-lg);
+  min-height: 200px;
   gap: var(--space-3);
 }
 
@@ -373,12 +387,18 @@
 }
 
 .card--valor__title {
-  /* H3 global. */
+  /* H3 global (Hanken --text-h3); sube a semibold para sostener la
+     jerarquía contra el cuerpo ahora en --text-body. */
+  font-weight: var(--weight-semibold);
   color: var(--color-text);
 }
 
 .card--valor__desc {
-  font-size: var(--text-small);
+  /* Cuerpo legible: tamaño estándar (≥ 1 rem) con interlínea relajada
+     para que el párrafo respire dentro de la tarjeta — sube desde
+     --text-small. */
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
   color: var(--color-text-soft);
 }
 
