@@ -422,8 +422,8 @@
    MISMAS medidas. --tl-rail es la posición horizontal del tronco:
    centrado (50%) en escritorio; en < 880 px pasa a un carril de 32 px. */
 [aria-labelledby="historia-title"] {
-  --tl-tube: 3px;      /* trazo de ramas · aro · soldadura — presencia estructural */
-  --tl-trunk: 4px;     /* tronco central: un punto más que las ramas   */
+  --tl-tube: 8px;      /* trazo de ramas y aro — peso estructural sólido */
+  --tl-trunk: 10px;    /* tronco central: el eje más grueso del árbol    */
   --tl-node: 116px;    /* diámetro exterior del nodo (aro incluido)    */
   --tl-arm:  210px;    /* ancho de la banda de cada rama               */
   --tl-band: 210px;    /* alto de la banda de cada rama                */
@@ -473,14 +473,16 @@
 }
 
 /* Nodo de origen: disco cobalto en la base del título, del que
-   «brota» el tronco. Un cerco de superficie lo despega de la línea. */
+   «brota» el tronco. Escalado a 22 px para destacar claramente sobre
+   el tronco de 10 px (no leerse como una simple tapa redonda); un cerco
+   de superficie lo despega de la línea. */
 .timeline-root::after {
   content: "";
   position: absolute;
   left: var(--tl-rail);
   top: 0;
-  width: 14px;
-  height: 14px;
+  width: 22px;
+  height: 22px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
   background: var(--color-accent);
@@ -577,13 +579,14 @@
   transition: stroke var(--transition-normal);
 }
 
-/* Soldadura tubo ↔ tronco (enmascara la unión). */
+/* Soldadura rama ↔ tronco: cubre el empalme. Dimensionada al tronco
+   (10 px), el elemento más grueso, para enmascararlo limpiamente. */
 .timeline__junction {
   position: absolute;
   left: 0;
   top: 89.5%;
-  width: var(--tl-tube);
-  height: var(--tl-tube);
+  width: var(--tl-trunk);
+  height: var(--tl-trunk);
   border-radius: 50%;
   background: var(--color-accent);
   transform: translate(-50%, -50%);
@@ -714,15 +717,15 @@
 /* ── Entrada ghost — «Próximamente»: rama punteada atenuada ─── */
 .timeline__entry--ghost .timeline__arm path {
   stroke: var(--color-border);
-  stroke-width: 2px;                    /* punteado atenuado, bajo las ramas activas */
-  stroke-dasharray: 2 12 !important;
+  stroke-width: 4px;                    /* punteado atenuado, proporcional al nuevo peso */
+  stroke-dasharray: 4 14 !important;
   stroke-dashoffset: 0 !important;
 }
 .timeline__entry--ghost .timeline__junction {
   background: var(--color-border);
 }
 .timeline__entry--ghost .timeline__marker {
-  border-width: 2px;
+  border-width: 3px;
   border-style: dashed;
   border-color: var(--color-border);
   background: transparent;
