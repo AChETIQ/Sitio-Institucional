@@ -2,11 +2,12 @@
    AChETIQ — Sección «Sobre la Asociación» del Inicio
    (sobre-asociacion.css)
    ------------------------------------------------------------
-   Versión: 1.0 · Rediseño de las dos subsecciones del home:
+   Versión: 2.0 (E01) · Rediseño editorial de las subsecciones del home:
      · «Quiénes somos»      → .about-intro (dos columnas + imagen
         con revelado por scroll de izquierda a derecha).
-     · «Nuestros gabinetes» → .gabinetes-feature (banda con tono
-        apenas diferenciado + grilla de cuatro tarjetas con ícono).
+     · «Nuestros gabinetes» → .gabinetes-feature (plancha tonal fría
+        + índice editorial de cuatro entradas separadas por filetes
+        hairline, en reemplazo de la grilla de tarjetas idénticas).
 
    Hoja específica de la portada: index.html la enlaza directamente
    (estas subsecciones sólo existen en el home), por lo que NO se
@@ -32,8 +33,10 @@
 
 /* Fluido (S3): 64 → 128 px interpolado entre 360 y 1480 px de
    viewport. Reemplaza los tres escalones por breakpoint (64/96/128)
-   con la misma llegada en los extremos y ≈87 px en 768 px. */
-.about-intro,
+   con la misma llegada en los extremos y ≈87 px en 768 px.
+   E01: el ritmo entre secciones lo gobierna ahora el contrato
+   --section-gap + el filete .section-ruled; --feature-pad-y queda
+   reservado al padding INTERNO de la plancha tonal de gabinetes. */
 .gabinetes-feature {
   --feature-pad-y: clamp(64px, 43.43px + 5.71vw, 128px);
 }
@@ -52,7 +55,9 @@
   grid-template-columns: minmax(0, 1fr);
   gap: var(--space-12);                 /* 48 px — gap-12 */
   align-items: center;
-  padding-block: var(--feature-pad-y);
+  /* E01: el aire superior lo da .section-ruled--mast (filete de
+     tinta + padding-top); el inferior, la separación de sección
+     (--section-gap) hacia la plancha de gabinetes. */
   width: 100%;                          /* la grilla llena el ancho del contenedor (.page) */
 }
 
@@ -212,139 +217,149 @@
 
 
 /* ─────────────────────────────────────────────────────────────
-   B.  NUESTROS GABINETES — .gabinetes-feature
+   B.  NUESTROS GABINETES — índice editorial (.gabinetes-feature)
    ─────────────────────────────────────────────────────────────
-   Banda con un tono apenas diferenciado del crema base
-   (--color-surface-raised) para separarla de «Quiénes somos». Encabezado
-   (eyebrow + titular display) + grilla de 4 tarjetas con ícono +
-   enlace inferior. El margen superior es 0: la separación con la
-   subsección anterior la da su padding inferior.
+   E01 — REDISEÑO. La grilla de cuatro tarjetas idénticas (ícono +
+   título + texto, el reflejo de «fábrica de tarjetas») se reemplaza
+   por un ÍNDICE EDITORIAL: las cuatro líneas de trabajo se listan
+   como las entradas de un sumario, separadas por filetes hairline
+   —no por cajas—. La sección protagónica del cuerpo descansa sobre
+   una PLANCHA TONAL fría derivada del cobalto (--color-surface-accent)
+   que sangra hasta los bordes de la columna, plana (sin borde, radio
+   ni sombra): el tono da el ritmo, la línea da la estructura.
    ───────────────────────────────────────────────────────────── */
 
 .gabinetes-feature {
-  /* Banda estática de baja jerarquía: elevación plana con borde
-     suave, sin sombra (contrato de elevación S2). */
-  background: var(--color-surface-raised);
-  border: var(--elevation-border-soft);
-  border-radius: var(--radius-xl);
+  /* Plancha tonal: lavado cobalto frío, plana. Sangra hasta los
+     bordes de .page neutralizando su padding lateral (margin
+     negativo = --page-padding-x) y lo restituye como padding propio,
+     de modo que el contenido del índice queda alineado con el resto
+     de las secciones. No genera scroll: el borde de la plancha cae
+     exactamente sobre el borde de la columna .page. */
+  background: var(--color-surface-accent);
+  margin-inline: calc(-1 * var(--page-padding-x));
+  padding-inline: var(--page-padding-x);
   padding-block: var(--feature-pad-y);
-  /* Fluido (S3): 24 → 48 px (absorbe los escalones 24/32/48). */
-  padding-inline: clamp(24px, 16.29px + 2.14vw, 48px);
-  margin-block: 0 var(--feature-pad-y);
 }
 
-/* .gabinetes-feature__title: absorbido por .section-title--display
-   (headers.css §2.3) — dedup S2. */
+/* El encabezado (titular display + standfirst) usa la composición
+   editorial de dos columnas de .section-title--display (headers.css
+   §2.3). margin-bottom = --header-gap heredado. */
 
-/* Grilla: 1 → 2 → 4 columnas dirigidas por el ancho del CONTENEDOR
-   (container queries S3, misma arquitectura que .grid-cards en
-   lists.css §5.1): la banda .gabinetes-feature se declara query
-   container vía :has() y la grilla lee de ella. Umbral de 4
-   columnas en 960 px de contenedor (no 1080): la auditoría mostró
-   tarjetas de ≈190 px a 1024 px de viewport con el salto anterior
-   en --bp-lg; con 960 px de contenedor las cuatro pistas solo
-   aparecen cuando cada tarjeta conserva ≥ 230 px (viewport
-   ≈ 1180+). minmax(0,1fr) evita que el contenido fuerce el ancho
-   de pista. */
-.gabinetes-grid {
+/* Índice: una columna en móvil, dos en ≥768px. Las entradas se
+   separan por filetes hairline (border-top en cada una + border-left
+   en la columna derecha como filete central + border-bottom del
+   índice que lo cierra). Sin gap: los filetes forman un sumario
+   continuo, como una grilla tipográfica de revista. */
+.gabinetes-index {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--space-4);                  /* 16 px */
-}
-
-@supports (container-type: inline-size) and (selector(:has(*))) {
-  :where(:has(> .gabinetes-grid)) {
-    container-type: inline-size;
-  }
-
-  @container (min-width: 560px) {
-    .gabinetes-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  }
-
-  @container (min-width: 960px) {
-    .gabinetes-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  }
-}
-
-/* Fallback por viewport (sin container queries / sin :has()). */
-@supports not ((container-type: inline-size) and (selector(:has(*)))) {
-  @media (min-width: 640px) {
-    .gabinetes-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  }
-
-  @media (min-width: 1280px) {
-    .gabinetes-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  }
-}
-
-/* Tarjeta: pila vertical, altura completa (alturas iguales en la
-   fila), casi plana en reposo (sólo borde fino). Hover/focus:
-   borde a primario + leve elevación + sombra suave. */
-.gabinete-card {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  height: 100%;
-  background: transparent;
-  border: var(--elevation-border);
-  border-radius: var(--radius-lg);
-  padding: var(--card-pad-lg);          /* 24 px */
-  transition: border-color var(--transition-fast),
-              transform var(--transition-fast),
-              box-shadow var(--transition-fast);
+  border-bottom: var(--rule);
 }
 
 @media (min-width: 768px) {
-  .gabinete-card { padding: var(--space-8); }   /* 32 px — p-8 */
+  .gabinetes-index {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  /* Filete central: 1px sobre la columna derecha (estructura
+     hairline, no una franja de acento). */
+  .gabinete-entry:nth-child(even) {
+    border-left: var(--rule);
+  }
 }
 
-.gabinete-card:hover,
-.gabinete-card:focus-within {
-  border-color: var(--color-accent);
-  transform: translateY(var(--elevation-lift));
-  box-shadow: var(--elevation-hover);
+.gabinete-entry {
+  border-top: var(--rule);
 }
 
-.gabinete-card__icon {
+/* Toda la fila es el destino: <a> en bloque que envuelve ícono,
+   nombre y descripción. Mayor afordancia que el antiguo enlace
+   «Ver gabinete» al pie de la tarjeta. */
+.gabinete-entry__link {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding-block: var(--space-6);
+  color: var(--color-text);
+}
+
+@media (min-width: 768px) {
+  /* La columna izquierda reserva aire a la derecha (antes del filete
+     central); la derecha, a la izquierda (después del filete). */
+  .gabinete-entry:nth-child(odd) .gabinete-entry__link {
+    padding-right: var(--space-10);
+  }
+  .gabinete-entry:nth-child(even) .gabinete-entry__link {
+    padding-left: var(--space-10);
+  }
+}
+
+/* Ícono: marca marginal discreta de orientación (no el centro de la
+   composición). Línea cobalto medio, alineada a la altura-x del
+   nombre. */
+.gabinete-entry__icon {
   display: inline-flex;
-  color: var(--color-accent);
-}
-
-.gabinete-card__icon svg {
-  width: var(--icon-lg);                /* 32 px ≈ size-8 */
-  height: var(--icon-lg);
-}
-
-/* .gabinete-card__title hereda <h3> global: font-body, medium,
-   --text-h3 (20px), --color-text. */
-
-.gabinete-card__desc {
-  font-size: var(--text-small);         /* 13 px */
-  color: var(--color-text-soft);
-}
-
-.gabinete-card__link {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  margin-top: auto;                     /* empuja el CTA al fondo */
-  font-size: var(--text-small);
-  font-weight: var(--weight-medium);
-  color: var(--color-accent);
-}
-
-.gabinete-card__link-icon {
-  width: 1em;
-  height: 1em;
   flex: none;
-  transition: transform var(--transition-fast);
+  margin-top: 0.15em;                   /* baja el ícono a la base óptica del nombre */
+  color: var(--color-accent-soft);
 }
 
-.gabinete-card:hover .gabinete-card__link-icon,
-.gabinete-card__link:focus-visible .gabinete-card__link-icon {
+.gabinete-entry__icon svg {
+  width: var(--icon-md);                /* 28 px */
+  height: var(--icon-md);
+}
+
+.gabinete-entry__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+/* Nombre del gabinete en voz editorial (Fraunces display): es el
+   elemento dominante de cada entrada del sumario. */
+.gabinete-entry__name {
+  font-family: var(--font-display);
+  font-size: var(--text-kpi);           /* 28 → 33 px serif */
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text);
+  text-wrap: balance;
+  transition: color var(--transition-fast);
+}
+
+.gabinete-entry__desc {
+  font-size: var(--text-small);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-soft);
+  max-width: var(--measure-narrow);
+}
+
+/* Flecha de afordancia: cobalto, empujada al final de la fila. */
+.gabinete-entry__arrow {
+  flex: none;
+  align-self: center;
+  margin-left: auto;
+  width: var(--space-5);                /* 20 px */
+  height: var(--space-5);
+  color: var(--color-accent);
+  transition: transform var(--transition-fast), color var(--transition-fast);
+}
+
+@media (hover: hover) {
+  .gabinete-entry__link:hover .gabinete-entry__name {
+    color: var(--color-accent);
+  }
+  .gabinete-entry__link:hover .gabinete-entry__arrow {
+    transform: translateX(var(--space-1));
+  }
+}
+
+.gabinete-entry__link:focus-visible .gabinete-entry__arrow {
   transform: translateX(var(--space-1));
 }
 

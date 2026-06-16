@@ -137,6 +137,23 @@
   max-width: min(92vw, 60rem);
 }
 
+/* Dateline institucional (E01): la ÚNICA etiqueta mono de la
+   portada — un localizador tipo «masthead» (lugar + año de
+   fundación) que porta información real, no un eyebrow decorativo
+   por sección. Esta es la cadencia editorial que nace aquí: un
+   kicker deliberado en el hero, cero eyebrows bajo el pliegue.
+   Mono, tracking abierto, sobre fotografía con su sombra de
+   legibilidad. */
+.hero__dateline {
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--tracking-wider);
+  color: var(--color-on-media-soft);
+  text-shadow: var(--text-shadow-media);
+  margin-bottom: calc(-1 * var(--space-2));   /* acerca el dateline al titular */
+}
+
 /* H1 hereda familia/escala display de la regla global; aquí se
    recolorea para fotografía y sube al rol display-xl de la escala
    fluida (tokens.css): 40 px en móvil → 65 px en desktop. El titular
@@ -146,6 +163,9 @@
   color: var(--color-on-media);
   font-size: var(--text-display-xl);
   line-height: var(--leading-tight);
+  /* Cierre editorial del display más grande (E01): un punto más
+     cerrado que --tracking-tight para el color de portada. */
+  letter-spacing: var(--tracking-display);
   max-width: 100%;
   text-wrap: balance;
   /* Sombra de legibilidad sobre el slideshow: dos capas (halo difuso +
@@ -211,6 +231,86 @@
 @media (min-width: 1480px) {
   .hero__content {
     max-width: 64rem;
+  }
+}
+
+/* ── Control de pausa del slideshow (WCAG 2.2.2) ───────────────
+   Vive sobre el scrim del hero, esquina inferior derecha. Píldora
+   discreta con tokens «sobre media» (borde y texto on-media) sobre
+   un velo cobalto translúcido derivado del scrim; nunca compite con
+   las acciones primarias. Sólo se muestra cuando el slideshow corre
+   (hero-carrousel.js quita [hidden]); bajo prefers-reduced-motion la
+   imagen ya queda fija y el control no llega a revelarse. */
+.hero__pause {
+  position: absolute;
+  z-index: 3;                       /* sobre .hero__content (z 2) */
+  right: var(--page-padding-x);
+  bottom: var(--page-padding-y);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  /* Área táctil ≥ 44 px (WCAG 2.5.5 / catálogo §5): en móvil queda
+     icon-only y debe seguir siendo un objetivo cómodo. */
+  min-height: var(--space-11);          /* 44 px */
+  min-width: var(--space-11);
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-on-media);
+  background: color-mix(in srgb, var(--cobalto-950) 55%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-on-media) 55%, transparent);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+}
+
+.hero__pause[hidden] { display: none; }
+
+@media (hover: hover) {
+  .hero__pause:hover {
+    background: color-mix(in srgb, var(--cobalto-950) 72%, transparent);
+    border-color: var(--color-on-media);
+  }
+}
+
+.hero__pause-icon {
+  width: 1em;
+  height: 1em;
+  flex: none;
+}
+
+/* Estado por defecto = reproduciendo: se muestra el glifo de pausa
+   (la acción disponible). Al pausar (aria-pressed="true") se cambia
+   al glifo de play. El texto lo actualiza el JS en paralelo. */
+.hero__pause-icon--play { display: none; }
+.hero__pause[aria-pressed="true"] .hero__pause-icon--pause { display: none; }
+.hero__pause[aria-pressed="true"] .hero__pause-icon--play { display: inline; }
+
+/* La etiqueta se oculta en móvil (queda el ícono, con su nombre
+   accesible vía el texto en el árbol); reaparece en ≥768px. */
+.hero__pause-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  .hero__pause-label {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    clip-path: none;
   }
 }
 
@@ -330,6 +430,77 @@
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-tight);
   text-wrap: balance;
+}
+
+/* Standfirst (E01): bajada editorial en Hanken junto al titular de
+   sección, en reemplazo del eyebrow mono por sección. Una frase que
+   sitúa el bloque; medida acotada. Es el segundo registro de la
+   cabecera —cuerpo, no etiqueta— y carga jerarquía con tamaño/peso,
+   no con mayúsculas tracked. */
+.section-title__standfirst {
+  font-family: var(--font-body);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-snug);
+  color: var(--color-text-soft);
+  max-width: var(--measure-narrow);
+  text-wrap: pretty;
+}
+
+/* En escritorio la cabecera con standfirst se abre a dos columnas
+   sobre una línea de base común (titular ancho a la izquierda,
+   bajada acotada a la derecha): composición editorial que aprovecha
+   el ancho real en vez de apilar dos bloques angostos. Sólo cuando
+   hay standfirst (`:has()`); sin soporte, apila — degradación
+   válida. */
+@supports selector(:has(*)) {
+  @media (min-width: 1024px) {
+    .section-title--display:has(.section-title__standfirst) {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, var(--measure-narrow));
+      align-items: end;
+      column-gap: var(--space-16);
+      row-gap: var(--space-3);
+    }
+
+    .section-title--display:has(.section-title__standfirst) h2 {
+      grid-column: 1;
+      margin: 0;
+    }
+
+    .section-title--display .section-title__standfirst {
+      grid-column: 2;
+      /* Compensación óptica: empareja la base de la bajada (1.3) con
+         la del titular display (1.08). */
+      padding-bottom: var(--space-1);
+    }
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   2.5  APERTURA DE SECCIÓN EDITORIAL — .section-ruled (E01)
+   ─────────────────────────────────────────────────────────────
+   FIRMA del sistema editorial que nace en la portada y heredan
+   E02–E07: la sección se separa de la anterior por AIRE + un FILETE
+   HAIRLINE, no por una caja con sombra ni un fondo. El filete corre
+   a todo el ancho de la sección; el aire superior lo da el contrato
+   de ritmo (--section-gap entre secciones).
+
+     .section-ruled        filete estándar (--rule, 1px) — repetible.
+     .section-ruled--mast  filete de tinta enfático (--rule-ink) —
+                           UNA vez por página (transición hero →
+                           cuerpo). Marca el arranque editorial.
+
+   El padding superior separa el contenido del filete; se mantiene
+   en la escala de ritmo (no un valor suelto). */
+.section-ruled {
+  border-top: var(--rule);
+  padding-top: var(--section-pad-y);   /* 48 → 64 px: separa el contenido del filete */
+}
+
+.section-ruled--mast {
+  border-top: var(--rule-ink);
 }
 
 

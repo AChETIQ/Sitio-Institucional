@@ -196,6 +196,31 @@ La fase P04 (movimiento) tokenizó el movimiento del sitio y lo elevó a sistema
 
 **Verificación P04 (2026-06-16).** Inventario previo de toda animación/transición del sitio (archivo, disparo, duración, curva, comportamiento bajo movimiento reducido) reconciliado contra la implementación viva: ya existían tokens de duración (`--transition-*`) y un sistema de scroll-reveal de imagen (`scroll-reveal.js` + `states.css §10.3`). P04 los **elevó**: añadió la capa de curvas y la rampa de duración cruda, migró las curvas inline a tokens, eliminó el único rebote, e incorporó las microinteracciones, la entrada escalonada de contenido, el scroll-reveal de grupo y las View Transitions entre documentos. Se verificó cada página en modo normal y con movimiento reducido emulado; se confirmó que las animaciones corren sólo sobre `transform`/`opacity`/`filter`/`clip-path`.
 
+### 0.6 Evolución editorial — sistema E01 (2026-06-16)
+
+La portada (E01) **hace nacer** el sistema editorial que heredan E02–E07. Evoluciona los tokens v3 sin reiniciar la identidad (familias y anclas Cobalto/Mauveína intactas). Adiciones, todas en `tokens.css` con su contraste calculado:
+
+**Rampa de papel frío extendida (superficies):**
+
+| Token | Valor | Uso | Contraste (texto / soft / faint) |
+|-------|-------|-----|----------------------------------|
+| `--color-surface-sunken` | `--grafito-150` `oklch(0.945 0.006 265)` `#EAEDF2` | Plancha tonal hundida; diferencia zonas por TONO, no por caja | 15.4 / 7.8 — AAA · 5.5 — AA |
+| `--color-surface-accent` | `--cobalto-50` `oklch(0.965 0.012 262)` `#EFF4FC` | Realce frío **derivado del cobalto**; plancha de la sección protagónica del cuerpo | 15.2 / 7.6 — AAA · `accent` texto 7.4 — AAA |
+
+**Reglas hairline (separación por línea + aire, no por caja):**
+
+| Token | Valor | Uso |
+|-------|-------|-----|
+| `--color-rule` / `--color-rule-ink` | = `--color-border` / = `--color-text` | Color del filete estándar / de tinta |
+| `--rule` | `1px solid var(--color-rule)` | Filete editorial estándar — abre cada sección (`.section-ruled`); repetible |
+| `--rule-ink` | `1.5px solid var(--color-rule-ink)` | Filete de tinta tipo *masthead* — **una vez por página** (`.section-ruled--mast`) |
+
+**Tipografía:** `--tracking-display` (-0.021em, piso -0.04em) cierra el display más grande (titular del héroe) para el color denso de portada.
+
+**Cadencia de etiqueta (resuelve la deuda del eyebrow por sección):** un ÚNICO kicker deliberado por vista — el *dateline* del héroe (`.hero__dateline`: mono, tracking abierto, **no** mayúsculas tracked; lugar + año, porta información real) — y CERO eyebrows bajo el pliegue. Las secciones abren con titular display + *standfirst* en Hanken (`.section-title__standfirst`).
+
+**Patrones de firma E01** (detalle en §2.6 y §4.2-bis): apertura de sección con filete + standfirst (`.section-ruled`) e **índice editorial de gabinetes** (`.gabinetes-index`) en reemplazo de la grilla de tarjetas idénticas. El slideshow del héroe suma **control de pausa** `.hero__pause` (WCAG 2.2.2).
+
 ---
 
 ## 1. Componentes globales
@@ -421,6 +446,7 @@ El placeholder es reemplazado por `js/navbar.js`, que carga `partials/navbar.htm
 
 - `.section-title__lead`: bajada opcional bajo el `<h2>`, en escalón `--text-body` y medida `--measure-narrow` (subordinada al lead de página; reemplaza la reutilización indebida de `.page-header__lead` dentro de secciones).
 - `.section-title--display`: eleva el `<h2>` al rol `--text-display` (40→52 px) con `leading-tight`, `tracking-tight` y `text-wrap: balance`. Es el patrón de las cabeceras protagónicas de portada («Quiénes somos», «Nuestros gabinetes»), antes duplicado en `sobre-asociacion.css`.
+- `.section-title__standfirst` **(E01)**: *standfirst* editorial en Hanken (`--text-h3`, `--color-text-soft`, medida `--measure-narrow`) que **reemplaza al eyebrow mono por sección**. En `--display` con `:has()` la cabecera se compone a dos columnas (titular ancho izquierda, standfirst acotado derecha) sobre una línea de base común en ≥1024 px; sin `:has()` apila (degradación válida).
 
 ---
 
@@ -526,6 +552,32 @@ El cuarto slot demuestra que el componente debe admitir valores no numéricos: e
 
 ---
 
+### 2.6 Apertura de sección editorial — `.section-ruled` (E01)
+
+**Propósito.** Patrón de FIRMA del sistema editorial (nace en la portada, lo heredan E02–E07): la sección se separa de la anterior por **aire + un filete hairline**, no por una caja con sombra ni un fondo. Sustituye al `eyebrow + h2` por sección.
+
+**HTML.**
+
+```html
+<section class="about-intro section-ruled section-ruled--mast" aria-labelledby="...">
+  <header class="section-title section-title--display">
+    <h2 id="...">Quiénes <em>somos</em></h2>
+    <p class="section-title__standfirst">Frase que sitúa el bloque.</p>
+  </header>
+  …
+</section>
+```
+
+**Especificación.**
+
+- `.section-ruled`: `border-top: var(--rule)` (filete 1 px) + `padding-top: var(--section-pad-y)` (48→64 px, separa el contenido del filete). El aire superior lo da el contrato `--section-gap` entre secciones (`main.css §4`). Repetible sin volverse andamiaje: estructura silenciosa, no rótulo.
+- `.section-ruled--mast`: sube a `border-top: var(--rule-ink)` (filete de tinta 1.5 px tipo *masthead*). **Una sola vez por página** (transición héroe → cuerpo en la portada).
+- El titular usa la composición de dos columnas con *standfirst* de §2.3.
+
+**Accesibilidad.** El filete es decorativo (`border`, fuera del árbol de accesibilidad); la jerarquía la carga la tipografía y el aire, no la línea.
+
+---
+
 ## 3. Componentes de contenido textual
 
 ### 3.1 Prose block — `.prose`
@@ -612,6 +664,38 @@ Ya definida en `tokens.css` (§COMPONENTE — TARJETA). Sirve como base de las v
 - Hover: borde se intensifica a `var(--color-accent)` con `transition: border-color var(--transition-fast)`.
 
 *Nota (2026-05-16).* El patrón de plantilla única parametrizada por query string fue descartado. Cada gabinete tiene su propia página dedicada bajo `pages/gabinetes/`. El listado completo de URLs hijas está fijado en `data/navbar.json`.
+
+---
+
+### 4.2-bis Índice editorial de gabinetes — `.gabinetes-index` (E01, portada)
+
+**Propósito.** Patrón de FIRMA que **reemplaza la grilla de cuatro tarjetas idénticas** de la portada (el reflejo «fábrica de tarjetas», deuda P1 de la crítica base). Las cuatro líneas de trabajo se listan como un **sumario** separado por filetes hairline —no por cajas— sobre una plancha tonal. Respuesta canónica del sistema a «la grilla de tarjetas es el recurso perezoso»; no sustituye a `.card-gabinete` (§4.2), que sigue sirviendo a la página `gabinetes.html`.
+
+**HTML.**
+
+```html
+<ul class="gabinetes-index" role="list">
+  <li class="gabinete-entry" data-reveal style="--index: 0">
+    <a class="gabinete-entry__link" href="…">
+      <span class="gabinete-entry__icon" aria-hidden="true"><svg…></span>
+      <span class="gabinete-entry__body">
+        <h3 class="gabinete-entry__name">Cursos y Conferencias</h3>
+        <span class="gabinete-entry__desc">…</span>
+      </span>
+      <svg class="gabinete-entry__arrow" aria-hidden="true">…</svg>
+    </a>
+  </li> … (×4)
+</ul>
+```
+
+**Especificación.**
+
+- **Plancha:** `.gabinetes-feature` con fondo `var(--color-surface-accent)` (lavado cobalto frío), plana (sin borde/radio/sombra), que sangra a los bordes de la columna (`margin-inline: calc(-1 * var(--page-padding-x))` + `padding-inline` restituido). El tono da el ritmo; no genera scroll (el borde cae sobre el de `.page`).
+- **Grilla:** 1 columna (móvil) → 2 (`≥768px`). Filetes con `var(--rule)`: `border-top` en cada entrada + `border-left` en la columna par (filete central, 1 px — estructura, no franja de acento) + `border-bottom` del `<ul>` que lo cierra. Sin `gap`: los filetes forman un sumario continuo.
+- **Entrada:** toda la fila es el destino (`<a>` en bloque). `display: flex` (ícono | cuerpo | flecha). Nombre en **Fraunces** (`--text-kpi`, voz editorial, elemento dominante); descripción en Hanken `--text-small` `--color-text-soft`; ícono marginal en `--color-accent-soft`; flecha `--color-accent` con `translateX` al hover/focus.
+- **Hover/focus:** nombre → `--color-accent`, flecha se desplaza; foco por el anillo global sobre el `<a>` (sin regla propia). Revelado escalonado `[data-reveal]` (estado por defecto visible).
+
+**Accesibilidad.** `<h3>` real por entrada (jerarquía secuencial bajo el `<h2>`); ícono `aria-hidden`; el `<a>` envolvente da un único destino y nombre accesible por su contenido.
 
 ---
 
