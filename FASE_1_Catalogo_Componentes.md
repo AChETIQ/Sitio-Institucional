@@ -253,11 +253,11 @@ La portada (E01) **hace nacer** el sistema editorial que heredan E02–E07. Evol
 
 **Especificación visual.**
 
-- Altura: 56–64 px.
+- Altura: 56–64 px (`--navbar-height`).
 - Fondo: `var(--color-surface)` con alfa 0.92 y `backdrop-filter: blur(12px)`; fallback opaco mediante `@supports not (backdrop-filter: blur(...))`.
-- Borde inferior: 1 px `var(--color-border)`.
+- Borde inferior: filete editorial `var(--rule)` (contrato hairline E01 — antes `1px solid var(--color-border)` literal; ver §1.2-bis).
 - Posición: `position: sticky; top: 0; z-index: var(--z-navbar)`.
-- Layout interno: flexbox con `justify-content: space-between`. Logo + wordmark a la izquierda, lista de enlaces + CTA a la derecha.
+- Layout interno: flexbox con `justify-content: space-between`. Logo + **wordmark display (Fraunces)** a la izquierda, lista de enlaces + CTA a la derecha.
 
 **Inserción en cada página.**
 
@@ -269,9 +269,10 @@ El placeholder es reemplazado por `js/navbar.js`, que carga `partials/navbar.htm
 
 **Variantes de enlace (modificadores de `.nav-link`).**
 
-- `.nav-link--ghost`: sin borde ni fondo. Hover: fondo `var(--color-surface-raised)`, texto `var(--color-accent)`.
+- `.nav-link--ghost`: sin borde ni fondo. Hover/focus **editorial (E02): SIN caja de fondo** — el afford es el filete acento que crece desde el centro (`::after`, dirigido por `transform: scaleX`) + viraje de tinta a `var(--color-accent)`. El anillo de foco centralizado marca aparte el foco de teclado.
 - `.nav-link--outline`: borde 1 px `var(--color-border)`, fondo transparente.
-- `.nav-link--primary`: fondo `var(--color-accent)`, texto `var(--color-on-accent)`. Hover: fondo `var(--color-accent-soft)`.
+- `.nav-link--primary`: fondo `var(--color-accent)`, texto `var(--color-on-accent)`. Hover: fondo `var(--color-accent-soft)`. Es el único enlace con caja (CTA Contacto): contrasta a propósito con los enlaces-texto editoriales.
+- **Compresión de pulsado (E02):** todo `.nav-link:active` aplica `transform: scale(0.97)` a `--dur-instant var(--ease-out)`, el mismo afford táctil que `.pill-nav` (§7.2).
 
 **Comportamiento de submenús (desktop ≥ 1024 px).** El label permanece como `<a>` clickeable a la página general; el panel desplegable se abre únicamente por hover del mouse o focus del teclado (`:hover` + `:focus-within`). Chevron Lucide a la derecha del label, decorativo, rota 180° al abrir.
 
@@ -283,6 +284,13 @@ El placeholder es reemplazado por `js/navbar.js`, que carga `partials/navbar.htm
 
 **Especificación normativa.** Esta sección es un resumen operativo. La fuente normativa completa del componente —incluida la configuración definitiva de `data/navbar.json`, criterios de aceptación, accesibilidad por teclado, transiciones y restricciones explícitas— está consolidada en el documento canónico de la navbar (memoria del proyecto, referencia *AChETIQ — Prompt canónico de la barra de navegación*, cerrado 2026-05-16). Cualquier divergencia entre ambos textos se resuelve en favor del prompt canónico.
 
+**§1.2-bis · Elevación editorial — sistema E02 (2026-06-16).** El navbar pasa a consumir el sistema editorial de la portada (E01) como **frame de cabecera**, *sin tocar la lógica de `navbar.js`* (render, teclado Arrow/Home/End/Esc, sincronía de `aria-expanded`, trampa y retorno de foco, scroll-lock y umbral 1024 px se preservan intactos — elevación sólo de CSS):
+
+- **Filete hairline.** El borde inferior del header y del fallback, el borde derecho del panel mobile y los divisores del panel (cabecera + ítems del acordeón) abandonan el `1px solid var(--color-border)` literal y consumen el contrato `var(--rule)`. La separación es por **línea + aire**, no por caja — el lenguaje de la portada aplicado al chrome. Los bordes que SÍ se conservan en `--color-border` son contornos de *control* (borde base transparente de `.nav-link`, variante `--outline`, botón hamburguesa, `--elevation-border` del submenú flotante): distinción semántica deliberada entre separador estructural y contorno interactivo.
+- **Wordmark de masthead.** `.navbar__wordmark` (y el wordmark del header del panel + el `.navbar-fallback__brand`) adopta la familia **display Fraunces** en `--weight-regular` con `--tracking-tight`, el **mismo tratamiento del wordmark del footer** (§1.3): los dos extremos del frame comparten una sola firma. Tamaño heredado del brand (`--text-h4`) para caber en `--navbar-height`. La identidad evoluciona dentro de la marca congelada (Fraunces ya es una familia comprometida; no se introduce ninguna familia nueva).
+- **Hover/press editorial.** Ver variantes de enlace arriba: enlaces-texto con filete-acento + viraje de tinta (sin caja), CTA filled como única caja, y compresión de pulsado tokenizada.
+- **Movimiento.** Todo hover/transición/press usa `--ease-out` + `--dur-*`/`--transition-fast`; el reset global de `prefers-reduced-motion` (main.css §2) los neutraliza sin suprimir el estado de press. El submenú desktop, el chevron y la transición hamburguesa→cruz se conservan a su timing tokenizado previo.
+
 ---
 
 ### 1.3 Footer — `.footer`
@@ -293,10 +301,10 @@ El placeholder es reemplazado por `js/navbar.js`, que carga `partials/navbar.htm
 
 **Especificación visual.**
 
-- Fondo: `var(--color-surface)` (sin contraste contra el body — separación dada por borde superior).
-- Borde superior: `1px solid var(--color-border)`.
-- Padding vertical generoso: `var(--space-16)` = 64 px arriba y abajo.
-- Layout interno: grid de 4 columnas en desktop, colapsa a 1 columna en mobile.
+- Fondo: `var(--color-surface-inverse)` (pátina cobalto profunda — desviación deliberada de 2026-05-26 documentada en `footer.css`; cierre institucional contundente). Contraste `--color-on-accent` sobre el fondo ≈ 13.2:1 (AAA); tintas locales `color-mix` ≥ 5.7:1 (AA) con **fallback literal rgba** previo a cada `color-mix` (conservado).
+- Borde superior: **apertura editorial (E02)** `1px solid var(--footer-rule)` — el equivalente inverso del contrato `--rule` sobre superficie oscura. El pie abre con un filete igual que el navbar cierra el cuerpo con `--rule`: cabecera y pie quedan enmarcados por el mismo contrato de separación por línea, no por caja.
+- Padding vertical generoso: `--section-pad-y` (48 → 64 px, fluido) en el `.footer__inner`.
+- Layout interno: grid mobile-first — 1 columna base, 2 columnas en ≥640 px, 4 columnas (`1.6fr 1fr 1.4fr 1fr`) en ≥1024 px con la columna identidad ocupando más espacio.
 
 **Estructura HTML.**
 
@@ -335,9 +343,12 @@ El placeholder es reemplazado por `js/navbar.js`, que carga `partials/navbar.htm
 
 **Tipografía.**
 
-- `.footer__heading`: tipografía mono, eyebrow style (`--text-eyebrow`, uppercase, tracking wider).
+- `.footer__wordmark`: familia **display Fraunces**, `--weight-regular`, `--tracking-tight` — la firma de masthead que el navbar adopta en E02 (§1.2-bis) para enmarcar el chrome con una sola voz.
+- `.footer__heading`: tipografía mono, eyebrow style (`--text-eyebrow`, uppercase, `--tracking-wider`) — la misma cadencia mono del dateline editorial de la portada (E01).
 - `.footer__list`: tipografía body, `--text-small`, tintas locales derivadas de `--color-on-accent` (el footer vive sobre `--color-surface-inverse`).
-- `.footer__tagline`: tipografía body, `--text-small`, tinta atenuada local.
+- `.footer__legal-name` / `.footer__legal` (colofón): tinta atenuada local; el colofón inferior va en mono caption con `--tracking-wide`, centrado en mobile y a la izquierda en ≥1024 px.
+
+**§1.3-bis · Elevación editorial — sistema E02 (2026-06-16).** El footer ya había sido elevado en fases previas al estándar editorial (headings mono-eyebrow, wordmark display, filete inferior `--footer-rule`, ritmo de columnas fluido, rampa de tintas inversas con fallback literal). E02 **confirma la paridad** y completa la simetría masthead↔colofón añadiendo el **filete de apertura** superior (ver Especificación visual). Se conservan íntegras las tintas `color-mix` con su fallback literal rgba.
 
 ---
 
@@ -1319,7 +1330,9 @@ Umbrales de contenedor canónicos (referencia en `tokens.css` §UMBRALES DE CONT
 </nav>
 ```
 
-**Especificación visual.** Tipografía body, `--text-small`, color `var(--color-text-faint)`. Separador entre items: ` / ` o ` › ` (texto, no imagen). El último ítem es texto plano (no link), color `var(--color-text)`.
+**Especificación visual.** Tipografía body, `--text-small`, color `var(--color-text-faint)`. Separador entre items: `›` generado por CSS (`::before`, `speak: none`; el `<ol>` semántico ya transmite la secuencia). El último ítem es texto plano (no link).
+
+**Elevación editorial (E02, 2026-06-16).** El ítem actual (`[aria-current="page"]`) se ancla con `color: var(--color-text)` **+ `font-weight: var(--weight-medium)`**: el *peso* —no una caja ni un fondo— marca «estás aquí» dentro de la ruta, mientras el resto queda en faint regular. El destino actual gana jerarquía por contraste tipográfico, en la misma gramática editorial del sistema. Se **confirma** el marcado correcto (`<nav aria-label="Ruta de navegación">` + `<ol>` + `aria-current="page"`) y la compensación del navbar sticky: `html { scroll-padding-top: calc(var(--navbar-height) + var(--space-4)) }` (main.css §2) reserva la altura de la barra fija para cualquier desplazamiento-hasta-ver (hash o foco por teclado), de modo que las migas nunca quedan ocultas bajo el navbar. El hover de los enlaces vira a `--color-accent` a `--transition-fast`.
 
 ---
 

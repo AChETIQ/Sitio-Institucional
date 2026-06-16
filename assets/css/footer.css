@@ -65,6 +65,12 @@
   font-size: var(--text-small);
   line-height: var(--leading-relaxed);
   margin-top: var(--space-16);
+  /* Apertura editorial (E02): el pie abre con un filete hairline —el
+     equivalente inverso de --rule sobre superficie oscura, con su
+     fallback literal— igual que el navbar cierra el cuerpo con --rule.
+     Cabecera y pie quedan así enmarcados por el mismo contrato de
+     separación por línea, no por caja. */
+  border-top: 1px solid var(--footer-rule);
 }
 
 .footer__inner {

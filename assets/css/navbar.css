@@ -42,7 +42,11 @@
   top: 0;
   z-index: var(--z-navbar);
   width: 100%;
-  border-bottom: 1px solid var(--color-border);
+  /* Filete editorial (E01): el frame consume el contrato hairline
+     --rule en vez de un `1px solid var(--color-border)` literal. La
+     barra se separa del cuerpo por una línea fina, no por una caja
+     —el lenguaje de separación de la portada aplicado a la cabecera. */
+  border-bottom: var(--rule);
   font-family: var(--font-body);
   color: var(--color-text);
 }
@@ -107,7 +111,6 @@
   gap: var(--space-2);
   color: var(--color-text);
   text-decoration: none;
-  font-weight: var(--weight-medium);
   font-size: var(--text-h4);
   line-height: 1;
   transition: color var(--transition-fast);
@@ -124,8 +127,16 @@
   flex: 0 0 auto;
 }
 
+/* Wordmark editorial (E02): la marca abandona el sans de UI y adopta
+   la familia display (Fraunces) en regular con --tracking-tight, el
+   MISMO tratamiento del wordmark del footer (footer.css §3.1). Los dos
+   extremos del frame —cabecera y pie— comparten así una sola firma de
+   masthead. Tamaño heredado del brand (--text-h4) para caber en la
+   barra de --navbar-height sin romper el ritmo. */
 .navbar__wordmark {
-  letter-spacing: 0.01em;
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--tracking-tight);
 }
 
 
@@ -186,13 +197,26 @@
   transition:
     background-color var(--transition-fast),
     color var(--transition-fast),
-    border-color var(--transition-fast);
+    border-color var(--transition-fast),
+    /* Compresión de pulsado (P04): mismo afford táctil que .pill-nav,
+       a la curva/duración instantánea del sistema. */
+    transform var(--dur-instant) var(--ease-out);
   white-space: nowrap;
 }
 
+/* Compresión al pulsar cualquier nav-link. Estado momentáneo; el reset
+   global de movimiento neutraliza su transición sin suprimir el press. */
+.nav-link:active {
+  transform: scale(0.97);
+}
+
+/* Hover/focus editorial del enlace fantasma: SIN caja de fondo. El
+   afford es el filete acento que crece desde el centro (::after, abajo)
+   más el viraje de tinta a acento —«hairline y blanco antes que cajas»
+   del sistema editorial—. El anillo de foco centralizado (focus.css)
+   marca aparte el foco de teclado. */
 .nav-link--ghost:hover,
 .nav-link--ghost:focus-visible {
-  background-color: var(--color-surface-raised);
   color: var(--color-accent);
 }
 
@@ -447,7 +471,7 @@
   background-color: color-mix(in srgb, var(--color-surface) 95%, transparent);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
-  border-right: 1px solid var(--color-border);
+  border-right: var(--rule);
   z-index: calc(var(--z-modal) + 1);
   overflow-y: auto;
   transform: translateX(-100%);
@@ -488,7 +512,7 @@
   gap: var(--space-2);
   padding-block-end: var(--space-4);
   margin-block-end: var(--space-2);
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: var(--rule);
   font-size: var(--text-h4);
   font-weight: var(--weight-medium);
   line-height: 1;
@@ -503,7 +527,7 @@
 }
 
 .navbar__panel-item {
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: var(--rule);
 }
 
 .navbar__panel-item:last-child {
@@ -604,7 +628,7 @@
   z-index: var(--z-navbar);
   width: 100%;
   background-color: var(--color-surface);
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: var(--rule);
 }
 
 .navbar-fallback__inner {
@@ -619,9 +643,12 @@
 }
 
 .navbar-fallback__brand {
-  font-family: var(--font-body);
+  /* Misma firma de masthead que .navbar__wordmark (display Fraunces),
+     para que el fallback sin JS conserve la identidad editorial. */
+  font-family: var(--font-display);
   font-size: var(--text-h4);
-  font-weight: var(--weight-medium);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--tracking-tight);
   color: var(--color-text);
   text-decoration: none;
 }
