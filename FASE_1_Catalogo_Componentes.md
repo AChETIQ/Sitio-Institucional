@@ -81,8 +81,8 @@ Reciben elevación al hover **sólo** las tarjetas interactivas (son `<a>` o con
 | Sección ↔ sección | `--section-gap` | 64 px | Regla genérica `:where(.page) > section + section` en `main.css` §4 (especificidad 0-0-2: cualquier componente con ritmo propio la sobreescribe; los márgenes colapsan, no se duplican). |
 | page-header → contenido | `--space-12` | 48 px | `margin-bottom` de `.page-header`. |
 | section-title → bloque | `--header-gap` | 32 px | `margin-bottom` de `.section-title`; también `.pill-nav + *`. |
-| Interior de tarjeta estándar | `--card-pad` | 20 px | `.card` base, `.card--valor`, body de `.card-noticia`. |
-| Interior de tarjeta extensa | `--card-pad-lg` | 24 px | `.card-gabinete`, `.gabinete-card`, `.card-documento`, `.contact-card`, `.mission-vision__col`. |
+| Interior de tarjeta estándar | `--card-pad` | 20 px | `.card` base, body de `.card-noticia`. |
+| Interior de tarjeta extensa | `--card-pad-lg` | 24 px | `.card-gabinete`, `.gabinete-card`, `.card-documento`, `.contact-card`, `.mission-vision__col`, `.card--valor`. |
 
 Medidas asociadas: `--measure-title` (22ch, titulares display de `.page-header` y `.cta-final`) y `--card-min` (17.5rem, pista mínima de `.grid-cards--fluid`).
 
@@ -855,11 +855,11 @@ Ya definida en `tokens.css` (§COMPONENTE — TARJETA). Sirve como base de las v
 **Especificación visual.**
 
 - Borde `1px solid var(--color-border)`; radio `var(--radius-md)`; sin fondo (`background: transparent`, hereda `var(--color-surface)`).
-- Padding interno: `var(--space-5)` (20 px).
-- `min-height` uniforme entre tarjetas del grid (≈ 180 px) para evitar discrepancia visual cuando las descripciones varían en longitud. Valor exacto a ajustar en Fase 2 contra el texto definitivo.
+- Padding interno: `var(--card-pad-lg)` (24 px) — holgado para acompañar el cuerpo en tamaño estándar (E03+).
+- `min-height` uniforme entre tarjetas del grid (≈ 200 px) para evitar discrepancia visual cuando las descripciones varían en longitud.
 - Ícono: 28×28 px, color `var(--color-accent)`. Margen inferior `var(--space-3)`.
-- Título: `<h3>`, tipografía body (`--text-h3`), peso medium, color `var(--color-text)`.
-- Descripción: tipografía body, `--text-small`, color `var(--color-text-soft)`.
+- Título: `<h3>`, tipografía body (`--text-h3`), peso **semibold** (sostiene la jerarquía contra el cuerpo más grande), color `var(--color-text)`.
+- Descripción: tipografía body, **`--text-body`** (≥ 1 rem) con interlínea **`--leading-relaxed`** (1.7), color `var(--color-text-soft)`.
 
 **Estados.** No interactivo. Sin hover.
 

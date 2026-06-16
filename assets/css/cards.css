@@ -369,12 +369,13 @@
 
 .card--valor {
   /* Panel estático: elevación plana (sólo borde), sin sombra ni
-     hover — contrato de elevación S2. */
+     hover — contrato de elevación S2. Padding holgado (--card-pad-lg)
+     para que el cuerpo más grande no quede apretado contra el borde. */
   background: transparent;
   border: var(--elevation-border);
   border-radius: var(--radius-md);
-  padding: var(--card-pad);
-  min-height: 180px;
+  padding: var(--card-pad-lg);
+  min-height: 200px;
   gap: var(--space-3);
 }
 
@@ -386,12 +387,18 @@
 }
 
 .card--valor__title {
-  /* H3 global. */
+  /* H3 global (Hanken --text-h3); sube a semibold para sostener la
+     jerarquía contra el cuerpo ahora en --text-body. */
+  font-weight: var(--weight-semibold);
   color: var(--color-text);
 }
 
 .card--valor__desc {
-  font-size: var(--text-small);
+  /* Cuerpo legible: tamaño estándar (≥ 1 rem) con interlínea relajada
+     para que el párrafo respire dentro de la tarjeta — sube desde
+     --text-small. */
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
   color: var(--color-text-soft);
 }
 
