@@ -76,10 +76,15 @@
   color: var(--color-accent);
 }
 
-/* Último ítem (la página actual): texto plano, color ink,
-   marcado con aria-current="page" en el HTML. */
+/* Último ítem (la página actual): texto plano, color ink, anclado
+   con --weight-medium (E02). El peso —no una caja ni un fondo— marca
+   «estás aquí» dentro de la ruta; el resto queda en faint regular, de
+   modo que el destino actual gana jerarquía por contraste tipográfico,
+   en la misma gramática editorial del sistema. Marcado con
+   aria-current="page" en el HTML. */
 .breadcrumbs__list li[aria-current="page"] {
   color: var(--color-text);
+  font-weight: var(--weight-medium);
 }
 
 
