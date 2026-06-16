@@ -392,27 +392,37 @@
 
 
 /* ─────────────────────────────────────────────────────────────
-   C.  NUESTRA HISTORIA — timeline ramificado (.timeline)
+   C.  NUESTRA HISTORIA — registro de laboratorio (.timeline)
    ─────────────────────────────────────────────────────────────
-   Árbol de tubos en --color-accent: un tronco central del que
-   brotan ramas tubulares alternadas (izq/der), cada una rematada
-   en un nodo-aro (aro grueso + interior papel) que sostiene el
-   año. Tronco y ramas se «dibujan» al hacer scroll; bajo
-   prefers-reduced-motion el estado final se ve sin animar.
+   E03 — REDISEÑO (componente de firma de la página). El árbol de
+   tubos ramificado se reemplaza por un REGISTRO DE LABORATORIO:
+   cada hito es una entrada de un libro mayor —el AÑO en mono
+   instrumental (dígitos tabulares) a la izquierda, el título y el
+   relato a la derecha— separada de la siguiente por un FILETE
+   HAIRLINE (--rule). Un EJE fino corre por el canto de la columna
+   del año; su tramo en cobalto se «dibuja» con el scroll (progreso
+   de lectura) y el nodo más cercano al centro del viewport se
+   enciende. El tipo lleva la jerarquía; la línea, la estructura.
+   Sin cajas ni sombras ambientales: tinta, filete y aire.
 
-   Geometría parametrizada en custom properties locales (--tl-*):
-   para reescalar el árbol se tocan sólo estas variables.
-   Nota: --tl-node ≈ 0.552 × --tl-band para que el tubo llegue
-   justo al borde superior del aro (centro del nodo en 71.5%).
+   MEJORA PROGRESIVA (no se toca el motor de loaders.js): sin
+   JavaScript o bajo prefers-reduced-motion el registro se ve
+   completo y quieto (eje al 100 %, cada entrada visible); con JS y
+   movimiento permitido, las entradas suben al entrar en viewport y
+   el eje se rellena. El brazo SVG y la soldadura que sigue emitiendo
+   el renderer quedan en el DOM pero OCULTOS: el cambio es puramente
+   de presentación.
+
+   Geometría en custom properties locales (--tl-*): reescalar el
+   registro = tocar sólo estas variables.
    ───────────────────────────────────────────────────────────── */
 
 .timeline {
-  --tl-tube: 10px;     /* grosor del tronco · ramas · aro            */
-  --tl-node: 116px;    /* diámetro exterior del nodo (aro incluido)  */
-  --tl-arm:  210px;    /* ancho de la banda de cada rama             */
-  --tl-band: 210px;    /* alto de la banda de cada rama              */
-  --tl-gap:  32px;     /* aire entre nodo y contenido                */
-  --tl-pull: 48px;     /* solape vertical entre bandas (zig-zag)     */
+  --tl-rail: 116px;             /* ancho de la columna del año hasta el eje */
+  --tl-gap:  var(--space-6);    /* aire del eje al contenido               */
+  --tl-spine: 2px;              /* grosor del eje                          */
+  --tl-dot:  13px;              /* diámetro del nodo sobre el eje          */
+  --tl-pad-y: var(--space-8);   /* respiración vertical de cada entrada    */
 
   position: relative;
   list-style: none;
@@ -426,33 +436,22 @@
   display: none;
 }
 
-/* Raíz del tronco: tubo grueso que «nace» bajo el título de
-   sección y empalma con el eje. Es un hermano previo al <ol>. */
+/* El tronco/raíz decorativo del árbol anterior ya no aplica: el eje
+   fino lo sustituye. Decorativo y aria-hidden → se oculta sin más. */
 .timeline-root {
-  position: relative;
-  height: 56px;
-  margin-top: var(--space-2);
+  display: none;
 }
 
-.timeline-root::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  width: 10px;                          /* = --tl-tube del eje */
-  transform: translateX(-50%);
-  background: var(--color-accent);
-  border-radius: var(--radius-md) var(--radius-md) 0 0;
-}
-
-/* Tronco central: pista atenuada + relleno que JS «dibuja». */
+/* ── Eje: la «columna» del libro mayor ───────────────────────
+   Pista atenuada de canto a canto; el relleno cobalto lo escribe el
+   motor (loaders.js setupTimelineMotion) como progreso de lectura.
+   Se asienta sobre el canto interior de la columna del año. */
 .timeline__axis {
   position: absolute;
-  left: 50%;
+  left: var(--tl-rail);
   top: 0;
   bottom: 0;
-  width: var(--tl-tube);
+  width: var(--tl-spine);
   transform: translateX(-50%);
   pointer-events: none;
 }
@@ -475,134 +474,131 @@
 }
 
 /* ── Entrada / hito ──────────────────────────────────────────
-   Reemplaza el grid de dos columnas del timeline base por una
-   banda flex de media página que alterna lado. */
-.timeline__entry {
-  position: relative;
-  display: flex;
-  align-items: flex-start;
-  width: 50%;
-  min-height: var(--tl-band);
-  /* solape → zig-zag denso */
-  margin: 0 0 calc(-1 * var(--tl-pull));
-  gap: 0;
-}
-
-.timeline__entry:last-child {
-  margin-bottom: 0;
-}
-
+   Anula la banda flex zig-zag del diseño anterior: fila única de
+   libro mayor, filete hairline arriba, contenido a la derecha del
+   eje. Ambos modificadores de lado (--left/--right) colapsan en la
+   misma fila izquierda. */
+.timeline__entry,
+.timeline__entry--left,
 .timeline__entry--right {
-  margin-left: 50%;
-  flex-direction: row;
-  text-align: left;
-}
-
-.timeline__entry--left {
-  margin-left: 0;
-  flex-direction: row-reverse;
-  text-align: right;
-}
-
-/* ── Rama (tubo + nodo) ──────────────────────────────────────
-   La rama izquierda se refleja en X para que el tubo brote hacia
-   el mismo lado que su columna (el texto se des-refleja aparte). */
-.timeline__branch {
   position: relative;
-  flex: 0 0 var(--tl-arm);
-  width: var(--tl-arm);
-  height: var(--tl-band);
+  display: block;
+  width: auto;
+  min-height: 0;
+  margin: 0;
+  text-align: left;
+  padding-block: var(--tl-pad-y);
+  padding-left: calc(var(--tl-rail) + var(--tl-gap));
+  border-top: var(--rule);
+}
+
+/* El primer hito no necesita filete propio: lo precede el aire del
+   título de sección. */
+.timeline__entry:first-of-type {
+  border-top: 0;
+  padding-top: var(--space-2);
+}
+
+/* ── Nodo sobre el eje ───────────────────────────────────────
+   Aro fino en cobalto con interior papel; un cerco del color de
+   superficie enmascara el eje que pasa por detrás. El `font-size`
+   local hace que el offset vertical (0.5em) siga el tamaño del año
+   en cada breakpoint, alineando el nodo con su centro óptico. */
+.timeline__entry::before {
+  content: "";
+  position: absolute;
+  left: var(--tl-rail);
+  top: calc(var(--tl-pad-y) + 0.5em);
+  width: var(--tl-dot);
+  height: var(--tl-dot);
+  font-size: var(--text-kpi);
+  border-radius: 50%;
+  background: var(--color-surface);
+  border: var(--tl-spine) solid var(--color-accent);
+  box-shadow: 0 0 0 4px var(--color-surface);
+  transform: translate(-50%, -50%);
+  z-index: var(--z-raised);
+  transition: background var(--transition-fast),
+              box-shadow var(--transition-fast),
+              border-color var(--transition-fast);
+}
+
+.timeline__entry:first-of-type::before {
+  top: calc(var(--space-2) + 0.5em);
+}
+
+/* ── Columna del año ─────────────────────────────────────────
+   La rama del diseño anterior (brazo SVG + soldadura + nodo-aro) se
+   reduce a la caja del AÑO, fijada en la columna izquierda. El brazo
+   y la soldadura se ocultan; el reflejo en X de la rama izquierda se
+   anula. */
+.timeline__branch {
+  position: absolute;
+  left: 0;
+  top: var(--tl-pad-y);
+  width: calc(var(--tl-rail) - var(--tl-gap));
+  height: auto;
+  flex: none;
+  display: block;
+  text-align: right;
+  transform: none;
+}
+
+.timeline__entry:first-of-type .timeline__branch {
+  top: var(--space-2);
 }
 
 .timeline__entry--left .timeline__branch {
-  transform: scaleX(-1);
+  transform: none;
 }
 
-.timeline__arm {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-
-.timeline__arm path {
-  fill: none;
-  stroke: var(--color-accent);
-  stroke-width: var(--tl-tube);
-  stroke-linecap: round;
-  vector-effect: non-scaling-stroke;
-  transition: stroke var(--transition-normal);
-}
-
-/* Soldadura tubo ↔ tronco (enmascara la unión). */
+.timeline__arm,
 .timeline__junction {
-  position: absolute;
-  left: 0;
-  top: 89.5%;
-  width: var(--tl-tube);
-  height: var(--tl-tube);
-  border-radius: 50%;
-  background: var(--color-accent);
-  transform: translate(-50%, -50%);
+  display: none;
 }
 
-/* Nodo = aro grueso + interior papel, centrado al final del tubo.
-   Redefine por completo el marker circular pequeño del base. */
+/* El marcador deja de ser un aro: es la caja tipográfica del año. */
 .timeline__marker {
-  position: absolute;
-  left: 71.5%;
-  top: 71.5%;
-  margin-left: calc(var(--tl-node) / -2);
-  margin-top: calc(var(--tl-node) / -2);
-  width: var(--tl-node);
-  height: var(--tl-node);
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: var(--color-surface-raised);
-  border: var(--tl-tube) solid var(--color-accent);
-  box-shadow:
-    inset 0 0 0 1.5px var(--color-border-soft),
-    0 6px 18px -8px color-mix(in srgb, var(--color-accent) 35%, transparent);
-  z-index: var(--z-raised);
-  transition: box-shadow var(--transition-normal),
-              border-color var(--transition-fast),
-              transform var(--transition-normal);
+  position: static;
+  display: block;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  z-index: auto;
+  text-align: right;
+  transform: none;
 }
 
-/* Año: mono en acento, centrado en el aro. */
+/* Año: monoespaciada instrumental, dígitos tabulares, cobalto. Es el
+   elemento type-led de cada entrada. */
 .timeline__year {
   font-family: var(--font-mono);
-  font-size: var(--text-h3);
-  font-weight: var(--weight-medium);
-  letter-spacing: var(--tracking-wide);
+  font-size: var(--text-kpi);           /* 28 → 33 px mono */
+  font-weight: var(--weight-regular);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--tracking-tight);
   line-height: 1;
   color: var(--color-accent);
   transition: color var(--transition-fast);
 }
 
-/* Des-refleja el texto del año en ramas izquierdas. */
 .timeline__entry--left .timeline__year {
-  transform: scaleX(-1);
+  transform: none;
 }
 
-/* ── Contenido (título + descripción), afuera del aro ───────── */
-.timeline__content {
-  flex: 1 1 auto;
+/* ── Contenido (título + relato), a la derecha del eje ───────── */
+.timeline__content,
+.timeline__entry--right .timeline__content,
+.timeline__entry--left .timeline__content {
+  flex: none;
   min-width: 0;
   display: block;
-  /* alinea con el centro vertical del nodo */
-  padding-top: calc(var(--tl-band) * 0.5);
-  gap: 0;
-}
-
-.timeline__entry--right .timeline__content {
-  padding-left: var(--tl-gap);
-}
-
-.timeline__entry--left .timeline__content {
-  padding-right: var(--tl-gap);
+  padding: 0;
 }
 
 .timeline__title {
@@ -618,7 +614,7 @@
 
 .timeline__desc {
   font-family: var(--font-body);
-  font-size: var(--text-small);
+  font-size: var(--text-body);
   line-height: var(--leading-relaxed);
   color: var(--color-text-soft);
   margin: 0;
@@ -626,64 +622,48 @@
 }
 
 .timeline__entry--left .timeline__desc {
-  margin-left: auto;
+  margin-left: 0;
 }
 
-/* ── Hover: la rama «respira» en el acento de apoyo ─────────── */
+/* ── Estado activo + hover: el nodo se rellena, el año respira ── */
+.timeline__entry.is-active::before {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 4px var(--color-surface),
+              0 0 0 6px color-mix(in srgb, var(--color-accent) 16%, transparent);
+}
+
+.timeline__entry.is-active .timeline__year {
+  color: var(--color-accent-soft);
+}
+
 @media (hover: hover) {
-  .timeline__entry:not(.timeline__entry--ghost):hover .timeline__marker {
-    border-color: var(--color-accent-soft);
-    box-shadow:
-      inset 0 0 0 1.5px var(--color-border-soft),
-      0 0 0 8px color-mix(in srgb, var(--color-accent-soft) 12%, transparent),
-      0 10px 24px -10px color-mix(in srgb, var(--color-accent) 40%, transparent);
-    transform: translateY(-3px);
-  }
-  .timeline__entry:not(.timeline__entry--ghost):hover .timeline__year {
-    color: var(--color-accent-soft);
-  }
-  .timeline__entry:not(.timeline__entry--ghost):hover .timeline__arm path {
-    stroke: var(--color-accent-soft);
+  .timeline__entry:not(.timeline__entry--ghost):hover::before {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 4px var(--color-surface),
+                0 0 0 6px color-mix(in srgb, var(--color-accent) 16%, transparent);
   }
   .timeline__entry:not(.timeline__entry--ghost):hover .timeline__title {
     color: var(--color-accent);
   }
+  .timeline__entry:not(.timeline__entry--ghost):hover .timeline__year {
+    color: var(--color-accent-soft);
+  }
 }
 
-/* ── Rama activa: el nodo más cercano al centro del viewport ── */
-.timeline__entry.is-active .timeline__marker {
-  border-color: var(--color-accent-soft);
-  box-shadow:
-    inset 0 0 0 1.5px var(--color-border-soft),
-    0 0 0 9px color-mix(in srgb, var(--color-accent-soft) 14%, transparent),
-    0 10px 24px -10px color-mix(in srgb, var(--color-accent) 40%, transparent);
-}
-.timeline__entry.is-active .timeline__year {
-  color: var(--color-accent-soft);
-}
-.timeline__entry.is-active .timeline__arm path {
-  stroke: var(--color-accent-soft);
-}
-
-/* ── Entrada ghost — «Próximamente»: tubo punteado atenuado ─── */
-.timeline__entry--ghost .timeline__arm path {
-  stroke: var(--color-border);
-  stroke-width: calc(var(--tl-tube) - 4px);
-  stroke-dasharray: 2 12 !important;
-  stroke-dashoffset: 0 !important;
-}
-.timeline__entry--ghost .timeline__junction {
-  background: var(--color-border);
-}
-.timeline__entry--ghost .timeline__marker {
-  border-width: 3px;
+/* ── Entrada ghost «Próximamente»: nodo punteado + glifo atenuado ── */
+.timeline__entry--ghost::before {
+  background: var(--color-surface);
   border-style: dashed;
   border-color: var(--color-border);
-  background: transparent;
-  box-shadow: none;
+  box-shadow: 0 0 0 4px var(--color-surface);
 }
+
+/* El glifo de tres puntos sustituye al año en la columna. */
 .timeline__ghost-glyph {
   display: flex;
+  justify-content: flex-end;
   gap: 5px;
 }
 .timeline__ghost-glyph span {
@@ -701,106 +681,59 @@
 }
 .timeline__entry--ghost .timeline__desc {
   color: var(--color-text-disabled);
-  /* La itálica queda reservada al título ghost (display); anula la
-     itálica que el timeline base aplica a la descripción ghost. */
   font-style: normal;
 }
 
 /* ── Animación de entrada (sólo sin reduce-motion) ───────────
-   Estado base = visible: sin JS o con reduce-motion todo se ve,
-   nada se mueve. El hook .timeline--anim lo añade el JS sólo
-   cuando va a animar. */
+   Estado base = visible: sin JS o con reduce-motion todo se ve, nada
+   se mueve. El hook .timeline--anim lo añade el motor sólo cuando va
+   a animar; el eje lo rellena el scroll y cada entrada sube al entrar
+   en viewport. */
 @media (prefers-reduced-motion: no-preference) {
   .timeline--anim .timeline__entry {
     opacity: 0;
-    transform: translateY(22px);
+    transform: translateY(16px);
   }
   .timeline--anim .timeline__entry.is-visible {
     opacity: 1;
     transform: none;
-    transition: opacity .55s var(--ease-out),
-                transform .55s var(--ease-out);
-  }
-  /* La rama se «dibuja»: dashoffset → 0 (la longitud la fija JS). */
-  .timeline--anim .timeline__arm path {
-    transition: stroke-dashoffset .9s var(--ease-out),
-                stroke var(--transition-normal);
-  }
-  /* El nodo «aterriza» ya crecida la rama. P04: el asentamiento usa
-     --ease-spring (resorte críticamente amortiguado, SIN overshoot)
-     en lugar del antiguo cubic-bezier(.34,1.56,.64,1), que rebotaba
-     —prohibido por la regla de no-rebote del sistema de movimiento. */
-  .timeline--anim .timeline__marker {
-    transform: scale(.55);
-    opacity: 0;
-  }
-  .timeline--anim .timeline__entry.is-visible .timeline__marker {
-    transform: scale(1);
-    opacity: 1;
-    transition: transform .6s var(--ease-spring) .4s,
-                opacity .4s var(--ease-out) .4s,
-                box-shadow var(--transition-normal),
-                border-color var(--transition-fast);
-  }
-  .timeline--anim .timeline__junction {
-    transform: translate(-50%, -50%) scale(0);
-  }
-  .timeline--anim .timeline__entry.is-visible .timeline__junction {
-    transform: translate(-50%, -50%) scale(1);
-    transition: transform .4s var(--ease-out) .1s;
+    transition: opacity .5s var(--ease-out),
+                transform .5s var(--ease-out);
   }
 }
 
-/* ── Responsive < 880px: columna única (tronco izq., nodos der.) ──
-   AJUSTE P02 (auditoría responsive). El offset del eje se expone como
-   variable local (--tl-rail) para que el ancho de la entrada lo
-   descuente exactamente: con `width: 100%` + `margin-left: 32px` la
-   entrada desbordaba su contenedor en 32 px → ≈12 px de scroll
-   horizontal en 360 px (viola §5 horizontal-scroll). Además, a 360 px
-   el brazo de 120 px dejaba la columna de texto en ≈20 caracteres por
-   línea (bajo el mínimo de §5 line-length 35–60): el brazo y el nodo
-   se compactan para devolverle medida de lectura al contenido. */
-@media (max-width: 880px) {
+/* ── Responsive ≤ 640px: el año pasa a rótulo sobre el título ──
+   En móvil la columna del año robaría medida de lectura; el eje se
+   arrima al borde, el año se vuelve un rótulo mono compacto encima
+   del título y el contenido recupera ancho (≈ 38 caracteres por
+   línea en 375 px, dentro del rango de §5 line-length). */
+@media (max-width: 640px) {
   .timeline {
-    --tl-rail: 32px;     /* offset del eje respecto del borde izquierdo */
-    --tl-node: 68px;
-    --tl-arm:  92px;
-    --tl-band: 120px;
-    --tl-gap:  16px;
-    --tl-pull: 24px;
-    padding-left: 4px;
+    --tl-rail: 22px;
+    --tl-gap: var(--space-4);
+    --tl-dot: 11px;
+    --tl-pad-y: var(--space-6);
   }
-  .timeline__axis {
-    left: var(--tl-rail);
+  .timeline__entry::before,
+  .timeline__entry:first-of-type::before {
+    font-size: var(--text-h3);
   }
-  .timeline-root {
-    margin-top: var(--space-5);
+  .timeline__branch,
+  .timeline__entry:first-of-type .timeline__branch {
+    position: static;
+    top: auto;
+    width: auto;
+    text-align: left;
+    margin-bottom: var(--space-2);
   }
-  .timeline-root::before {
-    left: var(--tl-rail);
-  }
-  /* width descuenta el offset del eje → la banda nunca excede su
-     contenedor (sin scroll horizontal en 360 px). */
-  .timeline__entry,
-  .timeline__entry--left,
-  .timeline__entry--right {
-    width: calc(100% - var(--tl-rail));
-    margin-left: var(--tl-rail);
-    flex-direction: row;
+  .timeline__marker {
     text-align: left;
   }
-  .timeline__entry--left .timeline__branch {
-    transform: none;
+  .timeline__year {
+    font-size: var(--text-h3);
   }
-  .timeline__entry--left .timeline__year {
-    transform: none;
-  }
-  .timeline__entry--left .timeline__content {
-    padding-right: 0;
-    padding-left: var(--tl-gap);
-  }
-  .timeline__entry--left .timeline__desc {
-    margin-left: 0;
+  .timeline__ghost-glyph {
+    justify-content: flex-start;
   }
 }
 
@@ -865,4 +798,96 @@
   .card--valor:hover {
     border-color: var(--color-accent);
   }
+}
+
+
+/* ═════════════════════════════════════════════════════════════
+   F.  PESTAÑAS «ASOCIACIÓN / GALERÍA» (.about-tabs) — E03
+   ─────────────────────────────────────────────────────────────
+   Conmutador EN PÁGINA de los dos paneles enrutados por hash
+   (#asociacion · #galeria). Son enlaces de ancla: al activarse
+   cambian el hash y el motor de paneles (sobre-achetiq.js) muestra
+   el panel correspondiente — el enrutado no se toca. El estado
+   activo lo marca sobre-achetiq.js con aria-current="page". Lengua
+   editorial: filete base hairline + indicador cobalto bajo la
+   pestaña activa (color + peso + subrayado, nunca color solo →
+   accesible sin depender del color).
+   ───────────────────────────────────────────────────────────── */
+
+.about-tabs {
+  display: flex;
+  gap: var(--space-8);
+  margin-bottom: var(--space-10);
+  border-bottom: var(--rule);
+}
+
+.about-tabs__tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  /* Área táctil cómoda (≥ 44 px de alto con el line-height del rol). */
+  padding: var(--space-3) 0;
+  font-family: var(--font-body);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-snug);
+  color: var(--color-text-faint);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+/* Indicador: filete cobalto al ras del borde inferior del strip. Se
+   revela con scaleX para no animar el layout. */
+.about-tabs__tab::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;                         /* cubre el filete base */
+  height: 2px;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--transition-fast);
+}
+
+@media (hover: hover) {
+  .about-tabs__tab:hover {
+    color: var(--color-text);
+  }
+  .about-tabs__tab:hover::after {
+    transform: scaleX(1);
+  }
+}
+
+.about-tabs__tab[aria-current="page"] {
+  color: var(--color-accent);
+  font-weight: var(--weight-medium);
+}
+
+.about-tabs__tab[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+
+/* ═════════════════════════════════════════════════════════════
+   G.  CABECERA Y RITMO EDITORIAL (page-scoped) — E03
+   ─────────────────────────────────────────────────────────────
+   Esta hoja sólo la enlaza pages/sobre-achetiq.html, de modo que
+   estos ajustes a componentes compartidos quedan acotados a la
+   página, sin tocar el bundle ni reescribir su medida (la prosa
+   recibe .prose en el HTML).
+   ───────────────────────────────────────────────────────────── */
+
+/* La cabecera cede su separación inferior a la tira de pestañas, que
+   funciona como sub-navegación del masthead. */
+.page-header {
+  margin-bottom: var(--space-6);
+}
+
+/* Roster de la comisión directiva: la lista de tarjetas .card-integrante
+   (refinadas en cards.css) respira como una nómina editorial; el grid
+   compartido --4 ya colapsa por contenedor en viewports angostos. */
+.about-panel [data-loader="directiva"] {
+  margin-top: var(--space-2);
 }

@@ -80,6 +80,20 @@
     </header>
 
     <!-- ════════════════════════════════════════════════════════
+         PESTAÑAS EN PÁGINA — Asociación · Galería
+         Sub-navegación editorial de los dos paneles. Son enlaces de
+         ancla a los hash que ya enruta assets/js/sobre-achetiq.js
+         (#asociacion · #galeria): no añaden lógica de enrutado, sólo
+         un punto de conmutación visible en la propia página (la otra
+         vía sigue siendo el desplegable «Sobre AChETIQ» del navbar).
+         El estado activo lo marca el JS con aria-current="page".
+         ════════════════════════════════════════════════════════ -->
+    <nav class="about-tabs" aria-label="Secciones de Sobre AChETIQ">
+      <a class="about-tabs__tab" href="#asociacion" data-about-tab="asociacion">Asociación</a>
+      <a class="about-tabs__tab" href="#galeria" data-about-tab="galeria">Galería</a>
+    </nav>
+
+    <!-- ════════════════════════════════════════════════════════
          PANEL «ASOCIACIÓN» — vista por defecto
          Reúne el contenido institucional original de la página:
          historia, misión/visión, valores, instituciones, documentos
@@ -103,13 +117,12 @@
          definido (no se inventa aquí).
          ════════════════════════════════════════════════════════ -->
     <section aria-labelledby="historia-title">
-      <header class="section-title">
-        <p class="eyebrow">Trayectoria</p>
+      <header class="section-title section-title--display">
         <h2 id="historia-title">Nuestra <em>historia</em></h2>
       </header>
-      <!-- Raíz del tronco: de aquí «nace» el árbol de la línea de
-           tiempo. Decorativo; el eje y los nodos los renderiza
-           assets/js/loaders.js dentro del <ol>. -->
+      <!-- Legado del árbol ramificado (E-previo): en el registro
+           editorial E03 queda oculto (sobre-asociacion.css §C); el eje
+           fino y los nodos los renderiza loaders.js dentro del <ol>. -->
       <div class="timeline-root" aria-hidden="true"></div>
       <ol class="timeline" data-loader="historia">
         <!-- Fallback sin JavaScript · resumen de data/historia.json
@@ -118,7 +131,7 @@
         <noscript>
           <li class="timeline__fallback">
             <p class="timeline__year">2003 – 2026</p>
-            <p class="timeline__desc">Dos décadas de trayectoria, de los primeros pasos ante la FeNEIQ (2003) y la fundación formal de AChETIQ (2009) a las sedes del XIX y XXVII CoNEIQ en Resistencia (2014 y 2024) y las IV JoREIQ (2026).</p>
+            <p class="timeline__desc prose">Dos décadas de trayectoria, de los primeros pasos ante la FeNEIQ (2003) y la fundación formal de AChETIQ (2009) a las sedes del XIX y XXVII CoNEIQ en Resistencia (2014 y 2024) y las IV JoREIQ (2026).</p>
           </li>
         </noscript>
       </ol>
@@ -140,7 +153,7 @@
            No se duplica el texto en el markup para no romper la
            fuente única (mismo criterio que historia/documentos).
          ════════════════════════════════════════════════════════ -->
-    <section class="mission-vision" aria-label="Misión y visión de AChETIQ"
+    <section class="mission-vision section-ruled" aria-label="Misión y visión de AChETIQ"
              data-copy="mision-vision">
       <!-- Fallback sin JavaScript · espejo fiel de data/site_copy.json
            (clave `mision_vision`). Garantiza contenido para crawlers y
@@ -159,7 +172,7 @@
             </svg>
           </span>
           <h3 class="mission-vision__title">Misión</h3>
-          <p class="mission-vision__prose">Mejorar de manera continua la formación académica y la integración de los estudiantes de Ingeniería Química de la Universidad Tecnológica Nacional, Facultad Regional Resistencia, y promover en ellos los valores de la Asociación, con el propósito de proyectar una influencia positiva en la comunidad en la que se inserta. Para alcanzar este fin, la Asociación desarrolla actividades de carácter académico, recreativo y solidario.</p>
+          <p class="mission-vision__prose prose">Mejorar de manera continua la formación académica y la integración de los estudiantes de Ingeniería Química de la Universidad Tecnológica Nacional, Facultad Regional Resistencia, y promover en ellos los valores de la Asociación, con el propósito de proyectar una influencia positiva en la comunidad en la que se inserta. Para alcanzar este fin, la Asociación desarrolla actividades de carácter académico, recreativo y solidario.</p>
         </article>
         <article class="mission-vision__col">
           <span class="mission-vision__icon-box">
@@ -176,7 +189,7 @@
             </svg>
           </span>
           <h3 class="mission-vision__title">Visión</h3>
-          <p class="mission-vision__prose">Constituirse en una asociación cuyos valores identifiquen a los estudiantes de Ingeniería Química, que sirva de referencia para las asociaciones afines y que goce de respeto y reconocimiento en el ámbito institucional y empresarial de la disciplina.</p>
+          <p class="mission-vision__prose prose">Constituirse en una asociación cuyos valores identifiquen a los estudiantes de Ingeniería Química, que sirva de referencia para las asociaciones afines y que goce de respeto y reconocimiento en el ámbito institucional y empresarial de la disciplina.</p>
         </article>
       </noscript>
     </section>
@@ -198,8 +211,8 @@
            integracion → link-2 · conciencia-ambiental → sprout ·
            solidaridad → heart-handshake.
          ════════════════════════════════════════════════════════ -->
-    <section aria-labelledby="valores-title">
-      <header class="section-title">
+    <section class="section-ruled" aria-labelledby="valores-title">
+      <header class="section-title section-title--display">
         <h2 id="valores-title">Valores <em>institucionales</em></h2>
       </header>
 
@@ -292,15 +305,31 @@
     </section>
 
     <!-- ════════════════════════════════════════════════════════
+         COMISIÓN DIRECTIVA
+         Nómina vigente servida desde data/directiva.json (renderer en
+         assets/js/loaders.js §4.3, tarjetas .card-integrante). El motor
+         genérico de main.js deriva el JSON del atributo data-loader y
+         puebla el contenedor; sin foto, cada tarjeta cae al monograma
+         de iniciales. La misma nómina ABRE la página de Gabinetes (cómo
+         se organiza la asociación); aquí CIERRA el retrato institucional
+         (quiénes la conducen), desde una sola fuente de verdad.
+         ════════════════════════════════════════════════════════ -->
+    <section class="section-ruled" aria-labelledby="directiva-title">
+      <header class="section-title section-title--display">
+        <h2 id="directiva-title">Comisión <em>directiva</em></h2>
+      </header>
+      <div data-loader="directiva"></div>
+    </section>
+
+    <!-- ════════════════════════════════════════════════════════
          [7] INSTITUCIONES VINCULADAS
          Wireframe §2 bloque [7] · catálogo §4.8 .card-institucion.
          Renderizado dinámico desde data/instituciones.json
          (renderer en assets/js/loaders.js §4.6). Logos transparentes
          disponibles en assets/img/institucional/.
          ════════════════════════════════════════════════════════ -->
-    <section aria-labelledby="instituciones-title">
-      <header class="section-title">
-        <p class="eyebrow">Marco de pertenencia</p>
+    <section class="section-ruled" aria-labelledby="instituciones-title">
+      <header class="section-title section-title--display">
         <h2 id="instituciones-title">Instituciones <em>vinculadas</em></h2>
       </header>
       <div data-loader="instituciones"></div>
@@ -314,9 +343,8 @@
          expone título, descripción, metadato tipo/tamaño y botón
          de descarga al PDF.
          ════════════════════════════════════════════════════════ -->
-    <section aria-labelledby="documentos-title">
-      <header class="section-title">
-        <p class="eyebrow">Marco normativo</p>
+    <section class="section-ruled" aria-labelledby="documentos-title">
+      <header class="section-title section-title--display">
         <h2 id="documentos-title">Documentos <em>institucionales</em></h2>
       </header>
       <div data-loader="documentos"></div>
@@ -330,7 +358,6 @@
          gabinetes.
          ════════════════════════════════════════════════════════ -->
     <section class="cta-final" aria-labelledby="cta-sumate-title">
-      <p class="eyebrow">Formá parte</p>
       <h2 class="cta-final__title" id="cta-sumate-title">Sumate a AChETIQ</h2>
       <p class="cta-final__lead">
         Participá en los gabinetes de trabajo, accedé a recursos académicos y conectá con otros estudiantes de Ingeniería Química.
@@ -355,11 +382,10 @@
          ════════════════════════════════════════════════════════ -->
     <div id="panel-galeria" class="about-panel" data-about-panel="galeria" hidden>
 
-      <header class="section-title">
-        <p class="eyebrow">Archivo histórico</p>
+      <header class="section-title section-title--display">
         <h2 id="galeria-title">Galería de <em>actividades</em></h2>
       </header>
-      <p class="gallery-archive__lead">
+      <p class="gallery-archive__lead prose">
         Carpetas compartidas de Google Drive con fotografías y material de cada actividad, ordenadas de la más reciente a la más antigua. Cada enlace abre en una pestaña nueva.
       </p>
 
