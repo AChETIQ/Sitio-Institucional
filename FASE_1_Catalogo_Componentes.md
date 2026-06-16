@@ -1181,21 +1181,20 @@ Umbrales de contenedor canónicos (referencia en `tokens.css` §UMBRALES DE CONT
 </ol>
 ```
 
-**Especificación visual (E03 — "registro de laboratorio").** El árbol de tubos ramificado (E-previo) se reemplazó por un REGISTRO EDITORIAL type-led, refinado en `assets/css/sobre-asociacion.css` §C sobre el mismo markup (el renderer NO cambia):
+**Especificación visual (E03 — árbol ramificado editorial).** Se conserva la ESTRUCTURA del árbol ramificado (tronco central + ramas con curva Bézier alternadas izq/der + nodos-aro circulares con el año); el ACABADO se lleva al estándar editorial E03, refinado en `assets/css/sobre-asociacion.css` §C sobre el mismo markup (el renderer NO cambia):
 
-- **Composición:** fila única de libro mayor. A la izquierda, el AÑO en `Geist Mono`, dígitos tabulares (`font-variant-numeric: tabular-nums`), `--text-kpi`, color `--color-accent` — el elemento type-led de cada hito. A la derecha, título (`<h3>` body `--text-h3` medium) y relato (`.timeline__desc` body, `--measure-narrow`).
-- **Filete hairline (`--rule`)** separa cada entrada (`border-top`); el primer hito no lo lleva (lo precede el aire del título de sección).
-- **Eje (`.timeline__axis`):** línea fina (`--tl-spine` 2 px) por el canto de la columna del año. Pista atenuada (`--color-border`) + relleno cobalto (`.timeline__axis-fill`) cuya altura escribe el motor con el scroll = progreso de lectura.
-- **Nodo:** aro fino cobalto con interior papel sobre el eje (`.timeline__entry::before`); un cerco del color de superficie enmascara el eje detrás. La entrada activa (la más cercana al centro del viewport) y el hover lo rellenan.
-- **Entrada ghost (`--ghost`):** nodo punteado + glifo de tres puntos en la columna; título "Próximamente" en `Fraunces` itálica `--color-text-disabled`.
-- **Responsive ≤ 640 px:** el año pasa a rótulo mono sobre el título (el eje se arrima al borde) para devolver medida de lectura (≈ 38 caracteres/línea en 375 px).
-- El brazo SVG (`.timeline__arm`) y la soldadura (`.timeline__junction`) del diseño anterior siguen en el DOM pero `display: none`: el cambio es puramente de presentación.
+- **Trazo fino.** El «tubo» de 10 px se afina a una línea de `--tl-tube` **2 px** (tronco, ramas y borde del aro) que **armoniza con el sistema de filetes** (`--rule` 1 px / `--rule-ink` 1.5 px). La rama usa `vector-effect: non-scaling-stroke` para conservar el grosor a cualquier escala.
+- **Paleta cobalto.** Tronco, ramas, soldadura y aro en `--color-accent`; hover y rama activa pasan a `--color-accent-soft`. El relleno del tronco (`.timeline__axis-fill`) es cobalto y su altura la escribe el scroll = progreso.
+- **Nodo-aro plano en reposo.** Aro fino (`border: var(--tl-tube)`) con interior papel (`--color-surface-raised`) y un filete interior (`inset 0 0 0 1.5px`); **sin sombra ambiental** — el halo cobalto se reserva a hover/activo (contrato de elevación plana del sistema).
+- **Año en el aro:** `Geist Mono`, dígitos tabulares (`font-variant-numeric: tabular-nums`), `--text-h3`, color `--color-accent`.
+- **Entrada ghost (`--ghost`):** rama punteada y aro dashed en `--color-border` con glifo de tres puntos; título "Próximamente" en `Fraunces` itálica `--color-text-disabled`.
+- **Responsive < 880 px:** columna única (tronco a la izquierda, nodos a la derecha); brazo, banda y nodo se compactan vía `--tl-*` para no generar scroll horizontal ni perder medida de lectura.
 
-**Carga dinámica.** Poblada vía `data-loader="historia"` desde `data/historia.json` (`renderHistoria`): ordena los hitos por año, alterna el atributo de lado (heredado, ya neutralizado por CSS) y AGREGA la entrada ghost "Próximamente" automáticamente. El motor (`main.js`), el renderer y el JSON NO se modifican en E03.
+**Carga dinámica.** Poblada vía `data-loader="historia"` desde `data/historia.json` (`renderHistoria`): ordena los hitos por año, alterna el lado por índice y AGREGA la entrada ghost "Próximamente" automáticamente. El motor (`main.js`), el renderer y el JSON NO se modifican en E03 (el cambio es puramente de presentación CSS).
 
 **Movimiento y mejora progresiva.** El revelado lo gobierna `setupTimelineMotion` (IntersectionObserver para la entrada de cada hito + scroll para el relleno del eje y el nodo activo). Estado base = visible: **sin JavaScript** el `<ol>` muestra su `<noscript>` (resumen 2003–2026, con `.prose`) y **bajo `prefers-reduced-motion`** las entradas se ven completas, el eje al 100 % y nada se mueve (las transiciones viven sólo en `@media (prefers-reduced-motion: no-preference)`).
 
-**Accesibilidad.** Lista ordenada `<ol>` para la secuencia cronológica. La columna del año/aro es `aria-hidden` (decorativa); el contenido textual (título + relato) porta el significado. Foco visible heredado de `focus.css`. Contraste: año cobalto 7.9:1, relato `--color-text-soft` 8.2:1 (AAA).
+**Accesibilidad.** Lista ordenada `<ol>` para la secuencia cronológica. La rama (`.timeline__branch`: brazo SVG + aro + año) es `aria-hidden` (decorativa); el contenido textual (título + relato) porta el significado. Foco visible heredado de `focus.css`. Contraste: año cobalto 7.9:1, relato `--color-text-soft` 8.2:1 (AAA).
 
 **Estado de datos.** `data/historia.json` contiene 14 hitos cubriendo 2003–2026 (verificado 2026-05-20). La entrada ghost final no está en el JSON: la agrega el renderer.
 
