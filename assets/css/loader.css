@@ -53,7 +53,7 @@
   height: var(--space-3);
   background: var(--color-accent);
   border-radius: var(--radius-pill);
-  animation: loader-bounce 0.6s infinite ease-in-out;
+  animation: loader-bounce 0.6s infinite var(--ease-in-out);
 }
 
 /* Escalonado — 0.2 s de desfase entre puntos consecutivos.
@@ -116,7 +116,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .loader__dot {
-    animation: loader-fade 1.2s infinite ease-in-out;
+    animation: loader-fade 1.2s infinite var(--ease-in-out);
   }
 }
 

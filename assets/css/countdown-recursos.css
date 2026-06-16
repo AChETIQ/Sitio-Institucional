@@ -237,7 +237,7 @@
   font-size: calc(var(--text-digits) * 0.7);   /* subordinado a los dígitos */
   font-weight: var(--weight-regular);
   color: color-mix(in oklab, var(--color-text-faint) 55%, transparent);
-  animation: countdown-pulse 1.6s ease-in-out infinite;
+  animation: countdown-pulse 1.6s var(--ease-in-out) infinite;
 }
 
 @keyframes countdown-pulse {
@@ -272,7 +272,9 @@
 
 [data-countdown-revealed] {
   width: 100%;
-  animation: countdown-reveal var(--transition-slow) ease;
+  /* Duración cruda + curva (no el compuesto --transition-slow: en
+     `animation` dos timing-functions invalidan la declaración). */
+  animation: countdown-reveal var(--dur-slow) var(--ease-out);
 }
 
 @keyframes countdown-reveal {

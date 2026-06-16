@@ -155,7 +155,7 @@
 .skeleton {
   background: var(--color-border-soft);
   border-radius: var(--radius-md);
-  animation: skeleton-pulse 1.5s ease-in-out infinite;
+  animation: skeleton-pulse 1.5s var(--ease-in-out) infinite;
 }
 
 /* Modificadores opcionales de forma comunes. La página puede

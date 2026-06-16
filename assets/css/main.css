@@ -58,6 +58,11 @@
 @import url('forms.css');
 @import url('nav-secondary.css');
 @import url('states.css');
+@import url('motion.css');
+/* motion.css: movimiento transversal (entrada de contenido, scroll-
+   reveal escalonado, View Transitions entre documentos). Va tras los
+   componentes y states.css; sus clases utilitarias (.anim-enter,
+   .reveal-armed) y at-rules globales no compiten en especificidad. */
 @import url('figure.css');
 @import url('cta.css');
 @import url('countdown-recursos.css');

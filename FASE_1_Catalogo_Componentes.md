@@ -141,6 +141,61 @@ La sesión S4 (accesibilidad WCAG 2.2 AA) centralizó el tratamiento de foco. **
 
 **Verificación p03 (2026-06-15).** Pase de auditoría WCAG 2.2 AA dedicado. Se re-ejecutó axe-core sobre las 12 páginas HTML (estructura, ARIA, etiquetas, landmarks, orden de encabezados): **0 incidencias serias/críticas**. Se recalcularon los ratios de contraste de cada par texto/superficie introducido desde el rediseño (método WCAG 2.x sobre los hex sRGB, valores cerrados): los anteriores `8.1:1 / 8.6:1` citados para el anillo eran estimaciones; los **verificados** son `7.95:1 (surface)` y `8.39:1 (raised)` — la tabla y los comentarios de `focus.css`, `tokens.css`, `main.css` (`.skip-link`) y `nav-secondary.css` (pill activa) quedaron unificados a esos valores. Se añadió `scroll-padding-top` en el contenedor de scroll raíz (`html`) cubriendo **WCAG 2.2 §2.4.11 (Foco no oscurecido)**: antes `scroll-margin-top` solo protegía los `[id]` (anclas por hash); ahora todo control que recibe el foco por teclado cerca del borde superior se desplaza por debajo de la barra fija, tenga id o no.
 
+### 0.5 Sistema de movimiento — contrato P04 (2026-06-16)
+
+La fase P04 (movimiento) tokenizó el movimiento del sitio y lo elevó a sistema, en paralelo a la arquitectura de color y al contrato de elevación. La **única fuente de verdad** vive en `tokens.css §MOVIMIENTO`; ninguna hoja escribe curvas ni duraciones literales (las inline previas — `error-404.css`, `sobre-asociacion.css`, navbar — se migraron a tokens).
+
+**Principios.** *Qué se mueve y por qué:*
+
+- **Sólo `transform` / `opacity`** (más `filter` y `clip-path` puntuales: brillo de cubierta, revelado de imagen). Nunca propiedades de layout (`width`, `height`, `top`, márgenes): el movimiento no provoca reflow.
+- **Familia ease-out exponencial**: el movimiento arranca decidido y desacelera al asentarse. **Sin rebote ni elástico** (sin overshoot): nada pasa de largo su destino. Se eliminó el único `cubic-bezier(.34,1.56,.64,1)` con rebote (nodo del timeline), reemplazado por `--ease-spring`.
+- **Subordinación**: el botón se eleva la mitad que la tarjeta (`-1px` vs `--elevation-lift` `-2px`); el feedback de UI nunca supera ~500 ms.
+- **Significado antes que decoración**: el escalonado se reserva a listas (hermanos), no a «fundir cada sección» (ese reflejo es el *tell* de IA, no coreografía). El scroll-reveal se aplica con criterio (una grilla bajo el pliegue), nunca sobre el primer viewport.
+- **Mejora progresiva**: el estado base de todo revelado es **visible**. La clase «armada» (estado inicial oculto) la añade sólo el JS y sólo cuando va a animar; sin JS o con `prefers-reduced-motion` el contenido se ve completo y quieto.
+
+**Tokens — curvas:**
+
+| Token | Valor | Uso |
+|---|---|---|
+| `--ease-out` | `cubic-bezier(0.22, 1, 0.36, 1)` | Curva por defecto (ease-out-quint): hover, paneles, dropdowns, reveals. Valor conservado de la implementación previa. |
+| `--ease-in-out` | `cubic-bezier(0.65, 0, 0.35, 1)` | Cross-fade / lo que va y vuelve sin dirección dominante (slideshow del hero, pulsos). |
+| `--ease-emphasized` | `cubic-bezier(0.2, 0, 0, 1)` | Decelerate enfática (Material 3): entrada del 404, cross-fade raíz de las View Transitions. |
+| `--ease-spring` | `linear(…)` (fallback `--ease-emphasized`) | Asentamiento «tipo resorte» críticamente amortiguado, **sin overshoot**, para elementos que «aterrizan» (nodo del timeline). `linear()` con redeclaración autoritativa en `@supports`; una Bézier de 4 puntos no puede expresarlo. |
+
+**Tokens — rampa de duración** (coherente con los tres escalones históricos 150/250/400 ms, más los extremos):
+
+| Token | Valor | Uso |
+|---|---|---|
+| `--dur-instant` | 100 ms | Compresión de pulsado, toggles. |
+| `--dur-fast` | 150 ms | Hover, foco, cambios de color. |
+| `--dur-normal` | 250 ms | Paneles, dropdowns, cross-fade raíz de View Transition. |
+| `--dur-slow` | 400 ms | Acordeones, entrada de contenido. |
+| `--dur-slower` | 600 ms | Reveals de sección escalonados. |
+| `--dur-hero` | 1000 ms | Cross-fade del slideshow del hero. |
+
+**Tokens — compuestos y choreografía:** `--transition-fast/normal/slow` (= `--dur-* var(--ease-out)`) y `--transition-hero` (= `--dur-hero var(--ease-in-out)`) son los atajos que consumen los componentes (antes portaban la palabra clave `ease`). `--reveal-distance` (1.5 rem) es el recorrido del translate de entradas y reveals; `--stagger-step` (60 ms) el desfase por ítem vía la custom property `--index` (saturada en 8 desde el JS).
+
+**Especificaciones por componente:**
+
+| Componente | Disparo | Movimiento | Duración · curva |
+|---|---|---|---|
+| `.btn` | hover / active | lift `-1px` + `--shadow-xs`; press: compresión `+1px` (recorrido total 2 px) | `--transition-fast` |
+| `.card-gabinete`, `.gabinete-card`, `.card-institucion`, `.card-materia--drive`, `a.contact-card` | hover / focus-within | borde→acento + `--elevation-hover` + `translateY(--elevation-lift)` | borde `--transition-fast`; transform/sombra `--dur-fast var(--ease-out)` |
+| `.card-noticia__cover`, `.card-materia__cover` | hover de la tarjeta | `brightness(1.05)` + `scale(1.04)` dentro del `overflow:hidden` | `--dur-normal var(--ease-out)` |
+| `.nav-link--ghost/--outline` | hover / focus | indicador de subrayado en acento, `scaleX(0→1)` desde el centro | `--transition-fast` |
+| `.pill-nav__pill` | active / selección | compresión `scale(0.97)`; el estado activo transiciona fondo/borde/color | `--dur-instant` / `--transition-fast` |
+| `[data-loader]` → contenido | swap loader→render | cada ítem de grilla: `.anim-enter` fundido + `translateY(--reveal-distance)`, escalonado por `--index` | `--dur-slow var(--ease-out)` |
+| `.gabinete-card` (portada) | scroll-reveal (`[data-reveal]`) | revelado escalonado al entrar en viewport (IntersectionObserver, una vez) | `--dur-slower var(--ease-out)` |
+| `[data-scroll-reveal]` (figura) | scroll | revelado de imagen izq→der vía `clip-path inset` + opacidad ligado al progreso | continuo |
+| `.timeline` | scroll | tronco que se rellena, brazos que se «dibujan» (`stroke-dashoffset`), nodos que aterrizan (`--ease-spring`) | bespoke ≤900 ms |
+| `.hero__slide` | timer JS | cross-fade de fotografías | `--transition-hero` |
+| `.navbar__submenu`, panel, hamburguesa | hover / toggle | fundido + `translateY`/`translateX`, barras→cruz | `--dur-normal var(--ease-out)`, opacidad `--dur-fast` |
+| Documento ↔ documento | navegación MPA | View Transitions: navbar persistente (`view-transition-name: navbar`) + cross-fade raíz | `--dur-normal var(--ease-emphasized)` |
+
+**Contrato de movimiento reducido.** Se **preserva intacto** el reset global de `main.css §2` (`@media (prefers-reduced-motion: reduce)` neutraliza `animation`/`transition` para todo `*:not(.safe-motion)`) y la excepción `.safe-motion` (puntos del loader: el rebote pasa a pulso de opacidad). Las animaciones nuevas (`.anim-enter`, `.reveal-armed`) viven dentro de `@media (prefers-reduced-motion: no-preference)`: bajo movimiento reducido **no se aplican** y el contenido queda en su estado final visible, sin retención ni parpadeo. Las View Transitions se desactivan (`@view-transition { navigation: none }`) → navegación instantánea. Nada parpadea ni hace bucle infinito salvo los indicadores de carga existentes (puntos del loader, pulso del separador del countdown, flotar del fantasma del 404), todos ya cubiertos por el reset.
+
+**Verificación P04 (2026-06-16).** Inventario previo de toda animación/transición del sitio (archivo, disparo, duración, curva, comportamiento bajo movimiento reducido) reconciliado contra la implementación viva: ya existían tokens de duración (`--transition-*`) y un sistema de scroll-reveal de imagen (`scroll-reveal.js` + `states.css §10.3`). P04 los **elevó**: añadió la capa de curvas y la rampa de duración cruda, migró las curvas inline a tokens, eliminó el único rebote, e incorporó las microinteracciones, la entrada escalonada de contenido, el scroll-reveal de grupo y las View Transitions entre documentos. Se verificó cada página en modo normal y con movimiento reducido emulado; se confirmó que las animaciones corren sólo sobre `transform`/`opacity`/`filter`/`clip-path`.
+
 ---
 
 ## 1. Componentes globales

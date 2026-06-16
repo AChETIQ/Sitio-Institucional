@@ -169,6 +169,7 @@
    ───────────────────────────────────────────────────────────── */
 
 .nav-link {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: var(--space-1);
@@ -193,6 +194,34 @@
 .nav-link--ghost:focus-visible {
   background-color: var(--color-surface-raised);
   color: var(--color-accent);
+}
+
+/* Indicador de subrayado animado (P04). Una línea fina en acento
+   crece desde el centro bajo el texto al hover/focus: el afford de
+   navegación, no sólo un tinte de fondo. Mejora —no reemplaza— el
+   estado ghost/outline existente. Dirigida por transform (scaleX),
+   neutralizada por el reset global de movimiento. La variante
+   --primary (botón relleno) no lo lleva: su afford es el fondo. */
+.nav-link--ghost::after,
+.nav-link--outline::after {
+  content: "";
+  position: absolute;
+  left: var(--space-3);
+  right: var(--space-3);
+  bottom: calc(var(--space-1) - 1px);
+  height: 2px;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform var(--transition-fast);
+}
+
+.nav-link--ghost:hover::after,
+.nav-link--ghost:focus-visible::after,
+.nav-link--outline:hover::after,
+.nav-link--outline:focus-visible::after {
+  transform: scaleX(1);
 }
 
 .nav-link--outline {
@@ -228,7 +257,7 @@
   width: 14px;
   height: 14px;
   flex: 0 0 auto;
-  transition: transform 200ms var(--navbar-easing);
+  transition: transform var(--dur-normal) var(--navbar-easing);
 }
 
 .navbar__item--has-submenu:hover .navbar__chevron,
@@ -261,8 +290,8 @@
   pointer-events: none;
   visibility: hidden;
   transition:
-    opacity 220ms var(--navbar-easing),
-    transform 220ms var(--navbar-easing),
+    opacity var(--dur-normal) var(--navbar-easing),
+    transform var(--dur-normal) var(--navbar-easing),
     visibility 0s linear var(--navbar-close-delay);
 }
 
@@ -273,8 +302,8 @@
   pointer-events: auto;
   visibility: visible;
   transition:
-    opacity 220ms var(--navbar-easing),
-    transform 220ms var(--navbar-easing),
+    opacity var(--dur-normal) var(--navbar-easing),
+    transform var(--dur-normal) var(--navbar-easing),
     visibility 0s linear 0s;
 }
 
@@ -364,9 +393,9 @@
   background-color: currentColor;
   border-radius: 1px;
   transition:
-    transform 220ms var(--navbar-easing),
-    opacity 180ms var(--navbar-easing),
-    top 220ms var(--navbar-easing);
+    transform var(--dur-normal) var(--navbar-easing),
+    opacity var(--dur-fast) var(--navbar-easing),
+    top var(--dur-normal) var(--navbar-easing);
 }
 
 .navbar__toggle-bar--top { top: 0; }
@@ -400,7 +429,7 @@
   backdrop-filter: blur(6px);
   z-index: var(--z-modal);
   opacity: 0;
-  transition: opacity 220ms var(--navbar-easing);
+  transition: opacity var(--dur-normal) var(--navbar-easing);
 }
 
 .navbar__overlay.is-open {
@@ -422,7 +451,7 @@
   z-index: calc(var(--z-modal) + 1);
   overflow-y: auto;
   transform: translateX(-100%);
-  transition: transform 220ms var(--navbar-easing);
+  transition: transform var(--dur-normal) var(--navbar-easing);
 }
 
 @supports not ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
