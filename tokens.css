@@ -783,25 +783,94 @@
 
 
   /* ─────────────────────────────────────────────────────────────
-     TRANSICIONES
+     MOVIMIENTO — SISTEMA DE EASING Y DURACIÓN (P04)
+     ─────────────────────────────────────────────────────────────
+     Única fuente de verdad del movimiento del sitio. Tres capas,
+     en paralelo a la arquitectura de color:
+       1. Curvas (--ease-*)            CÓMO se mueve.
+       2. Rampa de duración (--dur-*)  CUÁNTO dura.
+       3. Compuestos (--transition-*)  atajos duración+curva que
+                                       consumen los componentes.
+
+     PRINCIPIOS (catálogo §0.5):
+       · Sólo transform / opacity / filter / clip-path se animan —
+         nunca propiedades de layout (width, height, top, márgenes).
+       · Familia ease-out exponencial: arranca decidido y desacelera
+         al asentarse. SIN rebote ni elástico (sin overshoot): el
+         movimiento jamás pasa de largo su destino.
+       · El feedback de UI no supera ~500 ms; nada parpadea ni hace
+         bucle infinito salvo los indicadores de carga existentes.
+       · Todo respeta el reset global de prefers-reduced-motion
+         (main.css §2); los reveals viven dentro de un bloque
+         (prefers-reduced-motion: no-preference) y degradan a su
+         estado final visible.
      ───────────────────────────────────────────────────────────── */
 
-  --transition-fast:   150ms ease;
-  /* Hover states, focus rings, cambios de color. */
-
-  --transition-normal: 250ms ease;
-  /* Apertura de paneles, expansión de acordeones. */
-
-  --transition-slow:   400ms ease;
-  /* Animaciones de entrada de secciones. */
+  /* ── 1. Curvas de aceleración ───────────────────────────────── */
 
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  /* Curva de salida desacelerada para movimiento basado en
-     transform (paneles, lifts de tarjetas, dropdowns). */
+  /* ease-out-quint. Curva por DEFECTO de todo movimiento dirigido
+     por transform/opacity (hover de tarjetas, paneles, dropdowns,
+     reveals). Es la que ya consumía el sitio; se conserva su valor. */
 
-  --transition-hero:   1000ms ease;
-  /* Cross-fade (desvanecido) entre imágenes del slideshow del hero.
-     Dentro del rango 0.8–1 s para una transición suave y notoria. */
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  /* Simétrica: para lo que va y vuelve o hace cross-fade sin una
+     dirección dominante (slideshow del hero, pulsos). */
+
+  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  /* Decelerate enfática (Material 3 «emphasized decelerate»):
+     entrada decidida para los movimientos protagónicos — entrada
+     del 404 y cross-fade raíz de las View Transitions. */
+
+  --ease-spring: var(--ease-emphasized);
+  /* Asentamiento «tipo resorte» CRÍTICAMENTE AMORTIGUADO (sin
+     overshoot): para elementos que «aterrizan» (nodo-aro del
+     timeline). Fallback = --ease-emphasized; la redeclaración
+     autoritativa con linear() —imposible de expresar con una
+     Bézier de 4 puntos— vive en el @supports tras este bloque. */
+
+  /* ── 2. Rampa de duración ────────────────────────────────────
+     Coherente con los tres escalones históricos (150/250/400 ms),
+     expuestos ahora como valores crudos reutilizables más los dos
+     extremos (feedback instantáneo y entradas escalonadas). */
+
+  --dur-instant: 100ms;   /* Compresión de pulsado, toggles. */
+  --dur-fast:    150ms;   /* Hover, foco, cambios de color. */
+  --dur-normal:  250ms;   /* Paneles, dropdowns, View Transition. */
+  --dur-slow:    400ms;   /* Acordeones, entrada de contenido. */
+  --dur-slower:  600ms;   /* Reveals de sección escalonados. */
+  --dur-hero:   1000ms;   /* Cross-fade del slideshow del hero. */
+
+  /* ── 3. Transiciones compuestas (duración + curva) ───────────
+     Atajos consumidos por los componentes. Antes portaban la
+     palabra clave `ease` del navegador; ahora llevan la curva del
+     sistema para un movimiento parejo en todo el sitio. */
+
+  --transition-fast:   var(--dur-fast) var(--ease-out);
+  /* Hover states, focus rings, cambios de color. */
+
+  --transition-normal: var(--dur-normal) var(--ease-out);
+  /* Apertura de paneles, expansión de acordeones, dropdowns. */
+
+  --transition-slow:   var(--dur-slow) var(--ease-out);
+  /* Animaciones de entrada de secciones / contenido. */
+
+  --transition-hero:   var(--dur-hero) var(--ease-in-out);
+  /* Cross-fade entre imágenes del slideshow del hero. Curva
+     simétrica: un desvanecido sin dirección dominante. */
+
+  /* ── 4. Choreografía de revelado / entrada ──────────────────── */
+
+  --reveal-distance: 1.5rem;
+  /* Recorrido vertical (≈24 px) del translate de los reveals y de
+     la entrada de contenido tras el swap del data-loader. Discreto:
+     acompaña la llegada, no «vuela» el elemento desde lejos. */
+
+  --stagger-step: 60ms;
+  /* Desfase por ítem del escalonado de listas (vía la custom
+     property --index). Tope de diseño: 8 ítems → 480 ms; el JS
+     satura --index en 8 para que las listas largas (p. ej. las 41
+     materias) no encadenen un escalonado interminable. */
 
 
   /* ─────────────────────────────────────────────────────────────
@@ -818,6 +887,23 @@
      capas (halo difuso + contacto nítido) derivadas de
      --color-text, sin colores literales. */
 
+}
+
+
+/* Redeclaración autoritativa de --ease-spring con linear() (2023+).
+   Muestrea la respuesta al escalón de un resorte CRÍTICAMENTE
+   AMORTIGUADO: monótona creciente, llega a 1 y NO lo supera (cero
+   overshoot → sin rebote, coherente con la prohibición de elástico).
+   Una curva de Bézier de 4 puntos no puede reproducir este
+   asentamiento; linear() sí. En navegadores sin soporte el token
+   conserva su fallback --ease-emphasized declarado arriba. */
+@supports (transition-timing-function: linear(0, 1)) {
+  :root {
+    --ease-spring: linear(
+      0, 0.009, 0.035, 0.078, 0.137, 0.211, 0.298, 0.396,
+      0.501, 0.609, 0.713, 0.805, 0.879, 0.933, 0.969, 0.989, 0.998, 1
+    );
+  }
 }
 
 
@@ -969,13 +1055,16 @@ strong, b {
   text-decoration: none;
 }
 
-/* Elevación sutil en hover: -1px (la mitad de --elevation-lift)
-   para que los botones queden subordinados a las tarjetas, que
-   conservan el lift completo. El bloque global de
-   prefers-reduced-motion (main.css:240–253) ya neutraliza el
-   movimiento, así que no hace falta excepción aquí. */
+/* Microinteracción del botón (P04). En reposo, plano. Hover:
+   elevación sutil de -1px (la mitad de --elevation-lift) para que
+   los botones queden subordinados a las tarjetas, que conservan el
+   lift completo. Active: COMPRESIÓN de pulsado de +1px (baja 1 px
+   bajo la línea base) — recorrido total hover→press de 2 px, dentro
+   del tope de diseño (≤2 px) y dirigido sólo por transform. El
+   bloque global de prefers-reduced-motion (main.css §2) ya
+   neutraliza el movimiento, así que no hace falta excepción aquí. */
 .btn:hover  { opacity: 0.92; transform: translateY(-1px); box-shadow: var(--shadow-xs); }
-.btn:active { opacity: 0.85; transform: translateY(0); box-shadow: none; }
+.btn:active { opacity: 0.85; transform: translateY(1px); box-shadow: none; }
 
 /* Estado deshabilitado — misma convención que los controles de
    formulario (forms.css § Estados): --color-text-disabled semántico,

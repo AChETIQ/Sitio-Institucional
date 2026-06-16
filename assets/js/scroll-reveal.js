@@ -104,3 +104,57 @@
      entró a la página. */
   update();
 })();
+
+
+/* ============================================================
+   AChETIQ — Reveal escalonado de grupo ([data-reveal])
+   ------------------------------------------------------------
+   Segunda primitiva, independiente del revelado de imagen de
+   arriba (P04). Revela una LISTA ya visible cuando entra en
+   viewport, escalonando a sus hermanos por la custom property
+   --index escrita en el marcado (motion.css §2). El escalonado de
+   hermanos dentro de UNA lista es movimiento legítimo; se aplica
+   con criterio (una grilla bajo el pliegue), no a cada sección.
+
+   · Vanilla JS, sin dependencias. IntersectionObserver: revela una
+     sola vez y deja de observar (cero trabajo en scroll).
+   · Mejora progresiva: el estado por defecto en CSS es REVELADO.
+     Este script añade .reveal-armed (estado inicial oculto) SÓLO
+     cuando va a animar. Sin JS, si el script falla, o bajo
+     prefers-reduced-motion, el contenido siempre se ve completo.
+   · Respeta prefers-reduced-motion: no arma el efecto.
+
+   Marcado esperado:
+     <li class="gabinete-card" data-reveal style="--index: 0"> … </li>
+   ============================================================ */
+
+(function () {
+  'use strict';
+
+  var items = Array.prototype.slice.call(
+    document.querySelectorAll('[data-reveal]')
+  );
+  if (items.length === 0) return;
+
+  /* Movimiento reducido o sin IntersectionObserver: no se arma el
+     efecto; el CSS deja cada ítem en su estado final visible. */
+  var prefersReduced = window.matchMedia &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced || !('IntersectionObserver' in window)) return;
+
+  /* Estado inicial oculto (motion.css §2 .reveal-armed). A partir de
+     aquí el revelado lo dispara la intersección. */
+  items.forEach(function (el) {
+    el.classList.add('reveal-armed');
+  });
+
+  var io = new IntersectionObserver(function (records) {
+    records.forEach(function (r) {
+      if (!r.isIntersecting) return;
+      r.target.classList.add('is-revealed');
+      io.unobserve(r.target);
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
+
+  items.forEach(function (el) { io.observe(el); });
+})();

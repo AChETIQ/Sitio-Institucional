@@ -37,6 +37,7 @@
 
 import {
   createElement,
+  markEnter,
   renderInlineLoader,
   renderEmpty,
   renderError
@@ -188,7 +189,7 @@ function renderMisionVision(container, data) {
 
   container.replaceChildren();
   container.removeAttribute('data-loader-state');
-  cols.forEach(({ item, icon }) => container.appendChild(buildMvColumn(item, icon)));
+  cols.forEach(({ item, icon }, i) => container.appendChild(markEnter(buildMvColumn(item, icon), i)));
   container.setAttribute('data-loader-state', 'ready');
 }
 
@@ -227,7 +228,7 @@ function renderValores(container, data) {
 
   container.replaceChildren();
   container.removeAttribute('data-loader-state');
-  list.forEach((v) => container.appendChild(buildValorCard(v)));
+  list.forEach((v, i) => container.appendChild(markEnter(buildValorCard(v), i)));
   container.setAttribute('data-loader-state', 'ready');
 }
 

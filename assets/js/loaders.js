@@ -132,6 +132,20 @@ export function createElement(tag, opts) {
   return node;
 }
 
+/* Marca un ítem de grilla para la animación de ENTRADA escalonada
+   tras el swap del data-loader (motion.css §1 .anim-enter). Fija la
+   custom property --index (posición del ítem) que el CSS traduce a
+   un animation-delay = --index × --stagger-step. El valor se satura
+   en STAGGER_CAP: listas largas (p. ej. 41 materias) no deben
+   encadenar un escalonado interminable. El movimiento reducido lo
+   neutraliza el propio CSS (la regla vive en no-preference). */
+const STAGGER_CAP = 8;
+export function markEnter(el, i) {
+  el.classList.add('anim-enter');
+  el.style.setProperty('--index', String(Math.min(i | 0, STAGGER_CAP)));
+  return el;
+}
+
 /* Schemes admitidos para href: HTTP/HTTPS y mail/tel para
    contactos; cualquier ruta relativa al sitio (/, ./, ../, #).
    Todo lo demás (javascript:, data:, file:…) se rechaza. */
@@ -274,7 +288,7 @@ function renderGabinetes(container, data) {
     .sort((a, b) => (a.orden || 0) - (b.orden || 0));
 
   const grid = createElement('div', { class: 'grid-cards grid-cards--2' });
-  list.forEach((g) => grid.appendChild(buildGabineteCard(g)));
+  list.forEach((g, i) => grid.appendChild(markEnter(buildGabineteCard(g), i)));
   container.appendChild(grid);
 }
 
@@ -319,7 +333,7 @@ const YEAR_LABEL = {
 function renderRecursos(container, data) {
   const list = Array.isArray(data) ? data : [];
   const grid = createElement('div', { class: 'grid-cards grid-cards--3' });
-  list.forEach((m) => grid.appendChild(buildMateriaCard(m)));
+  list.forEach((m, i) => grid.appendChild(markEnter(buildMateriaCard(m), i)));
   container.appendChild(grid);
 }
 
@@ -375,7 +389,7 @@ function renderDirectiva(container, data) {
   });
 
   const grid = createElement('div', { class: 'grid-cards grid-cards--4' });
-  list.forEach((p) => grid.appendChild(buildIntegranteCard(p)));
+  list.forEach((p, i) => grid.appendChild(markEnter(buildIntegranteCard(p), i)));
   container.appendChild(grid);
 }
 
@@ -625,7 +639,7 @@ function renderDocumentos(container, data) {
     .sort((a, b) => (a.orden || 0) - (b.orden || 0));
 
   const grid = createElement('div', { class: 'grid-cards grid-cards--2' });
-  list.forEach((d) => grid.appendChild(buildDocumentoCard(d)));
+  list.forEach((d, i) => grid.appendChild(markEnter(buildDocumentoCard(d), i)));
   container.appendChild(grid);
 }
 
@@ -684,7 +698,7 @@ function formatDocMeta(d) {
 function renderInstituciones(container, data) {
   const list = (Array.isArray(data) ? data : []).filter(Boolean);
   const grid = createElement('div', { class: 'grid-cards grid-cards--2' });
-  list.forEach((inst) => grid.appendChild(buildInstitucionCard(inst)));
+  list.forEach((inst, i) => grid.appendChild(markEnter(buildInstitucionCard(inst), i)));
   container.appendChild(grid);
 }
 

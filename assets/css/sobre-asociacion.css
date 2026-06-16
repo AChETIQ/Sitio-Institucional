@@ -703,15 +703,18 @@
   .timeline--anim .timeline__entry.is-visible {
     opacity: 1;
     transform: none;
-    transition: opacity .55s ease,
-                transform .55s cubic-bezier(.22, .61, .36, 1);
+    transition: opacity .55s var(--ease-out),
+                transform .55s var(--ease-out);
   }
   /* La rama se «dibuja»: dashoffset → 0 (la longitud la fija JS). */
   .timeline--anim .timeline__arm path {
-    transition: stroke-dashoffset .9s cubic-bezier(.33, 1, .68, 1),
+    transition: stroke-dashoffset .9s var(--ease-out),
                 stroke var(--transition-normal);
   }
-  /* El nodo aterriza con un leve rebote, ya crecida la rama. */
+  /* El nodo «aterriza» ya crecida la rama. P04: el asentamiento usa
+     --ease-spring (resorte críticamente amortiguado, SIN overshoot)
+     en lugar del antiguo cubic-bezier(.34,1.56,.64,1), que rebotaba
+     —prohibido por la regla de no-rebote del sistema de movimiento. */
   .timeline--anim .timeline__marker {
     transform: scale(.55);
     opacity: 0;
@@ -719,8 +722,8 @@
   .timeline--anim .timeline__entry.is-visible .timeline__marker {
     transform: scale(1);
     opacity: 1;
-    transition: transform .6s cubic-bezier(.34, 1.56, .64, 1) .4s,
-                opacity .4s ease .4s,
+    transition: transform .6s var(--ease-spring) .4s,
+                opacity .4s var(--ease-out) .4s,
                 box-shadow var(--transition-normal),
                 border-color var(--transition-fast);
   }
@@ -729,7 +732,7 @@
   }
   .timeline--anim .timeline__entry.is-visible .timeline__junction {
     transform: translate(-50%, -50%) scale(1);
-    transition: transform .4s ease .1s;
+    transition: transform .4s var(--ease-out) .1s;
   }
 }
 

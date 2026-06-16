@@ -1,0 +1,131 @@
+/* ============================================================
+   AChETIQ — Sistema de movimiento (motion.css)
+   ------------------------------------------------------------
+   Versión: 1.0 · Fase de diseño P04 — Movimiento
+   Fundamento: tokens.css §MOVIMIENTO · FASE_1 §0.5
+
+   Reúne el movimiento TRANSVERSAL del sitio (no ligado a un único
+   componente):
+     1. Entrada de contenido tras el swap del data-loader.
+     2. Scroll-reveal de grupo (escalonado) para listas ya visibles.
+     3. View Transitions entre documentos (mejora progresiva).
+
+   Reglas del sistema (heredadas de tokens.css):
+     · Sólo transform / opacity (más clip-path en el reveal de
+       imagen de states.css). Nunca propiedades de layout.
+     · Curvas ease-out del sistema; sin rebote ni elástico.
+     · Mejora progresiva: el estado BASE siempre es VISIBLE. Las
+       animaciones de revelado viven dentro de
+       (prefers-reduced-motion: no-preference) y degradan al estado
+       final sin retención ni parpadeo. La clase «armada» (estado
+       inicial oculto) la añade SÓLO el JS, y sólo cuando va a
+       animar: sin JS o con movimiento reducido nada queda oculto.
+
+   Importado desde assets/css/main.css §1 (entra al bundle).
+   Cero hex y cero familias literales: todo deriva de tokens.css.
+   ============================================================ */
+
+
+/* ─────────────────────────────────────────────────────────────
+   1. ENTRADA DE CONTENIDO — .anim-enter
+   ─────────────────────────────────────────────────────────────
+   El motor de carga (main.js) reemplaza el loader inline por el
+   contenido real y marca data-loader-state="ready". Los
+   renderizadores (loaders.js · sobre-achetiq.js) etiquetan cada
+   ítem de grilla con la clase .anim-enter y la custom property
+   --index. El ítem entra con un fundido + translate corto,
+   escalonado por --index (desfase --stagger-step por posición).
+
+   Estado base = visible: sin la clase no hay regla. La animación
+   completa vive bajo (prefers-reduced-motion: no-preference); con
+   movimiento reducido el contenido aparece al instante. Como el JS
+   añade la clase recién al renderizar el contenido ya en el DOM, no
+   hay parpadeo: el ítem nace con la animación, no se oculta y luego
+   se muestra.
+   ───────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: no-preference) {
+  .anim-enter {
+    animation: content-enter var(--dur-slow) var(--ease-out) both;
+    /* --index lo fija el renderizador; saturado en 8 desde el JS
+       para acotar el escalonado total (8 × --stagger-step ≈ 480 ms). */
+    animation-delay: calc(var(--index, 0) * var(--stagger-step));
+  }
+}
+
+@keyframes content-enter {
+  from { opacity: 0; transform: translateY(var(--reveal-distance)); }
+  to   { opacity: 1; transform: none; }
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   2. SCROLL-REVEAL DE GRUPO — [data-reveal]
+   ─────────────────────────────────────────────────────────────
+   Revela una LISTA ya visible cuando entra en viewport. El
+   escalonado de HERMANOS es movimiento legítimo (no el reflejo AI
+   de «fundir y subir cada sección»): se aplica con criterio a una
+   grilla bajo el pliegue, no a cada sección de la página.
+
+   scroll-reveal.js arma cada [data-reveal] con .reveal-armed SÓLO
+   cuando va a animar (nunca bajo prefers-reduced-motion ni sin JS) y
+   añade .is-revealed al intersectar, una sola vez. El escalonado lo
+   da --index (escrito en el marcado). Sin JS / con movimiento
+   reducido el ítem queda en su estado final, visible y quieto.
+   ───────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-armed {
+    opacity: 0;
+    transform: translateY(var(--reveal-distance));
+  }
+
+  .reveal-armed.is-revealed {
+    opacity: 1;
+    transform: none;
+    transition: opacity var(--dur-slower) var(--ease-out),
+                transform var(--dur-slower) var(--ease-out);
+    transition-delay: calc(var(--index, 0) * var(--stagger-step));
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   3. VIEW TRANSITIONS ENTRE DOCUMENTOS (mejora progresiva)
+   ─────────────────────────────────────────────────────────────
+   Navegación MPA same-origin (todas las páginas comparten este
+   bundle): un cross-fade suave de la raíz mientras el navbar
+   persiste. Donde no hay soporte —la mayoría de los navegadores
+   hoy— la navegación es instantánea: comportamiento idéntico al
+   actual, sin coste. No se anima ninguna propiedad de layout: el
+   motor de View Transitions hace cross-fade de instantáneas.
+   ───────────────────────────────────────────────────────────── */
+
+@view-transition {
+  navigation: auto;
+}
+
+/* La barra persiste entre páginas: nombre propio para que NO entre
+   en el cross-fade de la raíz, manteniéndose visualmente estable. El
+   navbar lo inyecta el JS; si en el primer cuadro de la página
+   entrante aún no existe, el grupo cae limpio al cross-fade raíz. */
+.navbar {
+  view-transition-name: navbar;
+}
+
+/* Cross-fade raíz: breve (≤250 ms) y con la curva enfática del
+   sistema. El pseudo-grupo `root` cubre todo menos el navbar. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: var(--dur-normal);
+  animation-timing-function: var(--ease-emphasized);
+}
+
+/* Movimiento reducido: se desactiva la transición de navegación
+   (instantánea). Refuerza el reset global de main.css §2 para el
+   caso específico de las View Transitions entre documentos. */
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+}

@@ -29,8 +29,10 @@
   flex-direction: column;
   align-items: center;
   max-width: var(--error-panel-max);
-  /* Entrada del conjunto */
-  animation: error404-rise var(--transition-slow) cubic-bezier(0.43, 0.13, 0.23, 0.96) both;
+  /* Entrada del conjunto. Duración cruda + curva (no el compuesto
+     --transition-slow, que ya trae su propia curva: en `animation`
+     dos timing-functions invalidan la declaración). */
+  animation: error404-rise var(--dur-slow) var(--ease-emphasized) both;
 }
 
 /* ── Línea 4 · fantasma · 4 ── */
@@ -56,8 +58,8 @@
   user-select: none;
 }
 
-.error404__digit--left  { animation: error404-in-left  0.8s cubic-bezier(0.43,0.13,0.23,0.96) both; }
-.error404__digit--right { animation: error404-in-right 0.8s cubic-bezier(0.43,0.13,0.23,0.96) both; }
+.error404__digit--left  { animation: error404-in-left  0.8s var(--ease-emphasized) both; }
+.error404__digit--right { animation: error404-in-right 0.8s var(--ease-emphasized) both; }
 
 /* ── Fantasma ── */
 .error404__ghost {
@@ -67,7 +69,7 @@
   /* Fluido 80 → 120 px (360 → 1280 px de viewport). */
   width: clamp(80px, 64.35px + 4.35vw, 120px);
   height: clamp(80px, 64.35px + 4.35vw, 120px);
-  animation: error404-float 2s ease-in-out infinite alternate;
+  animation: error404-float 2s var(--ease-in-out) infinite alternate;
   transition: transform var(--transition-normal);
   cursor: default;
 }
@@ -100,7 +102,7 @@
   line-height: var(--leading-snug);
   color: var(--color-text);
   margin-bottom: var(--space-4);
-  animation: error404-rise 0.6s cubic-bezier(0.43,0.13,0.23,0.96) 0.15s both;
+  animation: error404-rise 0.6s var(--ease-emphasized) 0.15s both;
 }
 
 .error404__title em {
@@ -114,12 +116,12 @@
   line-height: var(--leading-relaxed);
   color: var(--color-text-soft);
   margin-bottom: var(--space-10);
-  animation: error404-rise 0.6s cubic-bezier(0.43,0.13,0.23,0.96) 0.25s both;
+  animation: error404-rise 0.6s var(--ease-emphasized) 0.25s both;
 }
 
 /* ── Acción ── */
 .error404__action {
-  animation: error404-rise 0.6s cubic-bezier(0.43,0.13,0.23,0.96) 0.35s both;
+  animation: error404-rise 0.6s var(--ease-emphasized) 0.35s both;
 }
 
 .error404 .btn {
@@ -148,7 +150,7 @@
   flex-direction: column;
   align-items: center;
   gap: var(--space-3);
-  animation: error404-rise 0.6s cubic-bezier(0.43,0.13,0.23,0.96) 0.40s both;
+  animation: error404-rise 0.6s var(--ease-emphasized) 0.40s both;
 }
 
 .error404__nav-label {
@@ -192,7 +194,7 @@
   letter-spacing: var(--tracking-wide);
   color: var(--color-text-faint);
   margin-top: var(--space-12);
-  animation: error404-rise 0.6s cubic-bezier(0.43,0.13,0.23,0.96) 0.45s both;
+  animation: error404-rise 0.6s var(--ease-emphasized) 0.45s both;
 }
 
 /* ─────────────────────────────────────────────────────────────

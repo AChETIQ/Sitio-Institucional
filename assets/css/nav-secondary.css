@@ -127,7 +127,8 @@
   border-radius: var(--radius-pill);
   transition: background var(--transition-fast),
               border-color var(--transition-fast),
-              color var(--transition-fast);
+              color var(--transition-fast),
+              transform var(--dur-instant) var(--ease-out);
 }
 
 /* Hover sobre pill no activo. El selector :not(.is-active)
@@ -135,6 +136,13 @@
 .pill-nav__pill:hover:not(.is-active) {
   background: var(--color-surface-raised);
   border-color: var(--color-accent);
+}
+
+/* Compresión de pulsado (P04): feedback táctil al seleccionar el
+   filtro. transform puro; el cambio de estado activo (fondo→acento)
+   ya transiciona vía las líneas de color de arriba. */
+.pill-nav__pill:active {
+  transform: scale(0.97);
 }
 
 /* Estado activo. Fondo en acento, texto en --color-on-accent
