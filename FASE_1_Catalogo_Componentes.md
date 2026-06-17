@@ -752,7 +752,7 @@ Resuelve las deudas P1 #6 (doble grilla homogénea sin jerarquía) y #7 (eyebrow
 
 ### 4.2-quater Índice editorial de servicios de Recursos — `.recursos-index` (E05, hub)
 
-**Propósito.** El hub `pages/recursos.html` abre a sus **dos servicios** (Apuntes por materia, Seguimiento de carrera) como un **sumario editorial**, no como una grilla de dos tarjetas idénticas. Espejo directo de `.gabinetes-index` (§4.2-bis) y `.gabinetes-hub` (§4.2-elevación), reconciliado para un set de DOS entradas. Vive en la hoja de página `recursos.css` §1 (familia E05). Resuelve la deuda «dos `card-gabinete` en caja» del hub y le da al núcleo académico **un camino claro** a cada herramienta.
+**Propósito.** El hub `pages/recursos.html` abre a sus **dos servicios** (Apuntes por materia, Seguimiento de carrera) como un **sumario editorial de filas a ANCHO COMPLETO**, no como una grilla de dos tarjetas en caja. **Espejo arquitectónico directo de `.gabinetes-hub`** (§4.2-elevación, E04): una sola columna, filas estables de tres zonas, filetes de tinta y **sin caja**. Vive en la hoja de página `recursos.css` §1 (familia E05). Resuelve la regresión «dos `card-gabinete` dentro de un bloque teñido» del primer pase E05 y le da al núcleo académico **un camino claro** a cada herramienta.
 
 **HTML (estático — no lo inyecta el motor; el partial fue preparado para esta página, dentro de `[data-countdown-revealed]`).**
 
@@ -771,17 +771,19 @@ Resuelve las deudas P1 #6 (doble grilla homogénea sin jerarquía) y #7 (eyebrow
 </ul>
 ```
 
-**Especificación.**
+**Especificación (rediseño «filas estrictas a ancho completo»).**
 
-- **Grilla:** 1 columna (móvil) → 2 (`≥768px = --bp-md`). Filetes con `var(--rule)`: `border-top` por entrada + `border-left` en la segunda (filete central, 1 px — estructura, no franja de acento) + `border-bottom` del `<ul>` que cierra el sumario. Sin `gap`. En escritorio cada columna reserva aire interior (`padding-right/left: --space-10`) antes/después del filete central.
-- **Entrada:** toda la fila es el destino (`<a>` en bloque, `display: flex` ícono | cuerpo | flecha). El nombre va en **Fraunces display** (`--text-kpi`, voz editorial, elemento dominante del índice); la bajada en Hanken `--text-small` `--color-text-soft` (medida `--measure-narrow`); el ícono marginal de orientación en `--color-accent-soft`; la flecha en `--color-accent` con `translateX` al hover/focus.
-- **Color:** el **cobalto** firma la navegación (nombre→acento e ícono/flecha al realce); la **mauveína NO aparece** aquí (reservada a la acción primaria del sitio, ≤10 %).
-- **Cabecera del bloque:** se eleva a `.section-title--display` + `.section-title__standfirst` (Hanken), retirando el eyebrow mono por sección (deuda de cadencia, DESIGN.md). Convive con el mecanismo de cuenta regresiva (`countdown-recursos.css`): el índice es el contenido revelado al expirar.
-- **Movimiento:** revelado escalonado `[data-scroll-reveal]` con estado por defecto **visible** (mejora progresiva: sin JS o bajo `prefers-reduced-motion` el índice se muestra completo, nunca recortado).
+- **Sin caja — el índice respira sobre el fondo de página.** El contrato del partial obliga a que `[data-countdown-revealed]` cuelgue de `[data-countdown]` (`countdown-recursos.js`). Como `.countdown` es un **panel protagónico centrado** (padding, `overflow:hidden` y glows de fondo `.countdown__backdrop`), su contenido revelado quedaba **encajonado en un bloque teñido**. En estado revelado (`.countdown[data-countdown-state="revealed"]`, atributo que fija el JS) el contenedor pasa a `display:block; padding:0; overflow:visible` y se **oculta el backdrop**: el índice queda a flor del fondo. Sin JS el contenido revelado sigue `[hidden]` y el panel de espera conserva su tratamiento — sin conflicto.
+- **Filas a ancho completo (1 columna SIEMPRE).** `.recursos-index` es una sola columna; **no** hay paso a 2 columnas. La separación la hacen **filetes de tinta** `var(--rule-ink)` (1.5 px): `border-top` por entrada + `border-bottom` del `<ul>` que cierra el sumario. Sin `gap`, sin filete central, sin franjas de acento.
+- **Tres zonas estables (sin retícula 50/50).** Cada `.recursos-index__link` es una grilla `max-content | minmax(0,1fr) | max-content` = **ícono (izquierda) | nombre + bajada (centro) | flecha (derecha)**, idéntica en ambas filas (ejes que no se desplazan). Sin padding lateral: la fila ocupa el ancho del índice. El nombre en **Fraunces display** (`--text-kpi`, elemento dominante); la bajada en Hanken `--text-small` `--color-text-soft` (medida `--measure-narrow`); el ícono de orientación en `--color-accent-soft`; la flecha `--color-accent`, centrada en la fila.
+- **Realce de FILA COMPLETA.** Hover/foco aplican un **lavado cobalto frío `var(--color-surface-accent)` a toda la fila** (sangra de borde a borde), el nombre vira a `--color-accent` y la flecha avanza con `translateX`. La afordancia es la fila entera, no un fragmento.
+- **Color:** el **cobalto** firma la navegación; la **mauveína NO aparece** aquí (reservada a la acción primaria del sitio, ≤10 %).
+- **Cabecera del bloque:** `.section-title--display` + `.section-title__lead` en **una columna alineada a la izquierda** (se abandonó el `__standfirst` a dos columnas para no sumar un eje en conflicto con las filas). Sin eyebrow mono por sección (deuda de cadencia, DESIGN.md). El índice es el contenido revelado al expirar la cuenta.
+- **Movimiento:** revelado `[data-scroll-reveal]` con estado por defecto **visible** (mejora progresiva: sin JS o bajo `prefers-reduced-motion` el índice se muestra completo, nunca recortado).
 
-**Accesibilidad.** Cada fila es un único destino y nombre accesible por su contenido; íconos `aria-hidden`. Objetivo táctil de la fila ≫ 24 px (≈ 163 px de alto medido). Foco por el anillo global de `focus.css` más el realce de nombre/flecha en `:focus-visible`.
+**Accesibilidad.** Cada fila es un único destino y nombre accesible por su contenido; íconos `aria-hidden`. Objetivo táctil de la fila ≫ 24 px (≈ 139 px escritorio · 205 px móvil, medidos). Foco por el anillo global de `focus.css` más el lavado de fila y el realce de nombre/flecha en `:focus-visible`.
 
-**Intocable.** No se toca el motor data-loader, el mecanismo ni el JS de la cuenta regresiva (`countdown-recursos.js`), ni el esquema de datos. La elevación es 100 % HTML de página + CSS.
+**Intocable.** No se toca el motor data-loader, el mecanismo ni el JS de la cuenta regresiva (`countdown-recursos.js`) —sólo se sobre-escribe la PRESENTACIÓN del contenedor en su estado revelado, vía el atributo `data-countdown-state` que el propio JS ya emite—, ni el esquema de datos. La elevación es 100 % HTML de página + CSS.
 
 ---
 

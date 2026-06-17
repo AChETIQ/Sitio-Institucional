@@ -34,74 +34,83 @@
    se listan como una grilla de tarjetas idénticas —el «recurso
    perezoso» que el sistema veta— sino como el SUMARIO editorial de
    firma (DESIGN.md «Índice editorial»): cada servicio es una FILA
-   con su nombre en Fraunces, una bajada en Hanken y la flecha
-   cobalto de afordancia, separadas por filetes hairline. La fila
-   ENTERA es el destino (enlace en bloque). Espejo directo de
-   .gabinetes-index (sobre-asociacion.css) y .gabinetes-hub
-   (gabinetes.css), reconciliado para un set de DOS entradas: una
-   columna en móvil, dos columnas con filete central en ≥768 px.
+   a ANCHO COMPLETO, en una sola columna, separada por filetes de
+   tinta. Espejo arquitectónico directo de .gabinetes-hub
+   (gabinetes.css §1, E04): tres zonas estables —ícono de orientación
+   a la izquierda, nombre Fraunces + bajada al centro, flecha cobalto
+   a la derecha— sin retícula 50/50 ni ejes en conflicto. La fila
+   ENTERA es el destino (enlace en bloque); el realce de hover/foco es
+   un LAVADO COBALTO de toda la fila, no de un fragmento.
+
+   SIN CAJA. El contenido se apoya directamente en el fondo de página
+   y respira: la separación la hacen los filetes de tinta (--rule-ink),
+   no un panel teñido. Por eso, en estado revelado, se neutraliza el
+   tratamiento de «panel protagónico» del contenedor de la cuenta
+   regresiva (centrado, padding y glows de fondo) — ver bloque 1.b.
 
    El cobalto firma la navegación; la mauveína NO aparece aquí
    (queda reservada a la acción primaria del sitio).
    ───────────────────────────────────────────────────────────── */
 
+/* ── 1.a  Desencajar el contenedor de la cuenta en estado revelado ──
+   El partial de la cuenta regresiva exige que [data-countdown-revealed]
+   sea descendiente de [data-countdown] (contrato de countdown-recursos
+   .js). El contenedor .countdown está pensado como PANEL CENTRADO con
+   glows de fondo y overflow oculto: ese tratamiento, heredado por el
+   contenido revelado, encajonaba el índice en un bloque teñido. Cuando
+   el JS revela (data-countdown-state="revealed"), el contenedor pasa a
+   ser un bloque neutro a ancho completo y se retira su backdrop, de
+   modo que el índice quede a flor del fondo de página. Sin JS, el
+   contenido revelado permanece [hidden] y el panel de espera conserva
+   su tratamiento protagónico: no hay conflicto. */
+.countdown[data-countdown-state="revealed"] {
+  display: block;
+  padding: 0;
+  overflow: visible;
+}
+
+.countdown[data-countdown-state="revealed"] .countdown__backdrop {
+  display: none;
+}
+
+/* ── 1.b  Índice de servicios — filas a ancho completo ──────────── */
 .recursos-index {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  /* Sin gap: los filetes forman el sumario continuo. El filete
-     inferior lo cierra; cada entrada aporta el superior. */
-  border-bottom: var(--rule);
+  /* Sin gap: los filetes de tinta forman el sumario continuo. El
+     filete inferior lo cierra; cada entrada aporta el superior. */
+  border-bottom: var(--rule-ink);
   text-align: left;
 }
 
-@media (min-width: 768px) {
-  .recursos-index {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  }
-  /* Filete central: 1 px sobre la segunda entrada (estructura
-     hairline, no una franja de acento). */
-  .recursos-index__item:nth-child(even) {
-    border-left: var(--rule);
-  }
-}
-
 .recursos-index__item {
-  border-top: var(--rule);
+  border-top: var(--rule-ink);
 }
 
-/* Toda la fila es el destino: <a> en bloque que envuelve ícono,
-   nombre, bajada y flecha. Afordancia ≥ 24 px holgada (la fila
-   entera). */
+/* Toda la fila es el destino: <a> en bloque, retícula estable de tres
+   zonas (ícono | cuerpo | flecha). Sin padding lateral: la fila ocupa
+   el ancho del índice y el lavado de hover/foco sangra de borde a
+   borde. Afordancia ≫ 24 px (la fila entera). */
 .recursos-index__link {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-4);
+  position: relative;
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr) max-content;
+  align-items: start;
+  column-gap: var(--space-5);
   padding-block: var(--space-6);
   color: var(--color-text);
   text-decoration: none;
+  transition: background-color var(--transition-fast);
 }
 
-@media (min-width: 768px) {
-  /* La columna izquierda reserva aire a la derecha (antes del
-     filete central); la derecha, a la izquierda (después). */
-  .recursos-index__item:nth-child(odd) .recursos-index__link {
-    padding-right: var(--space-10);
-  }
-  .recursos-index__item:nth-child(even) .recursos-index__link {
-    padding-left: var(--space-10);
-  }
-}
-
-/* Ícono: marca marginal discreta de orientación (no el centro de la
-   composición). Línea cobalto medio, bajada a la altura-x del
-   nombre. */
+/* Ícono de orientación a la izquierda (zona 1). Línea cobalto medio,
+   bajada a la altura óptica del nombre. */
 .recursos-index__icon {
+  grid-column: 1;
   display: inline-flex;
   flex: none;
-  margin-top: 0.15em;
+  margin-top: 0.1em;
   color: var(--color-accent-soft);
 }
 
@@ -110,7 +119,9 @@
   height: var(--icon-md);
 }
 
+/* Cuerpo al centro (zona 2): nombre + bajada. */
 .recursos-index__body {
+  grid-column: 2;
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
@@ -138,20 +149,25 @@
   max-width: var(--measure-narrow);
 }
 
-/* Flecha de afordancia: cobalto, empujada al final de la fila. */
+/* Flecha de afordancia a la derecha (zona 3): cobalto, centrada en la
+   fila. */
 .recursos-index__arrow {
+  grid-column: 3;
   flex: none;
   align-self: center;
-  margin-left: auto;
   width: var(--space-5);                /* 20 px */
   height: var(--space-5);
   color: var(--color-accent);
   transition: transform var(--transition-fast), color var(--transition-fast);
 }
 
-/* Realce de la fila completa: el nombre vira a cobalto y la flecha
-   avanza. La afordancia es la fila entera, no un enlace diminuto. */
+/* Realce de la FILA COMPLETA: lavado cobalto frío sobre toda la fila
+   (no sólo el texto), el nombre vira a cobalto y la flecha avanza.
+   La afordancia es la fila entera. */
 @media (hover: hover) {
+  .recursos-index__link:hover {
+    background-color: var(--color-surface-accent);
+  }
   .recursos-index__link:hover .recursos-index__name {
     color: var(--color-accent);
   }
@@ -160,6 +176,11 @@
   }
 }
 
+/* Foco por teclado: el mismo lavado de fila además del anillo global
+   (focus.css). */
+.recursos-index__link:focus-visible {
+  background-color: var(--color-surface-accent);
+}
 .recursos-index__link:focus-visible .recursos-index__name {
   color: var(--color-accent);
 }

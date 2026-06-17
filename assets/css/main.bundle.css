@@ -3586,46 +3586,40 @@ display: block;
 column-gap: var(--space-8);
 }
 }
+.countdown[data-countdown-state="revealed"] {
+display: block;
+padding: 0;
+overflow: visible;
+}
+.countdown[data-countdown-state="revealed"] .countdown__backdrop {
+display: none;
+}
 .recursos-index {
 list-style: none;
 margin: 0;
 padding: 0;
-display: grid;
-grid-template-columns: minmax(0, 1fr);
-border-bottom: var(--rule);
+border-bottom: var(--rule-ink);
 text-align: left;
 }
-@media (min-width: 768px) {
-.recursos-index {
-grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-}
-.recursos-index__item:nth-child(even) {
-border-left: var(--rule);
-}
-}
 .recursos-index__item {
-border-top: var(--rule);
+border-top: var(--rule-ink);
 }
 .recursos-index__link {
-display: flex;
-align-items: flex-start;
-gap: var(--space-4);
+position: relative;
+display: grid;
+grid-template-columns: max-content minmax(0, 1fr) max-content;
+align-items: start;
+column-gap: var(--space-5);
 padding-block: var(--space-6);
 color: var(--color-text);
 text-decoration: none;
-}
-@media (min-width: 768px) {
-.recursos-index__item:nth-child(odd) .recursos-index__link {
-padding-right: var(--space-10);
-}
-.recursos-index__item:nth-child(even) .recursos-index__link {
-padding-left: var(--space-10);
-}
+transition: background-color var(--transition-fast);
 }
 .recursos-index__icon {
+grid-column: 1;
 display: inline-flex;
 flex: none;
-margin-top: 0.15em;
+margin-top: 0.1em;
 color: var(--color-accent-soft);
 }
 .recursos-index__icon svg {
@@ -3633,6 +3627,7 @@ width: var(--icon-md);
 height: var(--icon-md);
 }
 .recursos-index__body {
+grid-column: 2;
 display: flex;
 flex-direction: column;
 gap: var(--space-2);
@@ -3655,21 +3650,27 @@ color: var(--color-text-soft);
 max-width: var(--measure-narrow);
 }
 .recursos-index__arrow {
+grid-column: 3;
 flex: none;
 align-self: center;
-margin-left: auto;
 width: var(--space-5);
 height: var(--space-5);
 color: var(--color-accent);
 transition: transform var(--transition-fast), color var(--transition-fast);
 }
 @media (hover: hover) {
+.recursos-index__link:hover {
+background-color: var(--color-surface-accent);
+}
 .recursos-index__link:hover .recursos-index__name {
 color: var(--color-accent);
 }
 .recursos-index__link:hover .recursos-index__arrow {
 transform: translateX(var(--space-1));
 }
+}
+.recursos-index__link:focus-visible {
+background-color: var(--color-surface-accent);
 }
 .recursos-index__link:focus-visible .recursos-index__name {
 color: var(--color-accent);
