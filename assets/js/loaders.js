@@ -350,14 +350,26 @@ function buildMateriaCard(m) {
 
   const card = createElement('a', { class: 'card card-materia', attrs });
 
-  /* La cubierta es un <div> decorativo (sin <img> en v1.0): el CSS
-     ya reserva su alto con aspect-ratio 16/9 (cards.css §4.9), de
-     modo que no aporta CLS. Si a futuro lleva imagen, fijarle
-     width/height explícitos (p. ej. 1280×720). */
-  card.appendChild(createElement('div', {
+  /* La cubierta reserva su alto con aspect-ratio 16/9 (cards.css
+     §4.9), de modo que no aporta CLS. Si la materia trae imagen
+     (campo `imagen` en data/recursos.json) se inyecta un <img> con
+     width/height explícitos (1280×720) y la imagen llena la caja
+     vía object-fit:cover; si no, queda el color plano por año. */
+  const cover = createElement('div', {
     class: 'card-materia__cover',
     attrs: { 'aria-hidden': 'true' }
-  }));
+  });
+  const rawImg = (typeof m.imagen === 'string') ? m.imagen.trim() : '';
+  const imgSrc = rawImg ? safeHref(window.AChETIQBase.resolve(rawImg)) : null;
+  if (imgSrc) {
+    cover.appendChild(createElement('img', {
+      attrs: {
+        src: imgSrc, alt: '', width: '1280', height: '720',
+        loading: 'lazy', decoding: 'async'
+      }
+    }));
+  }
+  card.appendChild(cover);
 
   const body = createElement('div', { class: 'card-materia__body' });
   if (anio) {

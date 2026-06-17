@@ -114,7 +114,7 @@ function buildLinkedCard(m, anio, href, nombre) {
     attrs: attrs
   });
 
-  card.appendChild(buildCover());
+  card.appendChild(buildCover(m));
   card.appendChild(buildBody(anio, nombre, buildLinkedStatus()));
   return card;
 }
@@ -138,7 +138,7 @@ function buildPlaceholderCard(m, anio, nombre) {
     text: 'Carpeta no disponible'
   });
 
-  card.appendChild(buildCover());
+  card.appendChild(buildCover(m));
   card.appendChild(buildBody(anio, nombre, status));
   return card;
 }
@@ -146,11 +146,30 @@ function buildPlaceholderCard(m, anio, nombre) {
 
 /* --- Piezas compartidas de la tarjeta ---------------------- */
 
-function buildCover() {
-  return createElement('div', {
+function buildCover(m) {
+  var cover = createElement('div', {
     class: 'card-materia__cover',
     attrs: { 'aria-hidden': 'true' }
   });
+
+  /* Imagen representativa de la materia (campo `imagen` en
+     data/recursos.json). Contrato 16:9 (1280×720): width/height
+     explícitos reservan el alto ANTES de cargar (CLS < 0,1 —
+     RENDIMIENTO_Presupuesto.md). El color por año del cover queda
+     de fondo como fallback mientras carga o si falta la imagen. La
+     imagen es decorativa (el nombre va en el <h3>): alt vacío bajo
+     el cover ya marcado aria-hidden. La ruta pasa por safeHref(). */
+  var rawImg = (m && typeof m.imagen === 'string') ? m.imagen.trim() : '';
+  var imgSrc = rawImg ? safeHref(window.AChETIQBase.resolve(rawImg)) : null;
+  if (imgSrc) {
+    cover.appendChild(createElement('img', {
+      attrs: {
+        src: imgSrc, alt: '', width: '1280', height: '720',
+        loading: 'lazy', decoding: 'async'
+      }
+    }));
+  }
+  return cover;
 }
 
 function buildBody(anio, nombre, statusNode) {
