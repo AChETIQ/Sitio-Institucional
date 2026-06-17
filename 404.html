@@ -61,30 +61,23 @@
     <section class="error404" aria-labelledby="error404-title">
       <div class="error404__inner">
 
-        <div class="error404__display" aria-hidden="true">
-          <span class="error404__digit error404__digit--left">4</span>
-
-          <span class="error404__ghost">
-            <svg class="error404__ghost-fallback" viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="1.5"
-                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M9 10h.01"/>
-              <path d="M15 10h.01"/>
-              <path d="M12 2a8 8 0 0 0-8 8v12l3-3 2.5 2.5L12 19l2.5 2.5L17 19l3 3V10a8 8 0 0 0-8-8z"/>
-            </svg>
-          </span>
-
-          <span class="error404__digit error404__digit--right">4</span>
-        </div>
+        <!-- Numeral protagonista (type-led, E06): el «404» en Fraunces
+             display, cobalto estructural. Decorativo — aria-hidden: el
+             <h1> y la nota de registro al pie portan el significado
+             para tecnologías de asistencia (evita que el lector deletree
+             «cuatro cero cuatro» como titular). El fantasma cartoon y su
+             flotar/rebote se retiran: delicadeza por contención, no por
+             gimmick. -->
+        <p class="error404__code" aria-hidden="true">404</p>
 
         <h1 class="error404__title" id="error404-title">
-          Parece que esta página es un <em>fantasma</em>
+          Esta página no <em>existe</em>
         </h1>
 
         <p class="error404__lead">
           El enlace que seguiste no existe o cambió de lugar. Desde el inicio
-          vas a llegar a todo lo de la asociación: apuntes y recursos de las
-          materias, documentación institucional y novedades de los gabinetes.
+          llegás a todo lo de la asociación: apuntes y recursos por materia,
+          documentación institucional y novedades de los gabinetes.
         </p>
 
         <div class="error404__action">
@@ -92,7 +85,7 @@
         </div>
 
         <nav class="error404__nav" aria-label="Ir a una sección principal">
-          <p class="error404__nav-label">O ir directo a una sección:</p>
+          <p class="error404__nav-label">O ir directo a una sección</p>
           <ul class="error404__nav-list">
             <li><a href="./pages/sobre-achetiq.html">Sobre AChETIQ</a></li>
             <li><a href="./pages/gabinetes.html">Gabinetes</a></li>
@@ -101,9 +94,7 @@
           </ul>
         </nav>
 
-        <p class="error404__note">
-          Error 404: el servidor no encontró la página solicitada.
-        </p>
+        <p class="error404__note">HTTP 404 · el servidor no encontró el recurso solicitado</p>
 
       </div>
     </section>

@@ -1,10 +1,19 @@
 /* ============================================================
    AChETIQ — Página de error 404 (Página no encontrada)
    Bloque BEM: .error404
-   Fase: 2 — Desarrollo front-end
+   Fase: 2 — Desarrollo front-end · elevación E06 (type-led)
    Depende de: tokens.css (paleta «Cobalto & Mauveína»)
    ------------------------------------------------------------
    Todos los valores referencian var(--token).
+
+   ELEVACIÓN E06. El 404 deja de apoyarse en un fantasma cartoon
+   (flotar infinito + rebote al hover) y pasa a ser un momento de
+   marca SOBRIO y conducido por la tipografía: el numeral «404» en
+   Fraunces display (cobalto estructural) como ancla, un titular
+   preciso en la voz institucional, UNA vía clara de regreso y un
+   pie de registro en el tono instrumental del proyecto. Delicadeza
+   por contención, no por gimmick. Respeta la porcelana fría
+   (--color-surface, vía .page) y el movimiento reducido.
    ============================================================ */
 
 /* La sección vive dentro de <main class="page">; el contenedor de
@@ -12,16 +21,16 @@
    bloque queda centrado en el ancho disponible y mantiene una caja
    amplia para que el conjunto no se pegue al navbar ni al footer. */
 .error404 {
-  /* Ancho máximo del conjunto interior (dígitos + fantasma + copy):
-     ~34 ch de la lectura del lead en --text-body; valor puntual del
-     componente, intencionalmente local (no es un token global). */
-  --error-panel-max: 560px;
+  /* Ancho máximo del conjunto interior (numeral + copy): ~lectura del
+     lead en --measure-narrow. Valor puntual del componente,
+     intencionalmente local (no es un token global). */
+  --error-panel-max: 34rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding-block: var(--space-12);
+  padding-block: var(--space-16);
 }
 
 .error404__inner {
@@ -29,128 +38,76 @@
   flex-direction: column;
   align-items: center;
   max-width: var(--error-panel-max);
-  /* Entrada del conjunto. Duración cruda + curva (no el compuesto
-     --transition-slow, que ya trae su propia curva: en `animation`
-     dos timing-functions invalidan la declaración). */
-  animation: error404-rise var(--dur-slow) var(--ease-emphasized) both;
 }
 
-/* ── Línea 4 · fantasma · 4 ── */
-.error404__display {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* Caja fluida (S3): absorbe el bloque max-width-first que vivía
-     en §RESPONSIVE (gap 16→20 px, margen 32→40 px entre 360 y
-     1280 px de viewport). */
-  gap: clamp(16px, 14.43px + 0.43vw, 20px);
-  margin-bottom: clamp(32px, 28.87px + 0.87vw, 40px);
-}
-
-.error404__digit {
+/* ── Numeral protagonista ──
+   El «404» es el elemento dominante: Fraunces display en el rol
+   --text-display-2xl (72→120 px fluido, tokens.css), color cobalto
+   (--color-accent). Como texto grande sobre --color-surface contrasta
+   7.9:1 — AAA (documentado en tokens.css §SEMÁNTICAS). Cifras
+   tabulares para un render parejo del numeral. */
+.error404__code {
   font-family: var(--font-display);
-  font-size: var(--text-display-2xl);   /* 72→120 px fluido (tokens.css) */
+  font-size: var(--text-display-2xl);
   font-weight: var(--weight-regular);
   line-height: 1;
-  letter-spacing: var(--tracking-tight);
+  letter-spacing: var(--tracking-display);
+  font-variant-numeric: tabular-nums;
   color: var(--color-accent);
-  opacity: 0.9;
+  margin-bottom: var(--space-8);
   user-select: none;
 }
 
-.error404__digit--left  { animation: error404-in-left  0.8s var(--ease-emphasized) both; }
-.error404__digit--right { animation: error404-in-right 0.8s var(--ease-emphasized) both; }
-
-/* ── Fantasma ── */
-.error404__ghost {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  /* Fluido 80 → 120 px (360 → 1280 px de viewport). */
-  width: clamp(80px, 64.35px + 4.35vw, 120px);
-  height: clamp(80px, 64.35px + 4.35vw, 120px);
-  animation: error404-float 2s var(--ease-in-out) infinite alternate;
-  transition: transform var(--transition-normal);
-  cursor: default;
-}
-
-.error404__ghost:hover {
-  transform: scale(1.1) translateY(-10px);
-}
-
-.error404__ghost img,
-.error404__ghost svg {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  -webkit-user-select: none;
-  user-select: none;
-  -webkit-user-drag: none;
-}
-
-/* SVG (Lucide "ghost") — color de marca. Sin dependencia externa. */
-.error404__ghost-fallback {
-  stroke: var(--color-accent);
-  fill: none;
-}
-
-/* ── Texto ── */
+/* ── Titular ── */
 .error404__title {
   font-family: var(--font-display);
   font-size: var(--text-h2);
   font-weight: var(--weight-regular);
   line-height: var(--leading-snug);
-  color: var(--color-text);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text);            /* 16.3:1 sobre --color-surface — AAA */
+  text-wrap: balance;
   margin-bottom: var(--space-4);
-  animation: error404-rise 0.6s var(--ease-emphasized) 0.15s both;
 }
 
 .error404__title em {
   font-style: italic;
-  color: var(--color-accent);
+  color: var(--color-accent);          /* 7.9:1 sobre --color-surface — AAA */
 }
 
+/* ── Bajada ── */
 .error404__lead {
   font-family: var(--font-body);
   font-size: var(--text-body);
   line-height: var(--leading-relaxed);
-  color: var(--color-text-soft);
+  color: var(--color-text-soft);       /* 8.2:1 sobre --color-surface — AAA */
+  max-width: var(--measure-narrow);
+  text-wrap: pretty;
   margin-bottom: var(--space-10);
-  animation: error404-rise 0.6s var(--ease-emphasized) 0.25s both;
 }
 
-/* ── Acción ── */
-.error404__action {
-  animation: error404-rise 0.6s var(--ease-emphasized) 0.35s both;
-}
-
+/* ── Acción primaria (única) ──
+   La vía clara de regreso. Mauveína (--color-cta vía .btn-primary):
+   color reservado a la ACCIÓN en el sistema de marca. Píldora con
+   padding generoso; la microinteracción la gobierna el .btn global
+   (elevación sutil de -1 px en hover, compresión en active). Sin
+   escalados propios: la sobriedad es la voz. */
 .error404 .btn {
   font-size: var(--text-body);
   padding: var(--space-3) var(--space-8);
   border-radius: var(--radius-pill);
-  transition: opacity var(--transition-fast), transform var(--transition-fast);
-}
-
-.error404 .btn:hover {
-  transform: scale(1.04);
-}
-
-.error404 .btn:active {
-  transform: scale(0.97);
 }
 
 /* ── Atajos a las secciones principales ──
-   Lista horizontal de enlaces como segundo nivel de salida (el
-   botón de acción primaria sigue siendo «Volver al inicio»). Se
-   renderiza como texto-enlace, no como botones, para no competir
-   con la CTA principal y respetar la reserva de --color-cta. */
+   Segundo nivel de salida (la acción primaria sigue siendo «Volver al
+   inicio»). Texto-enlace, no botones, para no competir con la CTA ni
+   con la reserva de --color-cta. */
 .error404__nav {
-  margin-top: var(--space-8);
+  margin-top: var(--space-10);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--space-3);
-  animation: error404-rise 0.6s var(--ease-emphasized) 0.40s both;
 }
 
 .error404__nav-label {
@@ -159,7 +116,7 @@
   font-weight: var(--weight-regular);
   letter-spacing: var(--tracking-wider);
   text-transform: uppercase;
-  color: var(--color-text-faint);
+  color: var(--color-text-faint);      /* 5.8:1 sobre --color-surface — AA */
 }
 
 .error404__nav-list {
@@ -175,7 +132,7 @@
 .error404__nav-list a {
   font-family: var(--font-body);
   font-size: var(--text-small);
-  color: var(--color-accent);
+  color: var(--color-accent);          /* 7.9:1 sobre --color-surface — AAA */
   text-decoration: underline;
   /* Override local del token global (2 px): estos enlaces llevan
      3 px de aire bajo el texto para conservar su render. */
@@ -184,67 +141,60 @@
 }
 
 .error404__nav-list a:hover {
-  color: var(--color-accent-soft);
+  color: var(--color-accent-soft);     /* 5.2:1 sobre --color-surface — AA */
 }
 
-/* ── Nota explicativa ── */
+/* ── Pie de registro (colofón) ──
+   La nota en el tono INSTRUMENTAL del proyecto («instrumental,
+   riguroso»): lectura de instrumento, no disculpa. Se abre con un
+   filete editorial hairline (--rule, contrato E01) que la separa por
+   LÍNEA, no por caja, y la cierra a lo ancho de la columna. */
 .error404__note {
+  align-self: stretch;
+  margin-top: var(--space-12);
+  padding-top: var(--space-5);
+  border-top: var(--rule);
   font-family: var(--font-mono);
   font-size: var(--text-caption);
   letter-spacing: var(--tracking-wide);
-  color: var(--color-text-faint);
-  margin-top: var(--space-12);
-  animation: error404-rise 0.6s var(--ease-emphasized) 0.45s both;
+  color: var(--color-text-faint);      /* 5.8:1 sobre --color-surface — AA */
 }
 
 /* ─────────────────────────────────────────────────────────────
-   ANIMACIONES
+   MOVIMIENTO
+   ─────────────────────────────────────────────────────────────
+   Una sola entrada orquestada al cargar (permiso de marca: «un
+   page-load bien orquestado»). El conjunto sube y aparece con un
+   escalonado sutil. SIN bucles ni hover-gimmicks.
+
+   La animación vive dentro de @media (prefers-reduced-motion:
+   no-preference): bajo movimiento reducido NO se declara, de modo
+   que el contenido queda en su estado final VISIBLE por defecto
+   (nunca depende de que la animación corra para aparecer — no hay
+   riesgo de página en blanco en pestañas ocultas o renders headless).
    ───────────────────────────────────────────────────────────── */
 
+@media (prefers-reduced-motion: no-preference) {
+  .error404__inner > * {
+    animation: error404-rise var(--dur-slow) var(--ease-emphasized) both;
+  }
+  .error404__code   { animation-delay: 0s; }
+  .error404__title  { animation-delay: 0.06s; }
+  .error404__lead   { animation-delay: 0.12s; }
+  .error404__action { animation-delay: 0.18s; }
+  .error404__nav    { animation-delay: 0.24s; }
+  .error404__note   { animation-delay: 0.30s; }
+}
+
 @keyframes error404-rise {
-  0%   { opacity: 0; transform: translateY(20px); }
+  0%   { opacity: 0; transform: translateY(16px); }
   100% { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes error404-in-left {
-  0%   { opacity: 0; transform: translateX(-40px) translateY(15px) rotate(-5deg); }
-  100% { opacity: 0.9; transform: translateX(0) translateY(0) rotate(0); }
-}
-
-@keyframes error404-in-right {
-  0%   { opacity: 0; transform: translateX(40px) translateY(15px) rotate(5deg); }
-  100% { opacity: 0.9; transform: translateX(0) translateY(0) rotate(0); }
-}
-
-@keyframes error404-float {
-  0%   { transform: translateY(-5px); }
-  100% { transform: translateY(5px); }
 }
 
 /* ─────────────────────────────────────────────────────────────
    RESPONSIVE
    ─────────────────────────────────────────────────────────────
-   Sin @media (S3): la escala fluida absorbe los escalones
-   tipográficos (120→80 px del dígito; 32→24 px del título) y los
-   clamp() de las reglas base absorben el antiguo bloque
-   max-width (≤768).
+   Sin @media de layout: la escala fluida absorbe el numeral
+   (--text-display-2xl 72→120 px) y el resto de la composición es una
+   sola columna centrada en cualquier viewport.
    ───────────────────────────────────────────────────────────── */
-
-/* ─────────────────────────────────────────────────────────────
-   ACCESIBILIDAD — movimiento reducido
-   ───────────────────────────────────────────────────────────── */
-
-@media (prefers-reduced-motion: reduce) {
-  .error404__inner,
-  .error404__digit--left,
-  .error404__digit--right,
-  .error404__ghost,
-  .error404__title,
-  .error404__lead,
-  .error404__action,
-  .error404__nav,
-  .error404__note {
-    animation: none;
-  }
-  .error404__ghost:hover { transform: none; }
-}

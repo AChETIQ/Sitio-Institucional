@@ -100,7 +100,7 @@ Medidas asociadas: `--measure-title` (22ch, titulares display de `.page-header` 
 
 | Token | 360 px | 1280 px | Uso |
 |---|---|---|---|
-| `--text-display-2xl` | 72 | 120 | Dígitos del 404 |
+| `--text-display-2xl` | 72 | 120 | Numeral «404» (`.error404__code`, §8.3) |
 | `--text-display-xl` | 40 | 65 | Titular del hero |
 | `--text-display` | 40 | 52 | H1, titulares feature |
 | `--text-h2` | 33 | 41 | H2 |
@@ -192,7 +192,7 @@ La fase P04 (movimiento) tokenizó el movimiento del sitio y lo elevó a sistema
 | `.navbar__submenu`, panel, hamburguesa | hover / toggle | fundido + `translateY`/`translateX`, barras→cruz | `--dur-normal var(--ease-out)`, opacidad `--dur-fast` |
 | Documento ↔ documento | navegación MPA | View Transitions: navbar persistente (`view-transition-name: navbar`) + cross-fade raíz | `--dur-normal var(--ease-emphasized)` |
 
-**Contrato de movimiento reducido.** Se **preserva intacto** el reset global de `main.css §2` (`@media (prefers-reduced-motion: reduce)` neutraliza `animation`/`transition` para todo `*:not(.safe-motion)`) y la excepción `.safe-motion` (puntos del loader: el rebote pasa a pulso de opacidad). Las animaciones nuevas (`.anim-enter`, `.reveal-armed`) viven dentro de `@media (prefers-reduced-motion: no-preference)`: bajo movimiento reducido **no se aplican** y el contenido queda en su estado final visible, sin retención ni parpadeo. Las View Transitions se desactivan (`@view-transition { navigation: none }`) → navegación instantánea. Nada parpadea ni hace bucle infinito salvo los indicadores de carga existentes (puntos del loader, pulso del separador del countdown, flotar del fantasma del 404), todos ya cubiertos por el reset.
+**Contrato de movimiento reducido.** Se **preserva intacto** el reset global de `main.css §2` (`@media (prefers-reduced-motion: reduce)` neutraliza `animation`/`transition` para todo `*:not(.safe-motion)`) y la excepción `.safe-motion` (puntos del loader: el rebote pasa a pulso de opacidad). Las animaciones nuevas (`.anim-enter`, `.reveal-armed`) viven dentro de `@media (prefers-reduced-motion: no-preference)`: bajo movimiento reducido **no se aplican** y el contenido queda en su estado final visible, sin retención ni parpadeo. Las View Transitions se desactivan (`@view-transition { navigation: none }`) → navegación instantánea. Nada parpadea ni hace bucle infinito salvo los indicadores de carga existentes (puntos del loader, pulso del separador del countdown), todos ya cubiertos por el reset. *(El flotar/rebote del fantasma del 404 se retiró en E06: la página ahora tiene una única entrada orquestada sin bucle — §8.3.)*
 
 **Verificación P04 (2026-06-16).** Inventario previo de toda animación/transición del sitio (archivo, disparo, duración, curva, comportamiento bajo movimiento reducido) reconciliado contra la implementación viva: ya existían tokens de duración (`--transition-*`) y un sistema de scroll-reveal de imagen (`scroll-reveal.js` + `states.css §10.3`). P04 los **elevó**: añadió la capa de curvas y la rampa de duración cruda, migró las curvas inline a tokens, eliminó el único rebote, e incorporó las microinteracciones, la entrada escalonada de contenido, el scroll-reveal de grupo y las View Transitions entre documentos. Se verificó cada página en modo normal y con movimiento reducido emulado; se confirmó que las animaciones corren sólo sobre `transform`/`opacity`/`filter`/`clip-path`.
 
@@ -1392,6 +1392,8 @@ Umbrales de contenedor canónicos (referencia en `tokens.css` §UMBRALES DE CONT
 
 **Verificación p03 (2026-06-15).** El patrón pasó axe-core sin incidencias serias/críticas. Revisión de endurecimiento (`/impeccable harden`): la fuente del correo destino (`data/redes.json`) puede fallar por red — el handler degrada con un mensaje de estado que reenvía a los canales directos en lugar de romper el envío; `status.textContent` se limpia al inicio de cada submit para no dejar un éxito previo desactualizado; el `mailto` escapa asunto y cuerpo con `encodeURIComponent`; `maxlength="1000"` acota el textarea; el `<noscript>` espeja la vía sin JavaScript. Sin defectos abiertos.
 
+**Elevación E06 — composición editorial del formulario (`.form-layout` / `.form-aside`, forms.css §6.0).** En `pages/contacto.html` la página entra en el sistema **E01**: se eliminan los *eyebrows* mono por sección (queda **un** kicker, el de `.page-header`) y cada sección abre con `.section-title--display` + filete `.section-ruled` (la primera, canales, sin filete propio: la precede el borde inferior del `.page-header`). El formulario deja de flotar suelto y se compone como una **fila editorial de dos columnas** —misma decisión que `.gabinete-section` y `.page-header`—: un «ladillo» de revista (`.form-aside`, prosa de apoyo no interactiva) a la izquierda y el `<form>` a la derecha, `minmax(0, 17rem) minmax(0, var(--measure-prose))` en `≥1024px`; apilado en móvil con el aside **antes** del formulario (contexto antes que acción; el orden visual = lectura = foco, sin desfase WCAG 2.4.3). El ladillo es **prosa plana sin caja ni filete** (elevación E01): un `.form-aside__lead` en tinta plena (`--color-text`, 16.3:1) que nombra la vía formal y la mecánica del `mailto`, y un `.form-aside__note` subordinado (`--color-text-soft`, 8.2:1) sobre privacidad. El botón de envío se agrupa en `.form__actions` (aire superior). **No se toca `contacto-form.js` ni la estructura interna del `<form>`**: el patrón accesible S4 (labels visibles, `aria-describedby`, resumen `role="alert"`, `:user-invalid` con señal no cromática, `.form__status`) queda **íntegro** — sólo se envuelve y recompone la presentación. `@media print` colapsa `.form-layout` a una columna (mismo criterio que `.gabinete-section`). **Microcopy propuesta** (no impuesta): standfirsts de canales/ubicación y notas del ladillo.
+
 ---
 
 ## 7. Navegación secundaria
@@ -1531,6 +1533,41 @@ Umbrales de contenedor canónicos (referencia en `tokens.css` §UMBRALES DE CONT
 **HTML.** `<span class="tag">Termodinámica</span>`
 
 **Especificación.** Padding `var(--space-px-2) var(--space-2)`, fondo `var(--color-border-soft)`, color `var(--color-text)`, tipografía mono `--text-eyebrow-sm`, radio `var(--radius-sm)`. Variante `--primary` con fondo `var(--color-accent-soft)` y texto `var(--color-on-accent)` (5.5:1 — AA).
+
+---
+
+### 8.3 Página de error 404 — `.error404` [ELEVACIÓN E06 — type-led]
+
+**Propósito.** La pantalla de «página no encontrada» (`404.html`, hoja `assets/css/error-404.css` — **no** entra al bundle; `404.html` la enlaza aparte tras `main.bundle.css`). Es un **momento de marca**, no un descarte: sobrio, conducido por la tipografía y con **una** vía clara de regreso.
+
+**Redirección E06 (2026-06-17).** Se retira el **fantasma cartoon** (Lucide `ghost`) con su **flotar infinito** (`error404-float`) y su **rebote al hover** (`scale(1.1)`): era *gimmick*, no marca. El nuevo bloque es **type-led** — el numeral «404» en **Fraunces display** (`--text-display-2xl`, 72→120 px fluido), color **cobalto** (`--color-accent`, 7.9:1 sobre `--color-surface` — AAA), como ancla; bajo él, titular preciso en la voz institucional (sin la broma del «fantasma»), bajada de orientación, **CTA única** «Volver al inicio» (`.btn-primary` mauveína — color reservado a la acción) y un **pie de registro** (`.error404__note`) en el tono **instrumental** del proyecto («`HTTP 404 · el servidor no encontró el recurso solicitado`»), separado por un **filete editorial** hairline (`var(--rule)`, contrato E01). *Delicadeza por contención.*
+
+**Estructura HTML.**
+
+```html
+<section class="error404" aria-labelledby="error404-title">
+  <div class="error404__inner">
+    <!-- Numeral decorativo: aria-hidden (el <h1> y la nota portan el significado). -->
+    <p class="error404__code" aria-hidden="true">404</p>
+    <h1 class="error404__title" id="error404-title">Esta página no <em>existe</em></h1>
+    <p class="error404__lead">El enlace que seguiste no existe o cambió de lugar. …</p>
+    <div class="error404__action">
+      <a class="btn btn-primary" href="./index.html">Volver al inicio</a>
+    </div>
+    <nav class="error404__nav" aria-label="Ir a una sección principal">
+      <p class="error404__nav-label">O ir directo a una sección</p>
+      <ul class="error404__nav-list"><li>…</li></ul>
+    </nav>
+    <p class="error404__note">HTTP 404 · el servidor no encontró el recurso solicitado</p>
+  </div>
+</section>
+```
+
+**Accesibilidad.** El numeral `404` es **decorativo** (`aria-hidden="true"`): evita que el lector de pantalla deletree «cuatro cero cuatro» como titular. El significado lo portan el `<h1>` (`aria-labelledby` de la sección), el `<title>` del documento y el pie de registro. `<meta name="robots" content="noindex, follow">` se conserva. Numeral con `font-variant-numeric: tabular-nums`.
+
+**Movimiento (contrato P04 / brand permission).** UNA entrada orquestada al cargar: el conjunto sube y aparece con un escalonado sutil (`error404-rise`, `--dur-slow var(--ease-emphasized)`). **Sin bucles ni hover-gimmicks.** La animación vive dentro de `@media (prefers-reduced-motion: no-preference)`: bajo movimiento reducido **no se declara** y el contenido queda en su estado final **visible** por defecto (no depende de que la animación corra → sin riesgo de página en blanco). El fondo es la **porcelana fría** de `.page` (`--color-surface`).
+
+**Contraste (todos sobre `--color-surface`).** Numeral/itálica/enlaces `--color-accent` 7.9:1 (AAA) · titular `--color-text` 16.3:1 (AAA) · bajada `--color-text-soft` 8.2:1 (AAA) · label de nav y pie `--color-text-faint` 5.8:1 (AA) · hover de enlaces `--color-accent-soft` 5.2:1 (AA) · CTA `.btn-primary` (mauveína) 6.0:1 (AA). Sin tokens nuevos. **Microcopy propuesta** (no impuesta): titular, bajada y pie de registro.
 
 ---
 

@@ -142,9 +142,11 @@
              enlaza al sitio web de la FRRe (nueva pestaña).
          ════════════════════════════════════════════════════════ -->
     <section aria-labelledby="canales-title">
-      <header class="section-title">
-        <p class="eyebrow">Canales directos</p>
+      <header class="section-title section-title--display">
         <h2 id="canales-title">Cómo <em>contactarnos</em></h2>
+        <p class="section-title__standfirst">
+          El correo institucional es la vía formal; las redes acompañan el día a día de la asociación.
+        </p>
       </header>
       <div data-loader="redes" data-scroll-reveal></div>
     </section>
@@ -162,62 +164,86 @@
          patrón demostrable, la decisión 2026-05-14 «solo
          canales»; el canal sigue siendo el correo institucional.
          ════════════════════════════════════════════════════════ -->
-    <section aria-labelledby="mensaje-title">
-      <header class="section-title">
-        <p class="eyebrow">Mensaje directo</p>
+    <section class="section-ruled" aria-labelledby="mensaje-title">
+      <header class="section-title section-title--display">
         <h2 id="mensaje-title">Escribinos un <em>mensaje</em></h2>
       </header>
 
       <noscript>
-        <p>
+        <p class="form-aside__lead">
           El formulario necesita JavaScript. Podés escribirnos igual por
           cualquiera de los canales directos de la sección anterior.
         </p>
       </noscript>
 
-      <form class="form" data-contact-form novalidate>
+      <!-- ──────────────────────────────────────────────────────────
+           Composición editorial de dos columnas (E01): un «ladillo»
+           de revista a la izquierda enmarca el formulario a la
+           derecha (misma decisión que .gabinete-section / .page-header
+           — minmax(0, 17rem) · minmax(0, --measure-prose) en ≥1024px;
+           apilado en móvil). El aside es prosa de apoyo no interactiva
+           y precede al <form> en orden de lectura: contexto antes que
+           acción, sin desfasar el orden de foco. El <form> conserva
+           ÍNTEGRO el patrón accesible S4 (no se toca su estructura ni
+           contacto-form.js).
+           ────────────────────────────────────────────────────────── -->
+      <div class="form-layout">
+        <aside class="form-aside">
+          <p class="form-aside__lead">
+            El correo institucional es la vía formal de contacto. Preparamos
+            el mensaje en tu aplicación de correo: lo revisás, lo enviás vos
+            y conservás la copia.
+          </p>
+          <p class="form-aside__note">
+            Usamos tu correo solo para responderte. No lo compartimos ni lo
+            sumamos a ninguna lista.
+          </p>
+        </aside>
 
-        <p class="form__hint">Los tres campos son obligatorios.</p>
+        <form class="form" data-contact-form novalidate>
 
-        <div class="form__error-summary" role="alert" tabindex="-1" hidden>
-          <p class="form__error-summary-title">Revisá estos campos antes de enviar:</p>
-          <ul class="form__error-summary-list"></ul>
-        </div>
+          <p class="form__hint">Los tres campos son obligatorios.</p>
 
-        <div class="form__row">
-          <div class="form__field">
-            <label class="form__label" for="contacto-nombre">Nombre y apellido</label>
-            <input class="form__input" id="contacto-nombre" name="nombre"
-                   type="text" autocomplete="name" required
-                   aria-describedby="contacto-nombre-error">
-            <p class="form__error" id="contacto-nombre-error" hidden></p>
+          <div class="form__error-summary" role="alert" tabindex="-1" hidden>
+            <p class="form__error-summary-title">Revisá estos campos antes de enviar:</p>
+            <ul class="form__error-summary-list"></ul>
+          </div>
+
+          <div class="form__row">
+            <div class="form__field">
+              <label class="form__label" for="contacto-nombre">Nombre y apellido</label>
+              <input class="form__input" id="contacto-nombre" name="nombre"
+                     type="text" autocomplete="name" required
+                     aria-describedby="contacto-nombre-error">
+              <p class="form__error" id="contacto-nombre-error" hidden></p>
+            </div>
+
+            <div class="form__field">
+              <label class="form__label" for="contacto-email">Correo electrónico</label>
+              <input class="form__input" id="contacto-email" name="email"
+                     type="email" autocomplete="email" inputmode="email" spellcheck="false" required
+                     aria-describedby="contacto-email-hint contacto-email-error">
+              <p class="form__hint" id="contacto-email-hint">Lo usamos únicamente para responderte.</p>
+              <p class="form__error" id="contacto-email-error" hidden></p>
+            </div>
           </div>
 
           <div class="form__field">
-            <label class="form__label" for="contacto-email">Correo electrónico</label>
-            <input class="form__input" id="contacto-email" name="email"
-                   type="email" autocomplete="email" inputmode="email" spellcheck="false" required
-                   aria-describedby="contacto-email-hint contacto-email-error">
-            <p class="form__hint" id="contacto-email-hint">Lo usamos únicamente para responderte.</p>
-            <p class="form__error" id="contacto-email-error" hidden></p>
+            <label class="form__label" for="contacto-mensaje">Mensaje</label>
+            <textarea class="form__input form__input--textarea" id="contacto-mensaje"
+                      name="mensaje" maxlength="1000" required
+                      aria-describedby="contacto-mensaje-hint contacto-mensaje-error"></textarea>
+            <p class="form__hint" id="contacto-mensaje-hint">Hasta 1000 caracteres.</p>
+            <p class="form__error" id="contacto-mensaje-error" hidden></p>
           </div>
-        </div>
 
-        <div class="form__field">
-          <label class="form__label" for="contacto-mensaje">Mensaje</label>
-          <textarea class="form__input form__input--textarea" id="contacto-mensaje"
-                    name="mensaje" maxlength="1000" required
-                    aria-describedby="contacto-mensaje-hint contacto-mensaje-error"></textarea>
-          <p class="form__hint" id="contacto-mensaje-hint">Hasta 1000 caracteres.</p>
-          <p class="form__error" id="contacto-mensaje-error" hidden></p>
-        </div>
+          <p class="form__status" role="status" aria-live="polite"></p>
 
-        <p class="form__status" role="status" aria-live="polite"></p>
-
-        <div>
-          <button class="btn btn-primary" type="submit">Enviar mensaje</button>
-        </div>
-      </form>
+          <div class="form__actions">
+            <button class="btn btn-primary" type="submit">Enviar mensaje</button>
+          </div>
+        </form>
+      </div>
     </section>
 
     <!-- ════════════════════════════════════════════════════════
@@ -230,10 +256,12 @@
          Google Maps para quienes no quieran cargar el iframe o
          lo tengan bloqueado.
          ════════════════════════════════════════════════════════ -->
-    <section aria-labelledby="ubicacion-title">
-      <header class="section-title">
-        <p class="eyebrow">Ubicación</p>
+    <section class="section-ruled" aria-labelledby="ubicacion-title">
+      <header class="section-title section-title--display">
         <h2 id="ubicacion-title">Dónde <em>encontrarnos</em></h2>
+        <p class="section-title__standfirst">
+          La asociación funciona en la Facultad Regional Resistencia de la UTN, sobre calle French.
+        </p>
       </header>
       <figure class="map-figure">
         <iframe
