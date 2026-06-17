@@ -750,6 +750,43 @@ Resuelve las deudas P1 #6 (doble grilla homogénea sin jerarquía) y #7 (eyebrow
 
 ---
 
+### 4.2-quater Índice editorial de servicios de Recursos — `.recursos-index` (E05, hub)
+
+**Propósito.** El hub `pages/recursos.html` abre a sus **dos servicios** (Apuntes por materia, Seguimiento de carrera) como un **sumario editorial de filas a ANCHO COMPLETO**, no como una grilla de dos tarjetas en caja. **Espejo arquitectónico directo de `.gabinetes-hub`** (§4.2-elevación, E04): una sola columna, filas estables de tres zonas, filetes de tinta y **sin caja**. Vive en la hoja de página `recursos.css` §1 (familia E05). Resuelve la regresión «dos `card-gabinete` dentro de un bloque teñido» del primer pase E05 y le da al núcleo académico **un camino claro** a cada herramienta.
+
+**HTML (estático — no lo inyecta el motor; el partial fue preparado para esta página, dentro de `[data-countdown-revealed]`).**
+
+```html
+<ul class="recursos-index" data-scroll-reveal>
+  <li class="recursos-index__item">
+    <a class="recursos-index__link" href="./recursos/apuntes.html">
+      <span class="recursos-index__icon" aria-hidden="true"><svg…></span>
+      <span class="recursos-index__body">
+        <span class="recursos-index__name">Apuntes por materia</span>
+        <span class="recursos-index__desc">…</span>
+      </span>
+      <svg class="recursos-index__arrow" aria-hidden="true">…</svg>
+    </a>
+  </li> … (×2)
+</ul>
+```
+
+**Especificación (rediseño «filas estrictas a ancho completo»).**
+
+- **Sin caja — el índice respira sobre el fondo de página.** El contrato del partial obliga a que `[data-countdown-revealed]` cuelgue de `[data-countdown]` (`countdown-recursos.js`). Como `.countdown` es un **panel protagónico centrado** (padding, `overflow:hidden` y glows de fondo `.countdown__backdrop`), su contenido revelado quedaba **encajonado en un bloque teñido**. En estado revelado (`.countdown[data-countdown-state="revealed"]`, atributo que fija el JS) el contenedor pasa a `display:block; padding:0; overflow:visible` y se **oculta el backdrop**: el índice queda a flor del fondo. Sin JS el contenido revelado sigue `[hidden]` y el panel de espera conserva su tratamiento — sin conflicto.
+- **Filas a ancho completo (1 columna SIEMPRE).** `.recursos-index` es una sola columna; **no** hay paso a 2 columnas. La separación la hacen **filetes de tinta** `var(--rule-ink)` (1.5 px): `border-top` por entrada + `border-bottom` del `<ul>` que cierra el sumario. Sin `gap`, sin filete central, sin franjas de acento.
+- **Tres zonas estables (sin retícula 50/50).** Cada `.recursos-index__link` es una grilla `max-content | minmax(0,1fr) | max-content` = **ícono (izquierda) | nombre + bajada (centro) | flecha (derecha)**, idéntica en ambas filas (ejes que no se desplazan). Sin padding lateral: la fila ocupa el ancho del índice. El nombre en **Fraunces display** (`--text-kpi`, elemento dominante); la bajada en Hanken `--text-small` `--color-text-soft` (medida `--measure-narrow`); el ícono de orientación en `--color-accent-soft`; la flecha `--color-accent`, centrada en la fila.
+- **Realce de FILA COMPLETA.** Hover/foco aplican un **lavado cobalto frío `var(--color-surface-accent)` a toda la fila** (sangra de borde a borde), el nombre vira a `--color-accent` y la flecha avanza con `translateX`. La afordancia es la fila entera, no un fragmento.
+- **Color:** el **cobalto** firma la navegación; la **mauveína NO aparece** aquí (reservada a la acción primaria del sitio, ≤10 %).
+- **Cabecera del bloque:** `.section-title--display` + `.section-title__lead` en **una columna alineada a la izquierda** (se abandonó el `__standfirst` a dos columnas para no sumar un eje en conflicto con las filas). Sin eyebrow mono por sección (deuda de cadencia, DESIGN.md). El índice es el contenido revelado al expirar la cuenta.
+- **Movimiento:** revelado `[data-scroll-reveal]` con estado por defecto **visible** (mejora progresiva: sin JS o bajo `prefers-reduced-motion` el índice se muestra completo, nunca recortado).
+
+**Accesibilidad.** Cada fila es un único destino y nombre accesible por su contenido; íconos `aria-hidden`. Objetivo táctil de la fila ≫ 24 px (≈ 139 px escritorio · 205 px móvil, medidos). Foco por el anillo global de `focus.css` más el lavado de fila y el realce de nombre/flecha en `:focus-visible`.
+
+**Intocable.** No se toca el motor data-loader, el mecanismo ni el JS de la cuenta regresiva (`countdown-recursos.js`) —sólo se sobre-escribe la PRESENTACIÓN del contenedor en su estado revelado, vía el atributo `data-countdown-state` que el propio JS ya emite—, ni el esquema de datos. La elevación es 100 % HTML de página + CSS.
+
+---
+
 ### 4.3 Card de integrante de directiva — `.card-integrante`
 
 **Propósito.** Representa a un miembro de la comisión directiva.
@@ -1408,6 +1445,8 @@ Umbrales de contenedor canónicos (referencia en `tokens.css` §UMBRALES DE CONT
 - Foco: anillo del sistema centralizado (§0.4); sobre la pill activa el offset deja el anillo sobre el fondo de página (7.95:1).
 - El efecto del filtro se anuncia en una región viva `sr-only` polite («Mostrando N materias…», ver §8.1bis).
 
+**Elevación E05 — barra de filtro legible (`.apuntes-filter`, `recursos.css` §2).** En `pages/recursos/apuntes.html` el `.pill-nav` deja de flotar suelto y se envuelve en una **barra de filtro** con etiqueta visible: `Filtrar por año` en `--font-mono` `--text-caption` `--color-text-faint` (el registro de metadato del sistema), de modo que el estudiante lea «esto filtra por año» antes de pulsar. Móvil: etiqueta sobre las pills (columna). Escritorio (`≥768px`): etiqueta y pills comparten línea de base (fila). La barra **no** añade filete propio: el `.page-header` ya cierra con su `border-bottom` hairline + 48 px de aire, y un `border-top` aquí duplicaría la línea. El `<nav>` toma su nombre accesible del rótulo visible vía `aria-labelledby` (antes un `aria-label` redundante). El `data-anio-filter` y el cableado de `apuntes.js` quedan intactos. **Microcopy propuesta** (no impuesta): la etiqueta «Filtrar por año».
+
 ---
 
 ### 7.3 Pestañas en página — `.about-tabs` (E03)
@@ -1471,6 +1510,17 @@ Umbrales de contenedor canónicos (referencia en `tokens.css` §UMBRALES DE CONT
 **Política de anuncios del motor (`main.js`/`loaders.js`).** La llegada del **contenido real no se anuncia**: el loader (región viva) se retira con `replaceChildren()` y el contenido entra sin `aria-live`, evitando ráfagas. Hablan únicamente el estado de carga («Cargando…», polite), el empty (polite) y el error (alert). El filtro por año de Apuntes anuncia su **efecto** («Mostrando N materias…») en una región `sr-only` polite propia (apuntes.js).
 
 **Verificación p03 (2026-06-15).** Política revisada y ratificada: el swap loader→contenido es silencioso (sin spam) y solo los estados terminales excepcionales (empty/error) y el progreso de carga emiten a la región viva. La inserción en dos fases (`setLiveText`) se conserva como garantía del anuncio del cambio. Sin cambios de comportamiento; queda documentado como patrón verificado.
+
+**Verificación E05 (Apuntes, datos reales).** Los tres estados terminales del grid de materias (`data-loader="recursos"`) se ejercitaron bajo datos reales con interceptación de red: **loading** (loader inline «Cargando…» centrado bajo la barra de filtro), **empty** (`[]` → `.empty-state` con la receta de tinte suave faint, centrado y aireado) y **error** (HTTP 500 → `.loader-error`, banda de tinte `--color-negative` al 4 %/borde 25 %, `role="alert"`). Los tres respetan la **misma receta de tinte suave** ya establecida (`states.css`) y conviven con la barra `.apuntes-filter` sin saltos; `recursos.css` §3 colapsa el `gap` del grid cuando uno de esos bloques lo ocupa (`[data-loader-state]` = loading/empty/error → `display:block`) para que el estado quede centrado sin pista fantasma. La presentación es lo único tocado: el motor (`main.js`/`loaders.js`) y el override `apuntes.js` quedan intactos.
+
+---
+
+### 8.1ter Herramienta de Seguimiento — elevación E05 (presentación)
+
+**Propósito.** Elevar la herramienta de seguimiento (`pages/recursos/seguimiento.html`, hoja `seguimiento.css`) para que se sienta **diseñada**, sin tocar su lógica (`seguimiento.js`, 53 KB), su esquema (`data/plan_academico.json`) ni el almacenamiento local.
+
+- **Pestañas (`.seg-tabs__tab`).** Se retiran los **emojis** decorativos (📊/📝) y las **mayúsculas tracked**: la voz de marca veta emojis (PRODUCT.md §Brand Personality). Las etiquetas pasan a caja de título — «Seguimiento», «Exámenes finales», «Nota al estudiante» — en `--text-body` peso medium; el indicador activo es el filete cobalto de 2 px sobre la línea base del tablist, con hover insinuado en `--color-border`. El `data-tab` (clave por la que `seguimiento.js wireTabs` selecciona la pestaña) **no cambia**: la lógica de tablist WAI-ARIA queda intacta. Objetivo táctil ≈ 48 px. **Microcopy propuesta** (no impuesta): el texto de las tres pestañas y la retirada de emojis.
+- **Reconciliación de paleta (rule 3).** La «paleta LOCAL histórica» de la herramienta —la codificación por nivel del Excel original (seis matices)— **ya no es excepción local**: se re-derivó con la metodología OKLCH del sistema (accent `L 0.60` / fondo-alt `L 0.965` / texto `L 0.45`, matiz constante por nivel) y se centralizó en `tokens.css` CAPA 3 (`--nivel-*`), con contraste verificado **6.4–7.5:1** (AA, mayoría AAA). Es la **única paleta de color KEPT** fuera de los dos polos de marca, y a propósito: es un **sistema de datos** (distinguir niveles), no decoración ni identidad — análogo a la rampa por año de materias (`--color-materia-anio-*`). `seguimiento.css` sigue **sin declarar ningún color propio**; todo deriva de tokens. Decisión de marca conservada: los datos numéricos (KPI) usan `--color-text`, **nunca** mauveína (reservada a la acción, `.btn-primary`).
 
 ---
 

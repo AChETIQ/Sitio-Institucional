@@ -1,0 +1,284 @@
+/* ============================================================
+   AChETIQ — Familia «Recursos» (recursos.css)
+   ------------------------------------------------------------
+   Versión: 1.0 · Fase 2 — Elevación editorial E05
+   Fundamento: DIRECCION_EDITORIAL.md §d (filetes hairline, blanco
+               estructural, tipografía antes que color) ·
+               DESIGN.md «Signature — Índice editorial» ·
+               FASE_1 §4.9 (tarjeta de materia, filtro por año) ·
+               tokens.css «Cobalto & Mauveína».
+
+   ALCANCE. Hoja del núcleo académico. Gobierna la PRESENTACIÓN de
+   las tres vistas de Recursos sin tocar el motor data-loader, el
+   esquema JSON ni la lógica de las herramientas:
+     1. HUB (pages/recursos.html) — el acceso editorial a los dos
+        servicios, resuelto como ÍNDICE (no grilla de tarjetas):
+        .recursos-index.
+     2. APUNTES (pages/recursos/apuntes.html) — la barra de filtro
+        por año legible (.apuntes-filter) y el aire del grid de
+        materias. Las tarjetas (.card-materia) y las pills
+        (.pill-nav) son componentes compartidos: aquí sólo se
+        compone su contexto.
+   La herramienta de SEGUIMIENTO conserva su hoja propia
+   (seguimiento.css); su elevación E05 vive allí.
+
+   Mobile-first. Cero hex y cero familias literales: todo deriva de
+   tokens.css. Los filetes usan --rule; la voz display, --font-display.
+   ============================================================ */
+
+
+/* ─────────────────────────────────────────────────────────────
+   1.  HUB — ÍNDICE EDITORIAL DE SERVICIOS — .recursos-index
+   ─────────────────────────────────────────────────────────────
+   Los dos servicios del núcleo académico (Apuntes, Seguimiento) NO
+   se listan como una grilla de tarjetas idénticas —el «recurso
+   perezoso» que el sistema veta— sino como el SUMARIO editorial de
+   firma (DESIGN.md «Índice editorial»): cada servicio es una FILA
+   a ANCHO COMPLETO, en una sola columna, separada por filetes de
+   tinta. Espejo arquitectónico directo de .gabinetes-hub
+   (gabinetes.css §1, E04): tres zonas estables —ícono de orientación
+   a la izquierda, nombre Fraunces + bajada al centro, flecha cobalto
+   a la derecha— sin retícula 50/50 ni ejes en conflicto. La fila
+   ENTERA es el destino (enlace en bloque); el realce de hover/foco es
+   un LAVADO COBALTO de toda la fila, no de un fragmento.
+
+   SIN CAJA. El contenido se apoya directamente en el fondo de página
+   y respira: la separación la hacen los filetes de tinta (--rule-ink),
+   no un panel teñido. Por eso, en estado revelado, se neutraliza el
+   tratamiento de «panel protagónico» del contenedor de la cuenta
+   regresiva (centrado, padding y glows de fondo) — ver bloque 1.b.
+
+   El cobalto firma la navegación; la mauveína NO aparece aquí
+   (queda reservada a la acción primaria del sitio).
+   ───────────────────────────────────────────────────────────── */
+
+/* ── 1.a  Desencajar el contenedor de la cuenta en estado revelado ──
+   El partial de la cuenta regresiva exige que [data-countdown-revealed]
+   sea descendiente de [data-countdown] (contrato de countdown-recursos
+   .js). El contenedor .countdown está pensado como PANEL CENTRADO con
+   glows de fondo y overflow oculto: ese tratamiento, heredado por el
+   contenido revelado, encajonaba el índice en un bloque teñido. Cuando
+   el JS revela (data-countdown-state="revealed"), el contenedor pasa a
+   ser un bloque neutro a ancho completo y se retira su backdrop, de
+   modo que el índice quede a flor del fondo de página. Sin JS, el
+   contenido revelado permanece [hidden] y el panel de espera conserva
+   su tratamiento protagónico: no hay conflicto. */
+.countdown[data-countdown-state="revealed"] {
+  display: block;
+  padding: 0;
+  overflow: visible;
+}
+
+.countdown[data-countdown-state="revealed"] .countdown__backdrop {
+  display: none;
+}
+
+/* ── 1.b  Índice de servicios — filas a ancho completo ──────────── */
+.recursos-index {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  /* Sin gap: los filetes de tinta forman el sumario continuo. El
+     filete inferior lo cierra; cada entrada aporta el superior. */
+  border-bottom: var(--rule-ink);
+  text-align: left;
+}
+
+.recursos-index__item {
+  border-top: var(--rule-ink);
+}
+
+/* Toda la fila es el destino: <a> en bloque, retícula estable de tres
+   zonas (ícono | cuerpo | flecha). Sin padding lateral: la fila ocupa
+   el ancho del índice y el lavado de hover/foco sangra de borde a
+   borde. Afordancia ≫ 24 px (la fila entera). */
+.recursos-index__link {
+  position: relative;
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr) max-content;
+  align-items: start;
+  column-gap: var(--space-5);
+  padding-block: var(--space-6);
+  color: var(--color-text);
+  text-decoration: none;
+  transition: background-color var(--transition-fast);
+}
+
+/* Ícono de orientación a la izquierda (zona 1). Línea cobalto medio,
+   bajada a la altura óptica del nombre. */
+.recursos-index__icon {
+  grid-column: 1;
+  display: inline-flex;
+  flex: none;
+  margin-top: 0.1em;
+  color: var(--color-accent-soft);
+}
+
+.recursos-index__icon svg {
+  width: var(--icon-md);                /* 28 px */
+  height: var(--icon-md);
+}
+
+/* Cuerpo al centro (zona 2): nombre + bajada. */
+.recursos-index__body {
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+/* Nombre del servicio en voz editorial (Fraunces display): elemento
+   dominante de cada entrada del sumario. Es la excepción canónica
+   del ÍNDICE (el nombre ES el titular), no del cuerpo. */
+.recursos-index__name {
+  font-family: var(--font-display);
+  font-size: var(--text-kpi);           /* 28 → 33 px serif */
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text);
+  text-wrap: balance;
+  transition: color var(--transition-fast);
+}
+
+.recursos-index__desc {
+  font-size: var(--text-small);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-soft);
+  max-width: var(--measure-narrow);
+}
+
+/* Flecha de afordancia a la derecha (zona 3): cobalto, centrada en la
+   fila. */
+.recursos-index__arrow {
+  grid-column: 3;
+  flex: none;
+  align-self: center;
+  width: var(--space-5);                /* 20 px */
+  height: var(--space-5);
+  color: var(--color-accent);
+  transition: transform var(--transition-fast), color var(--transition-fast);
+}
+
+/* Realce de la FILA COMPLETA: lavado cobalto frío sobre toda la fila
+   (no sólo el texto), el nombre vira a cobalto y la flecha avanza.
+   La afordancia es la fila entera. */
+@media (hover: hover) {
+  .recursos-index__link:hover {
+    background-color: var(--color-surface-accent);
+  }
+  .recursos-index__link:hover .recursos-index__name {
+    color: var(--color-accent);
+  }
+  .recursos-index__link:hover .recursos-index__arrow {
+    transform: translateX(var(--space-1));
+  }
+}
+
+/* Foco por teclado: el mismo lavado de fila además del anillo global
+   (focus.css). */
+.recursos-index__link:focus-visible {
+  background-color: var(--color-surface-accent);
+}
+.recursos-index__link:focus-visible .recursos-index__name {
+  color: var(--color-accent);
+}
+.recursos-index__link:focus-visible .recursos-index__arrow {
+  transform: translateX(var(--space-1));
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   2.  APUNTES — BARRA DE FILTRO LEGIBLE — .apuntes-filter
+   ─────────────────────────────────────────────────────────────
+   El filtro por año (.pill-nav, nav-secondary.css) ya rinde como
+   control; lo que faltaba era ENMARCARLO con un afordance claro.
+   La barra agrupa una etiqueta —caption mono, la voz de metadato
+   del sistema— con las pills, separadas por aire, de modo que el
+   estudiante lea «esto filtra por año» antes de pulsar. La barra se
+   apoya sobre un filete superior hairline: pertenece al grid que
+   filtra, no flota suelta sobre el page-header.
+   ───────────────────────────────────────────────────────────── */
+
+.apuntes-filter {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  /* Sin filete propio: el .page-header ya cierra con su border-bottom
+     hairline + 48 px de aire (headers.css §2.2). Un border-top aquí
+     duplicaría la línea. La barra se apoya en ese aire heredado. */
+}
+
+/* Etiqueta del filtro: caption mono en faint, el registro de
+   metadato del sistema (mismo que .card-materia__year). No es un
+   eyebrow de sección: rotula un control, no corona un bloque. */
+.apuntes-filter__label {
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+  margin: 0;
+}
+
+/* En escritorio la etiqueta y las pills comparten línea de base:
+   rótulo a la izquierda, pills fluyendo a su derecha. La etiqueta
+   reserva un ancho cómodo para que las pills arranquen alineadas. */
+@media (min-width: 768px) {
+  .apuntes-filter {
+    flex-direction: row;
+    align-items: baseline;
+    gap: var(--space-5);
+  }
+  .apuntes-filter__label {
+    flex: none;
+    /* Alinea ópticamente con la altura de las pills (13 px texto en
+       caja ≈ 41 px): empuja la etiqueta a su línea media. */
+    align-self: center;
+  }
+}
+
+/* La barra ya aporta el aire superior con su filete; el acople
+   .pill-nav + * (nav-secondary.css) reintroduciría --header-gap
+   sobre el grid. Aquí el grid sigue a la barra (no a las pills
+   sueltas), de modo que el ritmo lo controla este bloque. */
+.apuntes-filter .pill-nav {
+  margin: 0;
+}
+
+/* El grid de materias respira bajo la barra con el ritmo cabecera →
+   contenido del sistema (--header-gap), sin depender del selector
+   .pill-nav + * que aquí queda neutralizado por el wrapper. */
+.apuntes-filter + .apuntes-results,
+.apuntes-filter + [data-loader],
+.apuntes-filter + section {
+  margin-block-start: var(--header-gap);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   3.  APUNTES — AIRE DEL GRID DE MATERIAS
+   ─────────────────────────────────────────────────────────────
+   El grid fluido lo arma assets/js/apuntes.js (.apuntes__grid,
+   auto-fit minmax(--card-min, 1fr)). El conteo de materias por año
+   es alto (hasta ~10), así que el grid se beneficia de un gap algo
+   más generoso que el --grid-gap base, para que la rampa de cubiertas
+   coloreadas por año no se lea como un muro. Sólo toca el gap; la
+   densidad de columnas la sigue decidiendo --card-min.
+   ───────────────────────────────────────────────────────────── */
+
+.apuntes__grid {
+  gap: var(--space-5);
+}
+
+/* Los estados terminales del grid (loading / empty / error) los
+   inserta el motor (loaders.js §3) con la receta de tinte suave
+   compartida (.empty-state, .loader-error en states.css). Cuando
+   uno de esos bloques ocupa el grid, anula el gap heredado para que
+   el estado quede centrado sin una pista fantasma a su lado. */
+[data-loader="recursos"][data-loader-state="empty"],
+[data-loader="recursos"][data-loader-state="error"],
+[data-loader="recursos"][data-loader-state="loading"] {
+  display: block;
+}

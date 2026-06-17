@@ -21,6 +21,21 @@
    mauveína (--color-cta), reservada a CTA. Los valores de KPI usan
    --color-text; la mauveína sólo aparece en botones de acción
    (.btn-primary). Los avisos usan --color-warning (ámbar).
+
+   RECONCILIACIÓN E05 (rediseño Recursos). La «paleta LOCAL histórica»
+   de esta herramienta era la codificación por nivel del Excel
+   original (seis matices). Ya NO vive como excepción local: se
+   re-derivó con la metodología OKLCH del sistema (accent L 0.60 /
+   fondo-alt L 0.965 / texto L 0.45, matiz constante por nivel) y se
+   centralizó en tokens.css CAPA 3 (--nivel-*). Es la ÚNICA paleta de
+   color KEPT fuera de los dos polos de marca, y lo es a propósito:
+   es un SISTEMA DE DATOS (distinguir niveles), no decoración ni
+   identidad — análogo a la rampa por año de las materias
+   (--color-materia-anio-*). Contrastes verificados AA/AAA en
+   tokens.css. Esta hoja sigue sin declarar ningún color propio: todo
+   lo visible aquí deriva de tokens. La elevación E05 (pestañas sin
+   emoji, tipografía de pestaña, ritmo) se hace SÓLO con tokens, sin
+   tocar la lógica de la herramienta (seguimiento.js) ni el esquema.
    ============================================================ */
 
 
@@ -94,10 +109,15 @@
 .seg-tabs {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-1);
+  gap: var(--space-2);
   border-bottom: 1px solid var(--color-border);
 }
 
+/* Pestaña con etiqueta en caja de título (E05: sin emoji ni
+   mayúsculas tracked). El indicador activo es un filete cobalto de
+   2 px sobre la línea base del tablist; el peso y la tinta refuerzan
+   la selección. Objetivo táctil holgado: el padding deja la caja en
+   ≈ 44 px de alto (AAA WCAG 2.5.5), muy por encima del mínimo AA. */
 .seg-tabs__tab {
   appearance: none;
   background: transparent;
@@ -105,16 +125,21 @@
   border-bottom: 2px solid transparent;
   padding: var(--space-3) var(--space-4);
   font-family: var(--font-body);
-  font-size: var(--text-small);
+  font-size: var(--text-body);
   font-weight: var(--weight-medium);
+  line-height: var(--leading-snug);
   color: var(--color-text-soft);
   cursor: pointer;
   margin-bottom: -1px;
   transition: color var(--transition-fast), border-color var(--transition-fast);
 }
 
-.seg-tabs__tab:hover {
+/* Hover sobre pestaña inactiva: la tinta sube a ink y el filete se
+   insinúa en borde suave, anticipando el indicador activo sin
+   competir con él. */
+.seg-tabs__tab:hover:not([aria-selected="true"]) {
   color: var(--color-text);
+  border-bottom-color: var(--color-border);
 }
 
 .seg-tabs__tab[aria-selected="true"] {

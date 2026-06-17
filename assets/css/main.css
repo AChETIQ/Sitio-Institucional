@@ -72,6 +72,12 @@
    lists.css) para reescribir .card-gabinete y la composición de
    detalle por orden de aparición además de por especificidad. */
 @import url('gabinetes.css');
+/* recursos.css — hoja de PÁGINA de la familia E05 (hub + apuntes).
+   Va tras los componentes (cards.css, nav-secondary.css, states.css)
+   para componer el índice de servicios y la barra de filtro por
+   orden de aparición además de por especificidad. No toca el motor
+   data-loader ni la herramienta de seguimiento (seguimiento.css). */
+@import url('recursos.css');
 @import url('focus.css');
 /* focus.css centraliza TODO el tratamiento :focus-visible del
    sitio (S4). Va después de las hojas de componente para que sus

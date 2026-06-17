@@ -93,20 +93,23 @@
          El wiring vive en assets/js/apuntes.js (override del
          loader `recursos`).
          ════════════════════════════════════════════════════════ -->
-    <nav class="pill-nav" data-anio-filter aria-label="Filtrar materias por año">
-      <button class="pill-nav__pill is-active" type="button"
-              data-anio="all" aria-pressed="true">Todos</button>
-      <button class="pill-nav__pill" type="button"
-              data-anio="1" aria-pressed="false">1.º año</button>
-      <button class="pill-nav__pill" type="button"
-              data-anio="2" aria-pressed="false">2.º año</button>
-      <button class="pill-nav__pill" type="button"
-              data-anio="3" aria-pressed="false">3.º año</button>
-      <button class="pill-nav__pill" type="button"
-              data-anio="4" aria-pressed="false">4.º año</button>
-      <button class="pill-nav__pill" type="button"
-              data-anio="5" aria-pressed="false">5.º año</button>
-    </nav>
+    <div class="apuntes-filter">
+      <p class="apuntes-filter__label" id="apuntes-filter-label">Filtrar por año</p>
+      <nav class="pill-nav" data-anio-filter aria-labelledby="apuntes-filter-label">
+        <button class="pill-nav__pill is-active" type="button"
+                data-anio="all" aria-pressed="true">Todos</button>
+        <button class="pill-nav__pill" type="button"
+                data-anio="1" aria-pressed="false">1.º año</button>
+        <button class="pill-nav__pill" type="button"
+                data-anio="2" aria-pressed="false">2.º año</button>
+        <button class="pill-nav__pill" type="button"
+                data-anio="3" aria-pressed="false">3.º año</button>
+        <button class="pill-nav__pill" type="button"
+                data-anio="4" aria-pressed="false">4.º año</button>
+        <button class="pill-nav__pill" type="button"
+                data-anio="5" aria-pressed="false">5.º año</button>
+      </nav>
+    </div>
 
     <!-- ════════════════════════════════════════════════════════
          [3] GRID DE MATERIAS — Wireframe §4 bloque [6]
