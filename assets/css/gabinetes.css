@@ -1,0 +1,253 @@
+/* ============================================================
+   AChETIQ — Familia «Gabinetes» (gabinetes.css)
+   ------------------------------------------------------------
+   Versión: 1.0 · Fase 2 — Elevación editorial E04
+   Fundamento: DIRECCION_EDITORIAL.md §d (reglas hairline, blanco
+               estructural, tipografía antes que color) ·
+               FASE_1 §4.2 (gabinete hub + plantilla de detalle) ·
+               tokens.css «Cobalto & Mauveína».
+
+   ALCANCE. Una sola hoja gobierna las dos piezas de la familia:
+     1. El HUB (pages/gabinetes.html) — el «índice de gabinetes».
+     2. La PLANTILLA DE DETALLE compartida por los cuatro
+        pages/gabinetes/<slug>.html — la «monografía».
+   Ambas heredan el sistema E01 (filetes .section-ruled, escala de
+   ritmo, eyebrow con mesura) y NO tocan ni el motor data-loader, ni
+   las migas (E02), ni el foco centralizado (focus.css).
+
+   Mobile-first. Cero hex y cero familias literales: todo deriva de
+   tokens.css.
+   ============================================================ */
+
+
+/* ─────────────────────────────────────────────────────────────
+   1.  HUB — ÍNDICE DE GABINETES — .gabinetes-hub
+   ─────────────────────────────────────────────────────────────
+   El motor (loaders.js §4.1) renderiza dentro de la sección una
+   grilla .grid-cards--2 de <article class="card card-gabinete">.
+   Aquí esa grilla se reescribe como un SUMARIO de UNA columna:
+   cada gabinete es una FILA a ancho completo —espejo directo del
+   índice editorial de la portada (.gabinetes-index,
+   sobre-asociacion.css)— separada por filetes hairline, no por
+   cajas. La fila ENTERA es el destino (enlace estirado, sin tocar el
+   motor) y el nombre va en Fraunces como elemento dominante. El
+   cobalto firma la navegación; la mauveína queda reservada a la
+   ÚNICA acción primaria de la página (el CTA «Escribinos»).
+   ───────────────────────────────────────────────────────────── */
+
+/* Sumario continuo: una columna, sin gap (los filetes forman la
+   grilla) y un filete inferior que lo cierra. El numeral arranca
+   en 01 por entrada. */
+.gabinetes-hub .grid-cards {
+  counter-reset: gabinete;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  border-bottom: var(--rule);
+}
+
+/* Fila = grilla propia. Móvil: numeral | cuerpo, con el enlace bajo
+   el cuerpo. La fila entera es relativa para alojar el enlace
+   estirado. Sin caja: fondo transparente, sólo el filete superior. */
+.gabinetes-hub .card-gabinete {
+  counter-increment: gabinete;
+  position: relative;
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  column-gap: var(--space-4);
+  row-gap: var(--space-2);
+  align-items: start;
+  background: transparent;
+  border: 0;
+  border-top: var(--rule);
+  border-radius: 0;
+  padding-block: var(--space-6);
+  box-shadow: none;
+  transition: background-color var(--transition-fast);
+}
+
+/* Neutraliza el subgrid de tarjeta-caja (lists.css §5.1): la fila usa
+   su propia grilla, no las pistas de fila del padre. */
+@supports (grid-template-rows: subgrid) {
+  .gabinetes-hub .grid-cards > .card-gabinete {
+    grid-row: auto;
+    grid-template-rows: none;
+  }
+}
+
+/* Numeral de orientación marginal (ocupa el lugar del ícono del
+   índice de portada): mono discreto, alineado a la altura óptica del
+   nombre. */
+.gabinetes-hub .card-gabinete::before {
+  content: counter(gabinete, decimal-leading-zero);
+  grid-column: 1;
+  grid-row: 1;
+  margin-top: 0.5em;
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  letter-spacing: var(--tracking-wider);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-faint);
+}
+
+/* Nombre del gabinete en voz editorial (Fraunces display): es el
+   elemento dominante de cada entrada del sumario — espejo de
+   .gabinete-entry__name (portada). Fraunces sobre <h3> es la
+   excepción canónica del ÍNDICE (el nombre ES el titular del
+   sumario), no del cuerpo. */
+.gabinetes-hub .card-gabinete__title {
+  grid-column: 2;
+  grid-row: 1;
+  font-family: var(--font-display);
+  font-size: var(--text-kpi);            /* 28 → 33 px serif */
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text);
+  text-wrap: balance;
+  transition: color var(--transition-fast);
+}
+
+/* Descripción legible: cuerpo pleno (≥1rem), no el escalón pequeño. */
+.gabinetes-hub .card-gabinete__desc {
+  grid-column: 2;
+  grid-row: 2;
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-soft);
+  max-width: var(--measure-narrow);
+}
+
+/* Pie sin filete ni separación de tarjeta; aloja el enlace de
+   apertura bajo el cuerpo en móvil. */
+.gabinetes-hub .card-gabinete .card-footer {
+  grid-column: 2;
+  grid-row: 3;
+  border-top: 0;
+  padding-top: 0;
+  margin-top: 0;
+  justify-content: flex-start;
+}
+
+/* Enlace de apertura en COBALTO (navegación/estructura, no acción).
+   Estirado sobre toda la fila vía ::after para hacerla clicable sin
+   tocar el motor: cualquier punto de la entrada abre el gabinete. */
+.gabinetes-hub .card-gabinete__link {
+  color: var(--color-accent);
+  font-weight: var(--weight-medium);
+  text-decoration: none;
+}
+
+.gabinetes-hub .card-gabinete__link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+/* ── Escritorio (≥768px = --bp-md): la fila se abre a tres zonas
+   —numeral | cuerpo | enlace— con el enlace empujado al borde
+   derecho, como la flecha de afordancia del índice de portada. */
+@media (min-width: 768px) {
+  .gabinetes-hub .card-gabinete {
+    grid-template-columns: max-content minmax(0, 1fr) max-content;
+    column-gap: var(--space-8);
+  }
+
+  .gabinetes-hub .card-gabinete .card-footer {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    align-self: center;
+  }
+}
+
+/* Estado de hover de la FILA COMPLETA: realce con la superficie de
+   acento fría (lavado cobalto) y el nombre vira a cobalto. La
+   afordancia es la fila entera, no el enlace diminuto. */
+@media (hover: hover) {
+  .gabinetes-hub .card-gabinete:hover {
+    background-color: var(--color-surface-accent);
+  }
+
+  .gabinetes-hub .card-gabinete:hover .card-gabinete__title {
+    color: var(--color-accent);
+  }
+}
+
+/* Foco por teclado en el enlace estirado: además del anillo global
+   (focus.css), la fila se realza igual que en hover. :has() es mejora
+   progresiva; sin soporte, el anillo de foco basta. */
+@supports selector(:has(*)) {
+  .gabinetes-hub .card-gabinete:has(.card-gabinete__link:focus-visible) {
+    background-color: var(--color-surface-accent);
+  }
+
+  .gabinetes-hub .card-gabinete:has(.card-gabinete__link:focus-visible) .card-gabinete__title {
+    color: var(--color-accent);
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   2.  PLANTILLA DE DETALLE — MONOGRAFÍA — .gabinete-section
+   ─────────────────────────────────────────────────────────────
+   Las cuatro páginas pages/gabinetes/<slug>.html comparten una
+   única composición tipográfica: cada bloque temático (propósito,
+   actividades, historia) es una FILA con su título de imprenta
+   (Fraunces, con la itálica de énfasis de la familia) a un lado y la
+   prosa —de medida 65ch— al otro. Los filetes hairline y el blanco
+   estructural hacen la separación; no hay cajas. La cabecera de
+   título corre como un «ladillo» de revista junto al cuerpo.
+
+   El motor inyecta <article class="prose"> (o un empty-state) dentro
+   de .gabinete-section__body; el body NO lleva ya la clase .prose
+   para no anidar dos medidas (la prosa la pone el motor).
+   ───────────────────────────────────────────────────────────── */
+
+.gabinete-section {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+}
+
+/* Título de sección como ladillo: Fraunces (heredado de h2), con la
+   itálica cobalto del énfasis (h2 em, tokens.css). Medida y balance
+   propios de titular; sin eyebrow mono delante (se elimina la cadencia
+   automática — deuda P1 #7). */
+.gabinete-section__title {
+  text-wrap: balance;
+  max-width: var(--measure-title);
+}
+
+/* En escritorio (≥1024px = --bp-lg) la fila se abre a dos columnas
+   sobre una línea de base superior común: ladillo acotado a la
+   izquierda, cuerpo de lectura a la derecha. Aprovecha el ancho real
+   en vez de apilar título y prosa angostos sobre un campo vacío —
+   misma decisión editorial que .page-header y .section-title--display
+   del sistema E01. */
+@media (min-width: 1024px) {
+  .gabinete-section {
+    grid-template-columns: minmax(0, 18rem) minmax(0, var(--measure-prose));
+    align-items: start;
+    column-gap: var(--space-16);
+    /* El gap vertical de la fila apilada ya no aplica en grid de una
+       sola fila; lo neutraliza column-gap. */
+    gap: 0 var(--space-16);
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   IMPRESIÓN
+   ─────────────────────────────────────────────────────────────
+   La grilla de dos columnas del detalle se apila al imprimir: en
+   papel el ladillo lateral desperdicia medida. print.css gobierna
+   el resto del documento; aquí sólo se colapsa la composición
+   propia de esta familia. */
+@media print {
+  .gabinete-section {
+    display: block;
+  }
+
+  .gabinetes-hub .grid-cards {
+    column-gap: var(--space-8);
+  }
+}

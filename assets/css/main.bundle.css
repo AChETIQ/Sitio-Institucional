@@ -2,7 +2,7 @@
    AChETIQ — Bundle CSS de producción (GENERADO — NO EDITAR)
    Regenerar con: npm run build  (scripts/build-css.mjs)
    Contenido, en orden de cascada:
-     tokens.css → navbar.css → footer.css → loader.css → headers.css → text.css → cards.css → lists.css → forms.css → nav-secondary.css → states.css → motion.css → figure.css → cta.css → countdown-recursos.css → seguimiento.css → focus.css → print.css → main.css
+     tokens.css → navbar.css → footer.css → loader.css → headers.css → text.css → cards.css → lists.css → forms.css → nav-secondary.css → states.css → motion.css → figure.css → cta.css → countdown-recursos.css → seguimiento.css → gabinetes.css → focus.css → print.css → main.css
    ============================================================ */
 :root {
 --grafito-50:  #F9FAFC;
@@ -3454,6 +3454,135 @@ display: table-cell;
 display: table-cell;
 }
 .seg-table__nombre { min-width: 26ch; }
+}
+.gabinetes-hub .grid-cards {
+counter-reset: gabinete;
+grid-template-columns: minmax(0, 1fr);
+gap: 0;
+border-bottom: var(--rule);
+}
+.gabinetes-hub .card-gabinete {
+counter-increment: gabinete;
+position: relative;
+display: grid;
+grid-template-columns: max-content minmax(0, 1fr);
+column-gap: var(--space-4);
+row-gap: var(--space-2);
+align-items: start;
+background: transparent;
+border: 0;
+border-top: var(--rule);
+border-radius: 0;
+padding-block: var(--space-6);
+box-shadow: none;
+transition: background-color var(--transition-fast);
+}
+@supports (grid-template-rows: subgrid) {
+.gabinetes-hub .grid-cards > .card-gabinete {
+grid-row: auto;
+grid-template-rows: none;
+}
+}
+.gabinetes-hub .card-gabinete::before {
+content: counter(gabinete, decimal-leading-zero);
+grid-column: 1;
+grid-row: 1;
+margin-top: 0.5em;
+font-family: var(--font-mono);
+font-size: var(--text-caption);
+letter-spacing: var(--tracking-wider);
+font-variant-numeric: tabular-nums;
+color: var(--color-text-faint);
+}
+.gabinetes-hub .card-gabinete__title {
+grid-column: 2;
+grid-row: 1;
+font-family: var(--font-display);
+font-size: var(--text-kpi);
+font-weight: var(--weight-regular);
+line-height: var(--leading-tight);
+letter-spacing: var(--tracking-tight);
+color: var(--color-text);
+text-wrap: balance;
+transition: color var(--transition-fast);
+}
+.gabinetes-hub .card-gabinete__desc {
+grid-column: 2;
+grid-row: 2;
+font-size: var(--text-body);
+line-height: var(--leading-relaxed);
+color: var(--color-text-soft);
+max-width: var(--measure-narrow);
+}
+.gabinetes-hub .card-gabinete .card-footer {
+grid-column: 2;
+grid-row: 3;
+border-top: 0;
+padding-top: 0;
+margin-top: 0;
+justify-content: flex-start;
+}
+.gabinetes-hub .card-gabinete__link {
+color: var(--color-accent);
+font-weight: var(--weight-medium);
+text-decoration: none;
+}
+.gabinetes-hub .card-gabinete__link::after {
+content: "";
+position: absolute;
+inset: 0;
+}
+@media (min-width: 768px) {
+.gabinetes-hub .card-gabinete {
+grid-template-columns: max-content minmax(0, 1fr) max-content;
+column-gap: var(--space-8);
+}
+.gabinetes-hub .card-gabinete .card-footer {
+grid-column: 3;
+grid-row: 1 / span 2;
+align-self: center;
+}
+}
+@media (hover: hover) {
+.gabinetes-hub .card-gabinete:hover {
+background-color: var(--color-surface-accent);
+}
+.gabinetes-hub .card-gabinete:hover .card-gabinete__title {
+color: var(--color-accent);
+}
+}
+@supports selector(:has(*)) {
+.gabinetes-hub .card-gabinete:has(.card-gabinete__link:focus-visible) {
+background-color: var(--color-surface-accent);
+}
+.gabinetes-hub .card-gabinete:has(.card-gabinete__link:focus-visible) .card-gabinete__title {
+color: var(--color-accent);
+}
+}
+.gabinete-section {
+display: grid;
+grid-template-columns: minmax(0, 1fr);
+gap: var(--space-4);
+}
+.gabinete-section__title {
+text-wrap: balance;
+max-width: var(--measure-title);
+}
+@media (min-width: 1024px) {
+.gabinete-section {
+grid-template-columns: minmax(0, 18rem) minmax(0, var(--measure-prose));
+align-items: start;
+column-gap: var(--space-16);
+gap: 0 var(--space-16);
+}
+}
+@media print {
+.gabinete-section {
+display: block;
+}
+.gabinetes-hub .grid-cards {
+column-gap: var(--space-8);
+}
 }
 :focus-visible {
 outline: var(--focus-ring-width) solid var(--focus-ring-color);

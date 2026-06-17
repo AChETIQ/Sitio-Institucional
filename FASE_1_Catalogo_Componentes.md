@@ -676,6 +676,17 @@ Ya definida en `tokens.css` (§COMPONENTE — TARJETA). Sirve como base de las v
 - Link de footer: color `var(--color-cta-text)` (mauveína tipográfica, 7.8:1 — uso permitido por ser enlace de apertura directa).
 - Hover: borde se intensifica a `var(--color-accent)` con `transition: border-color var(--transition-fast)`.
 
+**Elevación E04 — sumario de filas a ancho completo del hub (`.gabinetes-hub`).** En `/gabinetes.html` el motor (`loaders.js` §4.1) sigue emitiendo el mismo marcado de `.card-gabinete` (no se toca el data-loader), pero la sección lo envuelve en `.gabinetes-hub` (hoja `gabinetes.css` §1) y la grilla `--2` se reescribe como **sumario de UNA columna**: cada gabinete es una **fila a ancho completo** —espejo directo del índice editorial de portada (`.gabinetes-index`, §4.2-bis)— separada por filetes hairline (`var(--rule)`, sin gap; un filete inferior cierra el sumario), no por cajas. Detalles:
+
+- **Fila:** grilla propia `numeral | cuerpo | enlace`. Móvil (`<768px`): numeral y cuerpo arriba, enlace bajo el cuerpo. Escritorio (`≥768px = --bp-md`): tres zonas con el enlace empujado al borde derecho (afordancia de flecha del índice de portada). El subgrid de tarjeta-caja (`lists.css` §5.1) se neutraliza.
+- **Nombre:** `<h3>` `.card-gabinete__title` en **Fraunces display** (`--text-kpi`, 28→33 px), elemento dominante del sumario — misma excepción canónica que `.gabinete-entry__name` de portada (Fraunces sobre `<h3>` vale en el ÍNDICE, donde el nombre ES el titular; no en el cuerpo). Numeral de orientación marginal en `--font-mono` `--text-caption` `--color-text-faint`.
+- **Descripción:** `--text-body` (≥1 rem) para lectura plena, medida `--measure-narrow`.
+- **Fila clicable:** el enlace de apertura (`--color-accent`, **cobalto** de navegación; la mauveína queda para la única acción primaria, el CTA) se **estira** con `::after { position:absolute; inset:0 }` sobre toda la entrada, sin tocar el motor: cualquier punto de la fila abre el gabinete.
+- **Hover/foco de fila:** realce con `--color-surface-accent` (lavado cobalto frío) + el nombre vira a `--color-accent`; el foco de teclado (`:has(.card-gabinete__link:focus-visible)`, mejora progresiva) repite el realce sobre el anillo global de `focus.css`.
+- **Jerarquía:** «Nuestros gabinetes» pasa a ser el `<h1>`/`page-header` de la página (se retiró la cabecera previa «Cómo nos organizamos»); un `<h2 class="sr-only">` rotula la sección para conservar la secuencia H1 → H2 → H3 sin titular redundante en pantalla.
+
+Resuelve las deudas P1 #6 (doble grilla homogénea sin jerarquía) y #7 (eyebrow por sección). **No** colisiona con `.gabinetes-index` (§4.2-bis, portada): son clases distintas, y `sobre-asociacion.css` —donde vive `.gabinetes-index`— no se carga en el hub.
+
 *Nota (2026-05-16).* El patrón de plantilla única parametrizada por query string fue descartado. Cada gabinete tiene su propia página dedicada bajo `pages/gabinetes/`. El listado completo de URLs hijas está fijado en `data/navbar.json`.
 
 ---
@@ -709,6 +720,33 @@ Ya definida en `tokens.css` (§COMPONENTE — TARJETA). Sirve como base de las v
 - **Hover/focus:** nombre → `--color-accent`, flecha se desplaza; foco por el anillo global sobre el `<a>` (sin regla propia). Revelado escalonado `[data-reveal]` (estado por defecto visible).
 
 **Accesibilidad.** `<h3>` real por entrada (jerarquía secuencial bajo el `<h2>`); ícono `aria-hidden`; el `<a>` envolvente da un único destino y nombre accesible por su contenido.
+
+---
+
+### 4.2-ter Plantilla de detalle de gabinete — `.gabinete-section` (E04, monografía)
+
+**Propósito.** Composición tipográfica ÚNICA que heredan las cuatro páginas `pages/gabinetes/<slug>.html` (Cursos y Conferencias, Eventos, Prensa y Difusión, Solidario). Reemplaza la antigua «plantilla de detalle texto-solo» (deuda P1 #8) por una **monografía** de filetes hairline y blanco estructural: cada bloque temático (propósito, actividades, historia) es una **fila** con su título de imprenta a un lado y la prosa de lectura al otro. Sin cajas, sin eyebrow por sección. Vive en `gabinetes.css` §2.
+
+**HTML (una fila por bloque).**
+
+```html
+<section class="gabinete-section section-ruled" aria-labelledby="actividades-title">
+  <h2 class="gabinete-section__title" id="actividades-title">Actividades <em>regulares</em></h2>
+  <div class="gabinete-section__body" data-loader="gabinetes"
+       data-gabinete-id="<slug>" data-gabinete-field="actividades"></div>
+</section>
+```
+
+**Especificación.**
+
+- **Composición:** móvil → grid de 1 columna (título, luego prosa, `gap --space-4`); `≥1024px` (`--bp-lg`) → dos columnas `minmax(0, 18rem) minmax(0, var(--measure-prose))` con `align-items: start` y `column-gap --space-16`. El título corre como **ladillo** de revista junto al cuerpo; la prosa conserva su medida de 65ch.
+- **Filetes:** el primer bloque (propósito) se apoya en el borde inferior del `.page-header`; los siguientes (actividades, historia) suman `.section-ruled` (filete `var(--rule)` + `padding-top` de ritmo), misma firma E01 que `sobre-achetiq.html`.
+- **Título:** `<h2>` real (Fraunces global) con la itálica de énfasis cobalto (`h2 em`); `text-wrap: balance`, `max-width: var(--measure-title)`. **Sin** eyebrow mono delante (se elimina la cadencia automática — deuda P1 #7).
+- **Cuerpo:** el motor (override `gabinete-detalle.js`, intacto) inyecta `<article class="prose">` —o un empty-state— dentro de `.gabinete-section__body`. El contenedor **no** lleva ya la clase `.prose` para no anidar dos medidas: la prosa la pone el motor.
+- **CTA:** una sola acción primaria por página (`.cta-final` con `mailto:` del gabinete), sin cambios.
+- **Impresión:** la fila de dos columnas se apila (`gabinetes.css` §IMPRESIÓN, `display: block`).
+
+**Intocable.** Se conservan los breadcrumbs (§7.1, tratamiento E02), el motor data-loader y el override `gabinete-detalle.js`, las security helpers y `data/gabinetes.json`. La elevación es 100 % HTML de página + CSS.
 
 ---
 

@@ -67,6 +67,11 @@
 @import url('cta.css');
 @import url('countdown-recursos.css');
 @import url('seguimiento.css');
+/* gabinetes.css — hoja de PÁGINA de la familia E04 (hub + plantilla
+   de detalle). Va tras los componentes (cards.css, headers.css,
+   lists.css) para reescribir .card-gabinete y la composición de
+   detalle por orden de aparición además de por especificidad. */
+@import url('gabinetes.css');
 @import url('focus.css');
 /* focus.css centraliza TODO el tratamiento :focus-visible del
    sitio (S4). Va después de las hojas de componente para que sus
