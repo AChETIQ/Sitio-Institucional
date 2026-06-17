@@ -1,7 +1,7 @@
 # AChETIQ — Presupuesto de rendimiento (S6)
 
-Versión: 1.2 · Sesión 6 — Rendimiento y entrega de activos · Revisión S7 (hero responsive) · Revisión P05 (elevación de entrega)
-Fundamento: auditoría Lighthouse 13.4 (Chrome 138) del 2026-06-11; re-medición 2026-06-12 (hero responsive) y 2026-06-16 (P05: cuadro LCP del hero pintado desde CSS + reservas de prosa de gabinete por campo). Medición P05 con Chromium 141 headless y `serve` (gzip), mediana de 2 corridas.
+Versión: 1.3 · Sesión 6 — Rendimiento y entrega de activos · Revisión S7 (hero responsive) · Revisión P05 (elevación de entrega) · **Revisión E07 (guarda de cierre tras la elevación editorial E01–E06)**
+Fundamento: auditoría Lighthouse 13.4 (Chrome 138) del 2026-06-11; re-medición 2026-06-12 (hero responsive), 2026-06-16 (P05: cuadro LCP del hero pintado desde CSS + reservas de prosa de gabinete por campo) y **2026-06-17 (E07: re-verificación tras E01–E06, que sumaron CSS al bundle y nuevo layout/movimiento)**. Mediciones P05 y E07 con Chromium 141 headless y `serve` (gzip), mediana de 2 corridas.
 
 Este documento fija el **presupuesto de rendimiento** del sitio: los umbrales
 que toda página debe cumplir, las condiciones de medición que los hacen
@@ -27,13 +27,52 @@ Notas:
   gzip (p. ej. `python3 -m http.server`) infla CSS/JS/HTML ~5× y no representa
   el sitio publicado.
 - El CSS fuente (tokens.css + 18 hojas modulares) pesa ~200 KB con su
-  documentación; el bundle generado queda en ~82 KB planos / **~14 KB gzip**.
+  documentación; el bundle generado queda, tras E01–E06, en **~99 KB planos /
+  ~16,1 KB gzip** (E07, 2026-06-17). La elevación editorial sumó ~10 KB planos /
+  ~1,5 KB gzip sobre la línea P05 (88,7 KB / 14,6 KB). Sigue **muy por debajo**
+  del umbral de 75 KB gzip (consume el 21 %).
 
-## 2. Estado actual (2026-06-16, después de P05)
+## 2. Estado actual (2026-06-17, después de E07)
+
+Re-verificación de cierre tras la elevación editorial E01–E06 (mediana de 2
+corridas, gzip, Chromium 141 headless; mobile = throttling por defecto, desktop
+= `--preset=desktop`). **Todos los umbrales se cumplen; sin regresiones.**
+
+| Página | Modo | LCP | CLS | TBT | FCP | Transferencia |
+|---|---|---|---|---|---|---|
+| Inicio | mobile | **2,55 s** ⚠ (excepción §4) | 0,000 | 0 ms | 1,74 s | 311 KB |
+| Inicio | desktop | 0,77 s | 0,000 | 0 ms | 0,41 s | 464 KB |
+| Gabinete (eventos) | mobile | 2,42 s | 0,015 | 0 ms | 1,81 s | 183 KB |
+| Gabinete (eventos) | desktop | 0,57 s | 0,009 | 0 ms | 0,46 s | 183 KB |
+| Apuntes | mobile | 2,27 s | 0,000 | 0 ms | 1,82 s | 184 KB |
+| Apuntes | desktop | 0,54 s | 0,000 | 0 ms | 0,46 s | 184 KB |
+| Contacto | mobile | 2,19 s | 0,001 | 0 ms | 1,81 s | 189 KB |
+| Contacto | desktop | 0,59 s | 0,003 | 0 ms | 0,46 s | 189 KB |
+
+Lectura E07 vs P05 (línea previa, abajo): el LCP móvil de Inicio **mejora**
+(2,64 → 2,55 s; sigue siendo la única excepción §4). Las páginas interiores se
+mantienen < 2,5 s con margen. CLS determinista estable (≤ 0,015, peor caso el
+detalle de gabinete) o mejor (Apuntes 0,008 → 0,000). TBT 0 en todo el set.
+Transferencia dentro de los 500 KB (peor caso Inicio desktop 464 KB). El
+crecimiento de CSS por la elevación (14,6 → 16,1 KB gzip) no movió ninguna
+métrica fuera de presupuesto. **CSS total gzip 16,1 KB ≪ 75 KB.**
+
+**Accesibilidad (E07).** Lighthouse a11y (axe) sobre las cuatro páginas de
+referencia: **100 / 100** en Inicio, Gabinete y Apuntes tras corregir el único
+hallazgo real —un salto de nivel de encabezado h2→h4 en el pie compartido
+(`.footer__heading` migrado a `<h2>`, estilo intacto por clase)—. Contacto queda
+en 97 por un **falso positivo de `color-contrast`**: axe convierte mal
+`oklch(0.486 0.017 265)` a sRGB (lo lee como #adb1b7, 1,95:1); la conversión
+correcta es **#5b5f69 = 5,80:1 (AA)**, verificada a mano y coincidente con el
+ratio documentado en `tokens.css`/`DESIGN.md`. El mismo token no se marca en las
+otras tres páginas, lo que confirma el artefacto de la herramienta. **Cero
+hallazgos serios/críticos reales.**
+
+### 2-bis. Línea P05 (2026-06-16, histórico)
 
 Matriz **antes → después** de P05 (mediana de 2 corridas, gzip; mobile =
 throttling por defecto, desktop = `--preset=desktop`). «Antes» = estado
-mergeado de S7; «después» = esta sesión.
+mergeado de S7; «después» = P05.
 
 | Página | Modo | LCP | CLS | TBT | Transferencia |
 |---|---|---|---|---|---|
@@ -136,7 +175,7 @@ node scripts/shoot.mjs http://localhost:8088/pages/gabinetes/eventos.html - 767 
 
 ## 4. Excepciones documentadas
 
-**LCP de Inicio en mobile (2,64 s > 2,5 s).** El elemento LCP es la fotografía
+**LCP de Inicio en mobile (E07: 2,55 s > 2,5 s; P05: 2,64 s).** El elemento LCP es la fotografía
 de fondo del hero a pantalla completa (primer cuadro del slideshow). Era
 3,8 s sirviendo `2014-1920.webp` (115 KB) a todos los viewports; en S7 cada
 cuadro existe en 800/1280/1920 px y `hero-carrousel.js` elige la variante al

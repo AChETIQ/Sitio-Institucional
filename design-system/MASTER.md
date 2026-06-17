@@ -81,8 +81,10 @@ primario y poco más). **Regla de la Porcelana Fría:** el fondo es grafito frí
 - **Label/Eyebrow (Geist Mono 400):** 0.6875rem, tracking 0.12em, mayúsculas. **Con mesura: no
   en cada sección.** **Cadencia E01 (la estrena la portada, E02–E07 heredan):** UN solo kicker
   deliberado por vista (el *dateline* del héroe, `.hero__dateline` — mono, tracking abierto, NO
-  mayúsculas tracked) y CERO eyebrows bajo el pliegue; las secciones abren con titular display +
-  *standfirst* en Hanken (`.section-title__standfirst`).
+  mayúsculas tracked; en las interiores, el eyebrow del `.page-header`) y CERO eyebrows bajo el
+  pliegue; las secciones abren con titular display + *standfirst* en Hanken
+  (`.section-title__standfirst`). **E07 enforcement:** las 11 superficies cumplen la cadencia —
+  exactamente un kicker por vista; el cierre `.cta-final` abre directo con el titular, sin eyebrow.
 
 ## 3. Espaciado, radio, elevación, movimiento
 
@@ -90,7 +92,9 @@ primario y poco más). **Regla de la Porcelana Fría:** el fondo es grafito frí
 - **Radio:** `sm 4` · `md 6` (botones/inputs) · `lg 10` (tarjetas) · `xl 14` · `pill 999`.
 - **Elevación PLANA por defecto:** tarjetas con borde 1 px, **sin sombra en reposo**. Sombra
   solo como respuesta a estado. **Sombras frías** mezcladas desde `cobalto-950` (`color-mix`),
-  nunca `rgba(0,0,0,…)`.
+  nunca `rgba(0,0,0,…)`. **El borde de 1 px se consume siempre por token** (`--elevation-border`
+  / `--elevation-border-soft`); nada de pesos sub-pixel literales (`0.5px`), que redondean a 0 en
+  pantallas 1× y rompen el contrato hairline (drift de seguimiento saldado en E07).
 - **Reglas hairline (E01):** la separación entre secciones es **aire + filete 1 px**, no caja.
   Tokens compuestos `--rule` (1px, estándar, `.section-ruled`) y `--rule-ink` (1.5px tinta,
   *masthead*, una vez por página, `.section-ruled--mast`). Nunca un `border-top` literal.
