@@ -136,14 +136,18 @@
         </div>
       </noscript>
 
-      <!-- Pestañas — selector de hojas (spec §3.1). -->
+      <!-- Pestañas — selector de hojas (spec §3.1). E05: los emojis
+           decorativos se retiran (la voz de marca veta emojis,
+           PRODUCT.md §Brand Personality) y las etiquetas pasan a caja
+           de título; el data-tab —seleccionado por el JS— no cambia,
+           de modo que la lógica de pestañas queda intacta. -->
       <div class="seg-tabs" role="tablist" aria-label="Vistas de la herramienta">
         <button type="button" class="seg-tabs__tab" role="tab" id="seg-tab-seguimiento"
-                data-tab="seguimiento" aria-controls="seg-panel-seguimiento" aria-selected="true">📊 SEGUIMIENTO</button>
+                data-tab="seguimiento" aria-controls="seg-panel-seguimiento" aria-selected="true">Seguimiento</button>
         <button type="button" class="seg-tabs__tab" role="tab" id="seg-tab-finales"
-                data-tab="finales" aria-controls="seg-panel-finales" aria-selected="false" tabindex="-1">📝 REGISTRO DE EXÁMENES FINALES</button>
+                data-tab="finales" aria-controls="seg-panel-finales" aria-selected="false" tabindex="-1">Exámenes finales</button>
         <button type="button" class="seg-tabs__tab" role="tab" id="seg-tab-nota"
-                data-tab="nota" aria-controls="seg-panel-nota" aria-selected="false" tabindex="-1">📝 NOTA AL ESTUDIANTE</button>
+                data-tab="nota" aria-controls="seg-panel-nota" aria-selected="false" tabindex="-1">Nota al estudiante</button>
       </div>
 
       <!-- Panel: SEGUIMIENTO -->

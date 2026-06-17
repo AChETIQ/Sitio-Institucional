@@ -183,40 +183,76 @@
       <div class="countdown__content" data-countdown-revealed hidden>
 
         <section aria-labelledby="recursos-acceso-title">
-          <header class="section-title">
-            <p class="eyebrow">Acceso a los servicios</p>
+          <!-- Cabecera editorial del sistema (E01): titular display +
+               standfirst en Hanken, sin eyebrow mono por sección
+               (deuda saldada, DESIGN.md §Cadencia). -->
+          <header class="section-title section-title--display">
             <h2 id="recursos-acceso-title">Dos herramientas para tu <em>cursada</em></h2>
+            <p class="section-title__standfirst">
+              Elegí un servicio para empezar: el repositorio de apuntes por materia o la planilla para seguir tu avance en la carrera.
+            </p>
           </header>
 
-          <div class="grid-cards grid-cards--2" data-scroll-reveal>
+          <!-- ÍNDICE EDITORIAL DE SERVICIOS (E05) — sumario con filetes
+               hairline, no grilla de tarjetas (DESIGN.md §Índice
+               editorial). Cada servicio es una fila-enlace en bloque:
+               ícono de orientación + nombre en Fraunces + bajada +
+               flecha cobalto. La mauveína no aparece (reservada a la
+               acción). Estructura estática (no la inyecta el motor):
+               el partial fue preparado para esta página. -->
+          <ul class="recursos-index" data-scroll-reveal>
 
             <!-- Servicio 1 — Apuntes por materia -->
-            <article class="card card-gabinete">
-              <h3 class="card-gabinete__title">Apuntes por materia</h3>
-              <p class="card-gabinete__desc">
-                Repositorio académico organizado por año y materia, con apuntes, guías de ejercicios y bibliografía de referencia aportados por la comunidad estudiantil.
-              </p>
-              <footer class="card-footer">
-                <a class="card-gabinete__link" href="./recursos/apuntes.html">
-                  Ver materias →
-                </a>
-              </footer>
-            </article>
+            <li class="recursos-index__item">
+              <a class="recursos-index__link" href="./recursos/apuntes.html">
+                <span class="recursos-index__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"
+                       stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                  </svg>
+                </span>
+                <span class="recursos-index__body">
+                  <span class="recursos-index__name">Apuntes por materia</span>
+                  <span class="recursos-index__desc">
+                    Repositorio académico organizado por año y materia, con apuntes, guías de ejercicios y bibliografía de referencia aportados por la comunidad estudiantil.
+                  </span>
+                </span>
+                <svg class="recursos-index__arrow" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                     stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <path d="M5 12h14"></path>
+                  <path d="m12 5 7 7-7 7"></path>
+                </svg>
+              </a>
+            </li>
 
             <!-- Servicio 2 — Seguimiento de carrera -->
-            <article class="card card-gabinete">
-              <h3 class="card-gabinete__title">Seguimiento de carrera</h3>
-              <p class="card-gabinete__desc">
-                Planilla para registrar el estado de cada materia, calcular el avance y verificar correlativas del Plan 2023. Los datos quedan en tu dispositivo.
-              </p>
-              <footer class="card-footer">
-                <a class="card-gabinete__link" href="./recursos/seguimiento.html">
-                  Abrir planilla →
-                </a>
-              </footer>
-            </article>
+            <li class="recursos-index__item">
+              <a class="recursos-index__link" href="./recursos/seguimiento.html">
+                <span class="recursos-index__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"
+                       stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                    <path d="M3 3v18h18"></path>
+                    <path d="m19 9-5 5-4-4-3 3"></path>
+                  </svg>
+                </span>
+                <span class="recursos-index__body">
+                  <span class="recursos-index__name">Seguimiento de carrera</span>
+                  <span class="recursos-index__desc">
+                    Planilla para registrar el estado de cada materia, calcular el avance y verificar correlativas del Plan 2023. Los datos quedan en tu dispositivo.
+                  </span>
+                </span>
+                <svg class="recursos-index__arrow" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                     stroke-linejoin="round" aria-hidden="true" focusable="false">
+                  <path d="M5 12h14"></path>
+                  <path d="m12 5 7 7-7 7"></path>
+                </svg>
+              </a>
+            </li>
 
-          </div>
+          </ul>
         </section>
 
       </div>

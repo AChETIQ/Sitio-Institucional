@@ -750,6 +750,41 @@ Resuelve las deudas P1 #6 (doble grilla homogénea sin jerarquía) y #7 (eyebrow
 
 ---
 
+### 4.2-quater Índice editorial de servicios de Recursos — `.recursos-index` (E05, hub)
+
+**Propósito.** El hub `pages/recursos.html` abre a sus **dos servicios** (Apuntes por materia, Seguimiento de carrera) como un **sumario editorial**, no como una grilla de dos tarjetas idénticas. Espejo directo de `.gabinetes-index` (§4.2-bis) y `.gabinetes-hub` (§4.2-elevación), reconciliado para un set de DOS entradas. Vive en la hoja de página `recursos.css` §1 (familia E05). Resuelve la deuda «dos `card-gabinete` en caja» del hub y le da al núcleo académico **un camino claro** a cada herramienta.
+
+**HTML (estático — no lo inyecta el motor; el partial fue preparado para esta página, dentro de `[data-countdown-revealed]`).**
+
+```html
+<ul class="recursos-index" data-scroll-reveal>
+  <li class="recursos-index__item">
+    <a class="recursos-index__link" href="./recursos/apuntes.html">
+      <span class="recursos-index__icon" aria-hidden="true"><svg…></span>
+      <span class="recursos-index__body">
+        <span class="recursos-index__name">Apuntes por materia</span>
+        <span class="recursos-index__desc">…</span>
+      </span>
+      <svg class="recursos-index__arrow" aria-hidden="true">…</svg>
+    </a>
+  </li> … (×2)
+</ul>
+```
+
+**Especificación.**
+
+- **Grilla:** 1 columna (móvil) → 2 (`≥768px = --bp-md`). Filetes con `var(--rule)`: `border-top` por entrada + `border-left` en la segunda (filete central, 1 px — estructura, no franja de acento) + `border-bottom` del `<ul>` que cierra el sumario. Sin `gap`. En escritorio cada columna reserva aire interior (`padding-right/left: --space-10`) antes/después del filete central.
+- **Entrada:** toda la fila es el destino (`<a>` en bloque, `display: flex` ícono | cuerpo | flecha). El nombre va en **Fraunces display** (`--text-kpi`, voz editorial, elemento dominante del índice); la bajada en Hanken `--text-small` `--color-text-soft` (medida `--measure-narrow`); el ícono marginal de orientación en `--color-accent-soft`; la flecha en `--color-accent` con `translateX` al hover/focus.
+- **Color:** el **cobalto** firma la navegación (nombre→acento e ícono/flecha al realce); la **mauveína NO aparece** aquí (reservada a la acción primaria del sitio, ≤10 %).
+- **Cabecera del bloque:** se eleva a `.section-title--display` + `.section-title__standfirst` (Hanken), retirando el eyebrow mono por sección (deuda de cadencia, DESIGN.md). Convive con el mecanismo de cuenta regresiva (`countdown-recursos.css`): el índice es el contenido revelado al expirar.
+- **Movimiento:** revelado escalonado `[data-scroll-reveal]` con estado por defecto **visible** (mejora progresiva: sin JS o bajo `prefers-reduced-motion` el índice se muestra completo, nunca recortado).
+
+**Accesibilidad.** Cada fila es un único destino y nombre accesible por su contenido; íconos `aria-hidden`. Objetivo táctil de la fila ≫ 24 px (≈ 163 px de alto medido). Foco por el anillo global de `focus.css` más el realce de nombre/flecha en `:focus-visible`.
+
+**Intocable.** No se toca el motor data-loader, el mecanismo ni el JS de la cuenta regresiva (`countdown-recursos.js`), ni el esquema de datos. La elevación es 100 % HTML de página + CSS.
+
+---
+
 ### 4.3 Card de integrante de directiva — `.card-integrante`
 
 **Propósito.** Representa a un miembro de la comisión directiva.
@@ -1408,6 +1443,8 @@ Umbrales de contenedor canónicos (referencia en `tokens.css` §UMBRALES DE CONT
 - Foco: anillo del sistema centralizado (§0.4); sobre la pill activa el offset deja el anillo sobre el fondo de página (7.95:1).
 - El efecto del filtro se anuncia en una región viva `sr-only` polite («Mostrando N materias…», ver §8.1bis).
 
+**Elevación E05 — barra de filtro legible (`.apuntes-filter`, `recursos.css` §2).** En `pages/recursos/apuntes.html` el `.pill-nav` deja de flotar suelto y se envuelve en una **barra de filtro** con etiqueta visible: `Filtrar por año` en `--font-mono` `--text-caption` `--color-text-faint` (el registro de metadato del sistema), de modo que el estudiante lea «esto filtra por año» antes de pulsar. Móvil: etiqueta sobre las pills (columna). Escritorio (`≥768px`): etiqueta y pills comparten línea de base (fila). La barra **no** añade filete propio: el `.page-header` ya cierra con su `border-bottom` hairline + 48 px de aire, y un `border-top` aquí duplicaría la línea. El `<nav>` toma su nombre accesible del rótulo visible vía `aria-labelledby` (antes un `aria-label` redundante). El `data-anio-filter` y el cableado de `apuntes.js` quedan intactos. **Microcopy propuesta** (no impuesta): la etiqueta «Filtrar por año».
+
 ---
 
 ### 7.3 Pestañas en página — `.about-tabs` (E03)
@@ -1471,6 +1508,17 @@ Umbrales de contenedor canónicos (referencia en `tokens.css` §UMBRALES DE CONT
 **Política de anuncios del motor (`main.js`/`loaders.js`).** La llegada del **contenido real no se anuncia**: el loader (región viva) se retira con `replaceChildren()` y el contenido entra sin `aria-live`, evitando ráfagas. Hablan únicamente el estado de carga («Cargando…», polite), el empty (polite) y el error (alert). El filtro por año de Apuntes anuncia su **efecto** («Mostrando N materias…») en una región `sr-only` polite propia (apuntes.js).
 
 **Verificación p03 (2026-06-15).** Política revisada y ratificada: el swap loader→contenido es silencioso (sin spam) y solo los estados terminales excepcionales (empty/error) y el progreso de carga emiten a la región viva. La inserción en dos fases (`setLiveText`) se conserva como garantía del anuncio del cambio. Sin cambios de comportamiento; queda documentado como patrón verificado.
+
+**Verificación E05 (Apuntes, datos reales).** Los tres estados terminales del grid de materias (`data-loader="recursos"`) se ejercitaron bajo datos reales con interceptación de red: **loading** (loader inline «Cargando…» centrado bajo la barra de filtro), **empty** (`[]` → `.empty-state` con la receta de tinte suave faint, centrado y aireado) y **error** (HTTP 500 → `.loader-error`, banda de tinte `--color-negative` al 4 %/borde 25 %, `role="alert"`). Los tres respetan la **misma receta de tinte suave** ya establecida (`states.css`) y conviven con la barra `.apuntes-filter` sin saltos; `recursos.css` §3 colapsa el `gap` del grid cuando uno de esos bloques lo ocupa (`[data-loader-state]` = loading/empty/error → `display:block`) para que el estado quede centrado sin pista fantasma. La presentación es lo único tocado: el motor (`main.js`/`loaders.js`) y el override `apuntes.js` quedan intactos.
+
+---
+
+### 8.1ter Herramienta de Seguimiento — elevación E05 (presentación)
+
+**Propósito.** Elevar la herramienta de seguimiento (`pages/recursos/seguimiento.html`, hoja `seguimiento.css`) para que se sienta **diseñada**, sin tocar su lógica (`seguimiento.js`, 53 KB), su esquema (`data/plan_academico.json`) ni el almacenamiento local.
+
+- **Pestañas (`.seg-tabs__tab`).** Se retiran los **emojis** decorativos (📊/📝) y las **mayúsculas tracked**: la voz de marca veta emojis (PRODUCT.md §Brand Personality). Las etiquetas pasan a caja de título — «Seguimiento», «Exámenes finales», «Nota al estudiante» — en `--text-body` peso medium; el indicador activo es el filete cobalto de 2 px sobre la línea base del tablist, con hover insinuado en `--color-border`. El `data-tab` (clave por la que `seguimiento.js wireTabs` selecciona la pestaña) **no cambia**: la lógica de tablist WAI-ARIA queda intacta. Objetivo táctil ≈ 48 px. **Microcopy propuesta** (no impuesta): el texto de las tres pestañas y la retirada de emojis.
+- **Reconciliación de paleta (rule 3).** La «paleta LOCAL histórica» de la herramienta —la codificación por nivel del Excel original (seis matices)— **ya no es excepción local**: se re-derivó con la metodología OKLCH del sistema (accent `L 0.60` / fondo-alt `L 0.965` / texto `L 0.45`, matiz constante por nivel) y se centralizó en `tokens.css` CAPA 3 (`--nivel-*`), con contraste verificado **6.4–7.5:1** (AA, mayoría AAA). Es la **única paleta de color KEPT** fuera de los dos polos de marca, y a propósito: es un **sistema de datos** (distinguir niveles), no decoración ni identidad — análogo a la rampa por año de materias (`--color-materia-anio-*`). `seguimiento.css` sigue **sin declarar ningún color propio**; todo deriva de tokens. Decisión de marca conservada: los datos numéricos (KPI) usan `--color-text`, **nunca** mauveína (reservada a la acción, `.btn-primary`).
 
 ---
 
