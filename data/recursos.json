@@ -3,13 +3,15 @@
     "id": "introduccion-a-la-ingenieria-quimica",
     "nombre": "Introducción a la Ingeniería Química",
     "anio": 1,
-    "drive_url": ""
+    "drive_url": "",
+    "imagen": "assets/img/materias/introduccion-a-la-ingenieria-quimica.webp"
   },
   {
     "id": "ingenieria-y-sociedad",
     "nombre": "Ingeniería y Sociedad",
     "anio": 1,
-    "drive_url": ""
+    "drive_url": "",
+    "imagen": "assets/img/materias/ingenieria-y-sociedad.webp"
   },
   {
     "id": "algebra-y-geometria-analitica",
@@ -21,13 +23,15 @@
     "id": "analisis-matematico-i",
     "nombre": "Análisis Matemático I",
     "anio": 1,
-    "drive_url": ""
+    "drive_url": "",
+    "imagen": "assets/img/materias/analisis-matematico-i.webp"
   },
   {
     "id": "fisica-i",
     "nombre": "Física I",
     "anio": 1,
-    "drive_url": ""
+    "drive_url": "",
+    "imagen": "assets/img/materias/fisica-i.webp"
   },
   {
     "id": "quimica",
@@ -45,7 +49,8 @@
     "id": "fundamentos-de-informatica",
     "nombre": "Fundamentos de Informática",
     "anio": 1,
-    "drive_url": ""
+    "drive_url": "",
+    "imagen": "assets/img/materias/fundamentos-de-informatica.webp"
   },
   {
     "id": "introduccion-a-equipos-y-procesos",
@@ -57,25 +62,29 @@
     "id": "probabilidad-y-estadistica",
     "nombre": "Probabilidad y Estadística",
     "anio": 2,
-    "drive_url": ""
+    "drive_url": "",
+    "imagen": "assets/img/materias/probabilidad-y-estadistica.webp"
   },
   {
     "id": "quimica-inorganica",
     "nombre": "Química Inorgánica",
     "anio": 2,
-    "drive_url": ""
+    "drive_url": "",
+    "imagen": "assets/img/materias/quimica-inorganica.webp"
   },
   {
     "id": "analisis-matematico-ii",
     "nombre": "Análisis Matemático II",
     "anio": 2,
-    "drive_url": ""
+    "drive_url": "",
+    "imagen": "assets/img/materias/analisis-matematico-ii.webp"
   },
   {
     "id": "fisica-ii",
     "nombre": "Física II",
     "anio": 2,
-    "drive_url": ""
+    "drive_url": "",
+    "imagen": "assets/img/materias/fisica-ii.webp"
   },
   {
     "id": "quimica-organica",
@@ -99,13 +108,15 @@
     "id": "balances-de-masa-y-energia",
     "nombre": "Balances de Masa y Energía",
     "anio": 3,
-    "drive_url": ""
+    "drive_url": "",
+    "imagen": "assets/img/materias/balances-de-masa-y-energia.webp"
   },
   {
     "id": "termodinamica",
     "nombre": "Termodinámica",
     "anio": 3,
-    "drive_url": ""
+    "drive_url": "",
+    "imagen": "assets/img/materias/termodinamica.webp"
   },
   {
     "id": "matematica-superior-aplicada",
@@ -117,7 +128,8 @@
     "id": "ciencia-de-los-materiales",
     "nombre": "Ciencia de los Materiales",
     "anio": 3,
-    "drive_url": ""
+    "drive_url": "",
+    "imagen": "assets/img/materias/ciencia-de-los-materiales.webp"
   },
   {
     "id": "fisicoquimica",
@@ -129,7 +141,8 @@
     "id": "fenomenos-de-transporte",
     "nombre": "Fenómenos de Transporte",
     "anio": 3,
-    "drive_url": ""
+    "drive_url": "",
+    "imagen": "assets/img/materias/fenomenos-de-transporte.webp"
   },
   {
     "id": "quimica-analitica",
