@@ -2,7 +2,7 @@
    AChETIQ — Bundle CSS de producción (GENERADO — NO EDITAR)
    Regenerar con: npm run build  (scripts/build-css.mjs)
    Contenido, en orden de cascada:
-     tokens.css → navbar.css → footer.css → loader.css → headers.css → text.css → cards.css → lists.css → forms.css → nav-secondary.css → states.css → motion.css → figure.css → cta.css → countdown-recursos.css → seguimiento.css → focus.css → print.css → main.css
+     tokens.css → navbar.css → footer.css → loader.css → headers.css → text.css → cards.css → lists.css → forms.css → nav-secondary.css → states.css → motion.css → figure.css → cta.css → countdown-recursos.css → seguimiento.css → gabinetes.css → focus.css → print.css → main.css
    ============================================================ */
 :root {
 --grafito-50:  #F9FAFC;
@@ -3454,6 +3454,97 @@ display: table-cell;
 display: table-cell;
 }
 .seg-table__nombre { min-width: 26ch; }
+}
+.gabinetes-hub .grid-cards {
+counter-reset: gabinete;
+column-gap: var(--space-16);
+row-gap: var(--space-12);
+}
+.gabinetes-hub .card-gabinete {
+counter-increment: gabinete;
+position: relative;
+background: transparent;
+border: 0;
+border-top: var(--rule);
+border-radius: 0;
+padding: var(--space-6) 0 0;
+box-shadow: none;
+transition: border-color var(--transition-fast);
+}
+@supports (grid-template-rows: subgrid) {
+.gabinetes-hub .grid-cards > .card-gabinete {
+grid-row: auto;
+grid-template-rows: none;
+display: flex;
+flex-direction: column;
+}
+}
+.gabinetes-hub .card-gabinete__title {
+font-size: var(--text-h3);
+font-weight: var(--weight-medium);
+color: var(--color-text);
+}
+.gabinetes-hub .card-gabinete__title::before {
+content: counter(gabinete, decimal-leading-zero);
+display: block;
+margin-bottom: var(--space-2);
+font-family: var(--font-mono);
+font-size: var(--text-caption);
+font-weight: var(--weight-regular);
+letter-spacing: var(--tracking-wider);
+font-variant-numeric: tabular-nums;
+color: var(--color-text-faint);
+}
+.gabinetes-hub .card-gabinete__desc {
+max-width: var(--measure-narrow);
+}
+.gabinetes-hub .card-gabinete .card-footer {
+border-top: 0;
+padding-top: 0;
+margin-top: var(--space-5);
+justify-content: flex-start;
+}
+.gabinetes-hub .card-gabinete__link {
+text-decoration: none;
+transition: color var(--transition-fast);
+}
+.gabinetes-hub .card-gabinete:hover {
+border-top-color: var(--color-accent);
+}
+@supports selector(:has(*)) {
+.gabinetes-hub .card-gabinete:has(.card-gabinete__link:focus-visible) {
+border-top-color: var(--color-accent);
+}
+}
+.gabinetes-hub .card-gabinete__link:hover {
+text-decoration: underline;
+text-decoration-color: var(--color-cta-text);
+text-underline-offset: 0.2em;
+}
+.gabinete-section {
+display: grid;
+grid-template-columns: minmax(0, 1fr);
+gap: var(--space-4);
+}
+.gabinete-section__title {
+text-wrap: balance;
+max-width: var(--measure-title);
+}
+@media (min-width: 1024px) {
+.gabinete-section {
+grid-template-columns: minmax(0, 18rem) minmax(0, var(--measure-prose));
+align-items: start;
+column-gap: var(--space-16);
+gap: 0 var(--space-16);
+}
+}
+@media print {
+.gabinete-section {
+display: block;
+}
+.gabinetes-hub .grid-cards {
+column-gap: var(--space-8);
+}
 }
 :focus-visible {
 outline: var(--focus-ring-width) solid var(--focus-ring-color);

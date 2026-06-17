@@ -1,0 +1,211 @@
+/* ============================================================
+   AChETIQ — Familia «Gabinetes» (gabinetes.css)
+   ------------------------------------------------------------
+   Versión: 1.0 · Fase 2 — Elevación editorial E04
+   Fundamento: DIRECCION_EDITORIAL.md §d (reglas hairline, blanco
+               estructural, tipografía antes que color) ·
+               FASE_1 §4.2 (gabinete hub + plantilla de detalle) ·
+               tokens.css «Cobalto & Mauveína».
+
+   ALCANCE. Una sola hoja gobierna las dos piezas de la familia:
+     1. El HUB (pages/gabinetes.html) — el «índice de gabinetes».
+     2. La PLANTILLA DE DETALLE compartida por los cuatro
+        pages/gabinetes/<slug>.html — la «monografía».
+   Ambas heredan el sistema E01 (filetes .section-ruled, escala de
+   ritmo, eyebrow con mesura) y NO tocan ni el motor data-loader, ni
+   las migas (E02), ni el foco centralizado (focus.css).
+
+   Mobile-first. Cero hex y cero familias literales: todo deriva de
+   tokens.css.
+   ============================================================ */
+
+
+/* ─────────────────────────────────────────────────────────────
+   1.  HUB — ÍNDICE DE GABINETES — .gabinetes-hub
+   ─────────────────────────────────────────────────────────────
+   El motor (loaders.js §4.1) renderiza dentro de la sección una
+   grilla .grid-cards--2 de <article class="card card-gabinete">.
+   Aquí esas tarjetas dejan de ser CAJAS (fondo + borde + sombra +
+   lift) y se reescriben como ENTRADAS de un índice editorial: un
+   filete hairline corona cada una, un numeral mono las ordena
+   (los cuatro gabinetes SON un conjunto enumerado —«cuatro frentes
+   de trabajo»—, no un eyebrow por reflejo) y la tipografía carga la
+   jerarquía. El único color de acción es el enlace de apertura.
+   Reescritura del lenguaje de elevación plana: sin side-stripes,
+   sin sombra de atmósfera (contrato S2 + regla hairline §d.2).
+   ───────────────────────────────────────────────────────────── */
+
+/* La grilla del índice respira más que una grilla de tarjetas: el
+   aire entre columnas es generoso (el blanco es estructural, §d.4)
+   y el numeral arranca en 01. counter-reset vive en el contenedor
+   que el motor crea (.grid-cards) dentro de la sección. */
+.gabinetes-hub .grid-cards {
+  counter-reset: gabinete;
+  column-gap: var(--space-16);
+  row-gap: var(--space-12);
+}
+
+/* Entrada del índice: filete superior, sin caja. El padding alto
+   separa el contenido de su filete (misma gramática que
+   .section-ruled); el numeral se cuenta por entrada. */
+.gabinetes-hub .card-gabinete {
+  counter-increment: gabinete;
+  position: relative;
+  background: transparent;
+  border: 0;
+  border-top: var(--rule);
+  border-radius: 0;
+  padding: var(--space-6) 0 0;
+  box-shadow: none;
+  /* Solo el filete y el enlace reaccionan al hover/focus: nada de
+     transform ni sombra (la elevación es respuesta a estado en
+     elementos-caja, no en una entrada de índice). */
+  transition: border-color var(--transition-fast);
+}
+
+/* Subgrid: la base (lists.css §5.1) hace que .card-gabinete abarque
+   tres filas del grid padre para alinear título/desc/pie entre
+   tarjetas-caja. La entrada de índice no necesita esa maquinaria:
+   vuelve a una pila flex y ancla su pie con margin-top:auto, de modo
+   que los enlaces «Conocer más →» quedan a ras entre columnas. */
+@supports (grid-template-rows: subgrid) {
+  .gabinetes-hub .grid-cards > .card-gabinete {
+    grid-row: auto;
+    grid-template-rows: none;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+/* Numeral de índice: voz de metadato del sistema (Geist Mono), tinta
+   terciaria. Ordena sin gritar —ni número-héroe ni acento—. Va sobre
+   el título, como folio de un sumario. */
+.gabinetes-hub .card-gabinete__title {
+  font-size: var(--text-h3);
+  font-weight: var(--weight-medium);
+  color: var(--color-text);
+}
+
+.gabinetes-hub .card-gabinete__title::before {
+  content: counter(gabinete, decimal-leading-zero);
+  display: block;
+  margin-bottom: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--tracking-wider);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-faint);
+}
+
+/* Descripción: cuerpo suave, medida acotada para que el índice
+   respire. */
+.gabinetes-hub .card-gabinete__desc {
+  max-width: var(--measure-narrow);
+}
+
+/* Pie sin filete propio (el filete superior de la entrada ya hace de
+   divisor); empuja el enlace al fondo de la pila para alinearlo entre
+   columnas. */
+.gabinetes-hub .card-gabinete .card-footer {
+  border-top: 0;
+  padding-top: 0;
+  margin-top: var(--space-5);
+  justify-content: flex-start;
+}
+
+/* Enlace de apertura: el ÚNICO camino a cada gabinete (un solo paso
+   claro). El texto ya trae su flecha en el HTML del motor
+   («Conocer más →»), que no se edita; el realce de hover/foco es un
+   subrayado en color de acción —confirmación de enlace que no depende
+   sólo del color— más el viraje del filete de la entrada. */
+.gabinetes-hub .card-gabinete__link {
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+/* Hover/focus sobre la entrada: el filete vira a acento (estructura,
+   cobalto). group-hover por :has() es mejora progresiva; el foco real
+   del enlace dispara el mismo realce. */
+.gabinetes-hub .card-gabinete:hover {
+  border-top-color: var(--color-accent);
+}
+
+@supports selector(:has(*)) {
+  .gabinetes-hub .card-gabinete:has(.card-gabinete__link:focus-visible) {
+    border-top-color: var(--color-accent);
+  }
+}
+
+.gabinetes-hub .card-gabinete__link:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--color-cta-text);
+  text-underline-offset: 0.2em;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   2.  PLANTILLA DE DETALLE — MONOGRAFÍA — .gabinete-section
+   ─────────────────────────────────────────────────────────────
+   Las cuatro páginas pages/gabinetes/<slug>.html comparten una
+   única composición tipográfica: cada bloque temático (propósito,
+   actividades, historia) es una FILA con su título de imprenta
+   (Fraunces, con la itálica de énfasis de la familia) a un lado y la
+   prosa —de medida 65ch— al otro. Los filetes hairline y el blanco
+   estructural hacen la separación; no hay cajas. La cabecera de
+   título corre como un «ladillo» de revista junto al cuerpo.
+
+   El motor inyecta <article class="prose"> (o un empty-state) dentro
+   de .gabinete-section__body; el body NO lleva ya la clase .prose
+   para no anidar dos medidas (la prosa la pone el motor).
+   ───────────────────────────────────────────────────────────── */
+
+.gabinete-section {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+}
+
+/* Título de sección como ladillo: Fraunces (heredado de h2), con la
+   itálica cobalto del énfasis (h2 em, tokens.css). Medida y balance
+   propios de titular; sin eyebrow mono delante (se elimina la cadencia
+   automática — deuda P1 #7). */
+.gabinete-section__title {
+  text-wrap: balance;
+  max-width: var(--measure-title);
+}
+
+/* En escritorio (≥1024px = --bp-lg) la fila se abre a dos columnas
+   sobre una línea de base superior común: ladillo acotado a la
+   izquierda, cuerpo de lectura a la derecha. Aprovecha el ancho real
+   en vez de apilar título y prosa angostos sobre un campo vacío —
+   misma decisión editorial que .page-header y .section-title--display
+   del sistema E01. */
+@media (min-width: 1024px) {
+  .gabinete-section {
+    grid-template-columns: minmax(0, 18rem) minmax(0, var(--measure-prose));
+    align-items: start;
+    column-gap: var(--space-16);
+    /* El gap vertical de la fila apilada ya no aplica en grid de una
+       sola fila; lo neutraliza column-gap. */
+    gap: 0 var(--space-16);
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   IMPRESIÓN
+   ─────────────────────────────────────────────────────────────
+   La grilla de dos columnas del detalle se apila al imprimir: en
+   papel el ladillo lateral desperdicia medida. print.css gobierna
+   el resto del documento; aquí sólo se colapsa la composición
+   propia de esta familia. */
+@media print {
+  .gabinete-section {
+    display: block;
+  }
+
+  .gabinetes-hub .grid-cards {
+    column-gap: var(--space-8);
+  }
+}
