@@ -25,122 +25,164 @@
    ─────────────────────────────────────────────────────────────
    El motor (loaders.js §4.1) renderiza dentro de la sección una
    grilla .grid-cards--2 de <article class="card card-gabinete">.
-   Aquí esas tarjetas dejan de ser CAJAS (fondo + borde + sombra +
-   lift) y se reescriben como ENTRADAS de un índice editorial: un
-   filete hairline corona cada una, un numeral mono las ordena
-   (los cuatro gabinetes SON un conjunto enumerado —«cuatro frentes
-   de trabajo»—, no un eyebrow por reflejo) y la tipografía carga la
-   jerarquía. El único color de acción es el enlace de apertura.
-   Reescritura del lenguaje de elevación plana: sin side-stripes,
-   sin sombra de atmósfera (contrato S2 + regla hairline §d.2).
+   Aquí esa grilla se reescribe como un SUMARIO de UNA columna:
+   cada gabinete es una FILA a ancho completo —espejo directo del
+   índice editorial de la portada (.gabinetes-index,
+   sobre-asociacion.css)— separada por filetes hairline, no por
+   cajas. La fila ENTERA es el destino (enlace estirado, sin tocar el
+   motor) y el nombre va en Fraunces como elemento dominante. El
+   cobalto firma la navegación; la mauveína queda reservada a la
+   ÚNICA acción primaria de la página (el CTA «Escribinos»).
    ───────────────────────────────────────────────────────────── */
 
-/* La grilla del índice respira más que una grilla de tarjetas: el
-   aire entre columnas es generoso (el blanco es estructural, §d.4)
-   y el numeral arranca en 01. counter-reset vive en el contenedor
-   que el motor crea (.grid-cards) dentro de la sección. */
+/* Sumario continuo: una columna, sin gap (los filetes forman la
+   grilla) y un filete inferior que lo cierra. El numeral arranca
+   en 01 por entrada. */
 .gabinetes-hub .grid-cards {
   counter-reset: gabinete;
-  column-gap: var(--space-16);
-  row-gap: var(--space-12);
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  border-bottom: var(--rule);
 }
 
-/* Entrada del índice: filete superior, sin caja. El padding alto
-   separa el contenido de su filete (misma gramática que
-   .section-ruled); el numeral se cuenta por entrada. */
+/* Fila = grilla propia. Móvil: numeral | cuerpo, con el enlace bajo
+   el cuerpo. La fila entera es relativa para alojar el enlace
+   estirado. Sin caja: fondo transparente, sólo el filete superior. */
 .gabinetes-hub .card-gabinete {
   counter-increment: gabinete;
   position: relative;
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  column-gap: var(--space-4);
+  row-gap: var(--space-2);
+  align-items: start;
   background: transparent;
   border: 0;
   border-top: var(--rule);
   border-radius: 0;
-  padding: var(--space-6) 0 0;
+  padding-block: var(--space-6);
   box-shadow: none;
-  /* Solo el filete y el enlace reaccionan al hover/focus: nada de
-     transform ni sombra (la elevación es respuesta a estado en
-     elementos-caja, no en una entrada de índice). */
-  transition: border-color var(--transition-fast);
+  transition: background-color var(--transition-fast);
 }
 
-/* Subgrid: la base (lists.css §5.1) hace que .card-gabinete abarque
-   tres filas del grid padre para alinear título/desc/pie entre
-   tarjetas-caja. La entrada de índice no necesita esa maquinaria:
-   vuelve a una pila flex y ancla su pie con margin-top:auto, de modo
-   que los enlaces «Conocer más →» quedan a ras entre columnas. */
+/* Neutraliza el subgrid de tarjeta-caja (lists.css §5.1): la fila usa
+   su propia grilla, no las pistas de fila del padre. */
 @supports (grid-template-rows: subgrid) {
   .gabinetes-hub .grid-cards > .card-gabinete {
     grid-row: auto;
     grid-template-rows: none;
-    display: flex;
-    flex-direction: column;
   }
 }
 
-/* Numeral de índice: voz de metadato del sistema (Geist Mono), tinta
-   terciaria. Ordena sin gritar —ni número-héroe ni acento—. Va sobre
-   el título, como folio de un sumario. */
-.gabinetes-hub .card-gabinete__title {
-  font-size: var(--text-h3);
-  font-weight: var(--weight-medium);
-  color: var(--color-text);
-}
-
-.gabinetes-hub .card-gabinete__title::before {
+/* Numeral de orientación marginal (ocupa el lugar del ícono del
+   índice de portada): mono discreto, alineado a la altura óptica del
+   nombre. */
+.gabinetes-hub .card-gabinete::before {
   content: counter(gabinete, decimal-leading-zero);
-  display: block;
-  margin-bottom: var(--space-2);
+  grid-column: 1;
+  grid-row: 1;
+  margin-top: 0.5em;
   font-family: var(--font-mono);
   font-size: var(--text-caption);
-  font-weight: var(--weight-regular);
   letter-spacing: var(--tracking-wider);
   font-variant-numeric: tabular-nums;
   color: var(--color-text-faint);
 }
 
-/* Descripción: cuerpo suave, medida acotada para que el índice
-   respire. */
-.gabinetes-hub .card-gabinete__desc {
-  max-width: var(--measure-narrow);
-}
-
-/* Pie sin filete propio (el filete superior de la entrada ya hace de
-   divisor); empuja el enlace al fondo de la pila para alinearlo entre
-   columnas. */
-.gabinetes-hub .card-gabinete .card-footer {
-  border-top: 0;
-  padding-top: 0;
-  margin-top: var(--space-5);
-  justify-content: flex-start;
-}
-
-/* Enlace de apertura: el ÚNICO camino a cada gabinete (un solo paso
-   claro). El texto ya trae su flecha en el HTML del motor
-   («Conocer más →»), que no se edita; el realce de hover/foco es un
-   subrayado en color de acción —confirmación de enlace que no depende
-   sólo del color— más el viraje del filete de la entrada. */
-.gabinetes-hub .card-gabinete__link {
-  text-decoration: none;
+/* Nombre del gabinete en voz editorial (Fraunces display): es el
+   elemento dominante de cada entrada del sumario — espejo de
+   .gabinete-entry__name (portada). Fraunces sobre <h3> es la
+   excepción canónica del ÍNDICE (el nombre ES el titular del
+   sumario), no del cuerpo. */
+.gabinetes-hub .card-gabinete__title {
+  grid-column: 2;
+  grid-row: 1;
+  font-family: var(--font-display);
+  font-size: var(--text-kpi);            /* 28 → 33 px serif */
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text);
+  text-wrap: balance;
   transition: color var(--transition-fast);
 }
 
-/* Hover/focus sobre la entrada: el filete vira a acento (estructura,
-   cobalto). group-hover por :has() es mejora progresiva; el foco real
-   del enlace dispara el mismo realce. */
-.gabinetes-hub .card-gabinete:hover {
-  border-top-color: var(--color-accent);
+/* Descripción legible: cuerpo pleno (≥1rem), no el escalón pequeño. */
+.gabinetes-hub .card-gabinete__desc {
+  grid-column: 2;
+  grid-row: 2;
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-soft);
+  max-width: var(--measure-narrow);
 }
 
-@supports selector(:has(*)) {
-  .gabinetes-hub .card-gabinete:has(.card-gabinete__link:focus-visible) {
-    border-top-color: var(--color-accent);
+/* Pie sin filete ni separación de tarjeta; aloja el enlace de
+   apertura bajo el cuerpo en móvil. */
+.gabinetes-hub .card-gabinete .card-footer {
+  grid-column: 2;
+  grid-row: 3;
+  border-top: 0;
+  padding-top: 0;
+  margin-top: 0;
+  justify-content: flex-start;
+}
+
+/* Enlace de apertura en COBALTO (navegación/estructura, no acción).
+   Estirado sobre toda la fila vía ::after para hacerla clicable sin
+   tocar el motor: cualquier punto de la entrada abre el gabinete. */
+.gabinetes-hub .card-gabinete__link {
+  color: var(--color-accent);
+  font-weight: var(--weight-medium);
+  text-decoration: none;
+}
+
+.gabinetes-hub .card-gabinete__link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+/* ── Escritorio (≥768px = --bp-md): la fila se abre a tres zonas
+   —numeral | cuerpo | enlace— con el enlace empujado al borde
+   derecho, como la flecha de afordancia del índice de portada. */
+@media (min-width: 768px) {
+  .gabinetes-hub .card-gabinete {
+    grid-template-columns: max-content minmax(0, 1fr) max-content;
+    column-gap: var(--space-8);
+  }
+
+  .gabinetes-hub .card-gabinete .card-footer {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    align-self: center;
   }
 }
 
-.gabinetes-hub .card-gabinete__link:hover {
-  text-decoration: underline;
-  text-decoration-color: var(--color-cta-text);
-  text-underline-offset: 0.2em;
+/* Estado de hover de la FILA COMPLETA: realce con la superficie de
+   acento fría (lavado cobalto) y el nombre vira a cobalto. La
+   afordancia es la fila entera, no el enlace diminuto. */
+@media (hover: hover) {
+  .gabinetes-hub .card-gabinete:hover {
+    background-color: var(--color-surface-accent);
+  }
+
+  .gabinetes-hub .card-gabinete:hover .card-gabinete__title {
+    color: var(--color-accent);
+  }
+}
+
+/* Foco por teclado en el enlace estirado: además del anillo global
+   (focus.css), la fila se realza igual que en hover. :has() es mejora
+   progresiva; sin soporte, el anillo de foco basta. */
+@supports selector(:has(*)) {
+  .gabinetes-hub .card-gabinete:has(.card-gabinete__link:focus-visible) {
+    background-color: var(--color-surface-accent);
+  }
+
+  .gabinetes-hub .card-gabinete:has(.card-gabinete__link:focus-visible) .card-gabinete__title {
+    color: var(--color-accent);
+  }
 }
 
 
