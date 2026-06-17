@@ -3223,7 +3223,7 @@ container-type: inline-size;
 }
 .seg-kpi {
 background: var(--color-surface-raised);
-border: 0.5px solid var(--color-border);
+border: var(--elevation-border);
 border-radius: var(--radius-lg);
 padding: var(--space-4) var(--space-5);
 display: flex;
@@ -3259,7 +3259,7 @@ color: var(--color-text-faint);
 }
 .seg-table-scroll {
 overflow-x: auto;
-border: 0.5px solid var(--color-border);
+border: var(--elevation-border);
 border-radius: var(--radius-lg);
 background: var(--color-surface-raised);
 }
@@ -3273,7 +3273,7 @@ font-size: var(--text-small);
 padding: var(--space-2) var(--space-3);
 text-align: left;
 vertical-align: middle;
-border-bottom: 0.5px solid var(--color-border-soft);
+border-bottom: var(--elevation-border-soft);
 }
 .seg-table thead th {
 position: sticky;

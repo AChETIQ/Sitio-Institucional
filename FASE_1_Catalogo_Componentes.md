@@ -316,7 +316,7 @@ El placeholder es reemplazado por `js/navbar.js`, que carga `partials/navbar.htm
       <p class="footer__tagline">Asociación Chaqueña de Estudiantes Tecnológicos de Ingeniería Química</p>
     </div>
     <div class="footer__col">
-      <h4 class="footer__heading">Navegación</h4>
+      <h2 class="footer__heading">Navegación</h2>
       <ul class="footer__list">
         <li><a href="/sobre-achetiq.html">Sobre AChETIQ</a></li>
         <li><a href="/gabinetes.html">Gabinetes</a></li>
@@ -325,12 +325,12 @@ El placeholder es reemplazado por `js/navbar.js`, que carga `partials/navbar.htm
       </ul>
     </div>
     <div class="footer__col">
-      <h4 class="footer__heading">Contacto</h4>
+      <h2 class="footer__heading">Contacto</h2>
       <ul class="footer__list" data-loader="redes"></ul>
       <!-- poblado dinámicamente desde data/redes.json -->
     </div>
     <div class="footer__col">
-      <h4 class="footer__heading">Vinculados</h4>
+      <h2 class="footer__heading">Vinculados</h2>
       <ul class="footer__instituciones" data-loader="instituciones"></ul>
       <!-- logos UTN FRRe + ANEIQA, poblado desde data/instituciones.json -->
     </div>
@@ -344,7 +344,7 @@ El placeholder es reemplazado por `js/navbar.js`, que carga `partials/navbar.htm
 **Tipografía.**
 
 - `.footer__wordmark`: familia **display Fraunces**, `--weight-regular`, `--tracking-tight` — la firma de masthead que el navbar adopta en E02 (§1.2-bis) para enmarcar el chrome con una sola voz.
-- `.footer__heading`: tipografía mono, eyebrow style (`--text-eyebrow`, uppercase, `--tracking-wider`) — la misma cadencia mono del dateline editorial de la portada (E01).
+- `.footer__heading`: tipografía mono, eyebrow style (`--text-eyebrow`, uppercase, `--tracking-wider`) — la misma cadencia mono del dateline editorial de la portada (E01). **Nivel semántico `<h2>` (E07):** las columnas son regiones de primer nivel dentro del landmark `contentinfo`; el estilo lo porta la clase, no la etiqueta, así que el cambio h4→h2 no altera el render y elimina el salto de nivel de encabezado (h2→h4) que axe marcaba en todas las páginas.
 - `.footer__list`: tipografía body, `--text-small`, tintas locales derivadas de `--color-on-accent` (el footer vive sobre `--color-surface-inverse`).
 - `.footer__legal-name` / `.footer__legal` (colofón): tinta atenuada local; el colofón inferior va en mono caption con `--tracking-wide`, centrado en mobile y a la izquierda en ≥1024 px.
 
@@ -389,7 +389,7 @@ El placeholder es reemplazado por `js/navbar.js`, que carga `partials/navbar.htm
 ```html
 <section class="hero">
   <div class="hero__content">
-    <p class="eyebrow hero__eyebrow">Asociación estudiantil — UTN FRRe</p>
+    <p class="hero__dateline">UTN FRRe · Resistencia, Chaco · desde 2009</p>
     <h1 class="hero__title">
       Estudiantes de Ingeniería Química <em>organizados</em>, formados y conectados.
     </h1>
@@ -1145,7 +1145,7 @@ Umbrales de contenedor canónicos (referencia en `tokens.css` §UMBRALES DE CONT
 </ul>
 ```
 
-**Especificación.** Cada ítem: `display: flex`, padding `var(--space-3)`, separador inferior `0.5px solid var(--color-border-soft)`. Hover: fondo `var(--color-surface-raised)`.
+**Especificación.** Cada ítem: `display: flex`, padding `var(--space-3)`, separador inferior `var(--elevation-border-soft)` (1 px tokenizado — sin pesos sub-pixel literales; ver E07). Hover: fondo `var(--color-surface-raised)`.
 
 ---
 

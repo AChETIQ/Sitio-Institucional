@@ -308,6 +308,14 @@ Cada materia del Plan 2023 se pinta como `.card-materia` con una cubierta colore
 (`--color-materia-anio-1..5`, una rampa de arena → cobalto profundo). Es el componente más
 distintivo del registro utilitario: convierte un índice de 41 materias en una grilla legible por año.
 
+### Cierre de página (`.cta-final`)
+El módulo de cierre abre **directo con el titular display** (Fraunces, con su itálica cobalto de
+énfasis) seguido del *lead* en Hanken y los botones; **no lleva eyebrow**. Es la aplicación de la
+cadencia E01 al pie del documento: el único kicker de la vista ya lo porta la cabecera (el
+*dateline* del héroe en la portada o el eyebrow del `.page-header` en las interiores), de modo que
+un segundo eyebrow bajo el pliegue sería gramática automática. **E07 reconcilió las 11 superficies
+a este patrón** (seis cierres aún portaban un eyebrow residual de fases previas; se retiraron).
+
 ## 6. Do's and Don'ts
 
 ### Do:
@@ -336,7 +344,9 @@ distintivo del registro utilitario: convierte un índice de 41 materias en una g
   azul-naranja saturado, mascota. Vetado.
 - **Don't** usar fondo crema/arena cálido "por elegancia". Es el tell de IA 2026.
 - **Don't** coronar **cada** sección con un *eyebrow* en mono: un kicker deliberado es voz; el eyebrow
-  por sección es gramática de IA (deuda actual a saldar).
+  por sección es gramática de IA. **Cadencia saldada en E07:** exactamente UN kicker por vista (el
+  *dateline* del héroe o el eyebrow del `.page-header`) y CERO eyebrows bajo el pliegue —incluido el
+  cierre `.cta-final`, que abre directo con el titular display.
 - **Don't** repetir grillas de tarjetas idénticas (ícono + título + texto) como recurso por defecto;
   variar densidad y composición.
 - **Don't** usar `border-left`/`border-right` > 1 px como franja de acento, texto en gradiente
