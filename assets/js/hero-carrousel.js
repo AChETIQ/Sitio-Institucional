@@ -123,7 +123,6 @@
 
   var current = 0;
   var timer = null;
-  var userPaused = false;   /* pausa EXPLÍCITA vía el control (WCAG 2.2.2) */
 
   function show(next) {
     slides[current].classList.remove('hero__slide--active');
@@ -136,43 +135,20 @@
     show((current + 1) % slides.length);   /* loop infinito */
   }
 
-  /* No reanuda si el usuario pausó a mano: su decisión gana sobre la
-     reanudación automática por visibilidad de pestaña. */
   function start() {
-    if (!timer && !userPaused) timer = window.setInterval(advance, HOLD_MS);
+    if (!timer) timer = window.setInterval(advance, HOLD_MS);
   }
 
   function stop() {
     if (timer) { window.clearInterval(timer); timer = null; }
   }
 
-  /* Pausar/reanudar según visibilidad de la pestaña. */
+  /* Pausar/reanudar según visibilidad de la pestaña: ahorra trabajo
+     mientras el documento no se ve (no es un control de usuario). */
   document.addEventListener('visibilitychange', function () {
     if (document.hidden) stop();
     else start();
   });
-
-  /* Control de pausa (WCAG 2.2.2 «Pausar, detener, ocultar»). Se
-     revela y cablea SÓLO aquí —con slideshow activo (≥ 2 cuadros) y
-     fuera de prefers-reduced-motion, donde el script ya retornó y la
-     imagen queda fija—. aria-pressed refleja el estado pausado; la
-     etiqueta accesible alterna su texto. */
-  var pauseBtn = document.querySelector('[data-hero-pause]');
-  if (pauseBtn) {
-    var pauseLabel = pauseBtn.querySelector('[data-hero-pause-label]');
-    pauseBtn.hidden = false;
-    pauseBtn.addEventListener('click', function () {
-      userPaused = !userPaused;
-      pauseBtn.setAttribute('aria-pressed', String(userPaused));
-      if (pauseLabel) {
-        pauseLabel.textContent = userPaused
-          ? 'Reanudar presentación'
-          : 'Pausar presentación';
-      }
-      if (userPaused) stop();
-      else start();
-    });
-  }
 
   start();
 })();

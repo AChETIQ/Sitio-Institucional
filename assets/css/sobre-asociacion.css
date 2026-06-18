@@ -88,14 +88,11 @@
   gap: var(--space-4);
 }
 
-/* Eyebrow: reutiliza la utilidad global .eyebrow (mono, uppercase,
-   tracking-wider, --color-text-faint = muted). No se redefine. */
-
-/* Titular display: el patrón eyebrow + h2 display se sirve ahora
-   del componente compartido .section-title --display (headers.css
-   §2.3) — la duplicación local fue eliminada (dedup S2). El
-   margin-bottom del .section-title (--header-gap) suma a la pila
-   flex la respiración cabecera → lead. */
+/* Titular display: la apertura se sirve del componente compartido
+   .section-title --display (headers.css §2.3) — sin eyebrow encima
+   (doctrina cero-eyebrow; la antigua utilidad .eyebrow se retiró). El
+   margin-bottom del .section-title (--header-gap) suma a la pila flex
+   la respiración cabecera → lead. */
 
 /* Lead: mayor tamaño (text-xl) y medida ~62ch. */
 .about-intro__lead {

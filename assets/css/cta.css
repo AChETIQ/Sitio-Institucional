@@ -58,13 +58,6 @@
   margin-top: var(--section-gap);
 }
 
-/* Inversión cromática del eyebrow global (.eyebrow vive en
-   tokens.css §UTILIDADES DE TIPOGRAFÍA y por defecto usa
-   --color-text-faint, ilegible sobre fondo primario). */
-.cta-final .eyebrow {
-  color: var(--color-on-accent);
-}
-
 /* Título del CTA. H2 hereda su escala y familia de los estilos
    globales (main.css §3); aquí sólo cambia color y limita ancho
    para forzar quiebre en zona de máxima legibilidad. El <em>

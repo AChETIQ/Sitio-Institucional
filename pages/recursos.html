@@ -61,12 +61,22 @@
   <main id="main-content" class="page" tabindex="-1">
 
     <!-- ════════════════════════════════════════════════════════
+         BREADCRUMBS — patrón transversal §7.1 (.breadcrumbs)
+         Inicio › Recursos académicos
+         ════════════════════════════════════════════════════════ -->
+    <nav class="breadcrumbs" aria-label="Ruta de navegación">
+      <ol class="breadcrumbs__list">
+        <li><a href="../index.html">Inicio</a></li>
+        <li aria-current="page">Recursos académicos</li>
+      </ol>
+    </nav>
+
+    <!-- ════════════════════════════════════════════════════════
          [1] PAGE-HEADER — Wireframe §4 bloque [3]
          Siempre visible: ancla la sección y mantiene contexto
          aun durante la cuenta regresiva de apertura.
          ════════════════════════════════════════════════════════ -->
     <header class="page-header">
-      <p class="eyebrow">Material de estudio</p>
       <h1 class="page-header__title">Recursos <em>académicos</em></h1>
       <p class="page-header__lead">
         El núcleo académico de AChETIQ: apuntes por materia del Plan 2023 y una herramienta para seguir el avance en la carrera. Dos servicios pensados para acompañar al estudiante de Ingeniería Química de la UTN FRRe.

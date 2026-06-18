@@ -110,10 +110,20 @@
   <main id="main-content" class="page" tabindex="-1">
 
     <!-- ════════════════════════════════════════════════════════
+         BREADCRUMBS — patrón transversal §7.1 (.breadcrumbs)
+         Inicio › Contacto
+         ════════════════════════════════════════════════════════ -->
+    <nav class="breadcrumbs" aria-label="Ruta de navegación">
+      <ol class="breadcrumbs__list">
+        <li><a href="../index.html">Inicio</a></li>
+        <li aria-current="page">Contacto</li>
+      </ol>
+    </nav>
+
+    <!-- ════════════════════════════════════════════════════════
          [3] PAGE-HEADER — Wireframe §5 bloque [3]
          ════════════════════════════════════════════════════════ -->
     <header class="page-header">
-      <p class="eyebrow">Comunicación</p>
       <h1 class="page-header__title">Escribinos a <em>AChETIQ</em></h1>
       <p class="page-header__lead">
         Consultas sobre la asociación, propuestas de actividades, intención de sumarte a un gabinete o aportes de material académico.
