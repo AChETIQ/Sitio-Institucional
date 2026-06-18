@@ -22,13 +22,12 @@
      El dev panel enlaza esta página con ?preview=true para poder
      auditar la UI de espera del contador. Cuando la fecha objetivo
      ya pasó, la lógica normal revela el contenido al instante y nos
-     saca de la pantalla del temporizador; en modo preview congelamos
-     ese comportamiento y dejamos el contador a la vista.
+     saca de la pantalla del temporizador. En modo preview empujamos
+     la fecha objetivo un año al futuro (más abajo, al parsearla) y
+     dejamos correr el script de forma nativa: el contador queda a la
+     vista y tickea de verdad, sin tocar el DOM a mano.
      Eliminar junto con el dev panel cuando termine el testing. */
   const isPreview = new URLSearchParams(window.location.search).get("preview") === "true";
-  if (isPreview) {
-    console.log("Dev preview mode active: automatic redirect frozen.");
-  }
 
   var MS_SECOND = 1000;
   var MS_MINUTE = MS_SECOND * 60;
@@ -84,7 +83,19 @@
       return;
     }
 
-    var targetMs = new Date(rawDate).getTime();
+    var targetDate = new Date(rawDate);
+
+    // ── Modo preview (QA/UI) · TEMPORARY ──────────────────────
+    // "Time travel": empujamos la fecha objetivo un año al futuro
+    // para forzar la pantalla de espera y dejar que el script corra
+    // su lógica natural (UI visible + tickeo real).
+    if (isPreview) {
+      targetDate = new Date();
+      targetDate.setFullYear(targetDate.getFullYear() + 1);
+      console.log("Dev Mode: Target date pushed +1 year to force timer UI.");
+    }
+
+    var targetMs = targetDate.getTime();
     if (isNaN(targetMs)) {
       console.warn("[countdown] data-target-date no es una fecha válida:", rawDate);
       return;
@@ -103,29 +114,7 @@
     var intervalId = null;
     var revealedDone = false;
 
-    // ── Modo preview (QA/UI) ──────────────────────────────────
-    // Congela la pantalla de espera: limpia cualquier intervalo,
-    // mantiene visible el bloque [data-countdown-pending], deja
-    // oculto el contenido a revelar y fija los dígitos en "05" para
-    // poder inspeccionar la UI del temporizador sin que se revele.
-    if (isPreview) {
-      if (intervalId !== null) {
-        clearInterval(intervalId);
-        intervalId = null;
-      }
-      if (pending) pending.removeAttribute("hidden");
-      if (revealed) revealed.setAttribute("hidden", "");
-      setDigit(units.days, 5);
-      setDigit(units.hours, 5);
-      setDigit(units.minutes, 5);
-      setDigit(units.seconds, 5);
-      root.setAttribute("data-countdown-state", "pending");
-      return;
-    }
-
     function reveal() {
-      // Dev preview: nunca revelar ni "redirigir"; el contador queda fijo.
-      if (isPreview) return;
       if (revealedDone) return;
       revealedDone = true;
 
