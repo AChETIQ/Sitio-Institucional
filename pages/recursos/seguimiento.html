@@ -304,12 +304,12 @@
   <script src="../../assets/js/loader.js" defer></script>
   <script src="../../assets/js/navbar.js" defer></script>
   <script src="../../assets/js/footer.js" defer></script>
-  <!-- ExcelJS: el navegador no puede manipular binarios .xlsx de forma
-       nativa. Esta librería parsea la plantilla de assets/docs y la
-       reescribe conservando su formato (colores, cabeceras, estilos de
-       celda) al inyectar sólo los valores del estudiante. Carga
-       diferida para no bloquear el render. -->
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+  <!-- xlsx-populate: el navegador no puede manipular binarios .xlsx de
+       forma nativa. Esta librería muta el ZIP subyacente SIN reconstruir
+       el workbook, así que todas las hojas, fórmulas y objetos visuales
+       de la plantilla (assets/docs) quedan intactos al inyectar sólo los
+       valores del estudiante. Carga diferida para no bloquear el render. -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/xlsx-populate/1.21.0/xlsx-populate.min.js"></script>
   <script type="module" src="../../assets/js/seguimiento.js"></script>
   <script type="module" src="../../assets/js/main.js"></script>
 

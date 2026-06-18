@@ -1189,26 +1189,42 @@ function exportJSON() {
 
 /* ─── Exportación a Excel (.xlsx) sobre la plantilla (spec §11.3) ──
    Reemplaza al antiguo CSV. El navegador no manipula binarios .xlsx
-   de forma nativa, así que se usa ExcelJS (window.ExcelJS, cargado
-   por CDN en seguimiento.html). A diferencia de otras librerías,
-   ExcelJS conserva el formato del archivo original (colores,
-   cabeceras, estilos de celda) porque al inyectar datos tocamos
-   sólo la propiedad `.value` de cada celda, nunca su estilo. Flujo:
+   de forma nativa, así que se usa xlsx-populate (window.XlsxPopulate,
+   cargado por CDN en seguimiento.html). A diferencia de las librerías
+   que reconstruyen el workbook (y rompían la hoja «Nota al Estudiante»
+   con su formato avanzado), xlsx-populate MUTA el ZIP subyacente: todas
+   las hojas, fórmulas y objetos visuales de la plantilla quedan
+   perfectamente intactos. Además marca el libro para que Excel
+   recalcule las fórmulas (promedios, KPIs, correlatividades) al abrir.
+   Flujo:
      1) fetch() de la plantilla en blanco (assets/docs) como ArrayBuffer;
-     2) carga del buffer con workbook.xlsx.load(buffer);
-     3) lectura del estado vigente del estudiante (estado por materia
-        y notas finales) y volcado en las celdas específicas de la
-        hoja «Seguimiento» (columna F = ESTADO, columna G = NOTA FINAL);
-     4) writeBuffer() y descarga limpia del archivo poblado.
+     2) carga con XlsxPopulate.fromDataAsync(buffer);
+     3) volcado del estado vigente (estado y nota final) en las celdas
+        específicas de la hoja «Seguimiento» (F = ESTADO, G = NOTA FINAL);
+     4) outputAsync() → Blob y descarga limpia del archivo poblado.
    No es reimportable: es una foto para consulta. */
 
 const XLSX_PLANTILLA = 'assets/docs/Seguimiento_de_Carrera.xlsx';
 const XLSX_HOJA = 'Seguimiento';
-/* Índices de columna 1-based (convención de ExcelJS). */
-const XLSX_COL_NUMERO = 1; /* A — N° de materia */
-const XLSX_COL_ASIGNATURA = 3; /* C — nombre (sólo en filas de datos) */
-const XLSX_COL_ESTADO = 6; /* F — ESTADO */
-const XLSX_COL_NOTA = 7; /* G — NOTA FINAL */
+const XLSX_FILA_INICIAL = 12; /* La primera materia ocupa la fila 12. */
+
+/* Mapa determinista N° → fila, derivado de la estructura ESTÁTICA de
+   la plantilla (sin buscar filas en tiempo de ejecución). La planilla
+   NO ordena las filas por N°: intercala N° 40 (fila 27) y N° 41 (fila
+   37) fuera de secuencia, por lo que `numero + 11` sería incorrecto
+   para 26 de las 54 materias. Este arreglo lista los N° en el orden en
+   que aparecen las filas a partir de XLSX_FILA_INICIAL. */
+const SEG_ORDEN_FILAS = [
+  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
+  14, 15, 40, 16, 17, 18, 19, 20, 21, 22, 23, 24, 41,
+  25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37,
+  38, 39, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52,
+  53, 54
+];
+
+const filaDeMateria = new Map(
+  SEG_ORDEN_FILAS.map((numero, i) => [numero, XLSX_FILA_INICIAL + i])
+);
 
 function plantillaURL() {
   const base = window.AChETIQBase;
@@ -1218,57 +1234,36 @@ function plantillaURL() {
   return '../../' + XLSX_PLANTILLA;
 }
 
-/* Vuelca el estado vigente en la hoja «Seguimiento» de la plantilla.
-   Localiza la fila de cada materia por su N° (columna A), pero sólo
-   acepta filas de datos: las celdas de KPI de la cabecera también
-   tienen números en A, y se descartan exigiendo que la columna C
-   (asignatura) sea texto (las celdas de fórmula devuelven objetos,
-   no number/string, así que quedan fuera).
-   IMPORTANTE: sólo se escribe `cell.value` sobre la hoja YA CARGADA;
-   ni el estilo de las celdas ni las demás hojas del workbook
-   («Finales», «Nota al Estudiante», «Datos») se tocan. */
-function poblarPlantilla(wb) {
-  /* Hoja ya cargada del workbook (no se crea ni reemplaza ninguna
-     hoja). Se busca por nombre exacto, con respaldo a la primera. */
-  const ws = wb.getWorksheet(XLSX_HOJA) || wb.worksheets[0];
-  if (!ws) {
+/* Vuelca el estado vigente en la hoja «Seguimiento» de la plantilla,
+   usando el mapa determinista de filas (sin localizador dinámico). */
+function poblarPlantilla(workbook) {
+  const sheet = workbook.sheet(XLSX_HOJA) || workbook.sheet(0);
+  if (!sheet) {
     throw new Error('La plantilla no contiene la hoja «' + XLSX_HOJA + '».');
   }
 
-  const filaPorNumero = new Map();
-  ws.eachRow((row, rowNumber) => {
-    const a = row.getCell(XLSX_COL_NUMERO).value;
-    const c = row.getCell(XLSX_COL_ASIGNATURA).value;
-    if (typeof a === 'number' && typeof c === 'string') {
-      filaPorNumero.set(a, rowNumber);
-    }
-  });
-
   plan.materias.forEach((m) => {
-    const rowNumber = filaPorNumero.get(m.numero);
-    if (rowNumber == null) return;
+    const rowIndex = filaDeMateria.get(m.numero);
+    if (rowIndex == null) return;
     const rec = getRecord(m.numero);
-    const row = ws.getRow(rowNumber);
 
-    /* Estado (F): cadena exacta que espera el desplegable de la
-       plantilla y sus fórmulas («No Cursada», «Cursando», «Regular»,
-       «Aprobada»). Sólo se escribe `.value`; el estilo se conserva. */
-    row.getCell(XLSX_COL_ESTADO).value = String(rec.estado);
+    /* Estado (F): cadena exacta que esperan el desplegable y las
+       fórmulas de la plantilla («No Cursada», «Cursando», «Regular»,
+       «Aprobada»). */
+    sheet.cell('F' + rowIndex).value(String(rec.estado));
 
-    /* Nota final (G): se inyecta como NÚMERO estricto para que las
-       fórmulas de promedio del template la computen (una cadena la
-       ignoraría Excel). Si no hay nota, se vacía la celda (null).
-       Reemplaza la fórmula original de la plantilla por el valor. */
-    const notaCell = row.getCell(XLSX_COL_NOTA);
-    notaCell.value = isNotaValida(rec.nota_final)
-      ? Number(rec.nota_final)
-      : null;
+    /* Nota final (G): NÚMERO estricto para que las fórmulas de promedio
+       la computen (una cadena la ignoraría Excel); si no hay nota, se
+       deja la celda vacía (undefined). */
+    sheet.cell('G' + rowIndex).value(
+      isNotaValida(rec.nota_final) ? Number(rec.nota_final) : undefined
+    );
   });
 }
 
 async function exportXLSX() {
-  const ExcelJS = window.ExcelJS;
-  if (!ExcelJS) {
+  const XlsxPopulate = window.XlsxPopulate;
+  if (!XlsxPopulate) {
     announce('No se pudo cargar la librería para generar el Excel.');
     window.alert('No se pudo cargar la librería para generar el archivo Excel. ' +
                  'Verificá tu conexión a internet e intentá de nuevo.');
@@ -1287,20 +1282,13 @@ async function exportXLSX() {
     return;
   }
 
-  let salida;
+  let blob;
   try {
-    /* Se carga el workbook COMPLETO (todas las hojas) sobre una única
-       instancia y se muta en su lugar; nunca se construye desde cero. */
-    const wb = new ExcelJS.Workbook();
-    await wb.xlsx.load(buffer);
-    poblarPlantilla(wb);
-
-    /* Forzar a Excel a recalcular TODAS las fórmulas (promedios, KPIs,
-       correlatividades) al abrir, en vez de usar los valores cacheados.
-       Se inyecta justo antes de generar el buffer de salida. */
-    wb.calcProperties.fullCalcOnLoad = true;
-
-    salida = await wb.xlsx.writeBuffer();
+    /* xlsx-populate muta el ZIP cargado en su lugar: no reconstruye el
+       workbook, así que todas las hojas y objetos visuales se conservan. */
+    const workbook = await XlsxPopulate.fromDataAsync(buffer);
+    poblarPlantilla(workbook);
+    blob = await workbook.outputAsync();
   } catch (e) {
     console.error('[seguimiento] No se pudo generar el Excel:', e);
     announce('No se pudo generar el archivo Excel.');
@@ -1308,9 +1296,6 @@ async function exportXLSX() {
     return;
   }
 
-  const blob = new Blob([salida], {
-    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-  });
   descargar(blob, 'mi-seguimiento-achetiq.xlsx');
   announce('Planilla de seguimiento exportada a Excel.');
 }
