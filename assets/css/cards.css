@@ -542,6 +542,12 @@
   flex-direction: column;
   gap: var(--space-1);
   padding: var(--space-4);
+  /* Relleno blanco puro: el cuerpo de texto se lee como una superficie
+     física distinta sobre la porcelana de página, en lugar de fundirse
+     con ella. El borde y el radio de la tarjeta (heredados de
+     `.card-materia`) enmarcan ese blanco como un objeto recortado. */
+  background: var(--color-surface-white);
+  transition: background-color var(--transition-fast);
 }
 
 .card-materia__year {
@@ -617,12 +623,14 @@
   transform: translateX(var(--space-1));
 }
 
-/* Realce de la TARJETA COMPLETA al hover/foco: el mismo lavado
-   cobalto frío (--color-surface-accent) del índice E05, sumado al
-   borde a primary + lift heredados de .card-materia. La afordancia
-   es la tarjeta entera, no un fragmento. */
-.card-materia--drive:hover,
-.card-materia--drive:focus-visible {
+/* Realce al hover/foco: el mismo lavado cobalto frío
+   (--color-surface-accent) del índice E05, sumado al borde a primary +
+   lift heredados de .card-materia. Se pinta sobre el cuerpo —no sobre la
+   tarjeta— porque el cuerpo lleva ahora relleno blanco opaco que taparía
+   un fondo de tarjeta; el cover conserva su color por año. La afordancia
+   sigue leyéndose como la tarjeta entera (cover + cuerpo washado). */
+.card-materia--drive:hover .card-materia__body,
+.card-materia--drive:focus-visible .card-materia__body {
   background: var(--color-surface-accent);
 }
 

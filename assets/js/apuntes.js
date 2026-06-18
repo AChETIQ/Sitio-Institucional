@@ -46,11 +46,11 @@
 import { registerLoader, createElement, safeHref } from './loaders.js';
 
 var YEAR_LABEL = {
-  1: '1.º año',
-  2: '2.º año',
-  3: '3.º año',
-  4: '4.º año',
-  5: '5.º año'
+  1: '1º año',
+  2: '2º año',
+  3: '3º año',
+  4: '4º año',
+  5: '5º año'
 };
 
 

@@ -150,6 +150,14 @@
   --color-surface-raised: var(--grafito-50);
   /* Superficies elevadas: tarjetas, paneles, modales, dropdowns. */
 
+  --color-surface-white:  #FFFFFF;
+  /* Blanco puro (chroma 0). Relleno para superficies que deben leerse
+     como objetos físicos distintos sobre la porcelana de página: el
+     cuerpo de .card-materia (apuntes) "levanta" del lienzo en lugar de
+     fundirse con él. Sobre este fondo: --color-text 17.9:1 ·
+     --color-text-soft 9.0:1 — AAA · --color-text-faint 6.3:1 — AA con
+     margen · --color-accent 8.7:1 — AAA. */
+
   --color-surface-sunken: var(--grafito-150);
   /* Papel frío HUNDIDO (E01): un peldaño por debajo de la porcelana
      base, para diferenciar zonas por tono —no por caja— en el ritmo
