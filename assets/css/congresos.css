@@ -189,11 +189,11 @@
 /* Animación de desplazamiento continuo. El track contiene 16
    ítems (8 × 2); translateX(-50%) mueve exactamente el primer
    bloque de 8 fuera de la vista, y el loop lo retorna al
-   origen sin salto visible. 28 s da un ritmo fluido y legible:
-   ~85 px/s en desktop, perceptible sin distraer. */
+   origen sin salto visible. 40 s da un paso pausado que deja leer
+   con comodidad el pie de foto de cada imagen al pasar. */
 @media (prefers-reduced-motion: no-preference) {
   .congresos-slider__track {
-    animation: congresos-scroll 28s linear infinite;
+    animation: congresos-scroll 40s linear infinite;
   }
 }
 

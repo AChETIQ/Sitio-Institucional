@@ -3694,7 +3694,7 @@ transform: scale(1.04);
 }
 @media (prefers-reduced-motion: no-preference) {
 .congresos-slider__track {
-animation: congresos-scroll 28s linear infinite;
+animation: congresos-scroll 40s linear infinite;
 }
 }
 @keyframes congresos-scroll {
