@@ -29,7 +29,8 @@ import { BASE_URL } from "../site.config.mjs";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 
 // Logo social compartido por todas las páginas (ruta absoluta del sitio).
-const IMAGE_PATH = "/icon-512.png";
+// Imagen Open Graph global 1200×630 (logo AChETIQ centrado sobre fondo blanco).
+const IMAGE_PATH = "/assets/img/og-image-achetiq.png";
 
 // BASE_URL normalizada sin barra final, para componer rutas sin dobles barras.
 const baseUrl = BASE_URL.replace(/\/+$/, "");
