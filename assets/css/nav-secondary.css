@@ -17,20 +17,26 @@
    7.1  BREADCRUMBS — .breadcrumbs
    ─────────────────────────────────────────────────────────────
    Navegación contextual en páginas profundas. Tipografía body
-   13 px, color faint, separador "›" generado por CSS. El último
-   ítem es texto plano (no link) en color ink, marcado con
-   aria-current="page" en el HTML.
+   en escalón cuerpo (--text-body, ~16→17 px) para que la ruta sea
+   plenamente legible —no una utilidad diminuta—, color faint,
+   separador "›" generado por CSS. El último ítem es texto plano
+   (no link) en color ink, marcado con aria-current="page" en el
+   HTML.
 
-   DESPLIEGUE (S2). Activas en TODAS las páginas de detalle:
-   pages/gabinetes/*.html y pages/recursos/{apuntes,seguimiento}
-   .html, con aria-label canónico «Ruta de navegación» (FASE_1
-   §7.1). El ajuste de respiración con el .page-header contiguo
-   vive en headers.css (.breadcrumbs + .page-header).
+   PRESENCIA TRANSVERSAL. Activas en TODAS las páginas internas:
+   los cuatro hubs (sobre-achetiq, gabinetes, recursos, contacto) y
+   las páginas de detalle (pages/gabinetes/*.html y
+   pages/recursos/{apuntes,seguimiento}.html), con aria-label
+   canónico «Ruta de navegación» (FASE_1 §7.1). ESTRICTAMENTE
+   omitidas en la portada (index.html), que abre con el hero. El
+   ajuste de respiración con el .page-header contiguo vive en
+   headers.css (.breadcrumbs + .page-header).
    ───────────────────────────────────────────────────────────── */
 
 .breadcrumbs {
   font-family: var(--font-body);
-  font-size: var(--text-small);       /* 13 px */
+  font-size: var(--text-body);        /* ~16→17 px — ruta legible */
+  line-height: var(--leading-snug);
   color: var(--color-text-faint);
 }
 
@@ -55,7 +61,7 @@
    la secuencia y el ítem actual lleva aria-current="page"). */
 .breadcrumbs__list li:not(:first-child)::before {
   content: "›";
-  padding-inline: var(--space-2);
+  padding-inline: var(--space-3);
   color: var(--color-text-faint);
   speak: none;
 }
@@ -64,9 +70,10 @@
   color: var(--color-text-faint);
   text-decoration: none;
   transition: color var(--transition-fast);
-  /* Objetivo táctil WCAG 2.5.8 (≥ 24 px): el texto de 13 px rinde
-     ≈ 20 px de caja de línea. El padding amplía el área interactiva
-     y el margen negativo la compensa visualmente. */
+  /* Objetivo táctil WCAG 2.5.8 (≥ 24 px): a escalón cuerpo la caja de
+     línea (--leading-snug) ya ronda 24 px; el padding-block la lleva
+     con holgura por encima y el margen negativo lo compensa
+     visualmente para no alterar el ritmo de la ruta. */
   display: inline-block;
   padding-block: var(--space-1);
   margin-block: calc(-1 * var(--space-1));

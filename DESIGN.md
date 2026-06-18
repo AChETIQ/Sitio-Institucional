@@ -112,7 +112,8 @@ su ratio WCAG calculado. No es una paleta "elegida"; es una identidad argumentad
 
 La densidad es editorial y respirada: titulares en una serif de alto contraste (Fraunces), cuerpo en
 una grotesca humanista templada (Hanken Grotesk) y etiquetas técnicas en monoespaciada (Geist Mono),
-reservada a metadatos y *eyebrows*. El fondo es **porcelana fría** (grafito a hue 265), no el beige
+reservada a metadatos y labels técnicos —ya no a *eyebrows* de cabecera (doctrina cero-eyebrow). El
+fondo es **porcelana fría** (grafito a hue 265), no el beige
 cálido que delata la generación por IA de 2026: la "calidez" la aporta la mauveína y la voz, nunca un
 neutro tibio. La elevación es plana por defecto —tarjetas con borde de 1 px y sin sombra en reposo—,
 con sombras frías (mezcladas desde cobalto-950) que solo responden al estado.
@@ -205,20 +206,27 @@ congelada** (ver Do's and Don'ts).
   cuerpo**, no la serif; la serif se reserva a H1/H2 para que el contraste display siga siendo
   excepcional.
 - **Body** (Hanken Grotesk 400, clamp ~1→1.06rem, lh 1.7): prosa. Medida de línea acotada a 65–75ch.
-- **Label / Eyebrow** (Geist Mono 400, 0.6875rem, tracking 0.12em, mayúsculas): *eyebrows* y
-  metadatos. **Caption** (Geist Mono, 0.75rem, tracking 0.04em) para pies y datos tabulares.
+- **Label** (Geist Mono 400, 0.6875rem, tracking 0.12em, mayúsculas): metadatos y etiquetas técnicas
+  (labels de misión/visión, countdown, datos tabulares). **NO** corona títulos: la mono ya no se usa
+  como *eyebrow*/kicker de cabecera (ver «La Regla Cero-Eyebrow»). **Caption** (Geist Mono, 0.75rem,
+  tracking 0.04em) para pies y datos tabulares.
 
 ### Named Rules
 **La Regla de las Dos Voces Serif.** Fraunces vive solo en H1 y H2. Bajar la serif a H3/H4 aplana el
 contraste editorial; ahí manda Hanken Grotesk.
 
-**La Regla del Eyebrow con Mesura.** El *eyebrow* en Geist Mono es un recurso de marca, no un reflejo:
-no debe coronar **cada** sección. Un kicker fuerte y deliberado es voz; un eyebrow sobre cada bloque
-es gramática automática de IA. **Cadencia nacida en E01 (la portada la estrena, E02–E07 la heredan):**
-un ÚNICO kicker deliberado por vista —el *dateline* institucional del héroe (`.hero__dateline`: mono,
-tracking abierto, NO mayúsculas tracked; lugar + año de fundación, porta información real)— y CERO
-eyebrows bajo el pliegue. Las secciones se abren con titular display + *standfirst* en Hanken
-(`.section-title__standfirst`), no con etiqueta mono.
+**La Regla Cero-Eyebrow (doctrina vigente).** NINGÚN título —ni de página, ni de sección, ni el del
+héroe— lleva *eyebrow*/kicker encima. La mesura anterior (un kicker deliberado por vista: el *dateline*
+del héroe en la portada, el eyebrow del `.page-header` en las interiores) se llevó a su conclusión: la
+jerarquía la cargan **el titular, el aire y el *standfirst* en Hanken**, nunca una etiqueta mono
+tracked. Se retiró la utilidad `.eyebrow` de `tokens.css`, los diez `<p class="eyebrow">` de las
+páginas interiores y el `.hero__dateline` de la portada (su información —lugar y año de fundación—
+ya vive en el cuerpo de «Quiénes somos»). Las secciones se abren con titular display + *standfirst*
+(`.section-title__standfirst`). El token `--text-eyebrow` se conserva porque lo siguen consumiendo
+labels mono no-kicker (countdown, 404, tarjetas).
+
+> **Histórico.** La regla previa, «Eyebrow con Mesura» (E01–E07: un único kicker por vista, cero
+> eyebrows bajo el pliegue), quedó superada por esta doctrina cero-eyebrow.
 
 ## 4. Elevation
 
@@ -281,9 +289,15 @@ respuesta a estado (hover, elevación, foco). Sombras ambientales permanentes es
   los campos con error.
 
 ### Navigation
-- **Breadcrumbs** en páginas de detalle (`aria-current="page"` en el nodo activo). **Pill-nav** para
-  filtros (botones con `aria-pressed`). Navbar fijo con *skip-link* previo y fallback `<noscript>`.
-  El estado activo se marca por color + peso, no por color solo.
+- **Breadcrumbs** en **TODAS las páginas internas**: los cuatro hubs (Sobre AChETIQ, Gabinetes,
+  Recursos, Contacto) y las páginas de detalle (gabinetes y recursos), con `aria-current="page"` en el
+  nodo activo. **Estrictamente omitidas en la portada** (`index.html`), que abre con el hero a pantalla
+  completa. **Prominencia:** la ruta se compone en escalón **cuerpo** (`--text-body`, ~16→17 px) —no en
+  la utilidad diminuta `--text-small` anterior— para que sea plenamente legible; el separador respira a
+  `--space-3` y el último nodo gana peso `--weight-medium`. El objetivo táctil de cada enlace se
+  mantiene ≥ 24 px (WCAG 2.5.8). **Pill-nav** para filtros (botones con `aria-pressed`). Navbar fijo con
+  *skip-link* previo y fallback `<noscript>`. El estado activo se marca por color + peso, no por color
+  solo.
 
 ### Signature — Apertura de sección editorial (E01)
 **Patrón de firma que nace en la portada y heredan E02–E07.** Una sección se abre con:
@@ -310,11 +324,11 @@ distintivo del registro utilitario: convierte un índice de 41 materias en una g
 
 ### Cierre de página (`.cta-final`)
 El módulo de cierre abre **directo con el titular display** (Fraunces, con su itálica cobalto de
-énfasis) seguido del *lead* en Hanken y los botones; **no lleva eyebrow**. Es la aplicación de la
-cadencia E01 al pie del documento: el único kicker de la vista ya lo porta la cabecera (el
-*dateline* del héroe en la portada o el eyebrow del `.page-header` en las interiores), de modo que
-un segundo eyebrow bajo el pliegue sería gramática automática. **E07 reconcilió las 11 superficies
-a este patrón** (seis cierres aún portaban un eyebrow residual de fases previas; se retiraron).
+énfasis) seguido del *lead* en Hanken y los botones; **no lleva eyebrow**. Bajo la doctrina
+cero-eyebrow esto deja de ser una excepción y pasa a ser la norma de toda cabecera del sitio: ninguna
+superficie —cierre, página o sección— corona su título con kicker. (Histórico: E07 ya había
+reconciliado los once cierres retirando seis eyebrows residuales; la doctrina cero-eyebrow extiende
+esa limpieza a los `.page-header` y al `.hero__dateline`.)
 
 ## 6. Do's and Don'ts
 
@@ -330,11 +344,10 @@ a este patrón** (seis cierres aún portaban un eyebrow residual de fases previa
 - **Do** documentar cada par texto/fondo nuevo con su ratio WCAG calculado; AA piso, AAA donde se
   pueda. Señales de estado siempre con glifo/texto, no color solo.
 - **Do** preservar el camino sin JavaScript (`<noscript>` espejo de cada bloque dinámico).
-- **Do** dar control de **pausa** a todo contenido en movimiento que arranque solo y dure > 5 s
-  (WCAG 2.2.2): el slideshow del héroe expone `.hero__pause` (revelado por JS sólo cuando corre;
-  oculto bajo `prefers-reduced-motion`, donde la imagen ya queda fija).
 - **Do**, cuando una grilla de tarjetas sería el reflejo, evaluar el **índice editorial** (sumario
   con filetes hairline, `.gabinetes-index`) como alternativa que «se gana la retícula».
+- **Do** mantener **breadcrumbs en todas las páginas internas** (los cuatro hubs + las páginas de
+  detalle) en escalón cuerpo (`--text-body`), y **omitirlos estrictamente en la portada**.
 
 ### Don't:
 - **Don't** reemplazar las fuentes ni la paleta. La guía "nuevo proyecto / palette.mjs /
@@ -343,10 +356,10 @@ a este patrón** (seis cierres aún portaban un eyebrow residual de fases previa
 - **Don't** caer en el reflejo "educación = infantil": clay/burbujas, Baloo 2 / Comic Neue,
   azul-naranja saturado, mascota. Vetado.
 - **Don't** usar fondo crema/arena cálido "por elegancia". Es el tell de IA 2026.
-- **Don't** coronar **cada** sección con un *eyebrow* en mono: un kicker deliberado es voz; el eyebrow
-  por sección es gramática de IA. **Cadencia saldada en E07:** exactamente UN kicker por vista (el
-  *dateline* del héroe o el eyebrow del `.page-header`) y CERO eyebrows bajo el pliegue —incluido el
-  cierre `.cta-final`, que abre directo con el titular display.
+- **Don't** coronar **ningún** título con *eyebrow*/kicker en mono (doctrina cero-eyebrow): ni
+  `.page-header`, ni sección, ni héroe. La jerarquía la cargan el titular display + el *standfirst* en
+  Hanken + el aire. La utilidad `.eyebrow` se retiró de `tokens.css`; no reintroducirla. (Histórico: la
+  cadencia previa admitía un único kicker por vista; ya no.)
 - **Don't** repetir grillas de tarjetas idénticas (ícono + título + texto) como recurso por defecto;
   variar densidad y composición.
 - **Don't** usar `border-left`/`border-right` > 1 px como franja de acento, texto en gradiente
@@ -354,3 +367,25 @@ a este patrón** (seis cierres aún portaban un eyebrow residual de fases previa
 - **Don't** introducir sombras negras (rgba(0,0,0,…)); siempre frías desde cobalto-950.
 - **Don't** parecer una plantilla de Wix/constructor comercial: ese es el fracaso que motivó todo el
   proyecto.
+
+## 7. Excepción de accesibilidad registrada — repliegue de WCAG 2.2.2
+
+**Decisión deliberada (entrega de portada).** Se retiró por completo el control de pausa del slideshow
+del héroe (botón `.hero__pause`, su lógica en `hero-carrousel.js` y sus reglas en `headers.css`) en
+favor de una **entrega de imagen puramente visual** y una UI más limpia. El cross-fade sigue
+rotando automáticamente cada 5 s en bucle.
+
+**Implicancia, declarada sin eufemismos.** Esto es un **repliegue de la conformidad con WCAG 2.2.2
+«Pausar, detener, ocultar» (Nivel A)**: el héroe presenta contenido en movimiento que arranca solo,
+dura > 5 s y corre en paralelo a otro contenido, ahora **sin** mecanismo para pausarlo, detenerlo u
+ocultarlo. Para usuarios que no fijan `prefers-reduced-motion`, el sitio **deja de cumplir** ese
+criterio de Nivel A.
+
+**Mitigación vigente (no sustituye al control).** Bajo `prefers-reduced-motion: reduce` el carrusel
+nunca anima —`hero-carrousel.js` no arranca el temporizador y la imagen queda fija—, de modo que el
+público con esa preferencia activada no recibe movimiento alguno. La pausa por visibilidad de pestaña
+(`visibilitychange`) se conserva, pero es un ahorro de recursos, **no** un control de usuario.
+
+> Este apartado existe porque el principio 3 del proyecto trata la accesibilidad como identidad y no
+> como checklist: un repliegue de Nivel A se documenta de forma explícita, no se silencia. Reponer el
+> control `.hero__pause` (o detener la auto-rotación) restituiría la conformidad 2.2.2.

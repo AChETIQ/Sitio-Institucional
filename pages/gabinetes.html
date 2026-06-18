@@ -61,12 +61,22 @@
   <main id="main-content" class="page" tabindex="-1">
 
     <!-- ════════════════════════════════════════════════════════
+         BREADCRUMBS — patrón transversal §7.1 (.breadcrumbs)
+         Inicio › Gabinetes
+         ════════════════════════════════════════════════════════ -->
+    <nav class="breadcrumbs" aria-label="Ruta de navegación">
+      <ol class="breadcrumbs__list">
+        <li><a href="../index.html">Inicio</a></li>
+        <li aria-current="page">Gabinetes</li>
+      </ol>
+    </nav>
+
+    <!-- ════════════════════════════════════════════════════════
          [3] PAGE-HEADER — «Nuestros gabinetes» es el H1 y la apertura
          de la página (la antigua cabecera «Cómo nos organizamos» se
          retiró: el hub abre directamente sobre su contenido).
          ════════════════════════════════════════════════════════ -->
     <header class="page-header">
-      <p class="eyebrow">Equipos de trabajo</p>
       <h1 class="page-header__title">Nuestros <em>gabinetes</em></h1>
       <p class="page-header__lead">
         Cuatro equipos abiertos a todo socio activo que sostienen la actividad académica, los eventos institucionales, la comunicación pública y los proyectos solidarios de la asociación.

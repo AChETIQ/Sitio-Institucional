@@ -175,7 +175,13 @@
 }
 
 .card-noticia__category {
-  /* hereda .eyebrow */
+  /* Label mono autónomo (antes heredaba la utilidad global .eyebrow,
+     retirada por la doctrina cero-eyebrow). Es un rótulo de categoría
+     de tarjeta, no un kicker de cabecera. */
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
   color: var(--color-accent-soft);
 }
 

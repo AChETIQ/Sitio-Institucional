@@ -1101,14 +1101,10 @@ strong, b {
    CLASES UTILITARIAS DE TIPOGRAFÍA
    ───────────────────────────────────────────────────────────── */
 
-.eyebrow {
-  font-family: var(--font-mono);
-  font-size: var(--text-eyebrow);
-  font-weight: var(--weight-regular);
-  letter-spacing: var(--tracking-wider);
-  text-transform: uppercase;
-  color: var(--color-text-faint);
-}
+/* Doctrina cero-eyebrow: la antigua utilidad `.eyebrow` (kicker mono
+   en mayúsculas sobre cada título) se retiró del sistema — ninguna
+   cabecera la corona ya. El token --text-eyebrow se conserva porque lo
+   siguen consumiendo etiquetas mono no-kicker (countdown, 404, tarjetas). */
 
 .caption {
   font-family: var(--font-mono);
