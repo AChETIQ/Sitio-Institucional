@@ -276,6 +276,135 @@
 
 
 /* ─────────────────────────────────────────────────────────────
+   2.2b  PAGE HEADER — VARIANTE DIVIDIDA (.page-header--split)
+   ─────────────────────────────────────────────────────────────
+   Cabecera a dos columnas en escritorio: título + bajada a la
+   izquierda, accesos a recursos a la derecha (el espacio libre que
+   antes quedaba vacío). Mobile-first: APILADA por defecto (el
+   .page-header base ya es flex-column), los recursos caen bajo la
+   bajada. A ≥1024 px pasa a fila con el aside fijado a la derecha.
+   ───────────────────────────────────────────────────────────── */
+
+.page-header__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+/* Contenedor de los accesos a plantillas. Móvil/tablet: cae debajo
+   de la bajada. Tablet (≥768): dos tarjetas en fila si hay sitio.
+   Escritorio (≥1024): columna fija a la derecha (lo gestiona el
+   bloque --split más abajo). */
+.header-resources {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+  gap: var(--space-3);
+}
+
+@media (min-width: 1024px) {
+  .page-header--split {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-10);
+  }
+
+  .page-header--split .page-header__main {
+    flex: 1 1 var(--measure-narrow);
+  }
+
+  .page-header--split .header-resources {
+    flex: 0 0 auto;
+    grid-template-columns: 1fr;
+    width: 19rem;
+    /* Alinea el borde superior de la primera tarjeta con la línea de
+       base del título display, no con su caja (que sube por el
+       interlineado). */
+    padding-top: var(--space-1);
+  }
+}
+
+/* ── Tarjeta de recurso (editorial, no botón sólido) ──
+   Superficie blanca, filete de 1 px del sistema y acento en texto e
+   icono. El hover aplica el lavado frío estándar
+   (--color-surface-accent) + elevación sutil. */
+.header-resource {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--color-surface-white);
+  border: var(--elevation-border);
+  border-radius: var(--radius-lg);
+  color: var(--color-accent);
+  text-decoration: none;
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.header-resource:hover {
+  background: var(--color-surface-accent);
+  border-color: var(--color-accent);
+  box-shadow: var(--elevation-hover);
+  transform: translateY(var(--elevation-lift));
+}
+
+/* El foco de teclado lo cubre la regla global :focus-visible
+   (focus.css): outline de --focus-ring-width/-color con offset. */
+
+.header-resource__icon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-md);
+  background: var(--color-surface-accent);
+  color: var(--color-accent);
+}
+
+/* En hover la tarjeta entera adopta el lavado: el icono invierte a
+   superficie blanca para mantener el contraste del trazo. */
+.header-resource:hover .header-resource__icon {
+  background: var(--color-surface-white);
+}
+
+.header-resource__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.header-resource__title {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+  color: var(--color-accent);
+}
+
+.header-resource__meta {
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  line-height: var(--leading-snug);
+  color: var(--color-text-faint);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header-resource:hover {
+    transform: none;
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────
    2.3  SECTION TITLE — .section-title
    ─────────────────────────────────────────────────────────────
    Encabezado de cada sección dentro de una página. Sin fondo,

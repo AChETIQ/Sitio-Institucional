@@ -1347,6 +1347,95 @@ line-height: var(--leading-relaxed);
 color: var(--color-text-soft);
 max-width: var(--measure-narrow);
 }
+.page-header__main {
+display: flex;
+flex-direction: column;
+gap: var(--space-3);
+min-width: 0;
+}
+.header-resources {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+gap: var(--space-3);
+}
+@media (min-width: 1024px) {
+.page-header--split {
+flex-direction: row;
+flex-wrap: wrap;
+align-items: flex-start;
+justify-content: space-between;
+gap: var(--space-10);
+}
+.page-header--split .page-header__main {
+flex: 1 1 var(--measure-narrow);
+}
+.page-header--split .header-resources {
+flex: 0 0 auto;
+grid-template-columns: 1fr;
+width: 19rem;
+padding-top: var(--space-1);
+}
+}
+.header-resource {
+display: flex;
+align-items: center;
+gap: var(--space-3);
+padding: var(--space-4);
+background: var(--color-surface-white);
+border: var(--elevation-border);
+border-radius: var(--radius-lg);
+color: var(--color-accent);
+text-decoration: none;
+transition:
+background-color var(--transition-fast),
+border-color var(--transition-fast),
+box-shadow var(--transition-fast),
+transform var(--transition-fast);
+}
+.header-resource:hover {
+background: var(--color-surface-accent);
+border-color: var(--color-accent);
+box-shadow: var(--elevation-hover);
+transform: translateY(var(--elevation-lift));
+}
+.header-resource__icon {
+display: inline-flex;
+flex: 0 0 auto;
+align-items: center;
+justify-content: center;
+width: 2.5rem;
+height: 2.5rem;
+border-radius: var(--radius-md);
+background: var(--color-surface-accent);
+color: var(--color-accent);
+}
+.header-resource:hover .header-resource__icon {
+background: var(--color-surface-white);
+}
+.header-resource__text {
+display: flex;
+flex-direction: column;
+gap: 2px;
+min-width: 0;
+}
+.header-resource__title {
+font-family: var(--font-body);
+font-size: var(--text-small);
+font-weight: var(--weight-semibold);
+line-height: var(--leading-snug);
+color: var(--color-accent);
+}
+.header-resource__meta {
+font-family: var(--font-body);
+font-size: var(--text-caption);
+line-height: var(--leading-snug);
+color: var(--color-text-faint);
+}
+@media (prefers-reduced-motion: reduce) {
+.header-resource:hover {
+transform: none;
+}
+}
 .section-title {
 display: flex;
 flex-direction: column;
