@@ -1296,14 +1296,17 @@ function poblarFinales(workbook) {
     rec.intentos.forEach((it, i) => {
       if (i >= MAX_INTENTOS) return;
       /* Fecha (ISO) como texto: no afecta a ningún KPI y evita los
-         corrimientos de zona horaria de convertir a fecha de Excel. */
-      if (isFechaValida(it.fecha)) {
-        sheet.cell(XLSX_FINALES_COL_FECHA[i] + finRow).value(it.fecha);
-      }
-      /* Nota del intento: NÚMERO estricto (los aplazos cuentan). */
-      if (isNotaValida(it.nota)) {
-        sheet.cell(XLSX_FINALES_COL_NOTA[i] + finRow).value(Number(it.nota));
-      }
+         corrimientos de zona horaria de convertir a fecha de Excel.
+         Si falta, se pasa `undefined` (nunca null ni ""): una cadena
+         vacía rompería las fórmulas nativas de Excel. */
+      sheet.cell(XLSX_FINALES_COL_FECHA[i] + finRow).value(
+        isFechaValida(it.fecha) ? it.fecha : undefined
+      );
+      /* Nota del intento: NÚMERO estricto (los aplazos cuentan); si
+         falta, `undefined` estricto para no corromper AVERAGE/SUM. */
+      sheet.cell(XLSX_FINALES_COL_NOTA[i] + finRow).value(
+        isNotaValida(it.nota) ? Number(it.nota) : undefined
+      );
     });
   });
 }
