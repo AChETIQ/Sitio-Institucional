@@ -3621,35 +3621,30 @@ black calc(100% - 80px),
 transparent 100%
 );
 }
-@media (hover: hover) {
-.congresos-slider:hover .congresos-slider__track {
-animation-play-state: paused;
-}
-}
 .congresos-slider__track {
 display: flex;
-gap: var(--space-6);
+gap: var(--space-4);
 width: max-content;
 padding-block: var(--space-3);
 }
 .congresos-slider__item {
 flex-shrink: 0;
-width: 220px;
-height: 180px;
+width: 280px;
+height: 230px;
 border-radius: var(--radius-lg);
 overflow: hidden;
 transition: transform var(--transition-normal);
 }
 @media (min-width: 768px) {
 .congresos-slider__item {
-width: 300px;
-height: 220px;
+width: 380px;
+height: 290px;
 }
 }
 @media (min-width: 1024px) {
 .congresos-slider__item {
-width: 360px;
-height: 260px;
+width: 460px;
+height: 340px;
 }
 }
 @media (hover: hover) {
