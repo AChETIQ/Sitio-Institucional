@@ -43,7 +43,8 @@
     "id": "sistemas-de-representacion",
     "nombre": "Sistemas de Representación",
     "anio": 1,
-    "drive_url": "https://drive.google.com/drive/folders/1BUgAbnvLF9Ni3iUmKWuNEEy7nPtHA6mu?usp=sharing"
+    "drive_url": "https://drive.google.com/drive/folders/1BUgAbnvLF9Ni3iUmKWuNEEy7nPtHA6mu?usp=sharing",
+    "imagen": "assets/img/materias/sistemas-de-representacion.webp"
   },
   {
     "id": "fundamentos-de-informatica",
@@ -90,13 +91,15 @@
     "id": "quimica-organica",
     "nombre": "Química Orgánica",
     "anio": 2,
-    "drive_url": "https://drive.google.com/drive/folders/1SDwLs1Pu2HxmLdB2ogFt2BaUAYWVnpSX?usp=sharing"
+    "drive_url": "https://drive.google.com/drive/folders/1SDwLs1Pu2HxmLdB2ogFt2BaUAYWVnpSX?usp=sharing",
+    "imagen": "assets/img/materias/quimica-organica.webp"
   },
   {
     "id": "legislacion",
     "nombre": "Legislación",
     "anio": 2,
-    "drive_url": "https://drive.google.com/drive/folders/10x7s9Wvhk89nlbHxIX5h8v85qcSjuU6D?usp=sharing"
+    "drive_url": "https://drive.google.com/drive/folders/10x7s9Wvhk89nlbHxIX5h8v85qcSjuU6D?usp=sharing",
+    "imagen": "assets/img/materias/legislacion.webp"
   },
   {
     "id": "balances-de-masa-y-energia",
@@ -142,13 +145,15 @@
     "id": "quimica-analitica",
     "nombre": "Química Analítica",
     "anio": 3,
-    "drive_url": "https://drive.google.com/drive/folders/1f44vpk81yIULgmx8YZ-u-XvS8gvnPlqf?usp=sharing"
+    "drive_url": "https://drive.google.com/drive/folders/1f44vpk81yIULgmx8YZ-u-XvS8gvnPlqf?usp=sharing",
+    "imagen": "assets/img/materias/quimica-analitica.webp"
   },
   {
     "id": "microbiologia-y-quimica-biologica",
     "nombre": "Microbiología y Química Biológica",
     "anio": 3,
-    "drive_url": "https://drive.google.com/drive/folders/1CPVrhowdDprPI7KbVSAljF7AYnIzbouh?usp=sharing"
+    "drive_url": "https://drive.google.com/drive/folders/1CPVrhowdDprPI7KbVSAljF7AYnIzbouh?usp=sharing",
+    "imagen": "assets/img/materias/microbiologia-y-quimica-biologica.webp"
   },
   {
     "id": "quimica-aplicada",
