@@ -1,0 +1,258 @@
+/* ============================================================
+   AChETIQ — Sección «Congresos y Actividades» (congresos.css)
+   ------------------------------------------------------------
+   Versión: 1.0 · Placeholder hasta selección de fotografías.
+   Fundamento: sobre-asociacion.css §B (patrón gabinetes-feature) ·
+               motion.css (prefers-reduced-motion) · tokens.css.
+
+   ALCANCE. Hoja de sección de la portada:
+     1. Sección wrapper (.congresos-feature).
+     2. Auto image slider (.congresos-slider + __track + __item).
+     3. Paleta de placeholders (8 tonos Cobalto-Mauveína).
+     4. Movimiento reducido: scroll manual estático.
+
+   Mobile-first. Cero hex y cero familias literales: todo deriva
+   de tokens.css.
+   ============================================================ */
+
+
+/* ─────────────────────────────────────────────────────────────
+   1. SECCIÓN WRAPPER — .congresos-feature
+   ─────────────────────────────────────────────────────────────
+   .section-ruled (headers.css §2.5) ya aporta el filete hairline
+   y el padding-top (--section-pad-y). Aquí sólo se añade el
+   padding inferior para completar el ritmo vertical del bloque.
+   ───────────────────────────────────────────────────────────── */
+
+.congresos-feature {
+  padding-bottom: var(--section-pad-y);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   2. CABECERA — .congresos-feature__header
+   ─────────────────────────────────────────────────────────────
+   Hereda la composición apilada de .section-title--display
+   (headers.css §2.3): el standfirst cae bajo el titular.
+   --header-gap separa la cabecera del slider.
+   ───────────────────────────────────────────────────────────── */
+
+.congresos-feature__header {
+  margin-bottom: var(--header-gap);
+}
+
+/* Prosa descriptiva bajo el slider: qué hace AChETIQ en materia de
+   congresos y actividades. Separada del carrusel por el ritmo de
+   sección. .prose (inyectado por clase en el marcado) acota la
+   medida a 65ch. */
+.congresos-feature__prose {
+  margin-top: var(--space-10);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   3. AUTO IMAGE SLIDER — .congresos-slider
+   ─────────────────────────────────────────────────────────────
+   Carrusel infinito de derecha a izquierda. Los ítems se
+   duplican en el marcado (8 + 8 = 16) para un loop sin salto.
+   El contenedor aplica mask-image con degradado en ambos
+   laterales: el fade es suave, nunca un recorte fijo.
+
+   Estructura:
+     .congresos-slider          ← recorte + mask lateral
+       .congresos-slider__track ← fila animada
+         .congresos-slider__item (×16) ← ítem de imagen
+   ───────────────────────────────────────────────────────────── */
+
+/* Contenedor: recorta el desbordamiento y vela los laterales.
+   El degradado del mask usa negro = completamente visible y
+   transparente = completamente invisible. Los stops en px (no %)
+   dan una zona de fundido constante (80 px) en todos los viewports:
+   evita el fade demasiado estrecho en mobile y demasiado ancho en
+   pantallas grandes. */
+.congresos-slider {
+  overflow: hidden;
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    black 80px,
+    black calc(100% - 80px),
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    black 80px,
+    black calc(100% - 80px),
+    transparent 100%
+  );
+}
+
+/* Track: fila continua de ítems extendida a su ancho natural.
+   padding-block pequeño para que el hover scale no quede
+   cortado por el overflow: hidden del contenedor. La animación no
+   se detiene en hover: el desplazamiento es continuo. */
+.congresos-slider__track {
+  display: flex;
+  gap: var(--space-4);
+  width: max-content;
+  padding-block: var(--space-3);
+}
+
+/* Ítem: figura fija con overflow oculto (preparada para <img>).
+   Placeholder de color plano hasta que se asignen fotografías.
+   position: relative ancla el pie de foto y el scrim de legibilidad.
+   transition-normal (250 ms) es más apropiada que slow (400 ms)
+   para hover en contexto de movimiento: la respuesta debe ser
+   rápida. */
+.congresos-slider__item {
+  position: relative;
+  flex-shrink: 0;
+  width: 280px;
+  height: 230px;
+  margin: 0;                                /* reset del margen nativo de <figure> */
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: transform var(--transition-normal);
+}
+
+/* La imagen (cuando se incorpore) cubre toda la figura. */
+.congresos-slider__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Scrim de legibilidad: degradado oscuro en el tercio inferior que
+   garantiza contraste del pie de foto sobre cualquier fondo —tanto
+   los placeholders claros (cobalto-100) como las futuras fotografías
+   de cualquier luminosidad. Sólo cubre la franja baja; el resto del
+   tile queda limpio. */
+.congresos-slider__item::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 32%;
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--grafito-950) 72%, transparent),
+    transparent
+  );
+  pointer-events: none;
+}
+
+/* Pie de foto: procedencia de la imagen, anclado a la esquina
+   inferior derecha. Registro mono (igual que .figure__caption y la
+   utilidad .caption del sistema), en blanco suave sobre el scrim,
+   con sombra de medios para reforzar la legibilidad. */
+.congresos-slider__caption {
+  position: absolute;
+  right: var(--space-3);
+  bottom: var(--space-2);
+  z-index: 1;                               /* sobre el scrim ::after */
+  max-width: calc(100% - 2 * var(--space-3));
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-small);             /* escalón sobre caption: pie legible al pasar */
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--tracking-wide);
+  line-height: var(--leading-snug);
+  text-align: right;
+  text-wrap: balance;
+  color: var(--color-on-media-soft);
+  text-shadow: var(--text-shadow-media);
+}
+
+@media (min-width: 768px) {
+  .congresos-slider__item {
+    width: 380px;
+    height: 290px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .congresos-slider__item {
+    width: 460px;
+    height: 340px;
+  }
+}
+
+/* Escala suave en hover. (hover: hover) evita el tap-flicker
+   en dispositivos táctiles: sólo activa donde hay puntero real. */
+@media (hover: hover) {
+  .congresos-slider__item:hover {
+    transform: scale(1.04);
+  }
+}
+
+/* Animación de desplazamiento continuo. El track contiene 16
+   ítems (8 × 2); translateX(-50%) mueve exactamente el primer
+   bloque de 8 fuera de la vista, y el loop lo retorna al
+   origen sin salto visible. 40 s da un paso pausado que deja leer
+   con comodidad el pie de foto de cada imagen al pasar. */
+@media (prefers-reduced-motion: no-preference) {
+  .congresos-slider__track {
+    animation: congresos-scroll 40s linear infinite;
+  }
+}
+
+@keyframes congresos-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   4. PALETA DE PLACEHOLDERS
+   ─────────────────────────────────────────────────────────────
+   8 tonos de la rampa Cobalto & Mauveína del sistema. La
+   alternancia 8n+N cubre tanto la serie original (ítems 1-8)
+   como la duplicada (9-16) de forma idéntica. Sustituir cada
+   background-color por un <img> al incorporar fotografías;
+   el transition del ítem ya cubre el hover de imagen.
+   ───────────────────────────────────────────────────────────── */
+
+.congresos-slider__item:nth-child(8n+1) { background-color: var(--cobalto-300);  }
+.congresos-slider__item:nth-child(8n+2) { background-color: var(--cobalto-700);  }
+.congresos-slider__item:nth-child(8n+3) { background-color: var(--mauveina-500); }
+.congresos-slider__item:nth-child(8n+4) { background-color: var(--cobalto-500);  }
+.congresos-slider__item:nth-child(8n+5) { background-color: var(--cobalto-900);  }
+.congresos-slider__item:nth-child(8n+6) { background-color: var(--mauveina-600); }
+.congresos-slider__item:nth-child(8n+7) { background-color: var(--grafito-950);  }
+.congresos-slider__item:nth-child(8n+8) { background-color: var(--cobalto-100);  }
+
+
+/* ─────────────────────────────────────────────────────────────
+   5. MOVIMIENTO REDUCIDO — scroll manual estático
+   ─────────────────────────────────────────────────────────────
+   main.css §2 ya anula la animación globalmente con !important
+   cuando prefers-reduced-motion: reduce está activo. Aquí se
+   ajusta el contenedor: overflow-x: auto convierte el track
+   en una galería de scroll horizontal explorable sin animación.
+   El mask se retira: tiene sentido con movimiento automático,
+   no con scroll manual (los laterales deberían verse).
+   ───────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .congresos-slider {
+    overflow-x: auto;
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+
+  .congresos-slider__track {
+    padding-bottom: var(--space-4);
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   6. IMPRESIÓN
+   ───────────────────────────────────────────────────────────── */
+
+@media print {
+  .congresos-slider {
+    display: none;
+  }
+}

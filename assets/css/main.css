@@ -72,6 +72,11 @@
    lists.css) para reescribir .card-gabinete y la composición de
    detalle por orden de aparición además de por especificidad. */
 @import url('gabinetes.css');
+/* congresos.css — hoja de SECCIÓN de la portada: sección «Congresos
+   y Actividades» con auto image slider. Va tras gabinetes.css (mismo
+   nivel de página) y antes de recursos.css (orden de aparición en el
+   documento). */
+@import url('congresos.css');
 /* recursos.css — hoja de PÁGINA de la familia E05 (hub + apuntes).
    Va tras los componentes (cards.css, nav-secondary.css, states.css)
    para componer el índice de servicios y la barra de filtro por

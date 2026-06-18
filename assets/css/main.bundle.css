@@ -2,7 +2,7 @@
    AChETIQ — Bundle CSS de producción (GENERADO — NO EDITAR)
    Regenerar con: npm run build  (scripts/build-css.mjs)
    Contenido, en orden de cascada:
-     tokens.css → navbar.css → footer.css → loader.css → headers.css → text.css → cards.css → lists.css → forms.css → nav-secondary.css → states.css → motion.css → figure.css → cta.css → countdown-recursos.css → seguimiento.css → gabinetes.css → recursos.css → focus.css → print.css → main.css
+     tokens.css → navbar.css → footer.css → loader.css → headers.css → text.css → cards.css → lists.css → forms.css → nav-secondary.css → states.css → motion.css → figure.css → cta.css → countdown-recursos.css → seguimiento.css → gabinetes.css → congresos.css → recursos.css → focus.css → print.css → main.css
    ============================================================ */
 :root {
 --grafito-50:  #F9FAFC;
@@ -3596,6 +3596,132 @@ max-width: var(--measure-title);
 @media print {
 .gabinetes-hub .grid-cards {
 column-gap: var(--space-8);
+}
+}
+.congresos-feature {
+padding-bottom: var(--section-pad-y);
+}
+.congresos-feature__header {
+margin-bottom: var(--header-gap);
+}
+.congresos-feature__prose {
+margin-top: var(--space-10);
+}
+.congresos-slider {
+overflow: hidden;
+mask-image: linear-gradient(
+90deg,
+transparent 0,
+black 80px,
+black calc(100% - 80px),
+transparent 100%
+);
+-webkit-mask-image: linear-gradient(
+90deg,
+transparent 0,
+black 80px,
+black calc(100% - 80px),
+transparent 100%
+);
+}
+.congresos-slider__track {
+display: flex;
+gap: var(--space-4);
+width: max-content;
+padding-block: var(--space-3);
+}
+.congresos-slider__item {
+position: relative;
+flex-shrink: 0;
+width: 280px;
+height: 230px;
+margin: 0;
+border-radius: var(--radius-lg);
+overflow: hidden;
+transition: transform var(--transition-normal);
+}
+.congresos-slider__item img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+}
+.congresos-slider__item::after {
+content: "";
+position: absolute;
+inset-inline: 0;
+bottom: 0;
+height: 32%;
+background: linear-gradient(
+to top,
+color-mix(in srgb, var(--grafito-950) 72%, transparent),
+transparent
+);
+pointer-events: none;
+}
+.congresos-slider__caption {
+position: absolute;
+right: var(--space-3);
+bottom: var(--space-2);
+z-index: 1;
+max-width: calc(100% - 2 * var(--space-3));
+margin: 0;
+font-family: var(--font-mono);
+font-size: var(--text-small);
+font-weight: var(--weight-regular);
+letter-spacing: var(--tracking-wide);
+line-height: var(--leading-snug);
+text-align: right;
+text-wrap: balance;
+color: var(--color-on-media-soft);
+text-shadow: var(--text-shadow-media);
+}
+@media (min-width: 768px) {
+.congresos-slider__item {
+width: 380px;
+height: 290px;
+}
+}
+@media (min-width: 1024px) {
+.congresos-slider__item {
+width: 460px;
+height: 340px;
+}
+}
+@media (hover: hover) {
+.congresos-slider__item:hover {
+transform: scale(1.04);
+}
+}
+@media (prefers-reduced-motion: no-preference) {
+.congresos-slider__track {
+animation: congresos-scroll 40s linear infinite;
+}
+}
+@keyframes congresos-scroll {
+from { transform: translateX(0); }
+to   { transform: translateX(-50%); }
+}
+.congresos-slider__item:nth-child(8n+1) { background-color: var(--cobalto-300);  }
+.congresos-slider__item:nth-child(8n+2) { background-color: var(--cobalto-700);  }
+.congresos-slider__item:nth-child(8n+3) { background-color: var(--mauveina-500); }
+.congresos-slider__item:nth-child(8n+4) { background-color: var(--cobalto-500);  }
+.congresos-slider__item:nth-child(8n+5) { background-color: var(--cobalto-900);  }
+.congresos-slider__item:nth-child(8n+6) { background-color: var(--mauveina-600); }
+.congresos-slider__item:nth-child(8n+7) { background-color: var(--grafito-950);  }
+.congresos-slider__item:nth-child(8n+8) { background-color: var(--cobalto-100);  }
+@media (prefers-reduced-motion: reduce) {
+.congresos-slider {
+overflow-x: auto;
+mask-image: none;
+-webkit-mask-image: none;
+}
+.congresos-slider__track {
+padding-bottom: var(--space-4);
+}
+}
+@media print {
+.congresos-slider {
+display: none;
 }
 }
 .countdown[data-countdown-state="revealed"] {
