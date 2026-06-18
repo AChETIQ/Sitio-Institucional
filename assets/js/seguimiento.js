@@ -1311,6 +1311,30 @@ function poblarFinales(workbook) {
   });
 }
 
+/* Fuerza a Excel a recalcular TODAS las fórmulas al abrir (KPIs de
+   promedios, electivas, correlatividades), descartando los valores
+   cacheados de la plantilla.
+
+   xlsx-populate NO expone una API pública para esto: no existen
+   `workbook.calcProperties(...)` ni `workbook.setting(...)` (ambas
+   lanzan TypeError, verificado contra la fuente de la librería). El
+   mecanismo soportado es marcar el atributo `fullCalcOnLoad` en el
+   nodo <calcPr> del workbook.xml ya parseado, accesible por su modelo
+   interno `_node`. Verificado de extremo a extremo: la salida contiene
+   <calcPr ... fullCalcOnLoad="1"/> y, como xlsx-populate ya elimina
+   calcChain.xml al cargar, Excel rehace el cálculo completo al abrir. */
+function forzarRecalculoAlAbrir(workbook) {
+  const wbNode = workbook && workbook._node;
+  if (!wbNode || !Array.isArray(wbNode.children)) return;
+  let calcPr = wbNode.children.find((c) => c && c.name === 'calcPr');
+  if (!calcPr) {
+    calcPr = { name: 'calcPr', attributes: {}, children: [] };
+    wbNode.children.push(calcPr);
+  }
+  calcPr.attributes = calcPr.attributes || {};
+  calcPr.attributes.fullCalcOnLoad = 1;
+}
+
 async function exportXLSX() {
   const XlsxPopulate = window.XlsxPopulate;
   if (!XlsxPopulate) {
@@ -1335,13 +1359,10 @@ async function exportXLSX() {
   let blob;
   try {
     /* xlsx-populate muta el ZIP cargado en su lugar: no reconstruye el
-       workbook, así que todas las hojas y objetos visuales se conservan.
-       Al escribir un valor, xlsx-populate descarta la fórmula/valor
-       cacheado de esa celda, de modo que Excel recalcula de forma nativa
-       los KPIs (promedios, horas/% electivas, correlatividades) al abrir,
-       sin necesidad de forzar banderas de calcPr por la API. */
+       workbook, así que todas las hojas y objetos visuales se conservan. */
     const workbook = await XlsxPopulate.fromDataAsync(buffer);
     poblarPlantilla(workbook);
+    forzarRecalculoAlAbrir(workbook);
     blob = await workbook.outputAsync();
   } catch (e) {
     console.error('[seguimiento] No se pudo generar el Excel:', e);
