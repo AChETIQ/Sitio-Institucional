@@ -1223,11 +1223,14 @@ function plantillaURL() {
    acepta filas de datos: las celdas de KPI de la cabecera también
    tienen números en A, y se descartan exigiendo que la columna C
    (asignatura) sea texto (las celdas de fórmula devuelven objetos,
-   no number/string, así que quedan fuera). Las fórmulas de KPI
-   (COUNTIF/SUMPRODUCT sobre F y G) se recalculan al abrir el archivo.
-   IMPORTANTE: sólo se escribe `cell.value`; el estilo se conserva. */
+   no number/string, así que quedan fuera).
+   IMPORTANTE: sólo se escribe `cell.value` sobre la hoja YA CARGADA;
+   ni el estilo de las celdas ni las demás hojas del workbook
+   («Finales», «Nota al Estudiante», «Datos») se tocan. */
 function poblarPlantilla(wb) {
-  const ws = wb.getWorksheet(XLSX_HOJA);
+  /* Hoja ya cargada del workbook (no se crea ni reemplaza ninguna
+     hoja). Se busca por nombre exacto, con respaldo a la primera. */
+  const ws = wb.getWorksheet(XLSX_HOJA) || wb.worksheets[0];
   if (!ws) {
     throw new Error('La plantilla no contiene la hoja «' + XLSX_HOJA + '».');
   }
@@ -1247,19 +1250,20 @@ function poblarPlantilla(wb) {
     const rec = getRecord(m.numero);
     const row = ws.getRow(rowNumber);
 
-    /* Estado (F): el texto coincide con las opciones del desplegable. */
-    row.getCell(XLSX_COL_ESTADO).value = rec.estado;
+    /* Estado (F): cadena exacta que espera el desplegable de la
+       plantilla y sus fórmulas («No Cursada», «Cursando», «Regular»,
+       «Aprobada»). Sólo se escribe `.value`; el estilo se conserva. */
+    row.getCell(XLSX_COL_ESTADO).value = String(rec.estado);
 
-    /* Nota final (G): reemplaza la fórmula de la plantilla por el valor
-       vigente; si no hay nota, se vacía la celda (null). */
-    row.getCell(XLSX_COL_NOTA).value =
-      isNotaValida(rec.nota_final) ? rec.nota_final : null;
+    /* Nota final (G): se inyecta como NÚMERO estricto para que las
+       fórmulas de promedio del template la computen (una cadena la
+       ignoraría Excel). Si no hay nota, se vacía la celda (null).
+       Reemplaza la fórmula original de la plantilla por el valor. */
+    const notaCell = row.getCell(XLSX_COL_NOTA);
+    notaCell.value = isNotaValida(rec.nota_final)
+      ? Number(rec.nota_final)
+      : null;
   });
-
-  /* Forzar el recálculo de los KPIs (aprobadas, avance, horas
-     electivas, promedios…) al abrir el archivo. */
-  wb.calcProperties = wb.calcProperties || {};
-  wb.calcProperties.fullCalcOnLoad = true;
 }
 
 async function exportXLSX() {
@@ -1285,9 +1289,17 @@ async function exportXLSX() {
 
   let salida;
   try {
+    /* Se carga el workbook COMPLETO (todas las hojas) sobre una única
+       instancia y se muta en su lugar; nunca se construye desde cero. */
     const wb = new ExcelJS.Workbook();
     await wb.xlsx.load(buffer);
     poblarPlantilla(wb);
+
+    /* Forzar a Excel a recalcular TODAS las fórmulas (promedios, KPIs,
+       correlatividades) al abrir, en vez de usar los valores cacheados.
+       Se inyecta justo antes de generar el buffer de salida. */
+    wb.calcProperties.fullCalcOnLoad = true;
+
     salida = await wb.xlsx.writeBuffer();
   } catch (e) {
     console.error('[seguimiento] No se pudo generar el Excel:', e);
