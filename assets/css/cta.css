@@ -108,3 +108,23 @@
   border: 1px solid var(--color-on-accent);
 }
 
+
+/* ── Enlace inline sobre superficie invertida ─────────────────
+   El <a> de mailto: en .cta-final__lead hereda el color global
+   `a { color: var(--color-accent) }` (cobalto #1344A5), que se
+   camufla completamente contra el fondo --color-accent (mismo
+   cobalto). Forzamos --color-surface-white (8.7:1 sobre
+   --color-accent — AAA) y añadimos subrayado explícito para que
+   el vínculo sea reconocible como acción sin depender del color. */
+.cta-final a:not(.btn) {
+  color: var(--color-surface-white);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  transition: opacity var(--transition-fast);
+}
+
+.cta-final a:not(.btn):hover {
+  opacity: 0.75;
+  text-decoration-thickness: 2px;
+}
+

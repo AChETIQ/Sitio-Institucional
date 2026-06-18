@@ -2872,6 +2872,16 @@ background: transparent;
 color: var(--color-on-accent);
 border: 1px solid var(--color-on-accent);
 }
+.cta-final a:not(.btn) {
+color: var(--color-surface-white);
+text-decoration: underline;
+text-underline-offset: 0.15em;
+transition: opacity var(--transition-fast);
+}
+.cta-final a:not(.btn):hover {
+opacity: 0.75;
+text-decoration-thickness: 2px;
+}
 .countdown {
 --countdown-panel-max: 880px;
 position: relative;
