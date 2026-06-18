@@ -1332,17 +1332,13 @@ async function exportXLSX() {
   let blob;
   try {
     /* xlsx-populate muta el ZIP cargado en su lugar: no reconstruye el
-       workbook, así que todas las hojas y objetos visuales se conservan. */
+       workbook, así que todas las hojas y objetos visuales se conservan.
+       Al escribir un valor, xlsx-populate descarta la fórmula/valor
+       cacheado de esa celda, de modo que Excel recalcula de forma nativa
+       los KPIs (promedios, horas/% electivas, correlatividades) al abrir,
+       sin necesidad de forzar banderas de calcPr por la API. */
     const workbook = await XlsxPopulate.fromDataAsync(buffer);
     poblarPlantilla(workbook);
-
-    /* Forzar a Excel a recalcular TODAS las fórmulas al abrir (KPIs de
-       horas/% electivas, promedios, correlatividades). No se confía en
-       el comportamiento por defecto: se marca el calcPr explícitamente
-       como «cálculo no completado» + «recálculo completo al cargar». */
-    workbook.setting('calcCompleted', false);
-    workbook.setting('fullCalcOnLoad', true);
-
     blob = await workbook.outputAsync();
   } catch (e) {
     console.error('[seguimiento] No se pudo generar el Excel:', e);
