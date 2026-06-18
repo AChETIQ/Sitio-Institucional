@@ -191,11 +191,11 @@
    ─────────────────────────────────────────────────────────────
    Las cuatro páginas pages/gabinetes/<slug>.html comparten una
    única composición tipográfica: cada bloque temático (propósito,
-   actividades, historia) es una FILA con su título de imprenta
-   (Fraunces, con la itálica de énfasis de la familia) a un lado y la
-   prosa —de medida 65ch— al otro. Los filetes hairline y el blanco
-   estructural hacen la separación; no hay cajas. La cabecera de
-   título corre como un «ladillo» de revista junto al cuerpo.
+   actividades, historia) APILA su título de imprenta (Fraunces, con
+   la itálica de énfasis de la familia) y, directamente debajo, la
+   prosa —de medida 65ch— en una sola columna en todos los anchos.
+   Los filetes hairline y el blanco estructural hacen la separación;
+   no hay cajas.
 
    El motor inyecta <article class="prose"> (o un empty-state) dentro
    de .gabinete-section__body; el body NO lleva ya la clase .prose
@@ -217,36 +217,24 @@
   max-width: var(--measure-title);
 }
 
-/* En escritorio (≥1024px = --bp-lg) la fila se abre a dos columnas
-   sobre una línea de base superior común: ladillo acotado a la
-   izquierda, cuerpo de lectura a la derecha. Aprovecha el ancho real
-   en vez de apilar título y prosa angostos sobre un campo vacío —
-   misma decisión editorial que .page-header y .section-title--display
-   del sistema E01. */
-@media (min-width: 1024px) {
-  .gabinete-section {
-    grid-template-columns: minmax(0, 18rem) minmax(0, var(--measure-prose));
-    align-items: start;
-    column-gap: var(--space-16);
-    /* El gap vertical de la fila apilada ya no aplica en grid de una
-       sola fila; lo neutraliza column-gap. */
-    gap: 0 var(--space-16);
-  }
-}
+/* El cuerpo APILA bajo el ladillo en todos los anchos. Se retira la
+   apertura a dos columnas en escritorio (≥1024 px, antes ladillo a la
+   izquierda · cuerpo a la derecha): cada bloque temático corre como
+   una sola columna —título de imprenta y, directamente debajo, la
+   prosa— en todos los breakpoints. La medida de lectura se conserva
+   por el max-width propio de la prosa inyectada (.prose →
+   --measure-prose, 65ch): al ensancharse el viewport el cuerpo no
+   corre a lo ancho de la pantalla, queda acotado y alineado a la
+   izquierda bajo el título. */
 
 
 /* ─────────────────────────────────────────────────────────────
    IMPRESIÓN
    ─────────────────────────────────────────────────────────────
-   La grilla de dos columnas del detalle se apila al imprimir: en
-   papel el ladillo lateral desperdicia medida. print.css gobierna
-   el resto del documento; aquí sólo se colapsa la composición
-   propia de esta familia. */
+   .gabinete-section ya es una sola columna en todos los medios, así
+   que no necesita colapsarse en papel. print.css gobierna el resto
+   del documento; aquí sólo se ajusta el gap de la grilla del hub. */
 @media print {
-  .gabinete-section {
-    display: block;
-  }
-
   .gabinetes-hub .grid-cards {
     column-gap: var(--space-8);
   }

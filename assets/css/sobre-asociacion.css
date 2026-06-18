@@ -242,9 +242,10 @@
   padding-block: var(--feature-pad-y);
 }
 
-/* El encabezado (titular display + standfirst) usa la composición
-   editorial de dos columnas de .section-title--display (headers.css
-   §2.3). margin-bottom = --header-gap heredado. */
+/* El encabezado (titular display + standfirst) hereda la composición
+   apilada de .section-title--display (headers.css §2.3): el standfirst
+   cae bajo el titular en todos los anchos. margin-bottom =
+   --header-gap heredado. */
 
 /* Índice: una columna en móvil, dos en ≥768px. Las entradas se
    separan por filetes hairline (border-top en cada una + border-left

@@ -35,16 +35,15 @@
    6.0  COMPOSICIÓN EDITORIAL — .form-layout / .form-aside
    ─────────────────────────────────────────────────────────────
    E01 (elevación E06). El formulario deja de flotar suelto y se
-   compone como una FILA editorial de dos columnas: un «ladillo» de
-   revista (aside de prosa de apoyo) a la izquierda y el formulario
-   a la derecha — misma decisión que .gabinete-section y
-   .page-header (minmax(0, 17rem) · minmax(0, --measure-prose)).
-   Separación por blanco estructural, sin caja ni filete propio: el
+   compone como una pila editorial en UNA columna: un «ladillo» de
+   revista (aside de prosa de apoyo) y, debajo, el formulario — misma
+   decisión apilada que .gabinete-section y .page-header. Separación
+   por blanco estructural, sin caja ni filete propio: el
    .section-ruled de la sección ya abre con su hairline.
 
-   Móvil: una sola columna; el aside precede al formulario (contexto
-   antes que acción). El orden visual = orden de lectura = orden de
-   foco (el aside es prosa no interactiva): sin desfase WCAG 2.4.3.
+   El aside precede al formulario en todos los anchos (contexto antes
+   que acción). El orden visual = orden de lectura = orden de foco (el
+   aside es prosa no interactiva): sin desfase WCAG 2.4.3.
    ───────────────────────────────────────────────────────────── */
 
 .form-layout {
@@ -53,14 +52,14 @@
   gap: var(--space-6);
 }
 
-@media (min-width: 1024px) {
-  .form-layout {
-    grid-template-columns: minmax(0, 17rem) minmax(0, var(--measure-prose));
-    align-items: start;
-    column-gap: var(--space-16);
-    gap: 0 var(--space-16);
-  }
-}
+/* El formulario APILA bajo el ladillo en todos los anchos. Se retira
+   la apertura a dos columnas en escritorio (≥1024 px, antes aside a la
+   izquierda · formulario a la derecha): el aside de contexto precede
+   al formulario en una sola columna en todos los breakpoints
+   (contexto antes que acción = orden de lectura = orden de foco, sin
+   desfase WCAG 2.4.3). El aside conserva su medida de lectura por el
+   max-width propio (.form-aside → --measure-narrow), acotado y
+   alineado a la izquierda. */
 
 /* Ladillo: columna de prosa de apoyo. Sin fondo ni borde (elevación
    plana E01: la separación la hacen el blanco y la medida acotada).
@@ -320,15 +319,4 @@
 
 .form__status:empty {
   display: none;
-}
-
-
-/* ─── Impresión ─────────────────────────────────────────────
-   La composición de dos columnas se apila al imprimir: en papel
-   el ladillo lateral desperdicia medida (mismo criterio que
-   .gabinete-section). print.css gobierna el resto del documento. */
-@media print {
-  .form-layout {
-    display: block;
-  }
 }
