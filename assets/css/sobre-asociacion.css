@@ -175,7 +175,7 @@
    y 1279 px la imagen queda contenida en su columna pareja. */
 @media (min-width: 1280px) {
   .about-intro__figure {
-    --shift-right: 200px;                 /* ← AJUSTÁ ESTE VALOR */
+    --shift-right: 0px;                 /* ← AJUSTÁ ESTE VALOR */
     transform: translateX(var(--shift-right));
   }
 
