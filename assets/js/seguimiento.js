@@ -19,8 +19,9 @@
      - Persistir el estado del estudiante en localStorage bajo la
        clave achetiq:seguimiento:estado:v1 (spec §5.2), con
        manejo robusto de datos corruptos o ausentes.
-     - Exportar/importar respaldo JSON canónico y exportar CSV
-       legible (spec §11).
+     - Exportar/importar respaldo JSON canónico y exportar la
+       planilla de seguimiento a Excel (.xlsx) poblando la plantilla
+       de assets/docs (spec §11).
 
    PRIVACIDAD: el estado vive sólo en este navegador. Nada se
    envía a ningún servidor (spec §12).
@@ -1050,30 +1051,31 @@ function dialogActions() {
   return createElement('div', { class: 'seg-dialog__actions' });
 }
 
-/* Exportar respaldo: selector de formato JSON / CSV (spec §8.4). */
+/* Exportar respaldo: selector de formato JSON / Excel (spec §8.4). */
 function openExportDialog() {
   const d = makeDialog();
   const panel = dialogShell('Exportar respaldo');
   panel.appendChild(createElement('p', {
     class: 'seg-dialog__desc',
-    text: 'Elegí el formato. El JSON es reimportable; el CSV es ' +
-          'sólo para consulta (Excel, LibreOffice, Sheets).'
+    text: 'Elegí el formato. El JSON es reimportable; el Excel (.xlsx) ' +
+          'es la planilla de seguimiento con tus datos, para consulta ' +
+          '(Excel, LibreOffice, Sheets).'
   }));
   const actions = dialogActions();
   const btnJson = createElement('button', {
     class: 'btn btn-primary', text: 'Descargar JSON', attrs: { type: 'button' }
   });
-  const btnCsv = createElement('button', {
-    class: 'btn btn-secondary', text: 'Descargar CSV', attrs: { type: 'button' }
+  const btnExcel = createElement('button', {
+    class: 'btn btn-secondary', text: 'Exportar Excel (.xlsx)', attrs: { type: 'button' }
   });
   const btnCancel = createElement('button', {
     class: 'btn seg-btn-ghost', text: 'Cancelar', attrs: { type: 'button' }
   });
   btnJson.addEventListener('click', () => { exportJSON(); d.close(); });
-  btnCsv.addEventListener('click', () => { exportCSV(); d.close(); });
+  btnExcel.addEventListener('click', () => { exportXLSX(); d.close(); });
   btnCancel.addEventListener('click', () => d.close());
   actions.appendChild(btnJson);
-  actions.appendChild(btnCsv);
+  actions.appendChild(btnExcel);
   actions.appendChild(btnCancel);
   panel.appendChild(actions);
   d.appendChild(panel);
@@ -1185,47 +1187,120 @@ function exportJSON() {
   announce('Respaldo JSON descargado.');
 }
 
-/* CSV legible (spec §11.3): UTF-8 con BOM, una fila por materia y
-   una segunda sección con los intentos. No reimportable. */
-function exportCSV() {
-  const sep = ',';
-  const rows = [];
-  rows.push(['N°', 'Nivel', 'Asignatura', 'Estado', 'Nota final',
-             'Disponible', 'Cursadas req.', 'Aprobadas req.', 'Carga horaria']);
-  plan.materias.forEach((m) => {
-    const rec = getRecord(m.numero);
-    rows.push([
-      m.numero, m.nivel, m.nombre, rec.estado,
-      isNotaValida(rec.nota_final) ? rec.nota_final : '',
-      DISP_PRESENTACION[disponibilidad(m.numero)].texto,
-      reqText(m.cursadas_requeridas), reqText(m.aprobadas_requeridas),
-      m.carga_horaria
-    ]);
-  });
+/* ─── Exportación a Excel (.xlsx) sobre la plantilla (spec §11.3) ──
+   Reemplaza al antiguo CSV. El navegador no manipula binarios .xlsx
+   de forma nativa, así que se usa SheetJS (window.XLSX, cargado por
+   CDN en seguimiento.html). El flujo es:
+     1) fetch() de la plantilla en blanco (assets/docs) como ArrayBuffer;
+     2) lectura del estado vigente del estudiante (estado por materia
+        y notas finales);
+     3) volcado de esos valores en las celdas específicas de la hoja
+        «Seguimiento» (columna F = ESTADO, columna G = NOTA FINAL);
+     4) descarga limpia del archivo poblado.
+   No es reimportable: es una foto para consulta. */
 
-  rows.push([]);
-  rows.push(['Intentos de examen final']);
-  rows.push(['N°', 'Asignatura', 'Intento', 'Fecha', 'Nota']);
-  plan.materias.forEach((m) => {
-    getRecord(m.numero).intentos.forEach((it, i) => {
-      rows.push([m.numero, m.nombre, i + 1, it.fecha, it.nota]);
-    });
-  });
+const XLSX_PLANTILLA = 'assets/docs/Seguimiento_de_Carrera.xlsx';
+const XLSX_HOJA = 'Seguimiento';
+const XLSX_COL_NUMERO = 0; /* A — N° de materia */
+const XLSX_COL_ASIGNATURA = 2; /* C — nombre (sólo en filas de datos) */
+const XLSX_COL_ESTADO = 5; /* F — ESTADO */
+const XLSX_COL_NOTA = 6; /* G — NOTA FINAL */
 
-  const csv = rows.map((r) => r.map((c) => csvCell(c, sep)).join(sep)).join('\r\n');
-  const BOM = '﻿';
-  const blob = new Blob([BOM + csv], { type: 'text/csv;charset=utf-8' });
-  descargar(blob, 'achetiq-seguimiento-' + fechaArchivo() + '.csv');
-  announce('Respaldo CSV descargado.');
+function plantillaURL() {
+  const base = window.AChETIQBase;
+  if (base && typeof base.resolve === 'function') {
+    return base.resolve(XLSX_PLANTILLA);
+  }
+  return '../../' + XLSX_PLANTILLA;
 }
 
-function csvCell(value, sep) {
-  const s = (value == null) ? '' : String(value);
-  if (s.indexOf(sep) >= 0 || s.indexOf('"') >= 0 ||
-      s.indexOf('\n') >= 0 || s.indexOf('\r') >= 0) {
-    return '"' + s.replace(/"/g, '""') + '"';
+/* Vuelca el estado vigente en la hoja «Seguimiento» de la plantilla.
+   Localiza la fila de cada materia por su N° (columna A), pero sólo
+   acepta filas de datos: las celdas de KPI de la cabecera también
+   tienen números en A, y se descartan exigiendo que la columna C
+   (asignatura) sea texto. Las fórmulas de KPI (COUNTIF/SUMPRODUCT
+   sobre F y G) se recalculan al abrir el archivo. */
+function poblarPlantilla(XLSX, wb) {
+  const ws = wb.Sheets[XLSX_HOJA];
+  if (!ws || !ws['!ref']) {
+    throw new Error('La plantilla no contiene la hoja «' + XLSX_HOJA + '».');
   }
-  return s;
+  const range = XLSX.utils.decode_range(ws['!ref']);
+
+  const filaPorNumero = new Map();
+  for (let r = range.s.r; r <= range.e.r; r++) {
+    const aCell = ws[XLSX.utils.encode_cell({ c: XLSX_COL_NUMERO, r })];
+    const cCell = ws[XLSX.utils.encode_cell({ c: XLSX_COL_ASIGNATURA, r })];
+    if (aCell && typeof aCell.v === 'number' && cCell && cCell.t === 's') {
+      filaPorNumero.set(aCell.v, r);
+    }
+  }
+
+  plan.materias.forEach((m) => {
+    const r = filaPorNumero.get(m.numero);
+    if (r == null) return;
+    const rec = getRecord(m.numero);
+
+    /* Estado (F): el texto coincide con las opciones del desplegable. */
+    ws[XLSX.utils.encode_cell({ c: XLSX_COL_ESTADO, r })] = {
+      t: 's', v: rec.estado
+    };
+
+    /* Nota final (G): reemplaza la fórmula de la plantilla por el valor
+       vigente; si no hay nota, se vacía la celda. */
+    const notaRef = XLSX.utils.encode_cell({ c: XLSX_COL_NOTA, r });
+    if (isNotaValida(rec.nota_final)) {
+      ws[notaRef] = { t: 'n', v: rec.nota_final };
+    } else {
+      delete ws[notaRef];
+    }
+  });
+
+  /* Forzar el recálculo de los KPIs (aprobadas, avance, horas
+     electivas, promedios…) al abrir el archivo. */
+  wb.Workbook = wb.Workbook || {};
+  wb.Workbook.CalcPr = wb.Workbook.CalcPr || {};
+  wb.Workbook.CalcPr.fullCalcOnLoad = true;
+}
+
+async function exportXLSX() {
+  const XLSX = window.XLSX;
+  if (!XLSX) {
+    announce('No se pudo cargar la librería para generar el Excel.');
+    window.alert('No se pudo cargar la librería para generar el archivo Excel. ' +
+                 'Verificá tu conexión a internet e intentá de nuevo.');
+    return;
+  }
+
+  let buffer;
+  try {
+    const res = await fetch(plantillaURL(), { credentials: 'same-origin' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    buffer = await res.arrayBuffer();
+  } catch (e) {
+    console.error('[seguimiento] No se pudo obtener la plantilla .xlsx:', e);
+    announce('No se pudo obtener la plantilla de Excel.');
+    window.alert('No se pudo obtener la plantilla de Excel. Probá de nuevo.');
+    return;
+  }
+
+  let salida;
+  try {
+    const wb = XLSX.read(buffer, { type: 'array', cellStyles: true });
+    poblarPlantilla(XLSX, wb);
+    salida = XLSX.write(wb, { bookType: 'xlsx', type: 'array', cellStyles: true });
+  } catch (e) {
+    console.error('[seguimiento] No se pudo generar el Excel:', e);
+    announce('No se pudo generar el archivo Excel.');
+    window.alert('Ocurrió un error al generar el archivo Excel.');
+    return;
+  }
+
+  const blob = new Blob([salida], {
+    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  });
+  descargar(blob, 'mi-seguimiento-achetiq.xlsx');
+  announce('Planilla de seguimiento exportada a Excel.');
 }
 
 /* Importar JSON (spec §11.2): parse + validación de campos,
