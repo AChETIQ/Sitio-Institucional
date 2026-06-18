@@ -133,7 +133,7 @@
   position: absolute;
   inset-inline: 0;
   bottom: 0;
-  height: 45%;
+  height: 32%;
   background: linear-gradient(
     to top,
     color-mix(in srgb, var(--grafito-950) 72%, transparent),
