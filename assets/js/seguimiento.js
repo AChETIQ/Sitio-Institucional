@@ -1226,6 +1226,16 @@ const filaDeMateria = new Map(
   SEG_ORDEN_FILAS.map((numero, i) => [numero, XLSX_FILA_INICIAL + i])
 );
 
+/* Hoja secundaria de historial de exámenes finales. Cada materia ocupa
+   la MISMA posición relativa que en «Seguimiento», desplazada 7 filas
+   (la materia de la fila 12 en «Seguimiento» está en la fila 5 de
+   «Finales»). Las columnas alternan fecha y nota para los 6 intentos:
+   F/G = 1°, H/I = 2°, J/K = 3°, L/M = 4°, N/O = 5°, P/Q = 6°. */
+const XLSX_FINALES_HOJA = 'Finales';
+const XLSX_FINALES_OFFSET = 7;
+const XLSX_FINALES_COL_FECHA = ['F', 'H', 'J', 'L', 'N', 'P'];
+const XLSX_FINALES_COL_NOTA = ['G', 'I', 'K', 'M', 'O', 'Q'];
+
 function plantillaURL() {
   const base = window.AChETIQBase;
   if (base && typeof base.resolve === 'function') {
@@ -1234,9 +1244,16 @@ function plantillaURL() {
   return '../../' + XLSX_PLANTILLA;
 }
 
-/* Vuelca el estado vigente en la hoja «Seguimiento» de la plantilla,
-   usando el mapa determinista de filas (sin localizador dinámico). */
+/* Vuelca el estado vigente en la plantilla: hoja «Seguimiento»
+   (estado + nota final) y hoja «Finales» (historial de intentos). */
 function poblarPlantilla(workbook) {
+  poblarSeguimiento(workbook);
+  poblarFinales(workbook);
+}
+
+/* Hoja «Seguimiento»: estado (F) y nota final (G) por materia, usando
+   el mapa determinista de filas (sin localizador dinámico). */
+function poblarSeguimiento(workbook) {
   const sheet = workbook.sheet(XLSX_HOJA) || workbook.sheet(0);
   if (!sheet) {
     throw new Error('La plantilla no contiene la hoja «' + XLSX_HOJA + '».');
@@ -1258,6 +1275,36 @@ function poblarPlantilla(workbook) {
     sheet.cell('G' + rowIndex).value(
       isNotaValida(rec.nota_final) ? Number(rec.nota_final) : undefined
     );
+  });
+}
+
+/* Hoja «Finales»: historial de exámenes (fecha + nota de cada intento).
+   El KPI «Promedio con aplazos» depende de que las notas de los intentos
+   estén aquí como NÚMEROS. La fila de cada materia se deriva de la de
+   «Seguimiento» menos el desplazamiento fijo. Si la plantilla no trae la
+   hoja, se omite sin interrumpir el resto de la exportación. */
+function poblarFinales(workbook) {
+  const sheet = workbook.sheet(XLSX_FINALES_HOJA);
+  if (!sheet) return;
+
+  plan.materias.forEach((m) => {
+    const segRow = filaDeMateria.get(m.numero);
+    if (segRow == null) return;
+    const finRow = segRow - XLSX_FINALES_OFFSET;
+    const rec = getRecord(m.numero);
+
+    rec.intentos.forEach((it, i) => {
+      if (i >= MAX_INTENTOS) return;
+      /* Fecha (ISO) como texto: no afecta a ningún KPI y evita los
+         corrimientos de zona horaria de convertir a fecha de Excel. */
+      if (isFechaValida(it.fecha)) {
+        sheet.cell(XLSX_FINALES_COL_FECHA[i] + finRow).value(it.fecha);
+      }
+      /* Nota del intento: NÚMERO estricto (los aplazos cuentan). */
+      if (isNotaValida(it.nota)) {
+        sheet.cell(XLSX_FINALES_COL_NOTA[i] + finRow).value(Number(it.nota));
+      }
+    });
   });
 }
 
@@ -1288,6 +1335,14 @@ async function exportXLSX() {
        workbook, así que todas las hojas y objetos visuales se conservan. */
     const workbook = await XlsxPopulate.fromDataAsync(buffer);
     poblarPlantilla(workbook);
+
+    /* Forzar a Excel a recalcular TODAS las fórmulas al abrir (KPIs de
+       horas/% electivas, promedios, correlatividades). No se confía en
+       el comportamiento por defecto: se marca el calcPr explícitamente
+       como «cálculo no completado» + «recálculo completo al cargar». */
+    workbook.setting('calcCompleted', false);
+    workbook.setting('fullCalcOnLoad', true);
+
     blob = await workbook.outputAsync();
   } catch (e) {
     console.error('[seguimiento] No se pudo generar el Excel:', e);
