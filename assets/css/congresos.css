@@ -154,7 +154,7 @@
   max-width: calc(100% - 2 * var(--space-3));
   margin: 0;
   font-family: var(--font-mono);
-  font-size: var(--text-caption);           /* 12 px */
+  font-size: var(--text-small);             /* escalón sobre caption: pie legible al pasar */
   font-weight: var(--weight-regular);
   letter-spacing: var(--tracking-wide);
   line-height: var(--leading-snug);
