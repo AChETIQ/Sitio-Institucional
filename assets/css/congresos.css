@@ -41,6 +41,14 @@
   margin-bottom: var(--header-gap);
 }
 
+/* Prosa descriptiva bajo el slider: qué hace AChETIQ en materia de
+   congresos y actividades. Separada del carrusel por el ritmo de
+   sección. .prose (inyectado por clase en el marcado) acota la
+   medida a 65ch. */
+.congresos-feature__prose {
+  margin-top: var(--space-10);
+}
+
 
 /* ─────────────────────────────────────────────────────────────
    3. AUTO IMAGE SLIDER — .congresos-slider
@@ -91,18 +99,69 @@
   padding-block: var(--space-3);
 }
 
-/* Ítem: caja fija con overflow oculto (preparada para <img>).
+/* Ítem: figura fija con overflow oculto (preparada para <img>).
    Placeholder de color plano hasta que se asignen fotografías.
+   position: relative ancla el pie de foto y el scrim de legibilidad.
    transition-normal (250 ms) es más apropiada que slow (400 ms)
    para hover en contexto de movimiento: la respuesta debe ser
    rápida. */
 .congresos-slider__item {
+  position: relative;
   flex-shrink: 0;
   width: 280px;
   height: 230px;
+  margin: 0;                                /* reset del margen nativo de <figure> */
   border-radius: var(--radius-lg);
   overflow: hidden;
   transition: transform var(--transition-normal);
+}
+
+/* La imagen (cuando se incorpore) cubre toda la figura. */
+.congresos-slider__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Scrim de legibilidad: degradado oscuro en el tercio inferior que
+   garantiza contraste del pie de foto sobre cualquier fondo —tanto
+   los placeholders claros (cobalto-100) como las futuras fotografías
+   de cualquier luminosidad. Sólo cubre la franja baja; el resto del
+   tile queda limpio. */
+.congresos-slider__item::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 45%;
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--grafito-950) 72%, transparent),
+    transparent
+  );
+  pointer-events: none;
+}
+
+/* Pie de foto: procedencia de la imagen, anclado a la esquina
+   inferior derecha. Registro mono (igual que .figure__caption y la
+   utilidad .caption del sistema), en blanco suave sobre el scrim,
+   con sombra de medios para reforzar la legibilidad. */
+.congresos-slider__caption {
+  position: absolute;
+  right: var(--space-3);
+  bottom: var(--space-2);
+  z-index: 1;                               /* sobre el scrim ::after */
+  max-width: calc(100% - 2 * var(--space-3));
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);           /* 12 px */
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--tracking-wide);
+  line-height: var(--leading-snug);
+  text-align: right;
+  text-wrap: balance;
+  color: var(--color-on-media-soft);
+  text-shadow: var(--text-shadow-media);
 }
 
 @media (min-width: 768px) {

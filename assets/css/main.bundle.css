@@ -3604,6 +3604,9 @@ padding-bottom: var(--section-pad-y);
 .congresos-feature__header {
 margin-bottom: var(--header-gap);
 }
+.congresos-feature__prose {
+margin-top: var(--space-10);
+}
 .congresos-slider {
 overflow: hidden;
 mask-image: linear-gradient(
@@ -3628,12 +3631,49 @@ width: max-content;
 padding-block: var(--space-3);
 }
 .congresos-slider__item {
+position: relative;
 flex-shrink: 0;
 width: 280px;
 height: 230px;
+margin: 0;
 border-radius: var(--radius-lg);
 overflow: hidden;
 transition: transform var(--transition-normal);
+}
+.congresos-slider__item img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+}
+.congresos-slider__item::after {
+content: "";
+position: absolute;
+inset-inline: 0;
+bottom: 0;
+height: 45%;
+background: linear-gradient(
+to top,
+color-mix(in srgb, var(--grafito-950) 72%, transparent),
+transparent
+);
+pointer-events: none;
+}
+.congresos-slider__caption {
+position: absolute;
+right: var(--space-3);
+bottom: var(--space-2);
+z-index: 1;
+max-width: calc(100% - 2 * var(--space-3));
+margin: 0;
+font-family: var(--font-mono);
+font-size: var(--text-caption);
+font-weight: var(--weight-regular);
+letter-spacing: var(--tracking-wide);
+line-height: var(--leading-snug);
+text-align: right;
+text-wrap: balance;
+color: var(--color-on-media-soft);
+text-shadow: var(--text-shadow-media);
 }
 @media (min-width: 768px) {
 .congresos-slider__item {
