@@ -576,6 +576,38 @@ function setupTimelineMotion(ol) {
   const reduce = typeof window.matchMedia === 'function' &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* El tronco (pista + relleno) debe MORIR en el empalme de la entrada
+     ghost «Próximamente» — no continuar hasta el pie del <ol>, donde la
+     banda de la última rama deja un sobrante de eje vacío. Recortamos la
+     altura del eje al centro de esa soldadura y le damos overflow:hidden,
+     de modo que el relleno (cuya altura escribe el scroll sobre la altura
+     total del <ol>) quede clipeado en el mismo punto. Se usa la cadena
+     offsetTop (inmune a los transforms de animación, y correcta en cada
+     breakpoint) en lugar de getBoundingClientRect. */
+  const axis = ol.querySelector('.timeline__axis');
+  const ghostJunction = ol.querySelector(
+    '.timeline__entry--ghost .timeline__junction'
+  );
+  function offsetWithin(el, ancestor) {
+    let y = 0;
+    let node = el;
+    while (node && node !== ancestor) {
+      y += node.offsetTop;
+      node = node.offsetParent;
+    }
+    return node === ancestor ? y : null;
+  }
+  function capTrunkAtGhost() {
+    if (!axis || !ghostJunction) return;
+    const end = offsetWithin(ghostJunction, ol);
+    if (end == null || !Number.isFinite(end) || end <= 0) return;
+    axis.style.height = (end + ghostJunction.offsetHeight / 2) + 'px';
+    axis.style.bottom = 'auto';
+    axis.style.overflow = 'hidden';
+  }
+  capTrunkAtGhost();
+  window.addEventListener('resize', capTrunkAtGhost);
+
   /* Prepara el «dibujo» de cada brazo: dasharray = longitud total;
      offset = longitud (oculto) salvo en reduce-motion (visible). La
      longitud se memoriza por entrada para poder REPLEGAR el trazo al

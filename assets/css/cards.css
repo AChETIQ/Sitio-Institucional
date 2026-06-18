@@ -376,8 +376,10 @@
 .card--valor {
   /* Panel estático: elevación plana (sólo borde), sin sombra ni
      hover — contrato de elevación S2. Padding holgado (--card-pad-lg)
-     para que el cuerpo más grande no quede apretado contra el borde. */
-  background: transparent;
+     para que el cuerpo más grande no quede apretado contra el borde.
+     Fondo blanco para destacar la tarjeta sobre la plancha
+     --color-surface de la sección. */
+  background: var(--color-surface-white);
   border: var(--elevation-border);
   border-radius: var(--radius-md);
   padding: var(--card-pad-lg);
