@@ -1784,7 +1784,7 @@ margin-top: var(--space-2);
 .card-materia {
 display: flex;
 flex-direction: column;
-background: var(--color-surface);
+background: var(--color-surface-white);
 border: var(--elevation-border);
 border-radius: var(--radius-md);
 overflow: hidden;
@@ -1831,8 +1831,6 @@ display: flex;
 flex-direction: column;
 gap: var(--space-1);
 padding: var(--space-4);
-background: var(--color-surface-white);
-transition: background-color var(--transition-fast);
 }
 .card-materia__year {
 font-family: var(--font-mono);
@@ -1881,8 +1879,8 @@ transition: transform var(--transition-fast);
 .card-materia--drive:focus-visible .card-materia__arrow {
 transform: translateX(var(--space-1));
 }
-.card-materia--drive:hover .card-materia__body,
-.card-materia--drive:focus-visible .card-materia__body {
+.card-materia--drive:hover,
+.card-materia--drive:focus-visible {
 background: var(--color-surface-accent);
 }
 .contact-card {
