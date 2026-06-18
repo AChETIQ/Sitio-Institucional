@@ -19,8 +19,9 @@
      - Persistir el estado del estudiante en localStorage bajo la
        clave achetiq:seguimiento:estado:v1 (spec §5.2), con
        manejo robusto de datos corruptos o ausentes.
-     - Exportar/importar respaldo JSON canónico y exportar CSV
-       legible (spec §11).
+     - Exportar/importar respaldo JSON canónico y exportar la
+       planilla de seguimiento a Excel (.xlsx) poblando la plantilla
+       de assets/docs (spec §11).
 
    PRIVACIDAD: el estado vive sólo en este navegador. Nada se
    envía a ningún servidor (spec §12).
@@ -1050,30 +1051,31 @@ function dialogActions() {
   return createElement('div', { class: 'seg-dialog__actions' });
 }
 
-/* Exportar respaldo: selector de formato JSON / CSV (spec §8.4). */
+/* Exportar respaldo: selector de formato JSON / Excel (spec §8.4). */
 function openExportDialog() {
   const d = makeDialog();
   const panel = dialogShell('Exportar respaldo');
   panel.appendChild(createElement('p', {
     class: 'seg-dialog__desc',
-    text: 'Elegí el formato. El JSON es reimportable; el CSV es ' +
-          'sólo para consulta (Excel, LibreOffice, Sheets).'
+    text: 'Elegí el formato. El JSON es reimportable; el Excel (.xlsx) ' +
+          'es la planilla de seguimiento con tus datos, para consulta ' +
+          '(Excel, LibreOffice, Sheets).'
   }));
   const actions = dialogActions();
   const btnJson = createElement('button', {
     class: 'btn btn-primary', text: 'Descargar JSON', attrs: { type: 'button' }
   });
-  const btnCsv = createElement('button', {
-    class: 'btn btn-secondary', text: 'Descargar CSV', attrs: { type: 'button' }
+  const btnExcel = createElement('button', {
+    class: 'btn btn-secondary', text: 'Exportar Excel (.xlsx)', attrs: { type: 'button' }
   });
   const btnCancel = createElement('button', {
     class: 'btn seg-btn-ghost', text: 'Cancelar', attrs: { type: 'button' }
   });
   btnJson.addEventListener('click', () => { exportJSON(); d.close(); });
-  btnCsv.addEventListener('click', () => { exportCSV(); d.close(); });
+  btnExcel.addEventListener('click', () => { exportXLSX(); d.close(); });
   btnCancel.addEventListener('click', () => d.close());
   actions.appendChild(btnJson);
-  actions.appendChild(btnCsv);
+  actions.appendChild(btnExcel);
   actions.appendChild(btnCancel);
   panel.appendChild(actions);
   d.appendChild(panel);
@@ -1185,47 +1187,192 @@ function exportJSON() {
   announce('Respaldo JSON descargado.');
 }
 
-/* CSV legible (spec §11.3): UTF-8 con BOM, una fila por materia y
-   una segunda sección con los intentos. No reimportable. */
-function exportCSV() {
-  const sep = ',';
-  const rows = [];
-  rows.push(['N°', 'Nivel', 'Asignatura', 'Estado', 'Nota final',
-             'Disponible', 'Cursadas req.', 'Aprobadas req.', 'Carga horaria']);
-  plan.materias.forEach((m) => {
-    const rec = getRecord(m.numero);
-    rows.push([
-      m.numero, m.nivel, m.nombre, rec.estado,
-      isNotaValida(rec.nota_final) ? rec.nota_final : '',
-      DISP_PRESENTACION[disponibilidad(m.numero)].texto,
-      reqText(m.cursadas_requeridas), reqText(m.aprobadas_requeridas),
-      m.carga_horaria
-    ]);
-  });
+/* ─── Exportación a Excel (.xlsx) sobre la plantilla (spec §11.3) ──
+   Reemplaza al antiguo CSV. El navegador no manipula binarios .xlsx
+   de forma nativa, así que se usa xlsx-populate (window.XlsxPopulate,
+   cargado por CDN en seguimiento.html). A diferencia de las librerías
+   que reconstruyen el workbook (y rompían la hoja «Nota al Estudiante»
+   con su formato avanzado), xlsx-populate MUTA el ZIP subyacente: todas
+   las hojas, fórmulas y objetos visuales de la plantilla quedan
+   perfectamente intactos. Además marca el libro para que Excel
+   recalcule las fórmulas (promedios, KPIs, correlatividades) al abrir.
+   Flujo:
+     1) fetch() de la plantilla en blanco (assets/docs) como ArrayBuffer;
+     2) carga con XlsxPopulate.fromDataAsync(buffer);
+     3) volcado del estado vigente (estado y nota final) en las celdas
+        específicas de la hoja «Seguimiento» (F = ESTADO, G = NOTA FINAL);
+     4) outputAsync() → Blob y descarga limpia del archivo poblado.
+   No es reimportable: es una foto para consulta. */
 
-  rows.push([]);
-  rows.push(['Intentos de examen final']);
-  rows.push(['N°', 'Asignatura', 'Intento', 'Fecha', 'Nota']);
-  plan.materias.forEach((m) => {
-    getRecord(m.numero).intentos.forEach((it, i) => {
-      rows.push([m.numero, m.nombre, i + 1, it.fecha, it.nota]);
-    });
-  });
+const XLSX_PLANTILLA = 'assets/docs/Seguimiento_de_Carrera.xlsx';
+const XLSX_HOJA = 'Seguimiento';
+const XLSX_FILA_INICIAL = 12; /* La primera materia ocupa la fila 12. */
 
-  const csv = rows.map((r) => r.map((c) => csvCell(c, sep)).join(sep)).join('\r\n');
-  const BOM = '﻿';
-  const blob = new Blob([BOM + csv], { type: 'text/csv;charset=utf-8' });
-  descargar(blob, 'achetiq-seguimiento-' + fechaArchivo() + '.csv');
-  announce('Respaldo CSV descargado.');
+/* Mapa determinista N° → fila, derivado de la estructura ESTÁTICA de
+   la plantilla (sin buscar filas en tiempo de ejecución). La planilla
+   NO ordena las filas por N°: intercala N° 40 (fila 27) y N° 41 (fila
+   37) fuera de secuencia, por lo que `numero + 11` sería incorrecto
+   para 26 de las 54 materias. Este arreglo lista los N° en el orden en
+   que aparecen las filas a partir de XLSX_FILA_INICIAL. */
+const SEG_ORDEN_FILAS = [
+  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
+  14, 15, 40, 16, 17, 18, 19, 20, 21, 22, 23, 24, 41,
+  25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37,
+  38, 39, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52,
+  53, 54
+];
+
+const filaDeMateria = new Map(
+  SEG_ORDEN_FILAS.map((numero, i) => [numero, XLSX_FILA_INICIAL + i])
+);
+
+/* Hoja secundaria de historial de exámenes finales. Cada materia ocupa
+   la MISMA posición relativa que en «Seguimiento», desplazada 7 filas
+   (la materia de la fila 12 en «Seguimiento» está en la fila 5 de
+   «Finales»). Las columnas alternan fecha y nota para los 6 intentos:
+   F/G = 1°, H/I = 2°, J/K = 3°, L/M = 4°, N/O = 5°, P/Q = 6°. */
+const XLSX_FINALES_HOJA = 'Finales';
+const XLSX_FINALES_OFFSET = 7;
+const XLSX_FINALES_COL_FECHA = ['F', 'H', 'J', 'L', 'N', 'P'];
+const XLSX_FINALES_COL_NOTA = ['G', 'I', 'K', 'M', 'O', 'Q'];
+
+function plantillaURL() {
+  const base = window.AChETIQBase;
+  if (base && typeof base.resolve === 'function') {
+    return base.resolve(XLSX_PLANTILLA);
+  }
+  return '../../' + XLSX_PLANTILLA;
 }
 
-function csvCell(value, sep) {
-  const s = (value == null) ? '' : String(value);
-  if (s.indexOf(sep) >= 0 || s.indexOf('"') >= 0 ||
-      s.indexOf('\n') >= 0 || s.indexOf('\r') >= 0) {
-    return '"' + s.replace(/"/g, '""') + '"';
+/* Vuelca el estado vigente en la plantilla: hoja «Seguimiento»
+   (estado + nota final) y hoja «Finales» (historial de intentos). */
+function poblarPlantilla(workbook) {
+  poblarSeguimiento(workbook);
+  poblarFinales(workbook);
+}
+
+/* Hoja «Seguimiento»: estado (F) y nota final (G) por materia, usando
+   el mapa determinista de filas (sin localizador dinámico). */
+function poblarSeguimiento(workbook) {
+  const sheet = workbook.sheet(XLSX_HOJA) || workbook.sheet(0);
+  if (!sheet) {
+    throw new Error('La plantilla no contiene la hoja «' + XLSX_HOJA + '».');
   }
-  return s;
+
+  plan.materias.forEach((m) => {
+    const rowIndex = filaDeMateria.get(m.numero);
+    if (rowIndex == null) return;
+    const rec = getRecord(m.numero);
+
+    /* Estado (F): cadena exacta que esperan el desplegable y las
+       fórmulas de la plantilla («No Cursada», «Cursando», «Regular»,
+       «Aprobada»). */
+    sheet.cell('F' + rowIndex).value(String(rec.estado));
+
+    /* Nota final (G): NÚMERO estricto para que las fórmulas de promedio
+       la computen (una cadena la ignoraría Excel); si no hay nota, se
+       deja la celda vacía (undefined). */
+    sheet.cell('G' + rowIndex).value(
+      isNotaValida(rec.nota_final) ? Number(rec.nota_final) : undefined
+    );
+  });
+}
+
+/* Hoja «Finales»: historial de exámenes (fecha + nota de cada intento).
+   El KPI «Promedio con aplazos» depende de que las notas de los intentos
+   estén aquí como NÚMEROS. La fila de cada materia se deriva de la de
+   «Seguimiento» menos el desplazamiento fijo. Si la plantilla no trae la
+   hoja, se omite sin interrumpir el resto de la exportación. */
+function poblarFinales(workbook) {
+  const sheet = workbook.sheet(XLSX_FINALES_HOJA);
+  if (!sheet) return;
+
+  plan.materias.forEach((m) => {
+    const segRow = filaDeMateria.get(m.numero);
+    if (segRow == null) return;
+    const finRow = segRow - XLSX_FINALES_OFFSET;
+    const rec = getRecord(m.numero);
+
+    rec.intentos.forEach((it, i) => {
+      if (i >= MAX_INTENTOS) return;
+      /* Fecha (ISO) como texto: no afecta a ningún KPI y evita los
+         corrimientos de zona horaria de convertir a fecha de Excel.
+         Si falta, se pasa `undefined` (nunca null ni ""): una cadena
+         vacía rompería las fórmulas nativas de Excel. */
+      sheet.cell(XLSX_FINALES_COL_FECHA[i] + finRow).value(
+        isFechaValida(it.fecha) ? it.fecha : undefined
+      );
+      /* Nota del intento: NÚMERO estricto (los aplazos cuentan); si
+         falta, `undefined` estricto para no corromper AVERAGE/SUM. */
+      sheet.cell(XLSX_FINALES_COL_NOTA[i] + finRow).value(
+        isNotaValida(it.nota) ? Number(it.nota) : undefined
+      );
+    });
+  });
+}
+
+/* Fuerza a Excel a recalcular TODAS las fórmulas al abrir (KPIs de
+   promedios, electivas, correlatividades), descartando los valores
+   cacheados de la plantilla.
+
+   xlsx-populate NO expone una API pública para esto: no existen
+   `workbook.calcProperties(...)` ni `workbook.setting(...)` (ambas
+   lanzan TypeError, verificado contra la fuente de la librería). El
+   mecanismo soportado es marcar el atributo `fullCalcOnLoad` en el
+   nodo <calcPr> del workbook.xml ya parseado, accesible por su modelo
+   interno `_node`. Verificado de extremo a extremo: la salida contiene
+   <calcPr ... fullCalcOnLoad="1"/> y, como xlsx-populate ya elimina
+   calcChain.xml al cargar, Excel rehace el cálculo completo al abrir. */
+function forzarRecalculoAlAbrir(workbook) {
+  const wbNode = workbook && workbook._node;
+  if (!wbNode || !Array.isArray(wbNode.children)) return;
+  let calcPr = wbNode.children.find((c) => c && c.name === 'calcPr');
+  if (!calcPr) {
+    calcPr = { name: 'calcPr', attributes: {}, children: [] };
+    wbNode.children.push(calcPr);
+  }
+  calcPr.attributes = calcPr.attributes || {};
+  calcPr.attributes.fullCalcOnLoad = 1;
+}
+
+async function exportXLSX() {
+  const XlsxPopulate = window.XlsxPopulate;
+  if (!XlsxPopulate) {
+    announce('No se pudo cargar la librería para generar el Excel.');
+    window.alert('No se pudo cargar la librería para generar el archivo Excel. ' +
+                 'Verificá tu conexión a internet e intentá de nuevo.');
+    return;
+  }
+
+  let buffer;
+  try {
+    const res = await fetch(plantillaURL(), { credentials: 'same-origin' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    buffer = await res.arrayBuffer();
+  } catch (e) {
+    console.error('[seguimiento] No se pudo obtener la plantilla .xlsx:', e);
+    announce('No se pudo obtener la plantilla de Excel.');
+    window.alert('No se pudo obtener la plantilla de Excel. Probá de nuevo.');
+    return;
+  }
+
+  let blob;
+  try {
+    /* xlsx-populate muta el ZIP cargado en su lugar: no reconstruye el
+       workbook, así que todas las hojas y objetos visuales se conservan. */
+    const workbook = await XlsxPopulate.fromDataAsync(buffer);
+    poblarPlantilla(workbook);
+    forzarRecalculoAlAbrir(workbook);
+    blob = await workbook.outputAsync();
+  } catch (e) {
+    console.error('[seguimiento] No se pudo generar el Excel:', e);
+    announce('No se pudo generar el archivo Excel.');
+    window.alert('Ocurrió un error al generar el archivo Excel.');
+    return;
+  }
+
+  descargar(blob, 'mi-seguimiento-achetiq.xlsx');
+  announce('Planilla de seguimiento exportada a Excel.');
 }
 
 /* Importar JSON (spec §11.2): parse + validación de campos,
