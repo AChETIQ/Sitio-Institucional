@@ -3,259 +3,247 @@
     "id": "introduccion-a-la-ingenieria-quimica",
     "nombre": "Introducción a la Ingeniería Química",
     "anio": 1,
-    "drive_url": "",
+    "drive_url": "https://drive.google.com/drive/folders/18dBICy8KHgZouOvOijJZlDMwirX6ZP48?usp=sharing",
     "imagen": "assets/img/materias/introduccion-a-la-ingenieria-quimica.webp"
   },
   {
     "id": "ingenieria-y-sociedad",
     "nombre": "Ingeniería y Sociedad",
     "anio": 1,
-    "drive_url": "",
+    "drive_url": "https://drive.google.com/drive/folders/1Lm5OlP_-NtbrLpDmxyN5afZcNeRrC_SF?usp=sharing",
     "imagen": "assets/img/materias/ingenieria-y-sociedad.webp"
   },
   {
     "id": "algebra-y-geometria-analitica",
     "nombre": "Álgebra y Geometría Analítica",
     "anio": 1,
-    "drive_url": ""
+    "drive_url": "https://drive.google.com/drive/folders/1jxsnihdRiNGmf-ogEWO1kV4kuBUxDdN-?usp=sharing"
   },
   {
     "id": "analisis-matematico-i",
     "nombre": "Análisis Matemático I",
     "anio": 1,
-    "drive_url": "",
+    "drive_url": "https://drive.google.com/drive/folders/1ii_dlvZ2RgKQbfh2NX-hyhaoqHtBCHw_?usp=sharing",
     "imagen": "assets/img/materias/analisis-matematico-i.webp"
   },
   {
     "id": "fisica-i",
     "nombre": "Física I",
     "anio": 1,
-    "drive_url": "",
+    "drive_url": "https://drive.google.com/drive/folders/1F9G1X3XVrVqV6-0x1ZSKh77W2jEs2652?usp=sharing",
     "imagen": "assets/img/materias/fisica-i.webp"
   },
   {
     "id": "quimica",
     "nombre": "Química",
     "anio": 1,
-    "drive_url": ""
+    "drive_url": "https://drive.google.com/drive/folders/1BXyR9u1Hu7k7eWHsIDuvl57AZRmxqVAk?usp=sharing"
   },
   {
     "id": "sistemas-de-representacion",
     "nombre": "Sistemas de Representación",
     "anio": 1,
-    "drive_url": ""
+    "drive_url": "https://drive.google.com/drive/folders/1BUgAbnvLF9Ni3iUmKWuNEEy7nPtHA6mu?usp=sharing"
   },
   {
     "id": "fundamentos-de-informatica",
     "nombre": "Fundamentos de Informática",
     "anio": 1,
-    "drive_url": "",
+    "drive_url": "https://drive.google.com/drive/folders/1HkU7RWaGTxM8oLVqAcu3kNDs0HXfEabM?usp=sharing",
     "imagen": "assets/img/materias/fundamentos-de-informatica.webp"
   },
   {
     "id": "introduccion-a-equipos-y-procesos",
     "nombre": "Introducción a Equipos y Procesos",
     "anio": 2,
-    "drive_url": ""
+    "drive_url": "https://drive.google.com/drive/folders/19BP7q7GlEvTpY4Hl1g7twia_GEHYaNl3?usp=sharing"
   },
   {
     "id": "probabilidad-y-estadistica",
     "nombre": "Probabilidad y Estadística",
     "anio": 2,
-    "drive_url": "",
+    "drive_url": "https://drive.google.com/drive/folders/1K_ps9M2weR5-bLkxwGPP3ogEEKdgQTrg?usp=sharing",
     "imagen": "assets/img/materias/probabilidad-y-estadistica.webp"
   },
   {
     "id": "quimica-inorganica",
     "nombre": "Química Inorgánica",
     "anio": 2,
-    "drive_url": "",
+    "drive_url": "https://drive.google.com/drive/folders/1h5i3zU-a9TZfm4QBpA6Hj1lCp8yEJjEW?usp=sharing",
     "imagen": "assets/img/materias/quimica-inorganica.webp"
   },
   {
     "id": "analisis-matematico-ii",
     "nombre": "Análisis Matemático II",
     "anio": 2,
-    "drive_url": "",
+    "drive_url": "https://drive.google.com/drive/folders/1XDNmg4BxqtlVz1wCMF_62xxc8hs4S5Xu?usp=sharing",
     "imagen": "assets/img/materias/analisis-matematico-ii.webp"
   },
   {
     "id": "fisica-ii",
     "nombre": "Física II",
     "anio": 2,
-    "drive_url": "",
+    "drive_url": "https://drive.google.com/drive/folders/1NY-Z7DtydpStaeMMVsRgsG8_gkPVuULe?usp=sharing",
     "imagen": "assets/img/materias/fisica-ii.webp"
   },
   {
     "id": "quimica-organica",
     "nombre": "Química Orgánica",
     "anio": 2,
-    "drive_url": ""
+    "drive_url": "https://drive.google.com/drive/folders/1SDwLs1Pu2HxmLdB2ogFt2BaUAYWVnpSX?usp=sharing"
   },
   {
     "id": "legislacion",
     "nombre": "Legislación",
     "anio": 2,
-    "drive_url": ""
-  },
-  {
-    "id": "ingles-i",
-    "nombre": "Inglés I",
-    "anio": 2,
-    "drive_url": ""
+    "drive_url": "https://drive.google.com/drive/folders/10x7s9Wvhk89nlbHxIX5h8v85qcSjuU6D?usp=sharing"
   },
   {
     "id": "balances-de-masa-y-energia",
     "nombre": "Balances de Masa y Energía",
     "anio": 3,
-    "drive_url": "",
+    "drive_url": "https://drive.google.com/drive/folders/13szfjcOrm3paRePzTukDBFsCO8kHwnxb?usp=sharing",
     "imagen": "assets/img/materias/balances-de-masa-y-energia.webp"
   },
   {
     "id": "termodinamica",
     "nombre": "Termodinámica",
     "anio": 3,
-    "drive_url": "",
+    "drive_url": "https://drive.google.com/drive/folders/1FBc7vh00W0VWkDRNQ3s9amg23U2B0J4u?usp=sharing",
     "imagen": "assets/img/materias/termodinamica.webp"
   },
   {
     "id": "matematica-superior-aplicada",
     "nombre": "Matemática Superior Aplicada",
     "anio": 3,
-    "drive_url": ""
+    "drive_url": "https://drive.google.com/drive/folders/13RtG55KFfTGyffa1_86F1x6zddYguUEM?usp=sharing"
   },
   {
     "id": "ciencia-de-los-materiales",
     "nombre": "Ciencia de los Materiales",
     "anio": 3,
-    "drive_url": "",
+    "drive_url": "https://drive.google.com/drive/folders/1YgEDoARCjjhFjRiwCi_PFUIgscsWhhpi?usp=sharing",
     "imagen": "assets/img/materias/ciencia-de-los-materiales.webp"
   },
   {
     "id": "fisicoquimica",
     "nombre": "Fisicoquímica",
     "anio": 3,
-    "drive_url": ""
+    "drive_url": "https://drive.google.com/drive/folders/1mSQ2wlYr-xIKRLsICiDUnBAnRfdSz_DO?usp=sharing"
   },
   {
     "id": "fenomenos-de-transporte",
     "nombre": "Fenómenos de Transporte",
     "anio": 3,
-    "drive_url": "",
+    "drive_url": "https://drive.google.com/drive/folders/1uMRNJvxqrEqBcBpZjrl3tUnD-MawJ7sQ?usp=sharing",
     "imagen": "assets/img/materias/fenomenos-de-transporte.webp"
   },
   {
     "id": "quimica-analitica",
     "nombre": "Química Analítica",
     "anio": 3,
-    "drive_url": ""
+    "drive_url": "https://drive.google.com/drive/folders/1f44vpk81yIULgmx8YZ-u-XvS8gvnPlqf?usp=sharing"
   },
   {
     "id": "microbiologia-y-quimica-biologica",
     "nombre": "Microbiología y Química Biológica",
     "anio": 3,
-    "drive_url": ""
+    "drive_url": "https://drive.google.com/drive/folders/1CPVrhowdDprPI7KbVSAljF7AYnIzbouh?usp=sharing"
   },
   {
     "id": "quimica-aplicada",
     "nombre": "Química Aplicada",
     "anio": 3,
-    "drive_url": ""
-  },
-  {
-    "id": "ingles-ii",
-    "nombre": "Inglés II",
-    "anio": 3,
-    "drive_url": ""
+    "drive_url": "https://drive.google.com/drive/folders/1XKjzwJ62B_bBn6qqGaeFVuiyhG5Ph2kl?usp=sharing"
   },
   {
     "id": "diseno-simulacion-optimizacion-y-seguridad-de-procesos",
     "nombre": "Diseño, Simulación, Optimización y Seguridad de Procesos",
     "anio": 4,
-    "drive_url": ""
+    "drive_url": "https://drive.google.com/drive/folders/1p59RsOj9mVl-lo3yTTg8TFbD35w2xhos?usp=sharing"
   },
   {
     "id": "operaciones-unitarias-i",
     "nombre": "Operaciones Unitarias I",
     "anio": 4,
-    "drive_url": ""
+    "drive_url": "https://drive.google.com/drive/folders/1ahFvOxbP4uvrHDAX1nS0LZ3YA21Rht-B?usp=sharing"
   },
   {
     "id": "tecnologia-de-la-energia-termica",
     "nombre": "Tecnología de la Energía Térmica",
     "anio": 4,
-    "drive_url": ""
+    "drive_url": "https://drive.google.com/drive/folders/1gAz-6qq3MZgcoK9gJLsjsMNtSJ8-rwqb?usp=sharing"
   },
   {
     "id": "economia",
     "nombre": "Economía",
     "anio": 4,
-    "drive_url": ""
+    "drive_url": "https://drive.google.com/drive/folders/1p5B-0VHpNskydN8K9nc_9j7kpCN7KF6k?usp=sharing"
   },
   {
     "id": "operaciones-unitarias-ii",
     "nombre": "Operaciones Unitarias II",
     "anio": 4,
-    "drive_url": ""
+    "drive_url": "https://drive.google.com/drive/folders/1dM9L4tAcuATB8Ph_lGjjwegpQpmX_sVp?usp=sharing"
   },
   {
     "id": "ingenieria-de-las-reacciones-quimicas",
     "nombre": "Ingeniería de las Reacciones Químicas",
     "anio": 4,
-    "drive_url": ""
+    "drive_url": "https://drive.google.com/drive/folders/1wpPjSpq-AD6Vov__UhuqwOxOr9nVxi5K?usp=sharing"
   },
   {
     "id": "calidad-y-control-estadistico-de-procesos",
     "nombre": "Calidad y Control Estadístico de Procesos",
     "anio": 4,
-    "drive_url": ""
+    "drive_url": "https://drive.google.com/drive/folders/12_vp4WpDxp0I0AOgg_T9OKkVAqO7kR4l?usp=sharing"
   },
   {
     "id": "organizacion-industrial",
     "nombre": "Organización Industrial",
     "anio": 4,
-    "drive_url": ""
+    "drive_url": "https://drive.google.com/drive/folders/1BEnLa8X0fVHSUR0bRu6NYGA64NT9e7it?usp=sharing"
   },
   {
     "id": "control-automatico-de-procesos",
     "nombre": "Control Automático de Procesos",
     "anio": 5,
-    "drive_url": ""
+    "drive_url": "https://drive.google.com/drive/folders/1i04AcmkxFXQHxoCovLe9HVCgR_pqSm6M?usp=sharing"
   },
   {
     "id": "mecanica-industrial",
     "nombre": "Mecánica Industrial",
     "anio": 5,
-    "drive_url": ""
+    "drive_url": "https://drive.google.com/drive/folders/1dR0pOv08Gfg3-mr_Mx87bsm4kATGA8WX?usp=sharing"
   },
   {
     "id": "ingenieria-ambiental",
     "nombre": "Ingeniería Ambiental",
     "anio": 5,
-    "drive_url": ""
+    "drive_url": "https://drive.google.com/drive/folders/1kePn3lb4migjVQNDbl3q50EhBSCvRlYE?usp=sharing"
   },
   {
     "id": "procesos-biotecnologicos",
     "nombre": "Procesos Biotecnológicos",
     "anio": 5,
-    "drive_url": ""
+    "drive_url": "https://drive.google.com/drive/folders/1wMRgleZ9b_aFUuEmVKmWCtt-g_EHVWOe?usp=sharing"
   },
   {
     "id": "higiene-y-seguridad-en-el-trabajo",
     "nombre": "Higiene y Seguridad en el Trabajo",
     "anio": 5,
-    "drive_url": ""
+    "drive_url": "https://drive.google.com/drive/folders/1woy16WjbCC3pxnA0vgTSLQYNVpBawiTK?usp=sharing"
   },
   {
     "id": "maquinas-e-instalaciones-electricas",
     "nombre": "Máquinas e Instalaciones Eléctricas",
     "anio": 5,
-    "drive_url": ""
+    "drive_url": "https://drive.google.com/drive/folders/1bAMm6u92sikKXjfIPL3L2ADR-V9P5TQG?usp=sharing"
   },
   {
     "id": "proyecto-final",
     "nombre": "Proyecto Final",
     "anio": 5,
-    "drive_url": ""
+    "drive_url": "https://drive.google.com/drive/folders/1qkkeh6_nRO2QcbybMjkAt4b_BTc4oqc0?usp=sharing"
   }
 ]

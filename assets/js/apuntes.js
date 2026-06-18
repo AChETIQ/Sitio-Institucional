@@ -188,43 +188,29 @@ function buildBody(anio, nombre, statusNode) {
   return body;
 }
 
-/* Estado de la variante enlazada: «Abrir carpeta» + icono externo
-   decorativo + refuerzo sr-only de pestaña nueva. */
+/* Estado de la variante enlazada: afordancia editorial E05 —
+   «Acceder al repositorio» en cobalto + flecha (→) que avanza al
+   hover/foco de la tarjeta + refuerzo sr-only de pestaña nueva.
+   El glifo flecha es decorativo (aria-hidden): el destino externo
+   ya lo verbaliza el aria-label del <a> y el refuerzo sr-only. */
 function buildLinkedStatus() {
   var status = createElement('p', {
     class: 'card-materia__status card-materia__status--link'
   });
-  status.appendChild(createElement('span', { text: 'Abrir carpeta' }));
-  status.appendChild(buildExternalIcon());
+  status.appendChild(createElement('span', {
+    class: 'card-materia__cta',
+    text: 'Acceder al repositorio'
+  }));
+  status.appendChild(createElement('span', {
+    class: 'card-materia__arrow',
+    text: '→',
+    attrs: { 'aria-hidden': 'true' }
+  }));
   status.appendChild(createElement('span', {
     class: 'sr-only',
     text: ' (se abre en una pestaña nueva)'
   }));
   return status;
-}
-
-/* Icono «enlace externo» (decorativo, aria-hidden), via SVG NS. */
-function buildExternalIcon() {
-  var NS = 'http://www.w3.org/2000/svg';
-  var svg = document.createElementNS(NS, 'svg');
-  svg.setAttribute('class', 'card-materia__ext-icon');
-  svg.setAttribute('viewBox', '0 0 24 24');
-  svg.setAttribute('fill', 'none');
-  svg.setAttribute('stroke', 'currentColor');
-  svg.setAttribute('stroke-width', '2');
-  svg.setAttribute('stroke-linecap', 'round');
-  svg.setAttribute('stroke-linejoin', 'round');
-  svg.setAttribute('aria-hidden', 'true');
-  svg.setAttribute('focusable', 'false');
-
-  var paths = ['M15 3h6v6', 'M10 14 21 3',
-               'M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'];
-  paths.forEach(function (spec) {
-    var path = document.createElementNS(NS, 'path');
-    path.setAttribute('d', spec);
-    svg.appendChild(path);
-  });
-  return svg;
 }
 
 
