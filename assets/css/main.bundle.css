@@ -1901,6 +1901,7 @@ overflow: hidden;
 text-decoration: none;
 color: var(--color-text);
 transition: border-color var(--transition-fast),
+background-color var(--transition-fast),
 transform var(--dur-fast) var(--ease-out),
 box-shadow var(--dur-fast) var(--ease-out);
 padding: 0;
@@ -1979,15 +1980,18 @@ align-items: center;
 gap: var(--space-1);
 color: var(--color-accent);
 }
-.card-materia--drive:hover .card-materia__status--link,
-.card-materia--drive:focus-visible .card-materia__status--link {
-text-decoration: underline;
-text-underline-offset: var(--underline-offset);
-}
-.card-materia__ext-icon {
-inline-size: 0.9em;
-block-size: 0.9em;
+.card-materia__arrow {
 flex: none;
+line-height: 1;
+transition: transform var(--transition-fast);
+}
+.card-materia--drive:hover .card-materia__arrow,
+.card-materia--drive:focus-visible .card-materia__arrow {
+transform: translateX(var(--space-1));
+}
+.card-materia--drive:hover,
+.card-materia--drive:focus-visible {
+background: var(--color-surface-accent);
 }
 .contact-card {
 display: flex;

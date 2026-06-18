@@ -473,6 +473,7 @@
   text-decoration: none;
   color: var(--color-text);
   transition: border-color var(--transition-fast),
+              background-color var(--transition-fast),
               transform var(--dur-fast) var(--ease-out),
               box-shadow var(--dur-fast) var(--ease-out);
   padding: 0;
@@ -583,11 +584,12 @@
   margin-top: var(--space-1);
 }
 
-/* Variante «con carpeta de Drive» (drive_url válido). La tarjeta
-   es un <a> externo; hereda el hover de .card-materia (borde a
-   primary + brillo del cover). La línea de status actúa como
-   affordance del enlace: color primary, ícono externo y
-   subrayado al hover/focus de la tarjeta. */
+/* Variante «con carpeta de Drive» (drive_url válido). La tarjeta es
+   un <a> externo. La línea de status es la afordancia editorial E05
+   —espejo de .recursos-index (recursos.css §1)—: rótulo «Acceder al
+   repositorio» en cobalto + flecha (→) que avanza al hover/foco. El
+   cobalto firma la navegación; la mauveína no aparece aquí (queda
+   reservada a la acción primaria del sitio). */
 .card-materia__status--link {
   display: inline-flex;
   align-items: center;
@@ -595,19 +597,27 @@
   color: var(--color-accent);
 }
 
-.card-materia--drive:hover .card-materia__status--link,
-.card-materia--drive:focus-visible .card-materia__status--link {
-  text-decoration: underline;
-  text-underline-offset: var(--underline-offset);
+/* Flecha de afordancia (→). Decorativa (aria-hidden en el markup):
+   acompaña el texto en línea base y avanza un paso cuando la tarjeta
+   recibe hover/foco, como en el índice editorial de servicios. */
+.card-materia__arrow {
+  flex: none;
+  line-height: 1;
+  transition: transform var(--transition-fast);
 }
 
-/* Ícono «enlace externo» (decorativo, aria-hidden en el markup).
-   Dimensionado en em para acompañar el tamaño del texto de
-   status; `flex: none` evita que se comprima en grids estrechos. */
-.card-materia__ext-icon {
-  inline-size: 0.9em;
-  block-size: 0.9em;
-  flex: none;
+.card-materia--drive:hover .card-materia__arrow,
+.card-materia--drive:focus-visible .card-materia__arrow {
+  transform: translateX(var(--space-1));
+}
+
+/* Realce de la TARJETA COMPLETA al hover/foco: el mismo lavado
+   cobalto frío (--color-surface-accent) del índice E05, sumado al
+   borde a primary + lift heredados de .card-materia. La afordancia
+   es la tarjeta entera, no un fragmento. */
+.card-materia--drive:hover,
+.card-materia--drive:focus-visible {
+  background: var(--color-surface-accent);
 }
 
 
