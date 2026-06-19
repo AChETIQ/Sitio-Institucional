@@ -57,7 +57,8 @@
     "id": "introduccion-a-equipos-y-procesos",
     "nombre": "Introducción a Equipos y Procesos",
     "anio": 2,
-    "drive_url": "https://drive.google.com/drive/folders/19BP7q7GlEvTpY4Hl1g7twia_GEHYaNl3?usp=sharing"
+    "drive_url": "https://drive.google.com/drive/folders/19BP7q7GlEvTpY4Hl1g7twia_GEHYaNl3?usp=sharing",
+    "imagen": "assets/img/materias/introduccion-a-equipos-y-procesos.webp"
   },
   {
     "id": "probabilidad-y-estadistica",
@@ -119,7 +120,8 @@
     "id": "matematica-superior-aplicada",
     "nombre": "Matemática Superior Aplicada",
     "anio": 3,
-    "drive_url": "https://drive.google.com/drive/folders/13RtG55KFfTGyffa1_86F1x6zddYguUEM?usp=sharing"
+    "drive_url": "https://drive.google.com/drive/folders/13RtG55KFfTGyffa1_86F1x6zddYguUEM?usp=sharing",
+    "imagen": "assets/img/materias/matematica-superior-aplicada.webp"
   },
   {
     "id": "ciencia-de-los-materiales",
@@ -171,13 +173,15 @@
     "id": "operaciones-unitarias-i",
     "nombre": "Operaciones Unitarias I",
     "anio": 4,
-    "drive_url": "https://drive.google.com/drive/folders/1ahFvOxbP4uvrHDAX1nS0LZ3YA21Rht-B?usp=sharing"
+    "drive_url": "https://drive.google.com/drive/folders/1ahFvOxbP4uvrHDAX1nS0LZ3YA21Rht-B?usp=sharing",
+    "imagen": "assets/img/materias/operaciones-unitarias-i.webp"
   },
   {
     "id": "tecnologia-de-la-energia-termica",
     "nombre": "Tecnología de la Energía Térmica",
     "anio": 4,
-    "drive_url": "https://drive.google.com/drive/folders/1gAz-6qq3MZgcoK9gJLsjsMNtSJ8-rwqb?usp=sharing"
+    "drive_url": "https://drive.google.com/drive/folders/1gAz-6qq3MZgcoK9gJLsjsMNtSJ8-rwqb?usp=sharing",
+    "imagen": "assets/img/materias/tecnologia-de-la-energia-termica.webp"
   },
   {
     "id": "economia",
@@ -189,7 +193,8 @@
     "id": "operaciones-unitarias-ii",
     "nombre": "Operaciones Unitarias II",
     "anio": 4,
-    "drive_url": "https://drive.google.com/drive/folders/1dM9L4tAcuATB8Ph_lGjjwegpQpmX_sVp?usp=sharing"
+    "drive_url": "https://drive.google.com/drive/folders/1dM9L4tAcuATB8Ph_lGjjwegpQpmX_sVp?usp=sharing",
+    "imagen": "assets/img/materias/operaciones-unitarias-ii.webp"
   },
   {
     "id": "ingenieria-de-las-reacciones-quimicas",
@@ -207,7 +212,8 @@
     "id": "organizacion-industrial",
     "nombre": "Organización Industrial",
     "anio": 4,
-    "drive_url": "https://drive.google.com/drive/folders/1BEnLa8X0fVHSUR0bRu6NYGA64NT9e7it?usp=sharing"
+    "drive_url": "https://drive.google.com/drive/folders/1BEnLa8X0fVHSUR0bRu6NYGA64NT9e7it?usp=sharing",
+    "imagen": "assets/img/materias/organizacion-industrial.webp"
   },
   {
     "id": "control-automatico-de-procesos",
@@ -231,13 +237,15 @@
     "id": "procesos-biotecnologicos",
     "nombre": "Procesos Biotecnológicos",
     "anio": 5,
-    "drive_url": "https://drive.google.com/drive/folders/1wMRgleZ9b_aFUuEmVKmWCtt-g_EHVWOe?usp=sharing"
+    "drive_url": "https://drive.google.com/drive/folders/1wMRgleZ9b_aFUuEmVKmWCtt-g_EHVWOe?usp=sharing",
+    "imagen": "assets/img/materias/procesos-biotecnologicos.webp"
   },
   {
     "id": "higiene-y-seguridad-en-el-trabajo",
     "nombre": "Higiene y Seguridad en el Trabajo",
     "anio": 5,
-    "drive_url": "https://drive.google.com/drive/folders/1woy16WjbCC3pxnA0vgTSLQYNVpBawiTK?usp=sharing"
+    "drive_url": "https://drive.google.com/drive/folders/1woy16WjbCC3pxnA0vgTSLQYNVpBawiTK?usp=sharing",
+    "imagen": "assets/img/materias/higiene-y-seguridad-en-el-trabajo.webp"
   },
   {
     "id": "maquinas-e-instalaciones-electricas",
@@ -249,6 +257,7 @@
     "id": "proyecto-final",
     "nombre": "Proyecto Final",
     "anio": 5,
-    "drive_url": "https://drive.google.com/drive/folders/1qkkeh6_nRO2QcbybMjkAt4b_BTc4oqc0?usp=sharing"
+    "drive_url": "https://drive.google.com/drive/folders/1qkkeh6_nRO2QcbybMjkAt4b_BTc4oqc0?usp=sharing",
+    "imagen": "assets/img/materias/proyecto-final.webp"
   }
 ]
