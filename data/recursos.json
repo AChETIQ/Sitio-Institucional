@@ -136,7 +136,8 @@
     "id": "fisicoquimica",
     "nombre": "Fisicoquímica",
     "anio": 3,
-    "drive_url": "https://drive.google.com/drive/folders/1mSQ2wlYr-xIKRLsICiDUnBAnRfdSz_DO?usp=sharing"
+    "drive_url": "https://drive.google.com/drive/folders/1mSQ2wlYr-xIKRLsICiDUnBAnRfdSz_DO?usp=sharing",
+    "imagen": "assets/img/materias/fisicoquimica.webp"
   },
   {
     "id": "fenomenos-de-transporte",
@@ -163,13 +164,15 @@
     "id": "quimica-aplicada",
     "nombre": "Química Aplicada",
     "anio": 3,
-    "drive_url": "https://drive.google.com/drive/folders/1XKjzwJ62B_bBn6qqGaeFVuiyhG5Ph2kl?usp=sharing"
+    "drive_url": "https://drive.google.com/drive/folders/1XKjzwJ62B_bBn6qqGaeFVuiyhG5Ph2kl?usp=sharing",
+    "imagen": "assets/img/materias/quimica-aplicada.webp"
   },
   {
     "id": "diseno-simulacion-optimizacion-y-seguridad-de-procesos",
     "nombre": "Diseño, Simulación, Optimización y Seguridad de Procesos",
     "anio": 4,
-    "drive_url": "https://drive.google.com/drive/folders/1p59RsOj9mVl-lo3yTTg8TFbD35w2xhos?usp=sharing"
+    "drive_url": "https://drive.google.com/drive/folders/1p59RsOj9mVl-lo3yTTg8TFbD35w2xhos?usp=sharing",
+    "imagen": "assets/img/materias/diseno-simulacion-optimizacion-y-seguridad-de-procesos.webp"
   },
   {
     "id": "operaciones-unitarias-i",
@@ -217,13 +220,15 @@
     "id": "control-automatico-de-procesos",
     "nombre": "Control Automático de Procesos",
     "anio": 5,
-    "drive_url": "https://drive.google.com/drive/folders/1i04AcmkxFXQHxoCovLe9HVCgR_pqSm6M?usp=sharing"
+    "drive_url": "https://drive.google.com/drive/folders/1i04AcmkxFXQHxoCovLe9HVCgR_pqSm6M?usp=sharing",
+    "imagen": "assets/img/materias/control-automatico-de-procesos.webp"
   },
   {
     "id": "mecanica-industrial",
     "nombre": "Mecánica Industrial",
     "anio": 5,
-    "drive_url": "https://drive.google.com/drive/folders/1dR0pOv08Gfg3-mr_Mx87bsm4kATGA8WX?usp=sharing"
+    "drive_url": "https://drive.google.com/drive/folders/1dR0pOv08Gfg3-mr_Mx87bsm4kATGA8WX?usp=sharing",
+    "imagen": "assets/img/materias/mecanica-industrial.webp"
   },
   {
     "id": "ingenieria-ambiental",
