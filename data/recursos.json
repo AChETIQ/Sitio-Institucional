@@ -17,7 +17,8 @@
     "id": "algebra-y-geometria-analitica",
     "nombre": "Álgebra y Geometría Analítica",
     "anio": 1,
-    "drive_url": "https://drive.google.com/drive/folders/1jxsnihdRiNGmf-ogEWO1kV4kuBUxDdN-?usp=sharing"
+    "drive_url": "https://drive.google.com/drive/folders/1jxsnihdRiNGmf-ogEWO1kV4kuBUxDdN-?usp=sharing",
+    "imagen": "assets/img/materias/algebra-y-geometria-analitica.webp"
   },
   {
     "id": "analisis-matematico-i",
@@ -37,7 +38,8 @@
     "id": "quimica",
     "nombre": "Química",
     "anio": 1,
-    "drive_url": "https://drive.google.com/drive/folders/1BXyR9u1Hu7k7eWHsIDuvl57AZRmxqVAk?usp=sharing"
+    "drive_url": "https://drive.google.com/drive/folders/1BXyR9u1Hu7k7eWHsIDuvl57AZRmxqVAk?usp=sharing",
+    "imagen": "assets/img/materias/quimica.webp"
   },
   {
     "id": "sistemas-de-representacion",
@@ -184,12 +186,6 @@
     "imagen": "assets/img/materias/tecnologia-de-la-energia-termica.webp"
   },
   {
-    "id": "economia",
-    "nombre": "Economía",
-    "anio": 4,
-    "drive_url": "https://drive.google.com/drive/folders/1p5B-0VHpNskydN8K9nc_9j7kpCN7KF6k?usp=sharing"
-  },
-  {
     "id": "operaciones-unitarias-ii",
     "nombre": "Operaciones Unitarias II",
     "anio": 4,
@@ -200,13 +196,15 @@
     "id": "ingenieria-de-las-reacciones-quimicas",
     "nombre": "Ingeniería de las Reacciones Químicas",
     "anio": 4,
-    "drive_url": "https://drive.google.com/drive/folders/1wpPjSpq-AD6Vov__UhuqwOxOr9nVxi5K?usp=sharing"
+    "drive_url": "https://drive.google.com/drive/folders/1wpPjSpq-AD6Vov__UhuqwOxOr9nVxi5K?usp=sharing",
+    "imagen": "assets/img/materias/ingenieria-de-las-reacciones-quimicas.webp"
   },
   {
     "id": "calidad-y-control-estadistico-de-procesos",
     "nombre": "Calidad y Control Estadístico de Procesos",
     "anio": 4,
-    "drive_url": "https://drive.google.com/drive/folders/12_vp4WpDxp0I0AOgg_T9OKkVAqO7kR4l?usp=sharing"
+    "drive_url": "https://drive.google.com/drive/folders/12_vp4WpDxp0I0AOgg_T9OKkVAqO7kR4l?usp=sharing",
+    "imagen": "assets/img/materias/calidad-y-control-estadistico-de-procesos.webp"
   },
   {
     "id": "organizacion-industrial",
@@ -231,7 +229,8 @@
     "id": "ingenieria-ambiental",
     "nombre": "Ingeniería Ambiental",
     "anio": 5,
-    "drive_url": "https://drive.google.com/drive/folders/1kePn3lb4migjVQNDbl3q50EhBSCvRlYE?usp=sharing"
+    "drive_url": "https://drive.google.com/drive/folders/1kePn3lb4migjVQNDbl3q50EhBSCvRlYE?usp=sharing",
+    "imagen": "assets/img/materias/ingenieria-ambiental.webp"
   },
   {
     "id": "procesos-biotecnologicos",
@@ -251,7 +250,8 @@
     "id": "maquinas-e-instalaciones-electricas",
     "nombre": "Máquinas e Instalaciones Eléctricas",
     "anio": 5,
-    "drive_url": "https://drive.google.com/drive/folders/1bAMm6u92sikKXjfIPL3L2ADR-V9P5TQG?usp=sharing"
+    "drive_url": "https://drive.google.com/drive/folders/1bAMm6u92sikKXjfIPL3L2ADR-V9P5TQG?usp=sharing",
+    "imagen": "assets/img/materias/maquinas-e-instalaciones-electricas.webp"
   },
   {
     "id": "proyecto-final",
