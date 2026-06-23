@@ -2014,9 +2014,9 @@ font-family: var(--font-body);
 font-size: var(--text-body);
 font-weight: var(--weight-medium);
 color: var(--color-text);
-overflow: hidden;
-text-overflow: ellipsis;
-white-space: nowrap;
+white-space: normal;
+overflow-wrap: break-word;
+word-break: break-word;
 }
 .contact-card--proximamente {
 cursor: default;
