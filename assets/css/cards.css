@@ -693,6 +693,8 @@ a.contact-card:hover .contact-card__icon {
   font-size: var(--text-body);        /* 15 px */
   font-weight: var(--weight-medium);
   color: var(--color-text);
+  white-space: normal;
+  overflow-wrap: break-word;
   word-break: break-word;
 }
 

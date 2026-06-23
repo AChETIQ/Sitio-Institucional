@@ -2014,6 +2014,8 @@ font-family: var(--font-body);
 font-size: var(--text-body);
 font-weight: var(--weight-medium);
 color: var(--color-text);
+white-space: normal;
+overflow-wrap: break-word;
 word-break: break-word;
 }
 .contact-card--proximamente {
