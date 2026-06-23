@@ -693,10 +693,7 @@ a.contact-card:hover .contact-card__icon {
   font-size: var(--text-body);        /* 15 px */
   font-weight: var(--weight-medium);
   color: var(--color-text);
-  /* Trunca cuando excede el ancho disponible. */
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  word-break: break-word;
 }
 
 /* Variante "Próximamente": estado inactivo. Sin opacity — la
