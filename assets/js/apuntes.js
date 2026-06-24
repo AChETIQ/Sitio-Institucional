@@ -43,7 +43,7 @@
 
 'use strict';
 
-import { registerLoader, createElement, safeHref } from './loaders.js';
+import { registerLoader, createElement, safeHref, coverSkeleton } from './loaders.js';
 
 var YEAR_LABEL = {
   1: '1º año',
@@ -162,12 +162,18 @@ function buildCover(m) {
   var rawImg = (m && typeof m.imagen === 'string') ? m.imagen.trim() : '';
   var imgSrc = rawImg ? safeHref(window.AChETIQBase.resolve(rawImg)) : null;
   if (imgSrc) {
-    cover.appendChild(createElement('img', {
+    var img = createElement('img', {
       attrs: {
         src: imgSrc, alt: '', width: '1280', height: '720',
         loading: 'lazy', decoding: 'async'
       }
-    }));
+    });
+    /* Mientras la imagen (lazy) baja, un esqueleto gris con barrido
+       cubre la caja del cover en vez de un plano vacío; se retira al
+       resolverse la imagen (load) o si falla (error). El estilo vive
+       en assets/css/cards.css (.card-materia__cover-skeleton). */
+    coverSkeleton(cover, img);
+    cover.appendChild(img);
   }
   return cover;
 }

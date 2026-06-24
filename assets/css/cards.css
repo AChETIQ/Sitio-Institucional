@@ -512,6 +512,7 @@
 }
 
 .card-materia__cover {
+  position: relative;             /* ancla del overlay de carga. */
   aspect-ratio: 16 / 9;
   background: var(--color-border-soft); /* fallback antes de aplicar
                                          color por año. */
@@ -531,6 +532,20 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* Esqueleto del cover mientras la imagen (lazy) termina de bajar.
+   Es un OVERLAY propio —no el fondo del cover— para no pelear por
+   especificidad con el color por año: cubre la caja con el mismo
+   plano gris + barrido de los esqueletos de carga. El JS lo retira
+   en el evento load/error del <img> (assets/js/apuntes.js y
+   loaders.js). Hereda background/overflow/::after de .skeleton; aquí
+   sólo se reposiciona como capa absoluta y se aplana el radio (la
+   tarjeta ya recorta). */
+.card-materia__cover-skeleton {
+  position: absolute;
+  inset: 0;
+  border-radius: 0;
 }
 
 .card-materia[data-anio="1"] .card-materia__cover { background: var(--color-materia-anio-1); }
