@@ -314,6 +314,29 @@ export function renderRecursosSkeleton(container) {
   setLiveText(status, 'Cargando materias…');
 }
 
+/* Coloca un esqueleto de carga sobre el cover de una tarjeta y lo
+   retira cuando su imagen `img` resuelve (load) o falla (error). Así
+   la caja del cover no queda en blanco mientras la imagen (lazy)
+   baja, sino con el mismo barrido gris del resto de la carga. Tolera
+   imágenes ya cacheadas (complete + naturalWidth): limpia al instante.
+   El estilo del overlay vive en cards.css (.card-materia__cover-skeleton). */
+export function coverSkeleton(cover, img) {
+  let sk = createElement('span', {
+    class: 'skeleton safe-motion card-materia__cover-skeleton',
+    attrs: { 'aria-hidden': 'true' }
+  });
+  cover.appendChild(sk);
+
+  const clear = () => {
+    if (sk && sk.parentNode) sk.parentNode.removeChild(sk);
+    sk = null;
+  };
+
+  img.addEventListener('load', clear);
+  img.addEventListener('error', clear);
+  if (img.complete && img.naturalWidth > 0) clear();
+}
+
 /* Empty-state (FASE_1 §8.1). Markup conforme al catálogo, el
    estilo de .empty-state vive en assets/css/states.css.
    role="status" + aria-live="polite" anuncia la transición
@@ -454,12 +477,17 @@ function buildMateriaCard(m) {
   const rawImg = (typeof m.imagen === 'string') ? m.imagen.trim() : '';
   const imgSrc = rawImg ? safeHref(window.AChETIQBase.resolve(rawImg)) : null;
   if (imgSrc) {
-    cover.appendChild(createElement('img', {
+    const img = createElement('img', {
       attrs: {
         src: imgSrc, alt: '', width: '1280', height: '720',
         loading: 'lazy', decoding: 'async'
       }
-    }));
+    });
+    /* Esqueleto de carga sobre el cover hasta que la imagen (lazy)
+       resuelva; se retira en load/error. Misma silueta que la
+       pantalla de carga (.card-materia__cover-skeleton, cards.css). */
+    coverSkeleton(cover, img);
+    cover.appendChild(img);
   }
   card.appendChild(cover);
 

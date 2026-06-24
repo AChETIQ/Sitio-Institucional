@@ -1955,6 +1955,7 @@ filter: brightness(1.05);
 transform: scale(1.04);
 }
 .card-materia__cover {
+position: relative;
 aspect-ratio: 16 / 9;
 background: var(--color-border-soft);
 transition: filter var(--transition-fast),
@@ -1965,6 +1966,11 @@ display: block;
 width: 100%;
 height: 100%;
 object-fit: cover;
+}
+.card-materia__cover-skeleton {
+position: absolute;
+inset: 0;
+border-radius: 0;
 }
 .card-materia[data-anio="1"] .card-materia__cover { background: var(--color-materia-anio-1); }
 .card-materia[data-anio="2"] .card-materia__cover { background: var(--color-materia-anio-2); }
