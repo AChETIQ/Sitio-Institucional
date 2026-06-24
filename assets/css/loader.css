@@ -126,6 +126,102 @@
 }
 
 
+/* ═════════════════════════════════════════════════════════════
+   ESQUELETOS DE CARGA — .skeleton / .skeleton-card
+   ─────────────────────────────────────────────────────────────
+   Alternativa al loader «Bouncing Dots» para regiones cuya forma
+   final se conoce de antemano (la grilla de materias de Recursos
+   Académicos): en lugar de tres puntos genéricos se pinta la
+   silueta gris de las tarjetas reales —cover + líneas de texto—,
+   que adelanta la estructura y atenúa la sensación de espera. El
+   markup lo arma loaders.js (renderRecursosSkeleton); aquí vive
+   sólo el aspecto. Las piezas llevan .safe-motion para sustituir
+   el barrido por un pulso accesible bajo movimiento reducido.
+   ═════════════════════════════════════════════════════════════ */
+
+/* Pieza base: bloque gris con barrido de brillo (shimmer). El
+   tinte sale del mismo gris frío de los bordes suaves para no
+   introducir un color nuevo; el barrido lo pinta un ::after que
+   recorre la pieza de izquierda a derecha. */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-border-soft);
+  border-radius: var(--radius-md);
+}
+
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in oklab, var(--color-surface-white) 60%, transparent) 50%,
+    transparent 100%
+  );
+  animation: skeleton-shimmer 1.4s infinite var(--ease-in-out);
+}
+
+@keyframes skeleton-shimmer {
+  100% { transform: translateX(100%); }
+}
+
+/* Silueta de tarjeta de materia: replica la forma de
+   .card-materia (superficie blanca, borde y radio propios; cover
+   16:9; cuerpo con líneas de texto). El cover y las líneas son
+   piezas .skeleton; la tarjeta en sí no anima. */
+.skeleton-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface-white);
+  border: var(--elevation-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+/* El cover llena la cabecera 16:9; sin radio propio (lo recorta la
+   tarjeta) para que el barrido cubra el borde completo. */
+.skeleton-card__cover {
+  aspect-ratio: 16 / 9;
+  border-radius: 0;
+}
+
+.skeleton-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+}
+
+/* Líneas de texto: alto de una línea, remate de píldora. Los
+   anchos desiguales imitan año (eyebrow corto), nombre (título
+   largo) y estado (línea media), como en la tarjeta real. */
+.skeleton-line {
+  height: var(--space-3);
+  border-radius: var(--radius-pill);
+}
+
+.skeleton-line--year   { height: var(--space-2); width: 35%; }
+.skeleton-line--title  { height: var(--space-4); width: 75%; }
+.skeleton-line--status { width: 50%; }
+
+/* Movimiento reducido: el barrido se neutraliza (el ::after queda
+   fuera del .safe-motion del reset global de main.css §2); en su
+   lugar, cada pieza late suavemente para seguir señalando carga. */
+@media (prefers-reduced-motion: reduce) {
+  .skeleton.safe-motion {
+    animation: skeleton-pulse 1.4s infinite var(--ease-in-out);
+  }
+}
+
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: 1;    }
+  50%      { opacity: 0.55; }
+}
+
+
 /* ─────────────────────────────────────────────────────────────
    RESERVA DE ESPACIO — chrome inyectado (S6 — rendimiento)
    ─────────────────────────────────────────────────────────────

@@ -106,6 +106,33 @@ export function isSpecialLoader(name) {
 }
 
 
+/* Registro paralelo de ESQUELETOS de carga. Una región puede
+   declarar, además de su renderizador de datos, una maqueta gris
+   que el motor (main.js) pinta mientras está el fetch en vuelo,
+   en lugar del loader genérico de puntos. La clave es el mismo
+   nombre de data-loader. Si una región no registra esqueleto, el
+   motor cae al loader inline «Bouncing Dots». */
+const skeletonRegistry = new Map();
+
+export function registerSkeleton(name, renderFn) {
+  if (typeof name !== 'string' || !name.trim()) {
+    throw new TypeError('registerSkeleton: el nombre debe ser un string no vacío');
+  }
+  if (typeof renderFn !== 'function') {
+    throw new TypeError('registerSkeleton: renderFn debe ser una función');
+  }
+  skeletonRegistry.set(name.trim(), renderFn);
+}
+
+export function getSkeleton(name) {
+  return skeletonRegistry.get(name) || null;
+}
+
+export function hasSkeleton(name) {
+  return skeletonRegistry.has(name);
+}
+
+
 /* ─────────────────────────────────────────────────────────────
    2. Helpers DOM
    ───────────────────────────────────────────────────────────── */
@@ -220,6 +247,71 @@ export function renderInlineLoader(container, message) {
 
   container.appendChild(wrap);
   setLiveText(msg, text);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Esqueletos de carga (skeleton screens)
+   ─────────────────────────────────────────────────────────────
+   Para regiones cuya forma final se conoce de antemano (la grilla
+   de materias), pintamos la silueta de las tarjetas reales en vez
+   de los tres puntos: la estructura aparece de inmediato y la
+   espera se siente más corta. El estilo (tinte + barrido) vive en
+   assets/css/loader.css; aquí sólo se arma el markup. Cada pieza
+   gris lleva .safe-motion para conservar una alternativa accesible
+   bajo prefers-reduced-motion.
+   ───────────────────────────────────────────────────────────── */
+
+/* Cuántas siluetas pintar en la grilla de materias: suficientes
+   para cubrir el primer viewport en anchos típicos sin armar las
+   41 reales. El grid fluido reparte estas piezas en 1–4 columnas. */
+const SKELETON_MATERIAS = 9;
+
+/* Pieza gris animada. `shape` añade clases de forma/tamaño. */
+function skeletonBox(shape) {
+  const cls = 'skeleton safe-motion' + (shape ? ' ' + shape : '');
+  return createElement('span', { class: cls, attrs: { 'aria-hidden': 'true' } });
+}
+
+/* Silueta de una .card-materia: cover 16:9 + tres líneas de texto
+   (año, nombre, estado) de anchos desiguales, como la tarjeta real
+   que la reemplazará. */
+function buildSkeletonMateria() {
+  const card = createElement('div', { class: 'skeleton-card' });
+  card.appendChild(skeletonBox('skeleton-card__cover'));
+
+  const body = createElement('div', { class: 'skeleton-card__body' });
+  body.appendChild(skeletonBox('skeleton-line skeleton-line--year'));
+  body.appendChild(skeletonBox('skeleton-line skeleton-line--title'));
+  body.appendChild(skeletonBox('skeleton-line skeleton-line--status'));
+  card.appendChild(body);
+
+  return card;
+}
+
+/* Esqueleto de la región «recursos» (grilla de materias de
+   Apuntes). Reusa la misma grilla fluida que el render real para
+   que las siluetas caigan en idénticas pistas; toda la maqueta es
+   aria-hidden y un único role="status" anuncia la carga una vez,
+   igual que el loader de puntos. */
+export function renderRecursosSkeleton(container) {
+  container.replaceChildren();
+  container.setAttribute('data-loader-state', 'loading');
+
+  const grid = createElement('div', {
+    class: 'grid-cards grid-cards--fluid apuntes__grid',
+    attrs: { 'aria-hidden': 'true' }
+  });
+  for (let i = 0; i < SKELETON_MATERIAS; i++) {
+    grid.appendChild(buildSkeletonMateria());
+  }
+  container.appendChild(grid);
+
+  const status = createElement('p', {
+    class: 'sr-only',
+    attrs: { role: 'status', 'aria-live': 'polite' }
+  });
+  container.appendChild(status);
+  setLiveText(status, 'Cargando materias…');
 }
 
 /* Empty-state (FASE_1 §8.1). Markup conforme al catálogo, el
@@ -821,3 +913,11 @@ registerLoader('directiva',     renderDirectiva);
 registerLoader('historia',      renderHistoria);
 registerLoader('documentos',    renderDocumentos);
 registerLoader('instituciones', renderInstituciones);
+
+/* Esqueletos de carga. La grilla de materias de Recursos
+   Académicos muestra siluetas de tarjeta en lugar de los puntos
+   genéricos mientras carga; el resto de las regiones conserva el
+   loader inline por defecto. La página de Apuntes sobreescribe el
+   RENDER de «recursos» (apuntes.js) pero hereda este esqueleto:
+   ambas variantes comparten la silueta .card-materia. */
+registerSkeleton('recursos', renderRecursosSkeleton);

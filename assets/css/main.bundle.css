@@ -1171,6 +1171,62 @@ animation: loader-fade 1.2s infinite var(--ease-in-out);
 0%, 100% { opacity: 1;   }
 50%      { opacity: 0.3; }
 }
+.skeleton {
+position: relative;
+overflow: hidden;
+background: var(--color-border-soft);
+border-radius: var(--radius-md);
+}
+.skeleton::after {
+content: "";
+position: absolute;
+inset: 0;
+transform: translateX(-100%);
+background: linear-gradient(
+90deg,
+transparent 0%,
+color-mix(in oklab, var(--color-surface-white) 60%, transparent) 50%,
+transparent 100%
+);
+animation: skeleton-shimmer 1.4s infinite var(--ease-in-out);
+}
+@keyframes skeleton-shimmer {
+100% { transform: translateX(100%); }
+}
+.skeleton-card {
+display: flex;
+flex-direction: column;
+background: var(--color-surface-white);
+border: var(--elevation-border);
+border-radius: var(--radius-md);
+overflow: hidden;
+}
+.skeleton-card__cover {
+aspect-ratio: 16 / 9;
+border-radius: 0;
+}
+.skeleton-card__body {
+display: flex;
+flex-direction: column;
+gap: var(--space-3);
+padding: var(--space-4);
+}
+.skeleton-line {
+height: var(--space-3);
+border-radius: var(--radius-pill);
+}
+.skeleton-line--year   { height: var(--space-2); width: 35%; }
+.skeleton-line--title  { height: var(--space-4); width: 75%; }
+.skeleton-line--status { width: 50%; }
+@media (prefers-reduced-motion: reduce) {
+.skeleton.safe-motion {
+animation: skeleton-pulse 1.4s infinite var(--ease-in-out);
+}
+}
+@keyframes skeleton-pulse {
+0%, 100% { opacity: 1;    }
+50%      { opacity: 0.55; }
+}
 [data-loader="navbar"] {
 min-height: var(--navbar-height);
 }

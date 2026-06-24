@@ -41,6 +41,8 @@ import {
   getLoader,
   hasLoader,
   isSpecialLoader,
+  getSkeleton,
+  hasSkeleton,
   renderInlineLoader,
   renderEmpty,
   renderError
@@ -58,6 +60,30 @@ const DATA_BASE = BASE.root + 'data/';
 const NAME_RE = /^[a-z][a-z0-9-]*$/;
 
 let started = false;
+
+/* ── DEV PREVIEW (QA/UI) · TEMPORARY ────────────────────────────
+   El dev panel enlaza las páginas con ?preview=loading para auditar
+   la pantalla de carga (esqueletos). En ese modo el motor pinta el
+   estado de carga de cada región y NO dispara el fetch: las
+   siluetas quedan congeladas, sin que lleguen las fotos ni el texto
+   reales. Eliminar junto con el dev panel cuando termine el testing. */
+const PREVIEW_LOADING = (function () {
+  try {
+    return new URLSearchParams(window.location.search).get('preview') === 'loading';
+  } catch (_) {
+    return false;
+  }
+})();
+
+/* Pinta el estado de carga de una región: esqueleto registrado si
+   existe, o el loader inline «Bouncing Dots» como fallback. */
+function renderLoading(node, name) {
+  if (hasSkeleton(name)) {
+    getSkeleton(name)(node);
+  } else {
+    renderInlineLoader(node, 'Cargando…');
+  }
+}
 
 
 /* ─── API pública del motor ────────────────────────────────── */
@@ -105,7 +131,11 @@ export function processNode(node) {
     return;
   }
 
-  renderInlineLoader(node, 'Cargando…');
+  renderLoading(node, name);
+
+  /* Modo preview (QA/UI): congelamos la pantalla de carga sin pedir
+     los datos. La región queda en estado «loading» indefinidamente. */
+  if (PREVIEW_LOADING) return;
 
   const url = DATA_BASE + name + '.json';
   fetch(url, { credentials: 'same-origin' })
