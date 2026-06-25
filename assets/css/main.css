@@ -51,6 +51,10 @@
 @import url('navbar.css');
 @import url('footer.css');
 @import url('loader.css');
+/* easter-egg.css — chrome global opcional (disco flotante + diálogo
+   de agradecimientos), montado por JS sólo en el Inicio. Va junto a
+   navbar/footer/loader: namespace propio (.egg-*), sin competir. */
+@import url('easter-egg.css');
 @import url('headers.css');
 @import url('text.css');
 @import url('cards.css');

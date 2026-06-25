@@ -2,7 +2,7 @@
    AChETIQ — Bundle CSS de producción (GENERADO — NO EDITAR)
    Regenerar con: npm run build  (scripts/build-css.mjs)
    Contenido, en orden de cascada:
-     tokens.css → navbar.css → footer.css → loader.css → headers.css → text.css → cards.css → lists.css → forms.css → nav-secondary.css → states.css → motion.css → figure.css → cta.css → countdown-recursos.css → seguimiento.css → gabinetes.css → congresos.css → recursos.css → focus.css → print.css → main.css
+     tokens.css → navbar.css → footer.css → loader.css → easter-egg.css → headers.css → text.css → cards.css → lists.css → forms.css → nav-secondary.css → states.css → motion.css → figure.css → cta.css → countdown-recursos.css → seguimiento.css → gabinetes.css → congresos.css → recursos.css → focus.css → print.css → main.css
    ============================================================ */
 :root {
 --grafito-50:  #F9FAFC;
@@ -213,6 +213,7 @@
 --breakpoint-seguimiento: 1024px;
 --z-base:    0;
 --z-raised:  10;
+--z-egg:     90;
 --z-navbar: 100;
 --z-modal:  200;
 --z-overlay: 250;
@@ -1262,6 +1263,179 @@ min-height: 108px;
 @media (scripting: enabled) and (min-width: 1024px) {
 [data-loader="redes"]:not([data-loader-state="empty"]):not([data-loader-state="error"]) {
 min-height: 180px;
+}
+}
+.egg-trigger {
+--egg-shift: 0px;
+--egg-lift: 0px;
+position: fixed;
+left: clamp(16px, 1.2vw + 12px, 24px);
+bottom: clamp(16px, 1.2vw + 12px, 24px);
+z-index: var(--z-egg);
+display: grid;
+place-items: center;
+inline-size: 48px;
+block-size: 48px;
+padding: 0;
+margin: 0;
+border: var(--elevation-border);
+border-radius: var(--radius-pill);
+background-color: var(--color-surface-raised);
+box-shadow: var(--shadow-sm);
+cursor: pointer;
+transform: translateY(calc(-1 * (var(--egg-shift) + var(--egg-lift))));
+transition:
+box-shadow var(--dur-fast) var(--ease-out),
+border-color var(--dur-fast) var(--ease-out),
+transform var(--dur-fast) var(--ease-out);
+}
+.egg-trigger__logo {
+display: block;
+inline-size: 28px;
+block-size: 28px;
+opacity: 0.85;
+transition: opacity var(--dur-fast) var(--ease-out);
+}
+.egg-trigger:hover,
+.egg-trigger:focus-visible {
+--egg-lift: 2px;
+border-color: var(--color-accent);
+box-shadow: var(--shadow-md);
+}
+.egg-trigger:hover .egg-trigger__logo,
+.egg-trigger:focus-visible .egg-trigger__logo {
+opacity: 1;
+}
+@media (prefers-reduced-motion: no-preference) {
+.egg-trigger {
+animation: egg-trigger-in var(--dur-slow) var(--ease-out) both;
+animation-delay: 500ms;
+}
+.egg-trigger:hover,
+.egg-trigger:focus-visible {
+transform: translateY(calc(-1 * (var(--egg-shift) + var(--egg-lift))));
+}
+}
+@keyframes egg-trigger-in {
+from { opacity: 0; }
+to   { opacity: 1; }
+}
+.egg-dialog {
+margin: auto;
+inline-size: 100%;
+max-inline-size: min(92vw, 34rem);
+padding: 0;
+border: none;
+background: transparent;
+color: var(--color-text);
+}
+.egg-dialog::backdrop {
+background-color: color-mix(in srgb, var(--color-surface-inverse) 62%, transparent);
+-webkit-backdrop-filter: blur(8px);
+backdrop-filter: blur(8px);
+}
+@supports not ((backdrop-filter: blur(8px)) or (-webkit-backdrop-filter: blur(8px))) {
+.egg-dialog::backdrop {
+background-color: color-mix(in srgb, var(--color-surface-inverse) 82%, transparent);
+}
+}
+.egg-dialog__panel {
+position: relative;
+padding: clamp(var(--space-6), 4vw, var(--space-12));
+text-align: center;
+background-color: var(--color-surface-raised);
+border: var(--elevation-border);
+border-radius: var(--radius-lg);
+box-shadow: var(--shadow-lg);
+}
+.egg-dialog__close {
+position: absolute;
+inset-block-start: var(--space-3);
+inset-inline-end: var(--space-3);
+display: grid;
+place-items: center;
+inline-size: 36px;
+block-size: 36px;
+padding: 0;
+border: none;
+border-radius: var(--radius-pill);
+background: transparent;
+color: var(--color-text-faint);
+cursor: pointer;
+transition:
+color var(--dur-fast) var(--ease-out),
+background-color var(--dur-fast) var(--ease-out);
+}
+.egg-dialog__close svg {
+inline-size: 20px;
+block-size: 20px;
+}
+.egg-dialog__close:hover,
+.egg-dialog__close:focus-visible {
+color: var(--color-text);
+background-color: var(--color-surface-sunken);
+}
+.egg-dialog__eyebrow {
+margin: 0 0 var(--space-3);
+font-family: var(--font-mono);
+font-size: var(--text-eyebrow);
+font-weight: var(--weight-regular);
+line-height: 1.5;
+letter-spacing: 0.12em;
+text-transform: uppercase;
+color: var(--color-accent);
+}
+.egg-dialog__title {
+margin: 0 0 var(--space-5);
+font-family: var(--font-display);
+font-size: var(--text-h2);
+font-weight: var(--weight-regular);
+line-height: 1.1;
+letter-spacing: -0.015em;
+text-wrap: balance;
+color: var(--color-text);
+}
+.egg-dialog__body {
+margin-inline: auto;
+max-inline-size: 58ch;
+}
+.egg-dialog__text {
+margin: 0 0 var(--space-4);
+font-family: var(--font-body);
+font-size: var(--text-body);
+line-height: 1.7;
+text-wrap: pretty;
+color: var(--color-text);
+}
+.egg-dialog__text:last-child {
+margin-bottom: 0;
+}
+.egg-dialog__credits {
+margin: var(--space-6) 0 0;
+font-family: var(--font-mono);
+font-size: var(--text-eyebrow);
+line-height: 1.5;
+color: var(--color-text-faint);
+}
+@media (prefers-reduced-motion: no-preference) {
+.egg-dialog__panel {
+transition:
+opacity var(--dur-normal) var(--ease-out),
+transform var(--dur-normal) var(--ease-out);
+}
+@starting-style {
+.egg-dialog[open] .egg-dialog__panel {
+opacity: 0;
+transform: translateY(var(--reveal-distance)) scale(0.97);
+}
+}
+.egg-dialog::backdrop {
+transition: opacity var(--dur-normal) var(--ease-out);
+}
+@starting-style {
+.egg-dialog[open]::backdrop {
+opacity: 0;
+}
 }
 }
 .hero {
