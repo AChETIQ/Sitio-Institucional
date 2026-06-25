@@ -2897,7 +2897,12 @@ flex-direction: column;
 align-items: center;
 text-align: center;
 gap: var(--space-4);
-background: var(--color-accent);
+background:
+linear-gradient(
+168deg,
+var(--color-accent) 0%,
+color-mix(in oklab, var(--color-accent) 86%, var(--cobalto-950)) 100%
+);
 color: var(--color-on-accent);
 border-radius: var(--radius-lg);
 padding: var(--section-pad-y)
@@ -2934,15 +2939,57 @@ background: transparent;
 color: var(--color-on-accent);
 border: 1px solid var(--color-on-accent);
 }
-.cta-final a:not(.btn) {
+.cta-final a:not(.btn):not(.cta-final__email) {
 color: var(--color-surface-white);
 text-decoration: underline;
 text-underline-offset: 0.15em;
 transition: opacity var(--transition-fast);
 }
-.cta-final a:not(.btn):hover {
+.cta-final a:not(.btn):not(.cta-final__email):hover {
 opacity: 0.75;
 text-decoration-thickness: 2px;
+}
+.cta-final__email {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+flex-wrap: wrap;
+gap: var(--space-2);
+max-width: 100%;
+margin-top: var(--space-1);
+padding: var(--space-1) var(--space-2);
+border-radius: var(--radius-md);
+font-family: var(--font-mono);
+font-size: clamp(0.8125rem, 0.776rem + 0.16vw, 0.9375rem);
+line-height: 1.45;
+letter-spacing: var(--tracking-wide);
+color: var(--color-surface-white);
+text-decoration: none;
+}
+.cta-final__email-icon {
+width: 1.1em;
+height: 1.1em;
+flex: none;
+opacity: 0.8;
+transition: opacity var(--transition-fast);
+}
+.cta-final__email-address {
+overflow-wrap: anywhere;
+text-decoration: underline;
+text-decoration-thickness: 1px;
+text-underline-offset: 0.2em;
+text-decoration-color: color-mix(in srgb, var(--color-surface-white) 50%, transparent);
+transition: text-decoration-color var(--transition-fast),
+text-decoration-thickness var(--transition-fast);
+}
+.cta-final__email:hover .cta-final__email-address,
+.cta-final__email:focus-visible .cta-final__email-address {
+text-decoration-color: var(--color-surface-white);
+text-decoration-thickness: 2px;
+}
+.cta-final__email:hover .cta-final__email-icon,
+.cta-final__email:focus-visible .cta-final__email-icon {
+opacity: 1;
 }
 .countdown {
 --countdown-panel-max: 880px;
