@@ -41,9 +41,19 @@
   text-align: center;
   gap: var(--space-4);
 
-  /* Panel estático de cierre: elevación plana por contraste de
-     relleno (sin borde ni sombra) — contrato de elevación S2. */
-  background: var(--color-accent);
+  /* Panel estático de cierre: elevación plana (sin borde ni sombra)
+     — contrato de elevación S2. El relleno es un degradado cobalto
+     de UN SOLO matiz —cobalto-700 ahondado hacia cobalto-950 al
+     pie—, mezclado en oklab para oscurecer sin desviar el tono. Da
+     profundidad de «panel de instrumento» sin introducir sombra ni
+     calidez (Regla de la Sombra Fría / Porcelana Fría intactas);
+     el blanco mantiene ≥8.7:1 en todo el tramo. */
+  background:
+    linear-gradient(
+      168deg,
+      var(--color-accent) 0%,
+      color-mix(in oklab, var(--color-accent) 86%, var(--cobalto-950)) 100%
+    );
   color: var(--color-on-accent);
 
   border-radius: var(--radius-lg);
@@ -116,15 +126,75 @@
    cobalto). Forzamos --color-surface-white (8.7:1 sobre
    --color-accent — AAA) y añadimos subrayado explícito para que
    el vínculo sea reconocible como acción sin depender del color. */
-.cta-final a:not(.btn) {
+.cta-final a:not(.btn):not(.cta-final__email) {
   color: var(--color-surface-white);
   text-decoration: underline;
   text-underline-offset: 0.15em;
   transition: opacity var(--transition-fast);
 }
 
-.cta-final a:not(.btn):hover {
+.cta-final a:not(.btn):not(.cta-final__email):hover {
   opacity: 0.75;
   text-decoration-thickness: 2px;
+}
+
+
+/* ── Canal de contacto — lectura mono del correo institucional ────
+   El correo institucional se compone como una «lectura de
+   instrumento» en la tercera voz tipográfica (Geist Mono): el dato
+   de contacto exacto, en blanco puro sobre el cobalto, ubicado entre
+   el lead y la acción. Es un enlace mailto: con glifo de sobre y
+   subrayado explícito —afordancia no cromática (principio 3): se
+   reconoce como acción sin depender del color—. El anillo de foco lo
+   cubre la regla global, que en .cta-final ya conmuta a
+   --focus-ring-color-inverse (focus.css §2). El padding asegura un
+   objetivo táctil ≥24 px (WCAG 2.5.8) sin que parezca un botón: ni
+   relleno ni borde, solo la mono blanca lo distingue de la acción. */
+.cta-final__email {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  max-width: 100%;
+  margin-top: var(--space-1);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-md);
+
+  font-family: var(--font-mono);
+  font-size: clamp(0.8125rem, 0.776rem + 0.16vw, 0.9375rem);
+  line-height: 1.45;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-surface-white);
+  text-decoration: none;
+}
+
+.cta-final__email-icon {
+  width: 1.1em;
+  height: 1.1em;
+  flex: none;
+  opacity: 0.8;
+  transition: opacity var(--transition-fast);
+}
+
+.cta-final__email-address {
+  overflow-wrap: anywhere;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: color-mix(in srgb, var(--color-surface-white) 50%, transparent);
+  transition: text-decoration-color var(--transition-fast),
+              text-decoration-thickness var(--transition-fast);
+}
+
+.cta-final__email:hover .cta-final__email-address,
+.cta-final__email:focus-visible .cta-final__email-address {
+  text-decoration-color: var(--color-surface-white);
+  text-decoration-thickness: 2px;
+}
+
+.cta-final__email:hover .cta-final__email-icon,
+.cta-final__email:focus-visible .cta-final__email-icon {
+  opacity: 1;
 }
 
