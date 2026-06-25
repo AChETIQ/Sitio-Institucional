@@ -205,6 +205,7 @@
   var currentShift = 0;
   var ticking = false;
   var footerEl = null;
+  var bottomInset = 0;
 
   function getFooter() {
     if (footerEl && document.contains(footerEl)) return footerEl;
@@ -212,16 +213,24 @@
     return footerEl;
   }
 
-  /* Calcula cuánto subir el disco para no pisar el footer, usando
-     sólo medidas de getBoundingClientRect y el shift previo (no lee
-     el `bottom` resuelto, así el clamp() del CSS no importa). */
+  /* Cachea el inset `bottom` resuelto del disco (clamp() → px). Se
+     mide al iniciar y en cada resize: es el único dato del CSS del que
+     depende la posición base, así update() no necesita leer el layout
+     desplazado. */
+  function measureInset() {
+    bottomInset = parseFloat(getComputedStyle(trigger).bottom) || 0;
+  }
+
+  /* Calcula cuánto subir el disco para no pisar el footer. La posición
+     base (borde inferior SIN desplazamiento) se deriva de la geometría
+     del layout —innerHeight − inset `bottom`— y NO de getBoundingClientRect,
+     que reflejaría el transform a medio animar. Así el cálculo deja de
+     realimentarse y no hay overshoot/rebote al scrollear rápido. */
   function update() {
     ticking = false;
     if (!trigger) return;
 
-    var triggerBottom = trigger.getBoundingClientRect().bottom;
-    /* Posición del borde inferior SIN desplazamiento. */
-    var stableBottom = triggerBottom + currentShift;
+    var stableBottom = window.innerHeight - bottomInset;
 
     var footer = getFooter();
     var footerTop = footer
@@ -241,11 +250,19 @@
     window.requestAnimationFrame(update);
   }
 
+  /* El inset `bottom` depende del viewport (clamp): se remide al
+     redimensionar antes de recalcular el desplazamiento. */
+  function onResize() {
+    measureInset();
+    onScrollOrResize();
+  }
+
 
   /* ─── Init ──────────────────────────────────────────────── */
 
   function init() {
     build();
+    measureInset();
     /* Prefetch ocioso: el contenido queda listo antes del primer
        click, sin competir con la carga crítica. */
     var idle = window.requestIdleCallback ||
@@ -253,10 +270,19 @@
     idle(function () { ensureContent(); });
 
     window.addEventListener('scroll', onScrollOrResize, { passive: true });
-    window.addEventListener('resize', onScrollOrResize);
+    window.addEventListener('resize', onResize);
     /* El footer se inyecta async; recalculamos al cargar todo y en
        el próximo frame por si llega después del DOMContentLoaded. */
     window.addEventListener('load', onScrollOrResize);
+
+    /* La posición del footer también cambia sin scroll: inyección
+       async del footer, imágenes lazy que reflowan, fuentes. Observar
+       la altura del documento recalcula el freno ante cualquier
+       reflow, no sólo en scroll/resize (throttleado por rAF). */
+    if ('ResizeObserver' in window) {
+      new ResizeObserver(onScrollOrResize).observe(document.documentElement);
+    }
+
     window.requestAnimationFrame(update);
   }
 

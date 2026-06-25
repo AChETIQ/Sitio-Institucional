@@ -49,11 +49,14 @@
   box-shadow: var(--shadow-sm);
   cursor: pointer;
 
+  /* El transform sigue el scroll 1:1 (lo escribe easter-egg.js por
+     frame): NO se transiciona, o el easing arrastraría la posición y
+     realimentaría el cálculo (rebote). El feedback de hover se expresa
+     por sombra/borde; el lift de 2 px es instantáneo (imperceptible). */
   transform: translateY(calc(-1 * (var(--egg-shift) + var(--egg-lift))));
   transition:
     box-shadow var(--dur-fast) var(--ease-out),
-    border-color var(--dur-fast) var(--ease-out),
-    transform var(--dur-fast) var(--ease-out);
+    border-color var(--dur-fast) var(--ease-out);
 }
 
 .egg-trigger__logo {
@@ -83,11 +86,6 @@
   .egg-trigger {
     animation: egg-trigger-in var(--dur-slow) var(--ease-out) both;
     animation-delay: 500ms;
-  }
-
-  .egg-trigger:hover,
-  .egg-trigger:focus-visible {
-    transform: translateY(calc(-1 * (var(--egg-shift) + var(--egg-lift))));
   }
 }
 

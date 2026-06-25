@@ -1286,8 +1286,7 @@ cursor: pointer;
 transform: translateY(calc(-1 * (var(--egg-shift) + var(--egg-lift))));
 transition:
 box-shadow var(--dur-fast) var(--ease-out),
-border-color var(--dur-fast) var(--ease-out),
-transform var(--dur-fast) var(--ease-out);
+border-color var(--dur-fast) var(--ease-out);
 }
 .egg-trigger__logo {
 display: block;
@@ -1310,10 +1309,6 @@ opacity: 1;
 .egg-trigger {
 animation: egg-trigger-in var(--dur-slow) var(--ease-out) both;
 animation-delay: 500ms;
-}
-.egg-trigger:hover,
-.egg-trigger:focus-visible {
-transform: translateY(calc(-1 * (var(--egg-shift) + var(--egg-lift))));
 }
 }
 @keyframes egg-trigger-in {
