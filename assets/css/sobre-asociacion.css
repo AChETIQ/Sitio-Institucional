@@ -31,14 +31,15 @@
    entre las dos subsecciones.
    ───────────────────────────────────────────────────────────── */
 
-/* Fluido (S3): 64 → 128 px interpolado entre 360 y 1480 px de
-   viewport. Reemplaza los tres escalones por breakpoint (64/96/128)
-   con la misma llegada en los extremos y ≈87 px en 768 px.
-   E01: el ritmo entre secciones lo gobierna ahora el contrato
-   --section-gap + el filete .section-ruled; --feature-pad-y queda
-   reservado al padding INTERNO de la plancha tonal de gabinetes. */
+/* Padding INTERNO de la plancha tonal de gabinetes. El valor previo
+   (64 → 128 px) duplicaba el ritmo del resto de las secciones y, al
+   sumarse al --section-gap (94 px) que la rodea, dejaba bandas
+   azules vacías de ~126 px arriba y abajo del contenido (el panel
+   se leía cavernoso). Se alinea con --section-pad-y (48 → 64 px),
+   el mismo ritmo vertical interno que usan las demás secciones, de
+   modo que la plancha «abraza» su contenido sin perder presencia. */
 .gabinetes-feature {
-  --feature-pad-y: clamp(64px, 43.43px + 5.71vw, 128px);
+  --feature-pad-y: var(--section-pad-y);
 }
 
 
@@ -364,6 +365,24 @@
 /* Enlace inferior «Ver todos los gabinetes →». */
 .gabinetes-feature__more {
   margin-top: var(--space-8);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   Ritmo de transición: «Congresos» → «Recursos»
+   ─────────────────────────────────────────────────────────────
+   .congresos-feature llevaba un padding-bottom propio (--section-pad-y,
+   ~63 px) que se SUMABA al --section-gap (94 px) y al padding-top con
+   filete de la sección siguiente, dejando ~222 px de porcelana vacía
+   hasta «Recursos» (la misma sensación cavernosa que el panel de
+   gabinetes). El contrato E01 ya separa las secciones con aire +
+   filete; ese padding-bottom es redundante —.recursos-feature, también
+   .section-ruled, no lo lleva y aterriza en los ~158 px de referencia—.
+   Se anula para igualar la transición al resto del cuerpo. Page-scoped:
+   .congresos-feature sólo existe en la portada (gana por cascada al
+   cargar después del bundle, sin reconstruirlo). */
+.congresos-feature {
+  padding-bottom: 0;
 }
 
 
