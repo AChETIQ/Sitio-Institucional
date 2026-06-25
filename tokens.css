@@ -816,6 +816,8 @@
 
   --z-base:    0;
   --z-raised:  10;   /* Tarjetas elevadas, dropdowns. */
+  --z-egg:     90;   /* Easter egg: disco flotante (bajo la navbar).
+                        Su diálogo usa top layer (showModal), sin z. */
   --z-navbar: 100;   /* Barra de navegación fija. */
   --z-modal:  200;   /* Modales y overlays. */
   --z-overlay: 250;  /* Loader global a pantalla completa.
