@@ -3871,6 +3871,23 @@ gap: var(--space-4);
 text-wrap: balance;
 max-width: var(--measure-title);
 }
+.gabinete-detalle .gabinete-section {
+max-width: var(--measure-prose);
+margin-inline: auto;
+text-align: center;
+}
+.gabinete-detalle .gabinete-section__title {
+max-width: 100%;
+}
+.gabinete-detalle .gabinete-section__body .prose {
+margin-inline: auto;
+max-width: var(--measure-narrow);
+text-wrap: pretty;
+}
+.gabinete-detalle .gabinete-section.section-ruled {
+margin-block-start: var(--space-12);
+padding-top: var(--space-12);
+}
 @media print {
 .gabinetes-hub .grid-cards {
 column-gap: var(--space-8);

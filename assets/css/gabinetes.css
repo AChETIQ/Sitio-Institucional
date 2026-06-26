@@ -217,23 +217,75 @@
   max-width: var(--measure-title);
 }
 
-/* El cuerpo APILA bajo el ladillo en todos los anchos. Se retira la
-   apertura a dos columnas en escritorio (≥1024 px, antes ladillo a la
-   izquierda · cuerpo a la derecha): cada bloque temático corre como
-   una sola columna —título de imprenta y, directamente debajo, la
-   prosa— en todos los breakpoints. La medida de lectura se conserva
-   por el max-width propio de la prosa inyectada (.prose →
-   --measure-prose, 65ch): al ensancharse el viewport el cuerpo no
-   corre a lo ancho de la pantalla, queda acotado y alineado a la
-   izquierda bajo el título. */
+/* El cuerpo APILA bajo el ladillo en todos los anchos: título de
+   imprenta y, debajo, la prosa. La ALINEACIÓN (centrada en las páginas
+   de detalle) y la medida de la columna las gobierna §2b; esta regla
+   base sólo define la estructura apilada. */
+
+
+/* ─────────────────────────────────────────────────────────────
+   2b. COMPOSICIÓN CENTRADA — PÁGINAS DE DETALLE — .gabinete-detalle
+   ─────────────────────────────────────────────────────────────
+   El <main class="page gabinete-detalle"> alinea TODO el documento
+   —cabecera, bloques temáticos y divisores— sobre el EJE CENTRAL de la
+   página, en una sola columna de lectura acotada con márgenes
+   simétricos. Así el blanco deja de leerse como un vacío a la derecha
+   (la queja original) y la página gana la quietud de una portada
+   institucional, sin cajas ni columnas laterales.
+
+   El alcance es la CLASE DE PÁGINA: sólo las cuatro páginas de detalle
+   reciben el centrado; el hub y el resto del sistema no se tocan. La
+   medida de la columna se acota a --measure-prose (cabecera y filetes)
+   y la prosa cierra en --measure-narrow (56ch): centrada, una medida
+   algo más estrecha lee más serena y equilibra mejor las líneas.
+   ───────────────────────────────────────────────────────────── */
+
+/* La CABECERA (título + bajada) conserva su alineación a la IZQUIERDA
+   del sistema —no se centra—: es la firma de entrada de la página y
+   mantiene el max-width propio de .page-header__title / __lead
+   (headers.css). El centrado aplica sólo a los bloques temáticos. */
+
+/* Cada bloque temático: columna centrada y acotada; el título de
+   imprenta y la prosa comparten el eje. El centrado se logra con
+   text-align + margin-inline:auto (NO con justify-items/align-items
+   center, que encogerían los hijos a su max-content y romperían el
+   ajuste de línea del titular display en móvil). */
+.gabinete-detalle .gabinete-section {
+  max-width: var(--measure-prose);
+  margin-inline: auto;
+  text-align: center;
+}
+
+.gabinete-detalle .gabinete-section__title {
+  max-width: 100%;
+}
+
+/* La prosa inyectada (.prose) se centra en la columna y afina su medida
+   para equilibrar las líneas centradas; text-wrap: pretty evita
+   huérfanas al cerrar los párrafos. */
+.gabinete-detalle .gabinete-section__body .prose {
+  margin-inline: auto;
+  max-width: var(--measure-narrow);
+  text-wrap: pretty;
+}
+
+/* Ritmo entre bloques: un filete hairline CENTRADO (acotado a la
+   columna) con aire SIMÉTRICO arriba y abajo. Antes el margen del
+   contrato de ritmo de página y el padding del filete se sumaban y
+   dejaban el filete flotando en un vano desigual; aquí ambos lados
+   valen --space-12 y el divisor queda óptimamente centrado en su aire. */
+.gabinete-detalle .gabinete-section.section-ruled {
+  margin-block-start: var(--space-12);
+  padding-top: var(--space-12);
+}
 
 
 /* ─────────────────────────────────────────────────────────────
    IMPRESIÓN
    ─────────────────────────────────────────────────────────────
-   .gabinete-section ya es una sola columna en todos los medios, así
-   que no necesita colapsarse en papel. print.css gobierna el resto
-   del documento; aquí sólo se ajusta el gap de la grilla del hub. */
+   La composición centrada ya es una sola columna en todos los medios;
+   print.css gobierna el resto del documento. Aquí sólo se ajusta el gap
+   de la grilla del hub. */
 @media print {
   .gabinetes-hub .grid-cards {
     column-gap: var(--space-8);
