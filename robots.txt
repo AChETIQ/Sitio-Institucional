@@ -1,0 +1,6 @@
+# robots.txt — AChETIQ
+# Generado por scripts/build-seo.mjs desde BASE_URL (site.config.mjs).
+User-agent: *
+Allow: /
+
+Sitemap: https://ingqcautnfrre-lab.github.io/achetiq-lab/sitemap.xml

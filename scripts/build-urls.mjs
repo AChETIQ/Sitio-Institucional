@@ -1,11 +1,13 @@
 #!/usr/bin/env node
 /**
- * build:urls — inyecta la URL base centralizada en los metadatos sociales.
+ * build:urls — inyecta la URL base centralizada en los metadatos sociales
+ * y en el enlace canónico.
  *
- * Aplica `BASE_URL` (site.config.mjs) a las etiquetas og:url, og:image y
- * twitter:image de las páginas HTML servidas (index.html, 404.html y todo
- * pages/**), además de mantener sincronizada la imagen social de la plantilla
- * partials/_boilerplate.html.
+ * Aplica `BASE_URL` (site.config.mjs) a las etiquetas og:url, og:image,
+ * twitter:image y al <link rel="canonical"> de las páginas HTML servidas
+ * (index.html, 404.html y todo pages/**), además de mantener sincronizada la
+ * imagen social de la plantilla partials/_boilerplate.html. El canonical se
+ * deriva de la misma URL que og:url; las páginas noindex (404) se omiten.
  *
  * Diseño — reescritura idempotente «in place»:
  *   El sitio se sirve tal cual desde GitHub Pages (sin paso de build), por lo
@@ -61,6 +63,33 @@ function setMetaContent(html, selector, newContent) {
   return html.replace(re, `$1${newContent}$2`);
 }
 
+/** ¿La página se excluye del índice (meta robots noindex)? */
+function isNoindex(html) {
+  return /<meta\s+name="robots"\s+content="[^"]*noindex/i.test(html);
+}
+
+/**
+ * Sincroniza el <link rel="canonical"> de una página con su URL canónica.
+ * Si ya existe, reescribe el href (idempotente); si falta, lo inserta justo
+ * después de <meta name="description">. La URL absoluta se deriva de BASE_URL,
+ * exactamente igual que og:url, de modo que un cambio de dominio sigue siendo
+ * una sola línea en site.config.mjs. Las páginas noindex (404) no llevan
+ * canonical y se omiten por el llamador.
+ */
+function setCanonical(html, url) {
+  const existing = /(<link\s+rel="canonical"\s+href=")[^"]*(")/;
+  if (existing.test(html)) {
+    return html.replace(existing, `$1${url}$2`);
+  }
+  const link = `  <link rel="canonical" href="${url}">\n`;
+  const afterDescription = /(<meta\s+name="description"[^>]*>\s*\n)/;
+  if (afterDescription.test(html)) {
+    return html.replace(afterDescription, `$1${link}`);
+  }
+  // Sin description: insertar tras el cierre del <title> como respaldo.
+  return html.replace(/(<\/title>\s*\n)/, `$1${link}`);
+}
+
 /** Páginas reales servidas: reciben og:url + og:image + twitter:image. */
 const pageFiles = [
   join(ROOT, "index.html"),
@@ -80,6 +109,10 @@ function rewrite(file, { withUrl }) {
   let after = before;
   if (withUrl) {
     after = setMetaContent(after, 'property="og:url"', siteUrlFor(file));
+    // canonical: misma URL que og:url, salvo en páginas noindex (404).
+    if (!isNoindex(after)) {
+      after = setCanonical(after, siteUrlFor(file));
+    }
   }
   after = setMetaContent(after, 'property="og:image"', `${baseUrl}${IMAGE_PATH}`);
   after = setMetaContent(after, 'name="twitter:image"', `${baseUrl}${IMAGE_PATH}`);

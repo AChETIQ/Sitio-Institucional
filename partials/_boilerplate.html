@@ -60,6 +60,16 @@ CONVENCIÓN DE NOMBRE
   -->
   <meta name="description" content="REEMPLAZAR descripción única de esta página.">
 
+  <!--
+    CANONICAL — URL absoluta y única de esta página.
+    NO se escribe a mano: el dominio vive en site.config.mjs (BASE_URL) y lo
+    aplica `npm run build:urls` (scripts/build-urls.mjs), igual que og:url. El
+    script inserta/sincroniza este enlace en cada página indexable derivándolo
+    de la ruta del archivo; dejar el placeholder. Las páginas noindex (404) no
+    llevan canonical.
+  -->
+  <link rel="canonical" href="REEMPLAZAR ruta de la página; build:urls aplica el dominio de site.config.mjs">
+
   <!-- ============================================================
        FAVICON E ICONOS
        Archivos ya existentes en la raíz del repositorio.
@@ -145,14 +155,48 @@ CONVENCIÓN DE NOMBRE
   <meta property="og:image:type" content="image/png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Logo oficial de la Asociación Chaco-Corrientes de Estudiantes de Ingeniería Química">
+  <meta property="og:image:alt" content="Logo oficial de la Asociación Chaqueña de Estudiantes Tecnológicos de Ingeniería Química">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="REEMPLAZAR título para redes - AChETIQ">
   <meta name="twitter:description" content="REEMPLAZAR descripción para redes.">
   <meta name="twitter:image" content="https://ingqcautnfrre-lab.github.io/achetiq-lab/assets/img/og-image-achetiq.png">
-  <meta name="twitter:image:alt" content="Logo oficial de la Asociación Chaco-Corrientes de Estudiantes de Ingeniería Química">
+  <meta name="twitter:image:alt" content="Logo oficial de la Asociación Chaqueña de Estudiantes Tecnológicos de Ingeniería Química">
 
+  <!-- SEO:JSON-LD — generado por scripts/build-jsonld.mjs · no editar a mano -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "@id": "https://ingqcautnfrre-lab.github.io/achetiq-lab/#organization",
+    "name": "Asociación Chaqueña de Estudiantes Tecnológicos de Ingeniería Química",
+    "alternateName": "AChETIQ",
+    "url": "https://ingqcautnfrre-lab.github.io/achetiq-lab/",
+    "logo": "https://ingqcautnfrre-lab.github.io/achetiq-lab/icon-512.png",
+    "image": "https://ingqcautnfrre-lab.github.io/achetiq-lab/assets/img/og-image-achetiq.png",
+    "description": "Asociación civil sin fines de lucro que nuclea a los estudiantes de la carrera de Ingeniería Química de la Universidad Tecnológica Nacional, Facultad Regional Resistencia (UTN FRRe).",
+    "foundingDate": "2009-04-30",
+    "email": "achetiq.resistencia@aneiqa.org",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Calle French 414",
+      "postalCode": "H3506",
+      "addressLocality": "Resistencia",
+      "addressRegion": "Chaco",
+      "addressCountry": "AR"
+    },
+    "parentOrganization": {
+      "@type": "EducationalOrganization",
+      "name": "Asociación Nacional de Estudiantes de Ingeniería Química y en Alimentos",
+      "alternateName": "ANEIQA",
+      "url": "https://aneiqa.org/"
+    },
+    "sameAs": [
+      "https://www.instagram.com/achetiq/"
+    ]
+  }
+  </script>
+  <!-- /SEO:JSON-LD -->
 </head>
 <body>
 

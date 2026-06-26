@@ -5,8 +5,10 @@
   "description": "Sitio web oficial de AChETIQ — estático, servido desde GitHub Pages.",
   "scripts": {
     "build:urls": "node scripts/build-urls.mjs",
+    "build:jsonld": "node scripts/build-jsonld.mjs",
     "build:css": "node scripts/build-css.mjs",
-    "build": "npm run build:urls && npm run build:css"
+    "build:seo": "node scripts/build-seo.mjs",
+    "build": "npm run build:urls && npm run build:jsonld && npm run build:css && npm run build:seo"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.2"
