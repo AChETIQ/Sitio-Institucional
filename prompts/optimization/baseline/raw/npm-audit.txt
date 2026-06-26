@@ -1,0 +1,19 @@
+# npm audit — baseline
+
+package.json declares **zero dependencies and zero devDependencies**, so the repo
+ships no third-party npm code. `npm audit` in-repo errors with ENOLOCK (no lockfile).
+To produce a clean record, package.json was copied to a temp dir and a lockfile
+generated with `npm i --package-lock-only`, then audited:
+
+```
+found 0 vulnerabilities
+```
+
+JSON metadata:
+```json
+{ "vulnerabilities": {}, "metadata": { "vulnerabilities": { "info":0,"low":0,"moderate":0,"high":0,"critical":0,"total":0 }, "dependencies": { "prod":0,"dev":0,"total":0 } } }
+```
+
+Note: this audits the (empty) npm dependency tree only. The one runtime third-party
+asset — xlsx-populate@1.21.0 loaded from cdnjs on seguimiento.html — is **not** an
+npm dependency and is therefore **out of npm audit's scope** (see security inventory).
