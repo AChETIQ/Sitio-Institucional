@@ -1,0 +1,326 @@
+{
+  "index": {
+    "firstFocus": {
+      "tag": "a",
+      "role": null,
+      "label": "Saltar al contenido principal",
+      "href": "#main-content",
+      "focusVisible": true
+    },
+    "order": [
+      {
+        "tag": "a",
+        "role": null,
+        "label": "Saltar al contenido principal",
+        "href": "#main-content",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "label": "AChETIQ",
+        "href": "http://127.0.0.1:8099/index.html",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "label": "Inicio",
+        "href": "http://127.0.0.1:8099/index.html",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "label": "Sobre AChETIQ",
+        "href": "http://127.0.0.1:8099/pages/sobre-achetiq.html",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": "menuitem",
+        "label": "Asociación",
+        "href": "http://127.0.0.1:8099/pages/sobre-achetiq.html#asociacion",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": "menuitem",
+        "label": "Galería",
+        "href": "http://127.0.0.1:8099/pages/sobre-achetiq.html#galeria",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "label": "Gabinetes",
+        "href": "http://127.0.0.1:8099/pages/gabinetes.html",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": "menuitem",
+        "label": "Cursos y Conferencias",
+        "href": "http://127.0.0.1:8099/pages/gabinetes/cursos-y-conferencias.html",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": "menuitem",
+        "label": "Eventos",
+        "href": "http://127.0.0.1:8099/pages/gabinetes/eventos.html",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": "menuitem",
+        "label": "Prensa y Difusión",
+        "href": "http://127.0.0.1:8099/pages/gabinetes/prensa-y-difusion.html",
+        "focusVisible": true
+      }
+    ]
+  },
+  "contacto": {
+    "firstFocus": {
+      "tag": "a",
+      "role": null,
+      "label": "Saltar al contenido principal",
+      "href": "#main-content",
+      "focusVisible": true
+    },
+    "order": [
+      {
+        "tag": "a",
+        "role": null,
+        "label": "Saltar al contenido principal",
+        "href": "#main-content",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "label": "AChETIQ",
+        "href": "http://127.0.0.1:8099/index.html",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "label": "Inicio",
+        "href": "http://127.0.0.1:8099/index.html",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "label": "Sobre AChETIQ",
+        "href": "http://127.0.0.1:8099/pages/sobre-achetiq.html",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": "menuitem",
+        "label": "Asociación",
+        "href": "http://127.0.0.1:8099/pages/sobre-achetiq.html#asociacion",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": "menuitem",
+        "label": "Galería",
+        "href": "http://127.0.0.1:8099/pages/sobre-achetiq.html#galeria",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "label": "Gabinetes",
+        "href": "http://127.0.0.1:8099/pages/gabinetes.html",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": "menuitem",
+        "label": "Cursos y Conferencias",
+        "href": "http://127.0.0.1:8099/pages/gabinetes/cursos-y-conferencias.html",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": "menuitem",
+        "label": "Eventos",
+        "href": "http://127.0.0.1:8099/pages/gabinetes/eventos.html",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": "menuitem",
+        "label": "Prensa y Difusión",
+        "href": "http://127.0.0.1:8099/pages/gabinetes/prensa-y-difusion.html",
+        "focusVisible": true
+      }
+    ]
+  },
+  "recursos_seguimiento": {
+    "firstFocus": {
+      "tag": "a",
+      "role": null,
+      "label": "Saltar al contenido principal",
+      "href": "#main-content",
+      "focusVisible": true
+    },
+    "order": [
+      {
+        "tag": "a",
+        "role": null,
+        "label": "Saltar al contenido principal",
+        "href": "#main-content",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "label": "AChETIQ",
+        "href": "http://127.0.0.1:8099/index.html",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "label": "Inicio",
+        "href": "http://127.0.0.1:8099/index.html",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "label": "Sobre AChETIQ",
+        "href": "http://127.0.0.1:8099/pages/sobre-achetiq.html",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": "menuitem",
+        "label": "Asociación",
+        "href": "http://127.0.0.1:8099/pages/sobre-achetiq.html#asociacion",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": "menuitem",
+        "label": "Galería",
+        "href": "http://127.0.0.1:8099/pages/sobre-achetiq.html#galeria",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "label": "Gabinetes",
+        "href": "http://127.0.0.1:8099/pages/gabinetes.html",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": "menuitem",
+        "label": "Cursos y Conferencias",
+        "href": "http://127.0.0.1:8099/pages/gabinetes/cursos-y-conferencias.html",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": "menuitem",
+        "label": "Eventos",
+        "href": "http://127.0.0.1:8099/pages/gabinetes/eventos.html",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": "menuitem",
+        "label": "Prensa y Difusión",
+        "href": "http://127.0.0.1:8099/pages/gabinetes/prensa-y-difusion.html",
+        "focusVisible": true
+      }
+    ]
+  },
+  "sobre-achetiq": {
+    "firstFocus": {
+      "tag": "a",
+      "role": null,
+      "label": "Saltar al contenido principal",
+      "href": "#main-content",
+      "focusVisible": true
+    },
+    "order": [
+      {
+        "tag": "a",
+        "role": null,
+        "label": "Saltar al contenido principal",
+        "href": "#main-content",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "label": "AChETIQ",
+        "href": "http://127.0.0.1:8099/index.html",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "label": "Inicio",
+        "href": "http://127.0.0.1:8099/index.html",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "label": "Sobre AChETIQ",
+        "href": "http://127.0.0.1:8099/pages/sobre-achetiq.html",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": "menuitem",
+        "label": "Asociación",
+        "href": "http://127.0.0.1:8099/pages/sobre-achetiq.html#asociacion",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": "menuitem",
+        "label": "Galería",
+        "href": "http://127.0.0.1:8099/pages/sobre-achetiq.html#galeria",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": null,
+        "label": "Gabinetes",
+        "href": "http://127.0.0.1:8099/pages/gabinetes.html",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": "menuitem",
+        "label": "Cursos y Conferencias",
+        "href": "http://127.0.0.1:8099/pages/gabinetes/cursos-y-conferencias.html",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": "menuitem",
+        "label": "Eventos",
+        "href": "http://127.0.0.1:8099/pages/gabinetes/eventos.html",
+        "focusVisible": true
+      },
+      {
+        "tag": "a",
+        "role": "menuitem",
+        "label": "Prensa y Difusión",
+        "href": "http://127.0.0.1:8099/pages/gabinetes/prensa-y-difusion.html",
+        "focusVisible": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+# HTTP response headers — deployed GitHub Pages (ATTEMPTED)
+
+Target: https://ingqcautnfrre-lab.github.io/achetiq-lab/ (BASE_URL from site.config.mjs)
+Command: curl -sI --max-time 30 https://ingqcautnfrre-lab.github.io/achetiq-lab/
+
+RESULT: **BLOCKED** — the execution environment's outbound network policy denies
+this origin. The agent proxy answered HTTP 403 to the CONNECT tunnel:
+```
+curl: (56) CONNECT tunnel failed, response 403
+proxy relay failure: connect_rejected — gateway answered 403 to CONNECT
+  host: ingqcautnfrre-lab.github.io:443
+```
+
+This is a **measurement gap, not a finding about the site**. The header grade on
+Pages must be captured from an unrestricted network (or via the live deploy in CI).
+Tracked in SUMMARY.md → 'Cannot measure yet'. Enabling prompt: 04-security.md.
