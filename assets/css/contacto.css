@@ -1,0 +1,49 @@
+/* ──────────────────────────────────────────────────────────────
+   contacto.css — estilos locales de la página Contacto
+   ──────────────────────────────────────────────────────────────
+   Extraído del <style> embebido de pages/contacto.html (sec: CSP).
+   Mantener estas reglas fuera del HTML permite una Content-Security-
+   Policy con `style-src 'self'` (sin 'unsafe-inline'). Se carga
+   junto al resto del sitio dentro de main.bundle.css (build:css).
+
+   El catálogo §4.10 nombra al contenedor `.contact-grid`, pero la
+   grilla responsive coincide con `.grid-cards--4` (lists.css §5.1):
+   1 col mobile, 2 col tablet, 4 col desktop. Se aplica esa utilidad
+   para no duplicar reglas; `.contact-grid` se conserva como hook
+   semántico.
+
+   El bloque del mapa usa <figure> para asociar caption y embed
+   accesiblemente. El iframe se carga diferido (loading="lazy") y
+   queda contenido por un aspect-ratio fijo para no provocar reflow
+   al resolverse.
+   ────────────────────────────────────────────────────────────── */
+.map-figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.map-figure__frame {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-border-soft);
+}
+@media (max-width: 768px) {
+  .map-figure__frame { aspect-ratio: 4 / 3; }
+}
+.map-figure__caption {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--color-text-soft);
+  line-height: var(--leading-relaxed);
+}
+.map-figure__caption a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.map-figure__caption a:hover {
+  color: var(--color-accent-soft);
+}
