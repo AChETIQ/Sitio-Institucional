@@ -3871,16 +3871,6 @@ gap: var(--space-4);
 text-wrap: balance;
 max-width: var(--measure-title);
 }
-.gabinete-detalle .page-header {
-max-width: var(--measure-prose);
-margin-inline: auto;
-text-align: center;
-}
-.gabinete-detalle .page-header__title,
-.gabinete-detalle .page-header__lead {
-max-width: 100%;
-text-wrap: balance;
-}
 .gabinete-detalle .gabinete-section {
 max-width: var(--measure-prose);
 margin-inline: auto;

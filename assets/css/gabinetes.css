@@ -240,20 +240,10 @@
    algo más estrecha lee más serena y equilibra mejor las líneas.
    ───────────────────────────────────────────────────────────── */
 
-/* Cabecera centrada: título y bajada sobre el eje; el filete inferior
-   queda acotado a la columna (margin-inline:auto), no a todo el ancho
-   de página. */
-.gabinete-detalle .page-header {
-  max-width: var(--measure-prose);
-  margin-inline: auto;
-  text-align: center;
-}
-
-.gabinete-detalle .page-header__title,
-.gabinete-detalle .page-header__lead {
-  max-width: 100%;
-  text-wrap: balance;
-}
+/* La CABECERA (título + bajada) conserva su alineación a la IZQUIERDA
+   del sistema —no se centra—: es la firma de entrada de la página y
+   mantiene el max-width propio de .page-header__title / __lead
+   (headers.css). El centrado aplica sólo a los bloques temáticos. */
 
 /* Cada bloque temático: columna centrada y acotada; el título de
    imprenta y la prosa comparten el eje. El centrado se logra con
