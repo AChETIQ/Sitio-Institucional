@@ -7,7 +7,7 @@
    · Orden cronológico EXACTO definido en HERO_IMAGES.
    · 5 s visible por imagen; cross-fade de --transition-hero (~1 s,
      definido en CSS sobre .hero__slide).
-   · Loop infinito: tras 2024.JPG vuelve a 2014.JPG.
+   · Loop infinito: tras 2025.JPG vuelve a 2014.JPG.
    · Respeta prefers-reduced-motion: muestra sólo la primera imagen.
    · Pausa cuando la pestaña no está visible.
 
@@ -34,7 +34,7 @@
     '2015-2',
     '2018',
     '2020',
-    '2024'
+    '2025'
   ];
 
   var HOLD_MS = 5000;   /* tiempo visible por imagen */
