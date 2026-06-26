@@ -3871,83 +3871,36 @@ gap: var(--space-4);
 text-wrap: balance;
 max-width: var(--measure-title);
 }
-.gabinete-detail {
-display: grid;
-grid-template-columns: minmax(0, 1fr);
-gap: var(--section-gap);
+.gabinete-detalle .page-header {
+max-width: var(--measure-prose);
+margin-inline: auto;
+text-align: center;
 }
-.gabinete-detail__main {
-min-width: 0;
-display: grid;
-gap: var(--section-gap);
+.gabinete-detalle .page-header__title,
+.gabinete-detalle .page-header__lead {
+max-width: 100%;
+text-wrap: balance;
 }
-@media (min-width: 1024px) {
-.gabinete-detail {
-grid-template-columns: minmax(0, 1fr) 19rem;
-column-gap: var(--space-10);
-align-items: start;
+.gabinete-detalle .gabinete-section {
+max-width: var(--measure-prose);
+margin-inline: auto;
+text-align: center;
 }
+.gabinete-detalle .gabinete-section__title {
+max-width: 100%;
 }
-.gabinete-ficha {
-background: var(--color-surface-white);
-border: var(--elevation-border);
-border-radius: var(--radius-lg);
-padding: var(--space-5);
+.gabinete-detalle .gabinete-section__body .prose {
+margin-inline: auto;
+max-width: var(--measure-narrow);
+text-wrap: pretty;
 }
-@media (min-width: 1024px) {
-.gabinete-ficha {
-position: sticky;
-top: calc(var(--navbar-height) + var(--space-6));
-}
-}
-.gabinete-ficha__title {
-font-family: var(--font-body);
-font-size: var(--text-small);
-font-weight: var(--weight-semibold);
-line-height: var(--leading-snug);
-color: var(--color-text);
-padding-bottom: var(--space-3);
-margin-bottom: var(--space-4);
-border-bottom: var(--rule);
-}
-.gabinete-ficha__list {
-display: grid;
-gap: var(--space-4);
-}
-.gabinete-ficha__row {
-display: grid;
-gap: var(--space-1);
-}
-.gabinete-ficha__label {
-font-family: var(--font-mono);
-font-size: var(--text-caption);
-letter-spacing: var(--tracking-wide);
-line-height: var(--leading-snug);
-color: var(--color-text-faint);
-}
-.gabinete-ficha__value {
-font-size: var(--text-small);
-line-height: var(--leading-snug);
-color: var(--color-text-soft);
-}
-.gabinete-ficha__link {
-color: var(--color-accent);
-font-weight: var(--weight-medium);
-text-decoration: none;
-transition: color var(--transition-fast);
-}
-.gabinete-ficha__link:hover {
-text-decoration: underline;
+.gabinete-detalle .gabinete-section.section-ruled {
+margin-block-start: var(--space-12);
+padding-top: var(--space-12);
 }
 @media print {
 .gabinetes-hub .grid-cards {
 column-gap: var(--space-8);
-}
-.gabinete-detail {
-grid-template-columns: minmax(0, 1fr);
-}
-.gabinete-ficha {
-position: static;
 }
 }
 .congresos-feature {

@@ -59,7 +59,7 @@
     </noscript>
   </div>
 
-  <main id="main-content" class="page" tabindex="-1">
+  <main id="main-content" class="page gabinete-detalle" tabindex="-1">
 
     <!-- ════════════════════════════════════════════════════════
          [0] BREADCRUMBS — FASE_1 §7.1 (.breadcrumbs)
@@ -86,55 +86,28 @@
     </header>
 
     <!-- ════════════════════════════════════════════════════════
-         [2] MONOGRAFÍA — prosa + ficha lateral
-         Composición a dos columnas (≥1024px): la prosa institucional
-         a la izquierda, en su medida de lectura, y a la derecha la
-         ficha del gabinete, que ocupa el blanco que antes quedaba
-         vacío. En móvil/tablet se apila (prosa → ficha → CTA). El
-         campo `proposito` ya integra el dato histórico fundacional
-         (antes una sección «Historia» aparte, ahora fundida).
-         Prosa: data/gabinetes.json vía assets/js/gabinete-detalle.js.
+         [2] SOBRE EL GABINETE — campo `proposito`
+         Integra el dato histórico fundacional (la antigua sección
+         «Historia» se fundió aquí). Composición centrada de la página:
+         ver .gabinete-detalle en assets/css/gabinetes.css. Prosa vía
+         assets/js/gabinete-detalle.js sobre data/gabinetes.json.
          ════════════════════════════════════════════════════════ -->
-    <div class="gabinete-detail">
-      <div class="gabinete-detail__main">
+    <section class="gabinete-section" aria-labelledby="descripcion-title">
+      <h2 class="gabinete-section__title" id="descripcion-title">Sobre el <em>gabinete</em></h2>
+      <div class="gabinete-section__body" data-loader="gabinetes"
+           data-gabinete-id="cursos-y-conferencias"
+           data-gabinete-field="proposito"></div>
+    </section>
 
-        <!-- SOBRE EL GABINETE — campo `proposito` -->
-        <section class="gabinete-section" aria-labelledby="descripcion-title">
-          <h2 class="gabinete-section__title" id="descripcion-title">Sobre el <em>gabinete</em></h2>
-          <div class="gabinete-section__body" data-loader="gabinetes"
-               data-gabinete-id="cursos-y-conferencias"
-               data-gabinete-field="proposito"></div>
-        </section>
-
-        <!-- ACTIVIDADES REGULARES — campo `actividades` -->
-        <section class="gabinete-section section-ruled" aria-labelledby="actividades-title">
-          <h2 class="gabinete-section__title" id="actividades-title">Actividades <em>regulares</em></h2>
-          <div class="gabinete-section__body" data-loader="gabinetes"
-               data-gabinete-id="cursos-y-conferencias"
-               data-gabinete-field="actividades"></div>
-        </section>
-
-      </div>
-
-      <!-- FICHA DEL GABINETE — coordenadas institucionales estáticas
-           (no dependen de JS). El correo es el acceso rápido; el CTA de
-           más abajo sigue siendo la invitación plena. -->
-      <aside class="gabinete-ficha" aria-labelledby="ficha-title">
-        <h2 class="gabinete-ficha__title" id="ficha-title">Ficha</h2>
-        <dl class="gabinete-ficha__list">
-          <div class="gabinete-ficha__row">
-            <dt class="gabinete-ficha__label">Ámbito</dt>
-            <dd class="gabinete-ficha__value">UTN FRRe · Resistencia, Chaco</dd>
-          </div>
-          <div class="gabinete-ficha__row">
-            <dt class="gabinete-ficha__label">Contacto</dt>
-            <dd class="gabinete-ficha__value">
-              <a class="gabinete-ficha__link" href="mailto:achetiq.resistencia+cursosyconferencias@aneiqa.org">Escribinos</a>
-            </dd>
-          </div>
-        </dl>
-      </aside>
-    </div>
+    <!-- ════════════════════════════════════════════════════════
+         [3] ACTIVIDADES REGULARES — campo `actividades`
+         ════════════════════════════════════════════════════════ -->
+    <section class="gabinete-section section-ruled" aria-labelledby="actividades-title">
+      <h2 class="gabinete-section__title" id="actividades-title">Actividades <em>regulares</em></h2>
+      <div class="gabinete-section__body" data-loader="gabinetes"
+           data-gabinete-id="cursos-y-conferencias"
+           data-gabinete-field="actividades"></div>
+    </section>
 
     <!-- ════════════════════════════════════════════════════════
          [5] CTA — SUMARSE AL GABINETE

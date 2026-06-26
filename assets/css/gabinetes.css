@@ -217,151 +217,87 @@
   max-width: var(--measure-title);
 }
 
-/* El cuerpo APILA bajo el ladillo en todos los anchos. Se retira la
-   apertura a dos columnas en escritorio (≥1024 px, antes ladillo a la
-   izquierda · cuerpo a la derecha): cada bloque temático corre como
-   una sola columna —título de imprenta y, directamente debajo, la
-   prosa— en todos los breakpoints. La medida de lectura se conserva
-   por el max-width propio de la prosa inyectada (.prose →
-   --measure-prose, 65ch): al ensancharse el viewport el cuerpo no
-   corre a lo ancho de la pantalla, queda acotado y alineado a la
-   izquierda bajo el título. */
+/* El cuerpo APILA bajo el ladillo en todos los anchos: título de
+   imprenta y, debajo, la prosa. La ALINEACIÓN (centrada en las páginas
+   de detalle) y la medida de la columna las gobierna §2b; esta regla
+   base sólo define la estructura apilada. */
 
 
 /* ─────────────────────────────────────────────────────────────
-   2b. COMPOSICIÓN A DOS COLUMNAS — PROSA + FICHA — .gabinete-detail
+   2b. COMPOSICIÓN CENTRADA — PÁGINAS DE DETALLE — .gabinete-detalle
    ─────────────────────────────────────────────────────────────
-   La monografía abre a dos columnas en escritorio (≥1024 px = --bp-lg):
-   la prosa institucional (.gabinete-detail__main) a la izquierda en su
-   medida de lectura y, a la derecha, la ficha del gabinete
-   (.gabinete-ficha) —una marginalia que ocupa el blanco estructural que
-   antes quedaba vacío sobre el primer viewport—. Mobile-first: una sola
-   columna apilada (prosa → ficha). Mismo criterio de composición que
-   .page-header--split (headers.css) y .form-layout (forms.css): aside
-   fijado a la derecha a 19 rem y orden DOM = orden visual (la prosa
-   precede a la ficha), sin desfase WCAG 2.4.3.
+   El <main class="page gabinete-detalle"> alinea TODO el documento
+   —cabecera, bloques temáticos y divisores— sobre el EJE CENTRAL de la
+   página, en una sola columna de lectura acotada con márgenes
+   simétricos. Así el blanco deja de leerse como un vacío a la derecha
+   (la queja original) y la página gana la quietud de una portada
+   institucional, sin cajas ni columnas laterales.
+
+   El alcance es la CLASE DE PÁGINA: sólo las cuatro páginas de detalle
+   reciben el centrado; el hub y el resto del sistema no se tocan. La
+   medida de la columna se acota a --measure-prose (cabecera y filetes)
+   y la prosa cierra en --measure-narrow (56ch): centrada, una medida
+   algo más estrecha lee más serena y equilibra mejor las líneas.
    ───────────────────────────────────────────────────────────── */
 
-.gabinete-detail {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--section-gap);
+/* Cabecera centrada: título y bajada sobre el eje; el filete inferior
+   queda acotado a la columna (margin-inline:auto), no a todo el ancho
+   de página. */
+.gabinete-detalle .page-header {
+  max-width: var(--measure-prose);
+  margin-inline: auto;
+  text-align: center;
 }
 
-/* La columna de prosa conserva el ritmo sección↔sección que antes
-   aportaba :where(.page) > section + section (main.css §4): esa regla
-   ya no aplica al anidarse las secciones dentro de .gabinete-detail__main,
-   así que el gap de la grilla lo reinstala aquí. min-width:0 impide que
-   la prosa desborde su pista. */
-.gabinete-detail__main {
-  min-width: 0;
-  display: grid;
-  gap: var(--section-gap);
+.gabinete-detalle .page-header__title,
+.gabinete-detalle .page-header__lead {
+  max-width: 100%;
+  text-wrap: balance;
 }
 
-/* ── Escritorio (≥1024 px = --bp-lg): prosa | ficha, con la ficha
-   acotada a 19 rem (mismo ancho de aside que .page-header--split). */
-@media (min-width: 1024px) {
-  .gabinete-detail {
-    grid-template-columns: minmax(0, 1fr) 19rem;
-    column-gap: var(--space-10);
-    align-items: start;
-  }
+/* Cada bloque temático: columna centrada y acotada; el título de
+   imprenta y la prosa comparten el eje. El centrado se logra con
+   text-align + margin-inline:auto (NO con justify-items/align-items
+   center, que encogerían los hijos a su max-content y romperían el
+   ajuste de línea del titular display en móvil). */
+.gabinete-detalle .gabinete-section {
+  max-width: var(--measure-prose);
+  margin-inline: auto;
+  text-align: center;
 }
 
-/* ── Ficha del gabinete ──
-   Tarjeta editorial de la misma materia que .header-resource: superficie
-   blanca, filete de 1 px del sistema y radio de panel. Aloja datos
-   institucionales escaneables (no prosa). En escritorio acompaña el
-   scroll (sticky) por debajo del navbar fijo. */
-.gabinete-ficha {
-  background: var(--color-surface-white);
-  border: var(--elevation-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-5);
+.gabinete-detalle .gabinete-section__title {
+  max-width: 100%;
 }
 
-@media (min-width: 1024px) {
-  .gabinete-ficha {
-    position: sticky;
-    top: calc(var(--navbar-height) + var(--space-6));
-  }
+/* La prosa inyectada (.prose) se centra en la columna y afina su medida
+   para equilibrar las líneas centradas; text-wrap: pretty evita
+   huérfanas al cerrar los párrafos. */
+.gabinete-detalle .gabinete-section__body .prose {
+  margin-inline: auto;
+  max-width: var(--measure-narrow);
+  text-wrap: pretty;
 }
 
-/* Rótulo de la ficha: cuerpo semibold pequeño con filete inferior —es
-   un encabezado de PANEL, subordinado a los <h2> de prosa (Fraunces);
-   por eso NO usa la voz display. */
-.gabinete-ficha__title {
-  font-family: var(--font-body);
-  font-size: var(--text-small);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-snug);
-  color: var(--color-text);
-  padding-bottom: var(--space-3);
-  margin-bottom: var(--space-4);
-  border-bottom: var(--rule);
-}
-
-.gabinete-ficha__list {
-  display: grid;
-  gap: var(--space-4);
-}
-
-/* Cada dato apila su etiqueta sobre su valor. */
-.gabinete-ficha__row {
-  display: grid;
-  gap: var(--space-1);
-}
-
-/* Etiqueta del dato en la tercera voz tipográfica (Geist Mono, registro
-   de «dato del sistema» —espejo de .card-integrante__role en cards.css):
-   caption, tracking amplio, tinta tenue. */
-.gabinete-ficha__label {
-  font-family: var(--font-mono);
-  font-size: var(--text-caption);
-  letter-spacing: var(--tracking-wide);
-  line-height: var(--leading-snug);
-  color: var(--color-text-faint);
-}
-
-.gabinete-ficha__value {
-  font-size: var(--text-small);
-  line-height: var(--leading-snug);
-  color: var(--color-text-soft);
-}
-
-/* Enlace de contacto en COBALTO (navegación/estructura). La mauveína de
-   acción queda reservada al CTA «Escribinos» del pie de página. */
-.gabinete-ficha__link {
-  color: var(--color-accent);
-  font-weight: var(--weight-medium);
-  text-decoration: none;
-  transition: color var(--transition-fast);
-}
-
-.gabinete-ficha__link:hover {
-  text-decoration: underline;
+/* Ritmo entre bloques: un filete hairline CENTRADO (acotado a la
+   columna) con aire SIMÉTRICO arriba y abajo. Antes el margen del
+   contrato de ritmo de página y el padding del filete se sumaban y
+   dejaban el filete flotando en un vano desigual; aquí ambos lados
+   valen --space-12 y el divisor queda óptimamente centrado en su aire. */
+.gabinete-detalle .gabinete-section.section-ruled {
+  margin-block-start: var(--space-12);
+  padding-top: var(--space-12);
 }
 
 
 /* ─────────────────────────────────────────────────────────────
    IMPRESIÓN
    ─────────────────────────────────────────────────────────────
-   .gabinete-section ya es una sola columna en todos los medios; en
-   papel, además, la monografía colapsa a una columna (la ficha cae
-   bajo la prosa) y la ficha pierde la fijación al scroll. print.css
-   gobierna el resto del documento; aquí sólo se ajustan la grilla del
-   hub y la composición de detalle. */
+   La composición centrada ya es una sola columna en todos los medios;
+   print.css gobierna el resto del documento. Aquí sólo se ajusta el gap
+   de la grilla del hub. */
 @media print {
   .gabinetes-hub .grid-cards {
     column-gap: var(--space-8);
-  }
-
-  .gabinete-detail {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .gabinete-ficha {
-    position: static;
   }
 }
