@@ -60,6 +60,16 @@ CONVENCIÓN DE NOMBRE
   -->
   <meta name="description" content="REEMPLAZAR descripción única de esta página.">
 
+  <!--
+    CANONICAL — URL absoluta y única de esta página.
+    NO se escribe a mano: el dominio vive en site.config.mjs (BASE_URL) y lo
+    aplica `npm run build:urls` (scripts/build-urls.mjs), igual que og:url. El
+    script inserta/sincroniza este enlace en cada página indexable derivándolo
+    de la ruta del archivo; dejar el placeholder. Las páginas noindex (404) no
+    llevan canonical.
+  -->
+  <link rel="canonical" href="REEMPLAZAR ruta de la página; build:urls aplica el dominio de site.config.mjs">
+
   <!-- ============================================================
        FAVICON E ICONOS
        Archivos ya existentes en la raíz del repositorio.
