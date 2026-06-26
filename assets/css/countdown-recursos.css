@@ -31,37 +31,6 @@
   overflow: hidden;
 }
 
-/* Glows decorativos de fondo — tintes muy bajos de cobalto y grafito,
-   coherentes con la paleta. No interactivos. */
-.countdown__backdrop {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.countdown__glow {
-  position: absolute;
-  border-radius: var(--radius-pill);
-  filter: blur(80px);
-}
-
-.countdown__glow--primary {
-  width: 800px;
-  height: 600px;
-  top: -50%;
-  left: -25%;
-  background: color-mix(in oklab, var(--color-accent) 8%, transparent);
-}
-
-.countdown__glow--sand {
-  width: 600px;
-  height: 600px;
-  bottom: 0;
-  right: 0;
-  background: color-mix(in oklab, var(--color-accent-soft) 6%, transparent);
-}
-
 /* ─────────────────────────────────────────────────────────────
    PANEL — tarjeta principal
    ───────────────────────────────────────────────────────────── */
@@ -152,7 +121,7 @@
 
 .countdown__title em {
   font-style: italic;
-  color: var(--color-accent);
+  color: var(--color-text);
 }
 
 .countdown__lead {

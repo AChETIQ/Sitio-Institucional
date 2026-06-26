@@ -454,7 +454,7 @@ align-items: center;
 justify-content: space-between;
 gap: var(--space-4);
 width: 100%;
-max-width: var(--max-width);
+max-width: none;
 height: var(--navbar-height);
 margin-inline: auto;
 padding-inline: var(--page-padding-x);
@@ -470,7 +470,7 @@ align-items: center;
 gap: var(--space-2);
 color: var(--color-text);
 text-decoration: none;
-font-size: var(--text-h4);
+font-size: var(--text-h3);
 line-height: 1;
 transition: color var(--transition-fast);
 }
@@ -478,8 +478,8 @@ transition: color var(--transition-fast);
 color: var(--color-accent);
 }
 .navbar__logo {
-width: 32px;
-height: 32px;
+width: 40px;
+height: 40px;
 display: block;
 flex: 0 0 auto;
 }
@@ -3170,31 +3170,6 @@ justify-content: center;
 padding: clamp(48px, 41.74px + 1.74vw, 64px) var(--space-4);
 overflow: hidden;
 }
-.countdown__backdrop {
-position: absolute;
-inset: 0;
-pointer-events: none;
-overflow: hidden;
-}
-.countdown__glow {
-position: absolute;
-border-radius: var(--radius-pill);
-filter: blur(80px);
-}
-.countdown__glow--primary {
-width: 800px;
-height: 600px;
-top: -50%;
-left: -25%;
-background: color-mix(in oklab, var(--color-accent) 8%, transparent);
-}
-.countdown__glow--sand {
-width: 600px;
-height: 600px;
-bottom: 0;
-right: 0;
-background: color-mix(in oklab, var(--color-accent-soft) 6%, transparent);
-}
 .countdown__panel {
 position: relative;
 z-index: var(--z-raised);
@@ -3265,7 +3240,7 @@ margin: 0;
 }
 .countdown__title em {
 font-style: italic;
-color: var(--color-accent);
+color: var(--color-text);
 }
 .countdown__lead {
 font-family: var(--font-body);
