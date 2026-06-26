@@ -4,6 +4,10 @@ _site/
 .jekyll-cache/
 .jekyll-metadata
 vendor/
+# …but our self-hosted third-party JS lives in assets/js/vendor/ and MUST be
+# committed (it is served to users). Override the broad Jekyll `vendor/` ignore.
+!assets/js/vendor/
+!assets/js/vendor/**
 
 # Node (si se usa en alguna fase)
 node_modules/
