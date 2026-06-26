@@ -186,9 +186,9 @@
   }
 }
 
-/* Animación de desplazamiento continuo. El track contiene 16
-   ítems (8 × 2); translateX(-50%) mueve exactamente el primer
-   bloque de 8 fuera de la vista, y el loop lo retorna al
+/* Animación de desplazamiento continuo. El track contiene 10
+   ítems (5 × 2); translateX(-50%) mueve exactamente el primer
+   bloque de 5 fuera de la vista, y el loop lo retorna al
    origen sin salto visible. 40 s da un paso pausado que deja leer
    con comodidad el pie de foto de cada imagen al pasar. */
 @media (prefers-reduced-motion: no-preference) {
