@@ -83,12 +83,13 @@
   justify-content: space-between;
   gap: var(--space-4);
   width: 100%;
-  /* Alineado con el contenido: mismo ancho máximo y mismo padding
-     fluido que .page, para que el brand y el primer carácter del
-     contenido compartan eje en todo viewport (antes 32 px fijos y
-     sin tope: en pantallas anchas el brand quedaba descolgado del
-     contenido, que sí capea en 1480 px). */
-  max-width: var(--max-width);
+  /* Full-bleed: la barra ocupa todo el ancho del viewport para anclar
+     el brand al extremo izquierdo y la navegación + CTA al extremo
+     derecho de la página (solo el gutter fluido --page-padding-x los
+     separa del borde). Antes capaba en --max-width y se centraba, con
+     lo que en pantallas anchas los elementos quedaban descolgados del
+     borde. */
+  max-width: none;
   height: var(--navbar-height);
   margin-inline: auto;
   padding-inline: var(--page-padding-x);
@@ -111,7 +112,9 @@
   gap: var(--space-2);
   color: var(--color-text);
   text-decoration: none;
-  font-size: var(--text-h4);
+  /* Masthead un punto mayor (--text-h3 en vez de --text-h4): el
+     wordmark gana presencia en la cabecera sin desbordar la barra. */
+  font-size: var(--text-h3);
   line-height: 1;
   transition: color var(--transition-fast);
 }
@@ -121,8 +124,8 @@
 }
 
 .navbar__logo {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   display: block;
   flex: 0 0 auto;
 }
