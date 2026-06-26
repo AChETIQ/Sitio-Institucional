@@ -229,13 +229,139 @@
 
 
 /* ─────────────────────────────────────────────────────────────
+   2b. COMPOSICIÓN A DOS COLUMNAS — PROSA + FICHA — .gabinete-detail
+   ─────────────────────────────────────────────────────────────
+   La monografía abre a dos columnas en escritorio (≥1024 px = --bp-lg):
+   la prosa institucional (.gabinete-detail__main) a la izquierda en su
+   medida de lectura y, a la derecha, la ficha del gabinete
+   (.gabinete-ficha) —una marginalia que ocupa el blanco estructural que
+   antes quedaba vacío sobre el primer viewport—. Mobile-first: una sola
+   columna apilada (prosa → ficha). Mismo criterio de composición que
+   .page-header--split (headers.css) y .form-layout (forms.css): aside
+   fijado a la derecha a 19 rem y orden DOM = orden visual (la prosa
+   precede a la ficha), sin desfase WCAG 2.4.3.
+   ───────────────────────────────────────────────────────────── */
+
+.gabinete-detail {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--section-gap);
+}
+
+/* La columna de prosa conserva el ritmo sección↔sección que antes
+   aportaba :where(.page) > section + section (main.css §4): esa regla
+   ya no aplica al anidarse las secciones dentro de .gabinete-detail__main,
+   así que el gap de la grilla lo reinstala aquí. min-width:0 impide que
+   la prosa desborde su pista. */
+.gabinete-detail__main {
+  min-width: 0;
+  display: grid;
+  gap: var(--section-gap);
+}
+
+/* ── Escritorio (≥1024 px = --bp-lg): prosa | ficha, con la ficha
+   acotada a 19 rem (mismo ancho de aside que .page-header--split). */
+@media (min-width: 1024px) {
+  .gabinete-detail {
+    grid-template-columns: minmax(0, 1fr) 19rem;
+    column-gap: var(--space-10);
+    align-items: start;
+  }
+}
+
+/* ── Ficha del gabinete ──
+   Tarjeta editorial de la misma materia que .header-resource: superficie
+   blanca, filete de 1 px del sistema y radio de panel. Aloja datos
+   institucionales escaneables (no prosa). En escritorio acompaña el
+   scroll (sticky) por debajo del navbar fijo. */
+.gabinete-ficha {
+  background: var(--color-surface-white);
+  border: var(--elevation-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+}
+
+@media (min-width: 1024px) {
+  .gabinete-ficha {
+    position: sticky;
+    top: calc(var(--navbar-height) + var(--space-6));
+  }
+}
+
+/* Rótulo de la ficha: cuerpo semibold pequeño con filete inferior —es
+   un encabezado de PANEL, subordinado a los <h2> de prosa (Fraunces);
+   por eso NO usa la voz display. */
+.gabinete-ficha__title {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+  color: var(--color-text);
+  padding-bottom: var(--space-3);
+  margin-bottom: var(--space-4);
+  border-bottom: var(--rule);
+}
+
+.gabinete-ficha__list {
+  display: grid;
+  gap: var(--space-4);
+}
+
+/* Cada dato apila su etiqueta sobre su valor. */
+.gabinete-ficha__row {
+  display: grid;
+  gap: var(--space-1);
+}
+
+/* Etiqueta del dato en la tercera voz tipográfica (Geist Mono, registro
+   de «dato del sistema» —espejo de .card-integrante__role en cards.css):
+   caption, tracking amplio, tinta tenue. */
+.gabinete-ficha__label {
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  letter-spacing: var(--tracking-wide);
+  line-height: var(--leading-snug);
+  color: var(--color-text-faint);
+}
+
+.gabinete-ficha__value {
+  font-size: var(--text-small);
+  line-height: var(--leading-snug);
+  color: var(--color-text-soft);
+}
+
+/* Enlace de contacto en COBALTO (navegación/estructura). La mauveína de
+   acción queda reservada al CTA «Escribinos» del pie de página. */
+.gabinete-ficha__link {
+  color: var(--color-accent);
+  font-weight: var(--weight-medium);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+.gabinete-ficha__link:hover {
+  text-decoration: underline;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
    IMPRESIÓN
    ─────────────────────────────────────────────────────────────
-   .gabinete-section ya es una sola columna en todos los medios, así
-   que no necesita colapsarse en papel. print.css gobierna el resto
-   del documento; aquí sólo se ajusta el gap de la grilla del hub. */
+   .gabinete-section ya es una sola columna en todos los medios; en
+   papel, además, la monografía colapsa a una columna (la ficha cae
+   bajo la prosa) y la ficha pierde la fijación al scroll. print.css
+   gobierna el resto del documento; aquí sólo se ajustan la grilla del
+   hub y la composición de detalle. */
 @media print {
   .gabinetes-hub .grid-cards {
     column-gap: var(--space-8);
+  }
+
+  .gabinete-detail {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .gabinete-ficha {
+    position: static;
   }
 }
