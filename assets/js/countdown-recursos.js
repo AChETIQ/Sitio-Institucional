@@ -73,6 +73,39 @@
   }
 
   /**
+   * Concuerda número y sustantivo en español.
+   * @param {number} n
+   * @param {string} sing - forma singular.
+   * @param {string} plur - forma plural.
+   */
+  function pluralize(n, sing, plur) {
+    return n + " " + (n === 1 ? sing : plur);
+  }
+
+  /**
+   * Texto humano del tiempo restante para anuncio por lector de
+   * pantalla. Deliberadamente OMITE los segundos: es el anuncio
+   * throttleado (una vez por minuto), no el tic visual.
+   * @param {{days:number,hours:number,minutes:number}} t
+   * @returns {string}
+   */
+  function formatRemaining(t) {
+    if (t.days === 0 && t.hours === 0 && t.minutes === 0) {
+      return "Menos de un minuto para la apertura de Recursos Académicos.";
+    }
+    var parts = [];
+    if (t.days > 0) parts.push(pluralize(t.days, "día", "días"));
+    if (t.hours > 0) parts.push(pluralize(t.hours, "hora", "horas"));
+    if (t.minutes > 0 || parts.length === 0) {
+      parts.push(pluralize(t.minutes, "minuto", "minutos"));
+    }
+    var joined = parts.length > 1
+      ? parts.slice(0, -1).join(", ") + " y " + parts[parts.length - 1]
+      : parts[0];
+    return "Faltan " + joined + " para la apertura de Recursos Académicos.";
+  }
+
+  /**
    * Inicializa una instancia del contador.
    * @param {HTMLElement} root - contenedor [data-countdown].
    */
@@ -114,6 +147,29 @@
     var intervalId = null;
     var revealedDone = false;
 
+    /* Anuncio accesible THROTTLEADO. El reloj visual tickea cada
+       segundo, pero ya NO es una región viva (se le quitó aria-live
+       del markup): así no se spamea al lector de pantalla cada segundo
+       (el reloj mantiene role="timer" + aria-label, legible a demanda).
+       En su lugar, una región sr-only polite anuncia el tiempo restante
+       en lenguaje natural y SÓLO cuando cambia el minuto. */
+    var announcer = document.createElement("p");
+    announcer.className = "sr-only";
+    announcer.setAttribute("role", "status");
+    announcer.setAttribute("aria-live", "polite");
+    announcer.setAttribute("aria-atomic", "true");
+    announcer.setAttribute("data-countdown-announce", "");
+    root.appendChild(announcer);
+
+    var lastAnnounceKey = null;
+    function announceThrottled(t) {
+      if (revealedDone || t.total <= 0) return;
+      var key = t.days + ":" + t.hours + ":" + t.minutes;
+      if (key === lastAnnounceKey) return;
+      lastAnnounceKey = key;
+      announcer.textContent = formatRemaining(t);
+    }
+
     function reveal() {
       if (revealedDone) return;
       revealedDone = true;
@@ -139,6 +195,8 @@
       setDigit(units.hours, t.hours);
       setDigit(units.minutes, t.minutes);
       setDigit(units.seconds, t.seconds);
+
+      announceThrottled(t);
 
       if (t.total <= 0) reveal();
     }

@@ -70,6 +70,7 @@
   --grafito-150: #EAEDF2;   /* oklch(0.945 0.006 265) — papel frío hundido (E01) */
   --grafito-200: #E1E4E9;   /* oklch(0.918 0.008 265) — borde suave       */
   --grafito-300: #CED2D9;   /* oklch(0.862 0.011 265) — borde             */
+  --grafito-450: #82868F;   /* oklch(0.605 0.017 265) — borde de control (≥3:1) */
   --grafito-600: #5B5F69;   /* oklch(0.486 0.017 265) — tinta terciaria   */
   --grafito-700: #444953;   /* oklch(0.404 0.018 265) — tinta secundaria  */
   --grafito-950: #131720;   /* oklch(0.205 0.018 265) — tinta principal   */
@@ -110,6 +111,7 @@
     --grafito-150: oklch(0.945 0.006 265);
     --grafito-200: oklch(0.918 0.008 265);
     --grafito-300: oklch(0.862 0.011 265);
+    --grafito-450: oklch(0.605 0.017 265);
     --grafito-600: oklch(0.486 0.017 265);
     --grafito-700: oklch(0.404 0.018 265);
     --grafito-950: oklch(0.205 0.018 265);
@@ -275,6 +277,16 @@
 
   --color-border-soft: var(--grafito-200);
   /* Separadores internos de componente (pie de tarjeta, filas). */
+
+  --color-border-interactive: var(--grafito-450);
+  /* Borde de CONTROLES interactivos en reposo (inputs, selects,
+     textareas). A diferencia de --color-border —decorativo, exento de
+     contraste— el límite de un control SÍ debe cumplir WCAG 1.4.11
+     (≥3:1 contra los colores adyacentes), porque es la señal que
+     identifica el campo. Medido: 3.9:1 sobre blanco · 3.7:1 sobre el
+     relleno --color-surface-raised (el peor caso es el blanco puro de
+     las celdas de Seguimiento). NO usar para separadores ni tarjetas:
+     ahí sería un filete innecesariamente pesado. */
 
   --color-rule: var(--color-border);
   /* Color de las REGLAS HAIRLINE editoriales (E01): el filete fino

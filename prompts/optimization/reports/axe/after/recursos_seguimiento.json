@@ -1,0 +1,1531 @@
+{
+  "url": "http://localhost:8099/pages/recursos/seguimiento.html",
+  "timestamp": "2026-06-27T03:59:55.411Z",
+  "testEngine": {
+    "name": "axe-core",
+    "version": "4.10.3"
+  },
+  "toolOptions": {
+    "runOnly": {
+      "type": "tag",
+      "values": [
+        "wcag2a",
+        "wcag2aa",
+        "wcag21a",
+        "wcag21aa",
+        "wcag22aa"
+      ]
+    },
+    "reporter": "v1"
+  },
+  "counts": {
+    "violations": 0,
+    "passes": 29,
+    "incomplete": 3,
+    "inapplicable": 32
+  },
+  "violations": [],
+  "incomplete": [
+    {
+      "id": "aria-valid-attr-value",
+      "impact": "critical",
+      "tags": [
+        "cat.aria",
+        "wcag2a",
+        "wcag412",
+        "EN-301-549",
+        "EN-9.4.1.2"
+      ],
+      "description": "Ensure all ARIA attributes have valid values",
+      "help": "ARIA attributes must conform to valid values",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/aria-valid-attr-value?application=playwright",
+      "nodes": [
+        {
+          "any": [],
+          "all": [
+            {
+              "id": "aria-valid-attr-value",
+              "data": {
+                "messageKey": "controlsWithinPopup",
+                "needsReview": "aria-controls=\"navbar-submenu-1\""
+              },
+              "relatedNodes": [],
+              "impact": "critical",
+              "message": "Unable to determine if aria-controls referenced ID exists on the page while using aria-haspopup: aria-controls=\"navbar-submenu-1\""
+            }
+          ],
+          "none": [],
+          "impact": "critical",
+          "html": "<a class=\"nav-link nav-link--ghost navbar__label\" href=\"http://localhost:8099/pages/sobre-achetiq.html\" aria-haspopup=\"menu\" aria-expanded=\"false\" aria-controls=\"navbar-submenu-1\">",
+          "target": [
+            "a[aria-controls=\"navbar-submenu-1\"]"
+          ],
+          "failureSummary": "Fix all of the following:\n  Unable to determine if aria-controls referenced ID exists on the page while using aria-haspopup: aria-controls=\"navbar-submenu-1\""
+        },
+        {
+          "any": [],
+          "all": [
+            {
+              "id": "aria-valid-attr-value",
+              "data": {
+                "messageKey": "controlsWithinPopup",
+                "needsReview": "aria-controls=\"navbar-submenu-2\""
+              },
+              "relatedNodes": [],
+              "impact": "critical",
+              "message": "Unable to determine if aria-controls referenced ID exists on the page while using aria-haspopup: aria-controls=\"navbar-submenu-2\""
+            }
+          ],
+          "none": [],
+          "impact": "critical",
+          "html": "<a class=\"nav-link nav-link--ghost navbar__label\" href=\"http://localhost:8099/pages/gabinetes.html\" aria-haspopup=\"menu\" aria-expanded=\"false\" aria-controls=\"navbar-submenu-2\">",
+          "target": [
+            "a[aria-controls=\"navbar-submenu-2\"]"
+          ],
+          "failureSummary": "Fix all of the following:\n  Unable to determine if aria-controls referenced ID exists on the page while using aria-haspopup: aria-controls=\"navbar-submenu-2\""
+        },
+        {
+          "any": [],
+          "all": [
+            {
+              "id": "aria-valid-attr-value",
+              "data": {
+                "messageKey": "controlsWithinPopup",
+                "needsReview": "aria-controls=\"navbar-submenu-3\""
+              },
+              "relatedNodes": [],
+              "impact": "critical",
+              "message": "Unable to determine if aria-controls referenced ID exists on the page while using aria-haspopup: aria-controls=\"navbar-submenu-3\""
+            }
+          ],
+          "none": [],
+          "impact": "critical",
+          "html": "<a class=\"nav-link nav-link--ghost navbar__label\" href=\"http://localhost:8099/pages/recursos.html\" aria-haspopup=\"menu\" aria-expanded=\"false\" aria-controls=\"navbar-submenu-3\">",
+          "target": [
+            "a[aria-controls=\"navbar-submenu-3\"]"
+          ],
+          "failureSummary": "Fix all of the following:\n  Unable to determine if aria-controls referenced ID exists on the page while using aria-haspopup: aria-controls=\"navbar-submenu-3\""
+        }
+      ]
+    },
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "tags": [
+        "cat.color",
+        "wcag2aa",
+        "wcag143",
+        "TTv5",
+        "TT13.c",
+        "EN-301-549",
+        "EN-9.1.4.3",
+        "ACT"
+      ],
+      "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/color-contrast?application=playwright",
+      "nodes": [
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fontSize": "15.8pt (21px)",
+                "fontWeight": "normal",
+                "messageKey": "pseudoContent",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<header class=\"navbar\" data-navbar-root=\"\">",
+                  "target": [
+                    ".navbar"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined due to a pseudo element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"navbar__wordmark\" data-navbar-wordmark=\"\">AChETIQ</span>",
+          "target": [
+            "span[data-navbar-wordmark=\"\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fontSize": "12.7pt (16.9994px)",
+                "fontWeight": "normal",
+                "messageKey": "pseudoContent",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<header class=\"navbar\" data-navbar-root=\"\">",
+                  "target": [
+                    ".navbar"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined due to a pseudo element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a class=\"nav-link nav-link--ghost navbar__label\" href=\"http://localhost:8099/index.html\">Inicio</a>",
+          "target": [
+            ".navbar__item:nth-child(1) > .nav-link--ghost.nav-link.navbar__label"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fontSize": "12.7pt (16.9994px)",
+                "fontWeight": "normal",
+                "messageKey": "pseudoContent",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<header class=\"navbar\" data-navbar-root=\"\">",
+                  "target": [
+                    ".navbar"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined due to a pseudo element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a class=\"nav-link nav-link--ghost navbar__label\" href=\"http://localhost:8099/pages/sobre-achetiq.html\" aria-haspopup=\"menu\" aria-expanded=\"false\" aria-controls=\"navbar-submenu-1\">",
+          "target": [
+            "a[aria-controls=\"navbar-submenu-1\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fontSize": "12.7pt (16.9994px)",
+                "fontWeight": "normal",
+                "messageKey": "pseudoContent",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<header class=\"navbar\" data-navbar-root=\"\">",
+                  "target": [
+                    ".navbar"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined due to a pseudo element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a class=\"nav-link nav-link--ghost navbar__label\" href=\"http://localhost:8099/pages/gabinetes.html\" aria-haspopup=\"menu\" aria-expanded=\"false\" aria-controls=\"navbar-submenu-2\">",
+          "target": [
+            "a[aria-controls=\"navbar-submenu-2\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fontSize": "12.7pt (16.9994px)",
+                "fontWeight": "normal",
+                "messageKey": "pseudoContent",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<header class=\"navbar\" data-navbar-root=\"\">",
+                  "target": [
+                    ".navbar"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined due to a pseudo element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a class=\"nav-link nav-link--ghost navbar__label\" href=\"http://localhost:8099/pages/recursos.html\" aria-haspopup=\"menu\" aria-expanded=\"false\" aria-controls=\"navbar-submenu-3\">",
+          "target": [
+            "a[aria-controls=\"navbar-submenu-3\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fontSize": "12.7pt (16.9994px)",
+                "fontWeight": "normal",
+                "messageKey": "pseudoContent",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<header class=\"navbar\" data-navbar-root=\"\">",
+                  "target": [
+                    ".navbar"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element's background color could not be determined due to a pseudo element"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<a class=\"nav-link nav-link--primary navbar__label\" href=\"http://localhost:8099/pages/contacto.html\">Contacto</a>",
+          "target": [
+            ".nav-link--primary"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✓</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"1\"] > td[data-col=\"disp\"] > .seg-badge--disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✓</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"2\"] > td[data-col=\"disp\"] > .seg-badge--disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✓</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"3\"] > td[data-col=\"disp\"] > .seg-badge--disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✓</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"4\"] > td[data-col=\"disp\"] > .seg-badge--disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✓</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"5\"] > td[data-col=\"disp\"] > .seg-badge--disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✓</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"6\"] > td[data-col=\"disp\"] > .seg-badge--disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✓</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"7\"] > td[data-col=\"disp\"] > .seg-badge--disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✓</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"8\"] > td[data-col=\"disp\"] > .seg-badge--disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"9\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"10\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"11\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"12\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"13\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"14\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"15\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✓</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"40\"] > td[data-col=\"disp\"] > .seg-badge--disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"16\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"17\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"18\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"19\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"20\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"21\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"22\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"23\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"24\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"41\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"25\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"26\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"27\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"28\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"29\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"30\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"31\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"32\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"33\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"34\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"35\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"36\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"37\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"38\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"39\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✓</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"42\"] > td[data-col=\"disp\"] > .seg-badge--disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✓</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"43\"] > td[data-col=\"disp\"] > .seg-badge--disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"44\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"45\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"46\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"47\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"48\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"49\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"50\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"51\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"52\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"53\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "messageKey": "nonBmp"
+              },
+              "relatedNodes": [],
+              "impact": "serious",
+              "message": "Element content contains only non-text characters"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"seg-badge__icon\" aria-hidden=\"true\">✕</span>",
+          "target": [
+            ".seg-table__row[data-numero=\"54\"] > td[data-col=\"disp\"] > .seg-badge--no-disponible.seg-badge[aria-haspopup=\"true\"] > .seg-badge__icon[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "any": [
+            {
+              "id": "color-contrast",
+              "data": {
+                "fgColor": "#364f7f",
+                "bgColor": "#0b2964",
+                "contrastRatio": 1.7,
+                "fontSize": "9.0pt (12px)",
+                "fontWeight": "normal",
+                "messageKey": "shortTextContent",
+                "expectedContrastRatio": "4.5:1"
+              },
+              "relatedNodes": [
+                {
+                  "html": "<footer class=\"footer\" role=\"contentinfo\" data-footer-root=\"\">",
+                  "target": [
+                    "footer"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Element content is too short to determine if it is actual text content"
+            }
+          ],
+          "all": [],
+          "none": [],
+          "impact": "serious",
+          "html": "<span class=\"footer__legal-sep\" aria-hidden=\"true\">·</span>",
+          "target": [
+            ".footer__legal-sep"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+        }
+      ]
+    },
+    {
+      "id": "th-has-data-cells",
+      "impact": "serious",
+      "tags": [
+        "cat.tables",
+        "wcag2a",
+        "wcag131",
+        "section508",
+        "section508.22.g",
+        "TTv5",
+        "TT14.b",
+        "EN-301-549",
+        "EN-9.1.3.1"
+      ],
+      "description": "Ensure that <th> elements and elements with role=columnheader/rowheader have data cells they describe",
+      "help": "Table headers in a data table must refer to data cells",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/th-has-data-cells?application=playwright",
+      "nodes": [
+        {
+          "any": [],
+          "all": [
+            {
+              "id": "th-has-data-cells",
+              "data": null,
+              "relatedNodes": [
+                {
+                  "html": "<th scope=\"col\" data-col=\"hs\">Hs.</th>",
+                  "target": [
+                    "th[scope=\"col\"][data-col=\"hs\"]"
+                  ]
+                }
+              ],
+              "impact": "serious",
+              "message": "Table data cells are missing or empty"
+            }
+          ],
+          "none": [],
+          "impact": "serious",
+          "html": "<table class=\"seg-table seg-table--seguimiento\" aria-label=\"Estado de las 54 materias del Plan 2023\">",
+          "target": [
+            ".seg-table--seguimiento"
+          ],
+          "failureSummary": "Fix all of the following:\n  Table data cells are missing or empty"
+        }
+      ]
+    }
+  ]
+}

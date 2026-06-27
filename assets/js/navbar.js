@@ -127,6 +127,7 @@
     li.appendChild(a);
     li.appendChild(ul);
     bindDesktopKeys(a, ul);
+    bindDesktopExpansion(li, a);
     return li;
   }
 
@@ -170,6 +171,33 @@
       ul.classList.toggle('is-open', !open);
     });
     return li;
+  }
+
+
+  /* ─── Sincronía de aria-expanded en submenús desktop ─────── */
+
+  /* El submenú desktop lo abre el CSS con :hover y :focus-within
+     (navbar.css §7); el JS no lo monta/desmonta. Pero aria-expanded
+     se sembró en "false" al construir y NUNCA se actualizaba: con el
+     panel a la vista el atributo mentía y un lector de pantalla seguía
+     anunciando «contraído» (WCAG 4.1.2 Nombre, Rol, Valor). Reflejamos
+     el estado REAL —abierto = hover OR foco-dentro— en el disparador,
+     espejando exactamente las dos condiciones del CSS. */
+  function bindDesktopExpansion(li, trigger) {
+    var hovered = false;
+    var focused = false;
+    function sync() {
+      trigger.setAttribute('aria-expanded', (hovered || focused) ? 'true' : 'false');
+    }
+    li.addEventListener('mouseenter', function () { hovered = true;  sync(); });
+    li.addEventListener('mouseleave', function () { hovered = false; sync(); });
+    li.addEventListener('focusin',    function () { focused = true;  sync(); });
+    /* focusout sólo cierra si el foco abandona el <li> por completo
+       (relatedTarget fuera del subárbol); moverse entre disparador y
+       ítems del submenú lo mantiene abierto, como el :focus-within. */
+    li.addEventListener('focusout', function (ev) {
+      if (!li.contains(ev.relatedTarget)) { focused = false; sync(); }
+    });
   }
 
 

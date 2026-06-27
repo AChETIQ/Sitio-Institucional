@@ -1,0 +1,80 @@
+[
+  {
+    "slug": "index",
+    "path": "/",
+    "violations": 0,
+    "byImpact": {
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "null": 0
+    },
+    "ids": []
+  },
+  {
+    "slug": "gabinetes_eventos",
+    "path": "/pages/gabinetes/eventos.html",
+    "violations": 0,
+    "byImpact": {
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "null": 0
+    },
+    "ids": []
+  },
+  {
+    "slug": "recursos_apuntes",
+    "path": "/pages/recursos/apuntes.html",
+    "violations": 0,
+    "byImpact": {
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "null": 0
+    },
+    "ids": []
+  },
+  {
+    "slug": "contacto",
+    "path": "/pages/contacto.html",
+    "violations": 0,
+    "byImpact": {
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "null": 0
+    },
+    "ids": []
+  },
+  {
+    "slug": "sobre-achetiq",
+    "path": "/pages/sobre-achetiq.html",
+    "violations": 0,
+    "byImpact": {
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "null": 0
+    },
+    "ids": []
+  },
+  {
+    "slug": "recursos_seguimiento",
+    "path": "/pages/recursos/seguimiento.html",
+    "violations": 0,
+    "byImpact": {
+      "critical": 0,
+      "serious": 0,
+      "moderate": 0,
+      "minor": 0,
+      "null": 0
+    },
+    "ids": []
+  }
+]

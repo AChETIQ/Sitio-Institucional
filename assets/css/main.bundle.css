@@ -10,6 +10,7 @@
 --grafito-150: #EAEDF2;
 --grafito-200: #E1E4E9;
 --grafito-300: #CED2D9;
+--grafito-450: #82868F;
 --grafito-600: #5B5F69;
 --grafito-700: #444953;
 --grafito-950: #131720;
@@ -35,6 +36,7 @@
 --grafito-150: oklch(0.945 0.006 265);
 --grafito-200: oklch(0.918 0.008 265);
 --grafito-300: oklch(0.862 0.011 265);
+--grafito-450: oklch(0.605 0.017 265);
 --grafito-600: oklch(0.486 0.017 265);
 --grafito-700: oklch(0.404 0.018 265);
 --grafito-950: oklch(0.205 0.018 265);
@@ -80,6 +82,7 @@
 --color-warning:  var(--ambar-600);
 --color-border:      var(--grafito-300);
 --color-border-soft: var(--grafito-200);
+--color-border-interactive: var(--grafito-450);
 --color-rule: var(--color-border);
 --color-rule-ink: var(--color-text);
 }
@@ -2725,7 +2728,7 @@ font-size: var(--text-body);
 font-weight: var(--weight-regular);
 color: var(--color-text);
 background: var(--color-surface-raised);
-border: 1px solid var(--color-border);
+border: 1px solid var(--color-border-interactive);
 border-radius: var(--radius-md);
 transition: border-color var(--transition-fast);
 appearance: none;
