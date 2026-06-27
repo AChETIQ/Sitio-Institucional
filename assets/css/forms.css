@@ -138,10 +138,11 @@
 
 
 /* ─── Input / select / textarea — .form__input ──────────────
-   Borde 1 px en --color-border; foco intensifica a 2 px en
-   --color-accent (sin shadow box: el anillo es el borde
-   mismo, lo que asegura consistencia con el :focus-visible
-   global). */
+   Borde 1 px en --color-border-interactive (≥3:1, WCAG 1.4.11: el
+   límite del control identifica el campo y no está exento como los
+   filetes decorativos); foco intensifica a 2 px en --color-accent
+   (sin shadow box: el anillo es el borde mismo, lo que asegura
+   consistencia con el :focus-visible global). */
 
 .form__input {
   width: 100%;
@@ -151,7 +152,7 @@
   font-weight: var(--weight-regular);
   color: var(--color-text);
   background: var(--color-surface-raised);
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-border-interactive);
   border-radius: var(--radius-md);
   transition: border-color var(--transition-fast);
   /* Reset de defaults agresivos del navegador en select y
