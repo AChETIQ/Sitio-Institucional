@@ -62,7 +62,13 @@ CONTENIDO A REVELAR
         </p>
       </div>
 
-      <div class="countdown__clock" role="timer" aria-live="polite"
+      <!-- A11y: el reloj NO lleva aria-live a propósito. Tickea cada
+           segundo y una región viva lo anunciaría cada segundo (spam de
+           lector de pantalla). Mantiene role="timer" + aria-label
+           (legible a demanda); countdown-recursos.js inyecta una región
+           sr-only polite que anuncia el restante en lenguaje natural y
+           sólo al cambiar el minuto. No reañadir aria-live aquí. -->
+      <div class="countdown__clock" role="timer"
            aria-label="Tiempo restante para la apertura de Recursos Académicos">
         <div class="countdown__unit">
           <div class="countdown__box">
