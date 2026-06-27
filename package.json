@@ -6,9 +6,10 @@
   "scripts": {
     "build:urls": "node scripts/build-urls.mjs",
     "build:jsonld": "node scripts/build-jsonld.mjs",
+    "build:csp": "node scripts/build-csp.mjs",
     "build:css": "node scripts/build-css.mjs",
     "build:seo": "node scripts/build-seo.mjs",
-    "build": "npm run build:urls && npm run build:jsonld && npm run build:css && npm run build:seo"
+    "build": "npm run build:urls && npm run build:jsonld && npm run build:csp && npm run build:css && npm run build:seo"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.2"

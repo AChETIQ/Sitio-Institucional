@@ -4,6 +4,9 @@
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- SEC:CSP — generado por scripts/build-csp.mjs · no editar a mano -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; frame-src https://www.google.com; form-action 'self'; upgrade-insecure-requests">
+  <!-- /SEC:CSP -->
 
   <title>Contacto - AChETIQ</title>
   <meta name="description" content="Escribinos a AChETIQ. Datos de contacto, redes sociales y ubicación de la facultad.">
@@ -189,12 +192,20 @@
         </p>
       </header>
       <figure class="map-figure">
+        <!-- Embed endurecido (sec): `sandbox` con el mínimo necesario para que
+             el embed de Maps renderice (scripts + same-origin a google.com +
+             apertura de enlaces «Ver en Maps» en pestaña nueva), pero sin
+             allow-top-navigation, allow-forms ni allow-downloads. La CSP fija
+             además frame-src https://www.google.com. `referrerpolicy` ajustado
+             a strict-origin-when-cross-origin: envía sólo el origen (no la URL
+             completa) y nada en degradación a http. -->
         <iframe
           class="map-figure__frame"
           src="https://www.google.com/maps?q=Calle%20French%20414%2C%20Resistencia%2C%20Chaco&output=embed"
           title="Mapa de la Facultad Regional Resistencia (UTN), Calle French 414, Resistencia, Chaco"
           loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
+          sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"
+          referrerpolicy="strict-origin-when-cross-origin"
           allow="fullscreen"></iframe>
         <figcaption class="map-figure__caption">
           Facultad Regional Resistencia · UTN. Calle French 414, H3506 Resistencia, Chaco.
