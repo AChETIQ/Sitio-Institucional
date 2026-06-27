@@ -59,12 +59,20 @@
      `recursos` por año conectado a `.pill-nav`), basta con volver
      a registrar el mismo nombre: la última registración gana.
 
-   REGLAS DE SEGURIDAD (FASE_1 §7.2)
-     - Prohibido innerHTML con strings provenientes del JSON.
-     - Usar textContent y setAttribute: el DOM API escapa por
-       nosotros caracteres especiales (<, >, ", &…).
-     - Validar href con safeHref antes de aplicarlo: bloquea
-       javascript:, data: y otros schemes peligrosos.
+   REGLAS DE SEGURIDAD (FASE_1 §7.2 · auditadas en el pase 04-security)
+     CONVENCIÓN XSS (no romper — la CSP `script-src 'self'` no salva de
+     DOM-based XSS; el escape lo hace el código):
+     - PROHIBIDO innerHTML / outerHTML / insertAdjacentHTML / document.write
+       con strings derivados de data/*.json o de cualquier dato de red/usuario.
+       Construí el DOM con createElement + textContent + setAttribute: la DOM
+       API escapa por nosotros los caracteres especiales (<, >, ", &…).
+     - innerHTML SÓLO se permite con CONSTANTES de SVG/markup escritas en el
+       propio código (íconos) o con fragmentos de <template> de un partial de
+       MISMO ORIGEN. Los pocos usos que existen están marcados «XSS-sink» en
+       navbar.js, footer.js y easter-egg.js; ninguno recibe datos.
+     - Todo href construido a partir de datos DEBE pasar por safeHref() antes
+       de aplicarse: bloquea javascript:, data:, file: y otros schemes
+       peligrosos (sólo http/https, mailto/tel y rutas relativas).
 
    Sin dependencias externas. ES module nativo, sin transpilación.
    ============================================================ */
