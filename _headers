@@ -1,0 +1,28 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Portable security headers — host-agnostic (`_headers` format)
+# ─────────────────────────────────────────────────────────────────────────────
+# ⚠️  INERT ON GITHUB PAGES.  GitHub Pages serves a fixed set of response headers
+#     and ignores this file (it is published as a plain static file at /_headers,
+#     nothing more). It is provided so the FULL header posture can be applied the
+#     day a header-capable host or proxy sits in front of the site — e.g.:
+#       · Cloudflare / Netlify Pages  → consume this `_headers` file natively.
+#       · Cloudflare CDN over Pages   → use the Transform Rule in
+#                                        docs/security-headers.md (same values).
+#     See docs/security-headers.md for where/how to apply and the expected
+#     securityheaders.com / Mozilla Observatory grade (A/A+) once enforced.
+#
+# The <meta http-equiv> CSP in each page (scripts/build-csp.mjs) is what actually
+# enforces on Pages today. This file is the "enforced later" superset: it adds
+# the directives a <meta> tag cannot carry — frame-ancestors — and the response
+# headers Pages cannot set at all (HSTS, X-Frame-Options, X-Content-Type-Options,
+# Referrer-Policy, Permissions-Policy). Keep the CSP here in sync with the meta.
+# ─────────────────────────────────────────────────────────────────────────────
+
+/*
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; frame-src https://www.google.com; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), browsing-topics=(), payment=(), usb=()
+  Cross-Origin-Opener-Policy: same-origin
