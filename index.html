@@ -4,6 +4,9 @@
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- SEC:CSP — generado por scripts/build-csp.mjs · no editar a mano -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; frame-src https://www.google.com; form-action 'self'; upgrade-insecure-requests">
+  <!-- /SEC:CSP -->
 
   <title>Inicio - AChETIQ</title>
   <meta name="description" content="Asociación de estudiantes de Ingeniería Química de la UTN Facultad Regional Resistencia. Actividades académicas, eventos y recursos.">
@@ -172,7 +175,7 @@
       </header>
 
       <ul class="gabinetes-index" role="list">
-        <li class="gabinete-entry" data-reveal style="--index: 0">
+        <li class="gabinete-entry" data-reveal>
           <a class="gabinete-entry__link" href="./pages/gabinetes/cursos-y-conferencias.html">
             <span class="gabinete-entry__icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -192,7 +195,7 @@
           </a>
         </li>
 
-        <li class="gabinete-entry" data-reveal style="--index: 1">
+        <li class="gabinete-entry" data-reveal>
           <a class="gabinete-entry__link" href="./pages/gabinetes/eventos.html">
             <span class="gabinete-entry__icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -219,7 +222,7 @@
           </a>
         </li>
 
-        <li class="gabinete-entry" data-reveal style="--index: 2">
+        <li class="gabinete-entry" data-reveal>
           <a class="gabinete-entry__link" href="./pages/gabinetes/prensa-y-difusion.html">
             <span class="gabinete-entry__icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -239,7 +242,7 @@
           </a>
         </li>
 
-        <li class="gabinete-entry" data-reveal style="--index: 3">
+        <li class="gabinete-entry" data-reveal>
           <a class="gabinete-entry__link" href="./pages/gabinetes/solidario.html">
             <span class="gabinete-entry__icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -425,37 +428,6 @@
     </div>
     <p class="loader__message">Cargando…</p>
   </div>
-
-  <!-- ============================================================
-       DEV PREVIEW WIDGET — TEMPORARY · REMOVE BEFORE PRODUCTION
-       Floating panel for QA/UI testing. Links to the 404 page and
-       the academic-resources timer (countdown) page.
-       Delete this entire block (down to the matching END marker)
-       once testing is complete.
-       ============================================================ -->
-  <div id="dev-preview-panel" role="region" aria-label="Developer preview panel"
-       style="position:fixed; bottom:16px; right:16px; z-index:9999;
-              display:flex; flex-direction:column; gap:8px;
-              padding:10px 12px; border-radius:8px;
-              background:rgba(17,17,17,.88); color:#f0f0f0;
-              font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-              font-size:12px; line-height:1.2; box-shadow:0 4px 16px rgba(0,0,0,.4);
-              border:1px solid rgba(255,255,255,.15);">
-    <span style="font-weight:700; letter-spacing:.05em; color:#ffcc00;">⚠ DEV ONLY</span>
-    <a href="./404.html"
-       style="display:block; padding:6px 10px; border-radius:5px;
-              background:#2a2a2a; color:#f0f0f0; text-decoration:none;
-              text-align:center; border:1px solid rgba(255,255,255,.12);">Preview 404</a>
-    <a href="./pages/recursos.html?preview=true"
-       style="display:block; padding:6px 10px; border-radius:5px;
-              background:#2a2a2a; color:#f0f0f0; text-decoration:none;
-              text-align:center; border:1px solid rgba(255,255,255,.12);">Preview Timer</a>
-    <a href="./pages/recursos/apuntes.html?preview=loading"
-       style="display:block; padding:6px 10px; border-radius:5px;
-              background:#2a2a2a; color:#f0f0f0; text-decoration:none;
-              text-align:center; border:1px solid rgba(255,255,255,.12);">Preview Carga</a>
-  </div>
-  <!-- DEV PREVIEW WIDGET — END (TEMPORARY · REMOVE BEFORE PRODUCTION) -->
 
   <script src="./assets/js/loader.js" defer></script>
   <script src="./assets/js/navbar.js" defer></script>

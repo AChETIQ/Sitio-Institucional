@@ -100,6 +100,7 @@
   function icon(name) {
     var span = el('span', 'footer__contact-icon', null, { 'aria-hidden': 'true' });
     var path = ICON_PATHS[name];
+    // XSS-sink OK: ICON_SVG_* y ICON_PATHS son constantes estáticas en código.
     if (path) span.innerHTML = ICON_SVG_OPEN + path + ICON_SVG_CLOSE;
     return span;
   }
@@ -109,6 +110,7 @@
     if (!path) return null;
     var wrap = document.createElement('span');
     wrap.setAttribute('aria-hidden', 'true');
+    // XSS-sink OK: ICON_SVG_* y ICON_PATHS son constantes estáticas en código.
     wrap.innerHTML = ICON_SVG_OPEN + path + ICON_SVG_CLOSE;
     var svg = wrap.firstChild;
     return svg;
@@ -234,6 +236,8 @@
 
   function insertPartial(placeholder, html) {
     var tpl = document.createElement('template');
+    // XSS-sink OK: `html` es partials/footer.html, un fragmento estático de
+    // MISMO ORIGEN (no datos de usuario/red). Se parsea en <template> inerte.
     tpl.innerHTML = html.trim();
     var root = tpl.content.firstElementChild;
     if (!root || !root.matches('[data-footer-root]')) {

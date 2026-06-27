@@ -274,6 +274,17 @@
   border-top: var(--rule);
 }
 
+/* Escalonado de entrada (--index) de las cuatro entradas del índice de
+   gabinetes del Inicio. Antes vivía como `style="--index:N"` en el
+   marcado de index.html; se traslada a nth-child para habilitar una CSP
+   con `style-src 'self'` (sin 'unsafe-inline'). El consumo de --index lo
+   hace motion.css (.anim-enter y el reveal no-JS por posición). Acotado a
+   .gabinetes-feature para no alterar otras instancias de .gabinete-entry. */
+.gabinetes-feature .gabinete-entry:nth-child(1) { --index: 0; }
+.gabinetes-feature .gabinete-entry:nth-child(2) { --index: 1; }
+.gabinetes-feature .gabinete-entry:nth-child(3) { --index: 2; }
+.gabinetes-feature .gabinete-entry:nth-child(4) { --index: 3; }
+
 /* Toda la fila es el destino: <a> en bloque que envuelve ícono,
    nombre y descripción. Mayor afordancia que el antiguo enlace
    «Ver gabinete» al pie de la tarjeta. */

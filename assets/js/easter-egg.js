@@ -98,6 +98,7 @@
     var close = el('button', 'egg-dialog__close', null, {
       type: 'button', 'aria-label': 'Cerrar'
     });
+    // XSS-sink OK: literal SVG estático en código (no datos de usuario/red).
     close.innerHTML =
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"' +
       ' stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"' +

@@ -50,6 +50,7 @@
 
   function chevron() {
     var s = el('span', 'navbar__chevron', null, { 'aria-hidden': 'true' });
+    // XSS-sink OK: CHEVRON_SVG es una constante estática en código (no datos).
     s.innerHTML = CHEVRON_SVG;
     return s;
   }
@@ -302,6 +303,8 @@
 
   function insertPartial(placeholder, html) {
     var tpl = document.createElement('template');
+    // XSS-sink OK: `html` es partials/navbar.html, un fragmento estático de
+    // MISMO ORIGEN (no datos de usuario/red). Se parsea en <template> inerte.
     tpl.innerHTML = html.trim();
     var root = tpl.content.firstElementChild;
     if (!root || !root.matches('[data-navbar-root]')) {
