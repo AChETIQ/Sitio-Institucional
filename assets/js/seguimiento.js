@@ -1190,7 +1190,8 @@ function exportJSON() {
 /* ─── Exportación a Excel (.xlsx) sobre la plantilla (spec §11.3) ──
    Reemplaza al antiguo CSV. El navegador no manipula binarios .xlsx
    de forma nativa, así que se usa xlsx-populate (window.XlsxPopulate,
-   cargado por CDN en seguimiento.html). A diferencia de las librerías
+   autoalojada y cargada bajo demanda; ver ensureXlsxPopulate). A
+   diferencia de las librerías
    que reconstruyen el workbook (y rompían la hoja «Nota al Estudiante»
    con su formato avanzado), xlsx-populate MUTA el ZIP subyacente: todas
    las hojas, fórmulas y objetos visuales de la plantilla quedan
@@ -1242,6 +1243,49 @@ function plantillaURL() {
     return base.resolve(XLSX_PLANTILLA);
   }
   return '../../' + XLSX_PLANTILLA;
+}
+
+/* ─── Carga perezosa de xlsx-populate (S03 — rendimiento) ──────────
+   xlsx-populate pesa ≈193 KB gzip (642 KB planos). Sólo se necesita
+   al EXPORTAR a Excel —una acción opcional y poco frecuente—, así que
+   en lugar de descargarla y parsearla en cada visita de la página
+   (antes: <script defer> en seguimiento.html, ~193 KB y ~642 KB de
+   parse para todo visitante) se inyecta su <script> bajo demanda, la
+   primera vez que el usuario exporta. Es un global UMD
+   (window.XlsxPopulate), no un módulo ES, por lo que se carga con una
+   etiqueta <script> y no con import() dinámico. La promesa se cachea:
+   una sola descarga aunque se exporte varias veces. CSP: script-src
+   'self' admite el mismo origen; sin SRI (autoalojada, idéntico al
+   estado previo). */
+const XLSX_VENDOR = 'assets/js/vendor/xlsx-populate.min.js';
+
+function vendorURL() {
+  const base = window.AChETIQBase;
+  if (base && typeof base.resolve === 'function') {
+    return base.resolve(XLSX_VENDOR);
+  }
+  return '../../' + XLSX_VENDOR;
+}
+
+let xlsxPromise = null;
+function ensureXlsxPopulate() {
+  if (window.XlsxPopulate) return Promise.resolve(window.XlsxPopulate);
+  if (xlsxPromise) return xlsxPromise;
+  xlsxPromise = new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = vendorURL();
+    s.async = true;
+    s.onload = () => {
+      if (window.XlsxPopulate) resolve(window.XlsxPopulate);
+      else reject(new Error('xlsx-populate cargó pero no expuso XlsxPopulate'));
+    };
+    s.onerror = () => {
+      xlsxPromise = null; /* permite reintentar en una exportación posterior */
+      reject(new Error('No se pudo cargar xlsx-populate'));
+    };
+    document.head.appendChild(s);
+  });
+  return xlsxPromise;
 }
 
 /* Vuelca el estado vigente en la plantilla: hoja «Seguimiento»
@@ -1336,8 +1380,16 @@ function forzarRecalculoAlAbrir(workbook) {
 }
 
 async function exportXLSX() {
-  const XlsxPopulate = window.XlsxPopulate;
-  if (!XlsxPopulate) {
+  /* La librería se carga bajo demanda (ver ensureXlsxPopulate): la
+     primera exportación dispara su descarga. Avisamos por el live
+     region porque ahora puede haber una breve espera de red. */
+  announce('Generando el archivo Excel…');
+
+  let XlsxPopulate;
+  try {
+    XlsxPopulate = await ensureXlsxPopulate();
+  } catch (e) {
+    console.error('[seguimiento] No se pudo cargar xlsx-populate:', e);
     announce('No se pudo cargar la librería para generar el Excel.');
     window.alert('No se pudo cargar la librería para generar el archivo Excel. ' +
                  'Verificá tu conexión a internet e intentá de nuevo.');

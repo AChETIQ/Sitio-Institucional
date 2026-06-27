@@ -371,12 +371,15 @@
        forma nativa. Esta librería muta el ZIP subyacente SIN reconstruir
        el workbook, así que todas las hojas, fórmulas y objetos visuales
        de la plantilla (assets/docs) quedan intactos al inyectar sólo los
-       valores del estudiante. Carga diferida para no bloquear el render.
-       AUTOALOJADA (assets/js/vendor/, v1.21.0): se sirve desde nuestro
-       propio origen en lugar de un CDN externo — sin SRI necesario, sin
-       dependencia de terceros y CSP en script-src 'self'. Provenencia y
-       hashes en assets/js/vendor/README.md (sec: cadena de suministro). -->
-  <script defer src="../../assets/js/vendor/xlsx-populate.min.js"></script>
+       valores del estudiante.
+       CARGA BAJO DEMANDA (S03 — rendimiento): pesa ≈193 KB gzip / 642 KB
+       planos y sólo se necesita al EXPORTAR a Excel, así que YA NO se
+       enlaza aquí. La inyecta seguimiento.js (ensureXlsxPopulate) la
+       primera vez que el usuario exporta — quitándola del coste de cada
+       visita (descarga + parse) sin perder la función.
+       AUTOALOJADA (assets/js/vendor/, v1.21.0): mismo origen, sin SRI
+       necesario, sin dependencia de terceros y CSP en script-src 'self'.
+       Provenencia y hashes en assets/js/vendor/README.md. -->
   <script type="module" src="../../assets/js/seguimiento.js"></script>
   <script type="module" src="../../assets/js/main.js"></script>
 
