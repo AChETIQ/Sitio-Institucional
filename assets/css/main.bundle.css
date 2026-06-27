@@ -1268,6 +1268,27 @@ min-height: 108px;
 min-height: 180px;
 }
 }
+@media (scripting: enabled) {
+#panel-asociacion [data-loader="historia"]:not([data-loader-state="empty"]):not([data-loader-state="error"]) {
+min-height: 100vh;
+min-height: 100svh;
+}
+#panel-asociacion [data-copy="mision-vision"]:not([data-loader-state="empty"]):not([data-loader-state="error"]) {
+min-height: 400px;
+}
+#panel-asociacion [data-copy="valores"]:not([data-loader-state="empty"]):not([data-loader-state="error"]) {
+min-height: 420px;
+}
+#panel-asociacion [data-loader="directiva"]:not([data-loader-state="empty"]):not([data-loader-state="error"]) {
+min-height: 900px;
+}
+#panel-asociacion [data-loader="instituciones"]:not([data-loader-state="empty"]):not([data-loader-state="error"]) {
+min-height: 190px;
+}
+#panel-asociacion [data-loader="documentos"]:not([data-loader-state="empty"]):not([data-loader-state="error"]) {
+min-height: 140px;
+}
+}
 .egg-trigger {
 --egg-shift: 0px;
 --egg-lift: 0px;

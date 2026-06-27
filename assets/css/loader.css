@@ -343,3 +343,72 @@
     min-height: 180px;
   }
 }
+
+
+/* ─────────────────────────────────────────────────────────────
+   RESERVA DE ESPACIO — Sobre AChETIQ (S03 — rendimiento)
+   ─────────────────────────────────────────────────────────────
+   La página «Sobre AChETIQ» apila SEIS regiones de carga dinámica
+   dentro de #panel-asociacion (historia, misión/visión, valores,
+   directiva, instituciones, documentos). Sin reserva, cada
+   inyección post-fetch desplomaba todo lo que tenía debajo: el CLS
+   de laboratorio de la página era 0,455 (el peor del sitio, Perf 77).
+
+   Estrategia (misma que el resto de §RESERVA): pisos de altura
+   medidos con scripts/shoot.mjs como un valor ≤ al MÍNIMO de la
+   altura real renderizada entre 360 / 768 / 1280 / 1920 px de
+   viewport, de modo que el piso nunca supere el contenido real en
+   ningún ancho (cero shift ASCENDENTE). El alcance se acota a
+   #panel-asociacion: ese contenedor sólo existe en esta página, por
+   lo que la reserva NO afecta a otras páginas que comparten un
+   loader (p. ej. `directiva` también vive en el hub de Gabinetes).
+
+   La primera región (historia/timeline) supera siempre un viewport
+   completo (mínimo medido 2943 px): reservarle 100vh empuja las
+   cinco regiones siguientes fuera del primer pliegue, donde sus
+   inyecciones ya no puntúan CLS. Las demás reservas son defensa en
+   profundidad para el usuario que scrollea durante la carga, fieles
+   al patrón documentado de reservar TODA región inyectada.
+
+   Alturas reales medidas (px) — 360 / 768 / 1280 / 1920:
+     historia        6753 / 2943 / 4328 / 3725   (→ 100vh)
+     mision-vision    988 /  597 /  468 /  440    (piso 400)
+     valores         1469 /  733 /  487 /  460    (piso 420)
+     directiva       4743 / 2510 / 1103 / 1210    (piso 900)
+     instituciones    532 /  262 /  241 /  217    (piso 190)
+     documentos       469 /  241 /  161 /  161    (piso 140)
+   Re-medir y ajustar si cambia la copia de los JSON que alimentan
+   estas regiones (regla §5 del presupuesto):
+     node scripts/shoot.mjs <url> - <ancho> \
+       '[data-loader="historia"],[data-copy="valores"],…'
+   ───────────────────────────────────────────────────────────── */
+
+@media (scripting: enabled) {
+  /* Timeline: siempre supera un viewport (mínimo 2943 px). Reservar
+     un viewport completo empuja el resto del documento fuera del
+     primer pliegue. svh para no contar la barra de URL móvil. */
+  #panel-asociacion [data-loader="historia"]:not([data-loader-state="empty"]):not([data-loader-state="error"]) {
+    min-height: 100vh;
+    min-height: 100svh;
+  }
+
+  #panel-asociacion [data-copy="mision-vision"]:not([data-loader-state="empty"]):not([data-loader-state="error"]) {
+    min-height: 400px;
+  }
+
+  #panel-asociacion [data-copy="valores"]:not([data-loader-state="empty"]):not([data-loader-state="error"]) {
+    min-height: 420px;
+  }
+
+  #panel-asociacion [data-loader="directiva"]:not([data-loader-state="empty"]):not([data-loader-state="error"]) {
+    min-height: 900px;
+  }
+
+  #panel-asociacion [data-loader="instituciones"]:not([data-loader-state="empty"]):not([data-loader-state="error"]) {
+    min-height: 190px;
+  }
+
+  #panel-asociacion [data-loader="documentos"]:not([data-loader-state="empty"]):not([data-loader-state="error"]) {
+    min-height: 140px;
+  }
+}
