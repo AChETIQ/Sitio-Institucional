@@ -23,13 +23,13 @@ Repositorio del sitio web de la **Asociación Chaqueña de Estudiantes Tecnológ
 | Sistema de design tokens (`tokens.css`) | ✅ Implementado |
 | Análisis del logo (`content/analisis_logo.md`) | ✅ Verificado contra SVG |
 | Logo SVG (`assets/img/logo/achetiq-logo.svg`) | ✅ Recibido (2026-05-08) |
-| Catálogo de componentes (`FASE_1_Catalogo_Componentes.md`) | ✅ Definido |
-| Wireframes (`FASE_1_Wireframes.md`) — 5 páginas + 2 plantillas | ✅ Definidos |
+| Catálogo de componentes (`docs/FASE_1_Catalogo_Componentes.md`) | ✅ Definido |
+| Wireframes (`docs/FASE_1_Wireframes.md`) — 5 páginas + 2 plantillas | ✅ Definidos |
 | Favicon | 🔲 Pendiente menor (no bloqueante) |
 
 ## Estructura del Repositorio
 
-Ver `FASE_0_Arquitectura.md` para la documentación completa de la arquitectura de información.
+Ver `docs/FASE_0_Arquitectura.md` para la documentación completa de la arquitectura de información.
 
 ## URL base y metadatos sociales
 
