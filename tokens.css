@@ -225,8 +225,7 @@
 
   --color-accent:      var(--cobalto-700);
   /* Cobalto de marca. Uso: enlaces, énfasis estructural, bordes
-     destacados, itálicas de titular (h1/h2 em), rellenos
-     institucionales (CTA final).
+     destacados, rellenos institucionales (CTA final).
      Como texto sobre --color-surface 7.9:1 · raised 8.4:1 — AAA. */
 
   --color-accent-soft: var(--cobalto-500);
@@ -472,9 +471,10 @@
      Serif Old Style de alto contraste y óptica de display
      (opsz fija a 72) — reemplaza a Instrument Serif (v2). Fuente
      VARIABLE 400–600: a diferencia de Instrument (un solo peso),
-     ahora el peso es real, pero la disciplina se mantiene: el
-     énfasis se construye con la ITÁLICA (h1 em / h2 em), no con
-     bold; el cuerpo de los titulares es regular. */
+     ahora el peso es real, pero la disciplina se mantiene: los
+     titulares se componen en regular, sin bold ni itálica de
+     énfasis. La itálica queda reservada a citas (.quote__text) y
+     al hito «por venir» del timeline. */
 
   --font-body:    'Hanken Grotesk', 'Hanken Grotesk Fallback', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   /* Cuerpo, H3–H6, labels UI, botones, nav. Grotesca humanista de
@@ -1041,22 +1041,12 @@ h1 {
   color: var(--color-text);
 }
 
-h1 em {
-  font-style: italic;
-  color: var(--color-accent);
-}
-
 h2 {
   font-family: var(--font-display);
   font-size: var(--text-h2);
   font-weight: var(--weight-regular);
   line-height: var(--leading-snug);
   color: var(--color-text);
-}
-
-h2 em {
-  font-style: italic;
-  color: var(--color-accent);
 }
 
 h3 {

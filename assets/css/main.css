@@ -130,8 +130,8 @@
   src: url('../fonts/fraunces-400-600.woff2') format('woff2');
 }
 
-/* Fraunces — itálica. Usada por `h1 em` y `h2 em` en tokens.css
-   para el énfasis editorial de los titulares. Variable 400–600. */
+/* Fraunces — itálica. Reservada a citas (.quote__text) y al hito
+   «por venir» del timeline (sobre-asociacion.css). Variable 400–600. */
 @font-face {
   font-family: 'Fraunces';
   font-style: italic;

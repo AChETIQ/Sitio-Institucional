@@ -279,20 +279,12 @@ line-height: var(--leading-tight);
 letter-spacing: var(--tracking-tight);
 color: var(--color-text);
 }
-h1 em {
-font-style: italic;
-color: var(--color-accent);
-}
 h2 {
 font-family: var(--font-display);
 font-size: var(--text-h2);
 font-weight: var(--weight-regular);
 line-height: var(--leading-snug);
 color: var(--color-text);
-}
-h2 em {
-font-style: italic;
-color: var(--color-accent);
 }
 h3 {
 font-family: var(--font-body);
@@ -3106,9 +3098,6 @@ margin-top: var(--section-gap);
 color: var(--color-on-accent);
 max-width: var(--measure-title);
 }
-.cta-final__title em {
-color: var(--color-on-accent);
-}
 .cta-final__lead {
 font-family: var(--font-body);
 font-size: var(--text-h4);
@@ -3261,10 +3250,6 @@ line-height: var(--leading-tight);
 letter-spacing: var(--tracking-tight);
 color: var(--color-text);
 margin: 0;
-}
-.countdown__title em {
-font-style: italic;
-color: var(--color-text);
 }
 .countdown__lead {
 font-family: var(--font-body);
