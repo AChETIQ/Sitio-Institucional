@@ -119,11 +119,6 @@
   margin: 0;
 }
 
-.countdown__title em {
-  font-style: italic;
-  color: var(--color-text);
-}
-
 .countdown__lead {
   font-family: var(--font-body);
   font-size: var(--text-body);

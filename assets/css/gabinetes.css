@@ -208,10 +208,9 @@
   gap: var(--space-4);
 }
 
-/* Título de sección como ladillo: Fraunces (heredado de h2), con la
-   itálica cobalto del énfasis (h2 em, tokens.css). Medida y balance
-   propios de titular; sin eyebrow mono delante (se elimina la cadencia
-   automática — deuda P1 #7). */
+/* Título de sección como ladillo: Fraunces (heredado de h2). Medida
+   y balance propios de titular; sin eyebrow mono delante (se elimina
+   la cadencia automática — deuda P1 #7). */
 .gabinete-section__title {
   text-wrap: balance;
   max-width: var(--measure-title);
