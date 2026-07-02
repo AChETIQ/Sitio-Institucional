@@ -47,8 +47,8 @@
   var FALLBACK = {
     titulo: 'Gracias',
     parrafos: [
-      'Este sitio existe gracias al trabajo de muchas personas que, ' +
-      'generación tras generación, sostienen la asociación.'
+      'Este sitio existe gracias al trabajo de muchas personas: las comisiones que sostienen la asociación año tras año, quienes aportan apuntes y registros, y cada estudiante que se suma a los gabinetes y deja su huella en AChETIQ.',
+      'Este sitio es realidad gracias a la visión y construcción de Lautaro R. Zalazar, el apoyo técnico y el ojo crítico de Valentin Holzer, y los aportes que perfeccionaron cada detalle final.'
     ],
     creditos: null,
     eyebrow: null
