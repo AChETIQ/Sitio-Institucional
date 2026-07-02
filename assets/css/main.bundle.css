@@ -2223,7 +2223,7 @@ background: var(--color-surface-accent);
 display: flex;
 flex-direction: column;
 gap: var(--space-2);
-background: var(--color-surface);
+background: var(--color-surface-white);
 border: var(--elevation-border);
 border-radius: var(--radius-md);
 padding: var(--card-pad-lg);
