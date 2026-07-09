@@ -3,7 +3,7 @@
   "titulo": "Gracias",
   "parrafos": [
     "Este sitio existe gracias al trabajo de muchas personas: las comisiones que sostienen la asociación año tras año, quienes aportan apuntes y registros, y cada estudiante que se suma a los gabinetes y deja su huella en AChETIQ.",
-    "Esta página es realidad gracias a la visión y construcción de Lautaro R. Zalazar, el apoyo técnico y crítica de Valentín Holzer, y por cada persona cuyas observaciones enriquecieron este protecto."
+    "Esta página es realidad gracias a la visión y construcción de Lautaro R. Zalazar, el apoyo técnico y crítica de Valentín Holzer, y por cada persona cuyas observaciones enriquecieron este proyecto."
   ],
   "creditos": "",
   "nota": "Contenido del easter egg de agradecimientos. titulo: encabezado (se muestra en Fraunces). parrafos: lista de párrafos del cuerpo. eyebrow y creditos son opcionales (string o null); si faltan, no se renderizan."
