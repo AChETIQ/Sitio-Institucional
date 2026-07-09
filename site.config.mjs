@@ -7,4 +7,4 @@
 //
 // Cambiar este valor por https://achetiq.org.ar cuando se conecte el dominio final
 // ─────────────────────────────────────────────────────────────────────────
-export const BASE_URL = "https://ingqcautnfrre-lab.github.io/achetiq-lab";
+export const BASE_URL = "https://achetiq.github.io";

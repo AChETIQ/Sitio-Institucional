@@ -3,4 +3,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ingqcautnfrre-lab.github.io/achetiq-lab/sitemap.xml
+Sitemap: https://achetiq.github.io/sitemap.xml
